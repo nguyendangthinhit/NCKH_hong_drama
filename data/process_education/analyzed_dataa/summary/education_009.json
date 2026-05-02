@@ -1,0 +1,58 @@
+{
+  "id_content": "education_009",
+  "event_name": "Cô giáo phạt tát học sinh 231 cái",
+  "comment_counts": {
+    "total": 510,
+    "tích_cực": 14,
+    "tiêu_cực": 257,
+    "trung_lập": 96,
+    "ý_kiến_riêng": 17,
+    "rác": 126
+  },
+  "analysis": {
+    "tích cực": {
+      "count": 14,
+      "percent": "3.6%",
+      "summary": "Nhiều phụ huynh và giáo viên đồng tình với quan điểm không nên sử dụng hình phạt thể xác như tát học sinh. Họ cho rằng điều này không chỉ gây tổn thương thể chất mà còn ảnh hưởng đến tâm lý và sự tự tin của trẻ. Thay vào đó, họ mong muốn dạy cho con cái sự tự lập, tự tin và có chính kiến riêng.",
+      "examples": [
+        "Thích nhất câu kết : \"không thể ép con làm những cừu im lặng được...\" , Cám ơn bạn !",
+        "Đồng ý quan điểm của chị. Con bé  nhà em ở nhà rất hay bị người lớn mắng là láo toét vì hay phản biện lại ý kiến của người lớn, hay nêu ra ý kiến của ",
+        "Hôm qua em cũng nghĩ vậy chị ạ. Dạy con làm sao để sau này khi cô bắt con tát, con sẽ không tát. Và có chính kiến riêng của mình. Là điều em mong nhất"
+      ]
+    },
+    "tiêu cực": {
+      "count": 257,
+      "percent": "66.9%",
+      "summary": "Xu hướng chung của các bình luận về sự kiện cô giáo phạt tát học sinh 231 cái là chỉ trích và lên án hành động của cô giáo. Nhiều người cho rằng hành động này là không phù hợp và có thể gây tổn thương tâm lý cho học sinh. Họ cũng chỉ trích nhà trường và hệ thống giáo dục vì ưu tiên thành tích và danh hiệu hơn là sự phát triển và bảo vệ học sinh.",
+      "examples": [
+        "Yêu cầu các phụ huynh của học sinh trong lớp đến tát lại cô, mỗi phụ huynh 10 cái.\nPhụ huynh nào tát nhẹ, bị cô tát lại gấp đôi 😖",
+        "Khi đọc tin về chuyện này em thật sự buồn về cái gọi là bạn cùng lớp. Nhớ năm đó tụi em học lớp 8, cũng không lớn hơn lớp 6 bao ",
+        "Nhà trường lo cho thành tích, lo cho thi đua, lo cho danh dự, lo cho danh hiệu, mà sẵn sàng huỷ hoại nhân cách của Học sinh!  ( Hình chụp 1 khẩu hiệu "
+      ]
+    },
+    "trung lập": {
+      "count": 96,
+      "percent": "25.0%",
+      "summary": "Xu hướng chung trong các bình luận là lên án hành động của cô giáo và đề cao việc cho phép trẻ em thể hiện ý kiến và quyền tự do của mình. Một số người cũng đặt câu hỏi về sự tuân thủ của học sinh và cách họ phản ứng với yêu cầu của cô giáo.",
+      "examples": [
+        "Và các ba mẹ ạ, mình hoàn toàn có thể sống theo tiêu chuẩn quốc tế ở nhà mình. Cho con được cãi ngay từ ở nhà, điều đó vừa miễn phí, lại an toàn. Cho ",
+        "Cô giáo rõ là sai rồi. Không có gì để bàn cãi.\nNhưng thử nhìn lại, tại sao ngần ấy học sinh có thể đi lên và tát bạn 10 cái dù trong lòng không muốn? ",
+        "bọn này hiền vler, cô nói cái j cũng phải nghe à. Học được thì học k thì nghỉ, ngán à."
+      ]
+    },
+    "ý kiến riêng": {
+      "count": 17,
+      "percent": "4.4%",
+      "summary": "Xu hướng chung của các ý kiến cho rằng sự việc cô giáo phạt tát học sinh không chỉ là lỗi của cô giáo mà còn liên quan đến nền giáo dục và cách ứng xử của học sinh. Một số người cho rằng nền giáo dục cần thay đổi để khuyến khích học sinh tự tin và chủ động hơn. Ngoài ra, một số ý kiến cũng chỉ trích hành động của học sinh mách lẻo.",
+      "examples": [
+        "Thằng cùng bàn chép bài văn của tao, 2 bài văn giống nhau như đúc. Cô giáo xuống tận bàn chấm điểm, cô đọc bài của tao xong thì quay ra bảo tao không ",
+        "Trách cô thì ít mà trách nền GD thì nhiều. Tại sao đào tạo ra cả 1 lớp toàn học sinh nhu nhược, bị động, thấy cô như cái L mà vẫn câm nín giơ tay tát ",
+        "Mà nếu ai tội nặng nhất thì chính là đứa mách lẻo, not cô giáo"
+      ]
+    }
+  },
+  "conclusion": {
+    "focus": "",
+    "trend": ""
+  }
+}

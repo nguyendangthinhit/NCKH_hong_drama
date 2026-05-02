@@ -1,0 +1,28 @@
+{
+  "id_content": "showbiz_020",
+  "ten_su_kien": "Mailisa – ồn ào liên quan Mailisa bị bắt do buôn lậu",
+  "content": "Vào ngày 21/11/2025, Cục Cảnh sát điều tra tội phạm về tham nhũng, kinh tế, buôn lậu (Bộ Công an) đã khởi tố vụ án \"Buôn lậu\" và bắt tạm giam bà Phan Thị Mai (biệt danh Mailisa), Giám đốc Công ty TNHH thẩm mỹ viện Mailisa, cùng chồng là ông Hoàng Kim Khánh, Tổng giám đốc công ty, và 6 đối tượng liên quan. Họ bị cáo buộc đã đặt mua mỹ phẩm giá rẻ, không đảm bảo chất lượng từ Quảng Châu (Trung Quốc), sau đó cấu kết làm giả giấy tờ để thay đổi nguồn gốc thành \"Hong Kong\" nhằm buôn lậu về Việt Nam. Các sản phẩm này được Mailisa quảng cáo là cao cấp và bán với giá cao gấp nhiều lần, thu lợi bất chính hàng nghìn tỷ đồng. Trước đó, từ ngày 13/11/2025, sự kiện Mailisa đã gây ồn ào lớn trên mạng xã hội. Thẩm mỹ viện Mailisa và các sản phẩm Doctor Magic từng vướng nhiều lùm xùm về chất lượng và đã bị xử phạt hành chính. Sau vụ bắt giữ, ngày 25/11/2025, Cục Quản lý Dược đã ra quyết định thu hồi 162 loại mỹ phẩm của Mailisa do thiếu hồ sơ thông tin sản phẩm. Chuỗi thẩm mỹ viện Mailisa cũng thông báo tạm ngừng hoạt động, khiến nhiều khách hàng lo lắng. Đáng chú ý, các fanpage giả mạo \"Mailisa hoàn tiền - thu hồi sản phẩm\" đã xuất hiện trên mạng xã hội, có dấu hiệu lừa đảo khách hàng giữa lúc vụ việc đang được điều tra. Vụ án được nhận định có tính chất phức tạp với dòng tiền lớn.",
+  "actor_related": [
+    {
+      "name": "Phan Thị Mai",
+      "role": "Giám đốc Công ty TNHH thẩm mỹ viện Mailisa"
+    },
+    {
+      "name": "Hoàng Kim Khánh",
+      "role": "Tổng giám đốc Công ty TNHH thẩm mỹ viện Mailisa"
+    },
+    {
+      "name": "Cục Cảnh sát điều tra tội phạm về tham nhũng, kinh tế, buôn lậu (Bộ Công an)",
+      "role": "Cơ quan điều tra"
+    },
+    {
+      "name": "Cục Quản lý Dược (Bộ Y tế)",
+      "role": "Cơ quan quản lý"
+    },
+    {
+      "name": "Khách hàng Mailisa",
+      "role": "Người tiêu dùng"
+    }
+  ],
+  "time_event": "2025-11-21"
+}

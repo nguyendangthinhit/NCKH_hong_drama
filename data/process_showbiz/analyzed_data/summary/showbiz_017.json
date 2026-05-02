@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_017",
+  "event_name": "TikToker Hải Sen – bị bắt do buôn bán thực phẩm giả",
+  "total_comments": 32,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 32
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_017_0076",
+        "text": "Thấy trên video có cỗ thì các bác hàng xóm ăn nhiệt tình thế mà k mua hàng ủng hộ ah",
+        "likes": 43,
+        "reply_count": 2,
+        "score": 45,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_017_0075",
+        "text": "muỗi đốt inox , kiếm vài chục tỷ , đi vài năm về , xong nghĩa vụ , khổ bao nhiêu bà mẹ mua cho con dùng , nó âm ỷ trong ng , hại gan hại thận , nhg đứa trẻ là ng chịu đau thương nhất",
+        "likes": 36,
+        "reply_count": 4,
+        "score": 40,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_017_0085",
+        "text": "Còn thằng cú đấm thép nữa !?",
+        "likes": 28,
+        "reply_count": 5,
+        "score": 33,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_017_0076",
+        "text": "Thấy trên video có cỗ thì các bác hàng xóm ăn nhiệt tình thế mà k mua hàng ủng hộ ah",
+        "score": 45
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

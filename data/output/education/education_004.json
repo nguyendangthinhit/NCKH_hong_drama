@@ -1,0 +1,63 @@
+{
+  "id_content": "education_004",
+  "ten_su_kien": "Khởi tố hiệu trưởng Trường Cao đẳng Du lịch Hà Nội",
+  "content": "{  \"id_content\": \"education_004\",  \"ten_su_kien\": \"Khởi tố hiệu trưởng Trường Cao đẳng Du lịch Hà Nội\",  \"danh_muc\": \"Giáo dục\",  \"content\": \"Ngày 15/12/2025, Cơ quan An ninh điều tra Công an TP Hà Nội đã khởi tố vụ án, khởi tố và tạm giam ông Phạm Văn Long, Hiệu trưởng Trường Cao đẳng Du lịch Hà Nội, cùng hai cấp dưới là ông Nguyễn Tuấn Ngọc (Trưởng phòng Công tác học sinh sinh viên) và ông Nguyễn Văn Sáng (chuyên viên Phòng Công tác học sinh sinh viên). Các bị can bị khởi tố về tội Lợi dụng chức vụ, quyền hạn trong khi thi hành công vụ. Vụ việc liên quan đến những sai phạm trong quá trình chi trả tiền bồi dưỡng cho 984 sinh viên của trường đã tham gia phục vụ Lễ kỷ niệm, Diễu binh, Diễu hành 80 năm Cách mạng tháng Tám thành công và Quốc khánh 2/9, thường được gọi tắt là sự kiện A80. Theo điều tra ban đầu, Bộ Văn hóa Thể thao và Du lịch đã phê duyệt tổng số tiền hơn 1,9 tỷ đồng cho 984 sinh viên, tương ứng mỗi sinh viên nhận 1,96 triệu đồng. Tuy nhiên, các bị can đã thống nhất phương án chỉ chi trực tiếp cho sinh viên một phần, số tiền còn lại được giữ lại để chi cho cán bộ nhà trường. Cụ thể, sinh viên chỉ được chi 940.000 đồng tiền bồi dưỡng và 440.000 đồng tiền ăn uống trong quá trình tập luyện. Số tiền hơn 202 triệu đồng còn lại, tương đương 580.000 đồng/sinh viên, đã bị ông Long chỉ đạo giữ lại. Trước đó, nhiều sinh viên đã bày tỏ bức xúc khi nhận số tiền hỗ trợ ít hơn so với các trường khác và việc ký nhận tiền trên các chứng từ không ghi rõ số tiền. Vào ngày 1/12/2025, ông Phạm Văn Long đã tổ chức buổi đối thoại với sinh viên, giải thích đây chỉ là \"sơ suất\", không có chuyện ký khống và cam kết sẽ chi trả đầy đủ khoản tiền đợt 2 (580.000 đồng/người) cùng giấy khen vào nửa cuối tháng 12 hoặc chậm nhất là ngày 5/12 theo thông cáo báo chí của nhà trường. Tuy nhiên, đến thời điểm ông Long bị khởi tố, nhiều sinh viên vẫn chưa nhận được khoản tiền đợt 2 này. Các cơ quan chức năng nhận định hành vi của các bị can đã gây thiệt hại cho sinh viên, tạo bức xúc trong dư luận và ảnh hưởng nghiêm trọng đến uy tín của cơ sở giáo dục.\",  \"actor_related\": [    {\"name\": \"Phạm Văn Long\", \"role\": \"Hiệu trưởng Trường Cao đẳng Du lịch Hà Nội\"},    {\"name\": \"Nguyễn Tuấn Ngọc\", \"role\": \"Trưởng phòng Công tác học sinh sinh viên\"},    {\"name\": \"Nguyễn Văn Sáng\", \"role\": \"Chuyên viên Phòng Công tác học sinh sinh viên\"}  ],  \"time_event\": \"2025-12-15\"}",
+  "actor_related": [],
+  "time_event": "",
+  "analyzed": {
+    "comment_counts": {
+      "total": 282,
+      "tích_cực": 24,
+      "tiêu_cực": 118,
+      "trung_lập": 32,
+      "ý_kiến_riêng": 12,
+      "rác": 96
+    },
+    "analysis": {
+      "tích cực": {
+        "count": 24,
+        "percent": "12.9%",
+        "summary": "Nhiều người ủng hộ quyết định khởi tố hiệu trưởng Trường Cao đẳng Du lịch Hà Nội, cho rằng cần làm gương và không có vùng cấm trong giáo dục. Họ tin rằng hành vi lợi dụng tiền bồi dưỡng của sinh viên là không thể chấp nhận được và cần bị xử lý nghiêm. Điều này thể hiện sự quan tâm đến công bằng và minh bạch trong lĩnh vực giáo dục.",
+        "examples": [
+          "Quá hay,phải làm gương",
+          "Rất nhanh và chính xác..👏",
+          "Không có vùng cấm trong giáo dục.\nTiền bồi dưỡng là mồ hôi, công sức và niềm tin của sinh viên - bất kỳ hành vi lợi dụng nào cũng đều đáng bị xử lý.\nV"
+        ]
+      },
+      "tiêu cực": {
+        "count": 118,
+        "percent": "63.4%",
+        "summary": "Xu hướng chung của các bình luận là chỉ trích và hài hước về việc hiệu trưởng bị khởi tố. Họ cảm thấy sự việc này là kết quả của những hành động không đúng mực trước đó và đang chế giễu sự \"tự tin\" của hiệu trưởng. Các bình luận mang tính hài hước và chỉ trích, thể hiện sự không hài lòng với hành động của hiệu trưởng.",
+        "examples": [
+          "Cụ đi hơi nhanh :))) mới nọ vừa phát biểu \"họp báo\" lúc 11h trưa (ban đầu hô chiều họp) mà 💩",
+          "Quá tuyệt vời, sao hôm bữa thầy HT nói hùng hồn lắm cơ mà…sao bảo chỉ là hiểu lầm, chứ không phải là ớp cật lực à, bts!",
+          "Tưởng thầy bảo trả tiếp lần 2 mà thầy đã đi chân lạnh toát rồi"
+        ]
+      },
+      "trung lập": {
+        "count": 32,
+        "percent": "17.2%",
+        "summary": "Xu hướng chung của các bình luận về sự kiện khởi tố hiệu trưởng Trường Cao đẳng Du lịch Hà Nội là sự quan tâm và theo dõi sát sao về tình hình. Một số người đề cập đến các trường hợp tương tự khác, trong khi một số khác lại bày tỏ sự hài hước hoặc bất ngờ về sự việc. Tổng thể, mọi người đang chờ đợi thông tin tiếp theo về vụ việc này.",
+        "examples": [
+          "còn trường Sư phạm nghệ thuật trung ương nhé ạ.",
+          "Ngày 15/12, Cơ quan An ninh điều tra (Công an TP. Hà Nội) đã ra quyết định khởi tố vụ án, khởi tố 3 bị can về hành vi “Lợi dụng chức vụ, quyền hạn tro",
+          "Ơ kìa thầy còn chi trả đợt 2 mà 😄"
+        ]
+      },
+      "ý kiến riêng": {
+        "count": 12,
+        "percent": "6.5%",
+        "summary": "Người dân tỏ ra bất ngờ và hoài nghi về sự việc khởi tố hiệu trưởng Trường Cao đẳng Du lịch Hà Nội, cho rằng có thể còn nhiều vụ việc tương tự chưa được phát hiện. Họ đề nghị cần có biện pháp quản lý và kiểm tra nghiêm ngặt hơn để ngăn chặn các hành vi tiêu cực. Đồng thời, họ cũng lo ngại về ảnh hưởng của sự việc này đến uy tín của các trường học và niềm tin của học sinh, sinh viên.",
+        "examples": [
+          "Cười ẻ, thiếu gì mấy vụ ăn chặn kiểu này, nhà nước đã làm triệt để chưa hay làm đại diện vài vụ để dân xem.",
+          "Còn trường nào nữa ko ạ. Cho các thầy tự nguyện",
+          "cả nghìn học sinh sinh viên, rồi bạn bè ở các trường khác kiểu gì cũng trao đổi, các bác này quản lý mà nghĩ chán quá, cái kim trong bọc có ngày vẫn l"
+        ]
+      }
+    },
+    "conclusion": {
+      "focus": "",
+      "trend": ""
+    }
+  }
+}

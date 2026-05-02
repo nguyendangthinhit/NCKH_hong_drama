@@ -1,0 +1,65 @@
+[
+  {
+    "user_id": "25195266413472651",
+    "question": "hello",
+    "answer": "Chào bạn! Mình là Drama Intelligence System — trợ lý tổng hợp phân tích dư luận. Mình có thể giúp gì cho bạn hôm nay?",
+    "source_type": "database",
+    "the_loai": "",
+    "su_kien": "",
+    "timestamp": "2026-04-28T11:40:38.625Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "bạn có biết sự kiện thay đổi quy chế thi tuyển sinh năm nay không",
+    "answer": "Xin lỗi, mình chưa xử lý được câu hỏi này!",
+    "source_type": "database",
+    "the_loai": "",
+    "su_kien": "",
+    "timestamp": "2026-04-28T11:40:57.491Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "hello",
+    "answer": "Chào bạn! Mình là Drama Intelligence System — trợ lý tổng hợp phân tích dư luận. Mình có thể giúp gì cho bạn hôm nay?",
+    "source_type": "database",
+    "the_loai": "",
+    "su_kien": "",
+    "timestamp": "2026-04-28T11:48:46.153Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "bạn có biết sự kiện thay đổi quy chế thi tuyển sinh năm nay không",
+    "answer": "Xin lỗi, mình chưa xử lý được câu hỏi này!",
+    "source_type": "database",
+    "the_loai": "",
+    "su_kien": "",
+    "timestamp": "2026-04-28T11:49:06.491Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "bạn có biết sự kiện thay đổi quy chế thi tuyển sinh năm nay không",
+    "answer": "Xin lỗi, mình chưa xử lý được câu hỏi này!",
+    "source_type": "database",
+    "the_loai": "",
+    "su_kien": "",
+    "timestamp": "2026-04-28T11:50:36.892Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "Vụ việc học sinh Hưng Yên đạo nhái thi KHKT",
+    "answer": "Xin lỗi, mình chưa xử lý được câu hỏi này!",
+    "source_type": "database",
+    "the_loai": "",
+    "su_kien": "",
+    "timestamp": "2026-04-28T11:51:36.177Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "Vụ việc học sinh Hưng Yên đạo nhái thi KHKT",
+    "answer": "Xin lỗi, mình chưa xử lý được câu hỏi này!",
+    "source_type": "database",
+    "the_loai": "",
+    "su_kien": "",
+    "timestamp": "2026-04-28T12:03:53.382Z"
+  }
+]

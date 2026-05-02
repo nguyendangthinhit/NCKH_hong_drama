@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_014",
+  "event_name": "Ưng Hoàng Phúc – bị chỉ trích khi xuất hiện trong nội dung quảng bá các trang web cá độ trực tuyến",
+  "total_comments": 145,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 145
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_014_0004",
+        "text": "Nhóm tan rã ngay ngày đầu ra mắt...hưởng dương: 24h😂",
+        "likes": 270,
+        "reply_count": 9,
+        "score": 279,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_014_0005",
+        "text": "Vẫn nhớ khi xưa a lên khu nhà giàu HN chèo thuyền phát mỳ 😌😌",
+        "likes": 159,
+        "reply_count": 56,
+        "score": 215,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_014_0007",
+        "text": "Hồi học c2 t mê Lâm Chấn Huy lắm. Mê điên cuồng si luôn á. Méo hiểu sao giờ lớn có ck có con rồi lại thấy ổng người 1 rổ hình xăm kín mít xong kiểu thẩm mỹ nhìn phèn thế k biết hix",
+        "likes": 140,
+        "reply_count": 54,
+        "score": 194,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_014_0004",
+        "text": "Nhóm tan rã ngay ngày đầu ra mắt...hưởng dương: 24h😂",
+        "score": 279
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

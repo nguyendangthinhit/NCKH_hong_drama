@@ -1,0 +1,117 @@
+// ===========================
+// COLOR PALETTE
+// ===========================
+
+// Dark Theme Base
+$bg-primary: #0d0d14;
+$bg-secondary: #13131f;
+$dark-bg-card: #1a1a2e;
+$bg-card-hover: #1f1f35;
+$bg-glass: rgba(255, 255, 255, 0.04);
+
+// Accent Colors
+$accent-primary: #7c3aed;   // violet
+$accent-secondary: #a855f7; // purple
+$accent-glow: #c084fc;
+$accent-pink: #ec4899;
+$accent-blue: #3b82f6;
+$accent-cyan: #06b6d4;
+
+// Platform Colors
+$facebook-color: #1877f2;
+$facebook-bg: rgba(24, 119, 242, 0.12);
+$youtube-color: #ff0000;
+$youtube-bg: rgba(255, 0, 0, 0.12);
+$news-color: #10b981;
+$news-bg: rgba(16, 185, 129, 0.12);
+
+// Text
+$text-primary: #f4f4f8;
+$text-secondary: #a0a0b8;
+$dark-text-muted: #6b6b85;
+
+// Borders
+$border-primary: rgba(255, 255, 255, 0.07);
+$border-glow: rgba(124, 58, 237, 0.4);
+
+// Status
+$success: #10b981;
+$error: #ef4444;
+$warning: #f59e0b;
+
+// ===========================
+// TYPOGRAPHY
+// ===========================
+$font-primary: 'Inter', 'Segoe UI', sans-serif;
+$font-display: 'Outfit', 'Inter', sans-serif;
+
+$text-xs: 0.75rem;
+$text-sm: 0.875rem;
+$text-base: 1rem;
+$text-lg: 1.125rem;
+$text-xl: 1.25rem;
+$text-2xl: 1.5rem;
+$text-3xl: 1.875rem;
+$text-4xl: 2.25rem;
+$text-5xl: 3rem;
+
+// ===========================
+// SPACING
+// ===========================
+$space-1: 0.25rem;
+$space-2: 0.5rem;
+$space-3: 0.75rem;
+$space-4: 1rem;
+$space-5: 1.25rem;
+$space-6: 1.5rem;
+$space-8: 2rem;
+$space-10: 2.5rem;
+$space-12: 3rem;
+$space-16: 4rem;
+$space-20: 5rem;
+
+// ===========================
+// BORDERS
+// ===========================
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-xl: 24px;
+$radius-full: 9999px;
+
+// ===========================
+// SHADOWS
+// ===========================
+$shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+$shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+$shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+$shadow-glow: 0 0 20px rgba(124, 58, 237, 0.25);
+$shadow-glow-strong: 0 0 40px rgba(124, 58, 237, 0.4);
+
+// ===========================
+// BREAKPOINTS
+// ===========================
+$bp-sm: 640px;
+$bp-md: 768px;
+$bp-lg: 1024px;
+$bp-xl: 1280px;
+$bp-2xl: 1536px;
+
+// ===========================
+// TRANSITIONS
+// ===========================
+$transition-fast: 0.15s ease;
+$transition-base: 0.25s ease;
+$transition-slow: 0.4s ease;
+
+// ===========================
+// GRADIENTS
+// ===========================
+$gradient-primary: linear-gradient(135deg, $accent-primary 0%, $accent-pink 100%);
+$gradient-secondary: linear-gradient(135deg, $accent-blue 0%, $accent-cyan 100%);
+$gradient-dark: linear-gradient(180deg, $bg-primary 0%, $bg-secondary 100%);
+$gradient-card: linear-gradient(145deg, $dark-bg-card 0%, rgba(124, 58, 237, 0.05) 100%);
+$gradient-hero: linear-gradient(135deg, rgba(124, 58, 237, 0.15) 0%, rgba(236, 72, 153, 0.1) 50%, rgba(59, 130, 246, 0.1) 100%);
+$gradient-fb: linear-gradient(135deg, #1877f2, #0d5fd8);
+$gradient-yt: linear-gradient(135deg, #ff0000, #cc0000);
+$gradient-news: linear-gradient(135deg, #10b981, #059669);

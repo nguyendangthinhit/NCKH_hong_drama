@@ -1,0 +1,384 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+@use 'theme' as *;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800;900&family=Spline+Sans:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap');
+
+// ===========================
+// RESET & BASE
+// ===========================
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Spline Sans', 'Noto Sans', $font-primary;
+  background-color: $bg-page;
+  color: $text-main;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  @include custom-scrollbar;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: $font-primary;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+// ===========================
+// LAYOUT
+// ===========================
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 $space-6;
+
+  @include max-md {
+    padding: 0 $space-4;
+  }
+}
+
+.page-wrapper {
+  min-height: calc(100vh - 110px);
+  padding-top: 110px; // Fixed header (62px top bar) + sticky nav (48px)
+}
+
+// ===========================
+// TYPOGRAPHY UTILITIES
+// ===========================
+.gradient-text {
+  @include gradient-text($gradient-primary);
+}
+
+.text-muted { color: $text-muted; }
+.text-secondary { color: $text-secondary; }
+
+// ===========================
+// BUTTON UTILITIES
+// ===========================
+.btn-primary {
+  @include btn-base;
+  background: $gradient-primary;
+  color: white;
+
+  &:hover {
+    box-shadow: $shadow-glow-strong;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-ghost {
+  @include btn-base;
+  background: transparent;
+  color: $text-secondary;
+  border: 1px solid $border-primary;
+
+  &:hover {
+    color: $text-primary;
+    border-color: $accent-primary;
+    background: rgba($accent-primary, 0.1);
+  }
+}
+
+.btn-icon {
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border-radius: $radius-full;
+  background: $bg-glass;
+  border: 1px solid $border-primary;
+  color: $text-secondary;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $text-primary;
+    background: rgba($accent-primary, 0.15);
+    border-color: $accent-primary;
+  }
+}
+
+// ===========================
+// PLATFORM BADGE UTILITIES
+// ===========================
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  padding: $space-1 $space-3;
+  border-radius: $radius-full;
+  font-size: $text-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &--facebook {
+    color: $facebook-color;
+    background: $facebook-bg;
+    border: 1px solid rgba($facebook-color, 0.3);
+  }
+
+  &--youtube {
+    color: $youtube-color;
+    background: $youtube-bg;
+    border: 1px solid rgba($youtube-color, 0.3);
+  }
+
+  &--news {
+    color: $news-color;
+    background: $news-bg;
+    border: 1px solid rgba($news-color, 0.3);
+  }
+}
+
+// ===========================
+// GRID UTILITIES
+// ===========================
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include md { grid-template-columns: repeat(2, 1fr); }
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include md { grid-template-columns: repeat(2, 1fr); }
+  @include lg { grid-template-columns: repeat(3, 1fr); }
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: $space-6;
+
+  @include sm { grid-template-columns: repeat(2, 1fr); }
+  @include lg { grid-template-columns: repeat(3, 1fr); }
+  @include xl { grid-template-columns: repeat(4, 1fr); }
+}
+
+// ===========================
+// SECTION UTILITIES
+// ===========================
+.section {
+  padding: $space-16 0;
+
+  @include max-md { padding: $space-10 0; }
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $space-8;
+    gap: $space-4;
+
+    @include max-sm { flex-direction: column; align-items: flex-start; }
+  }
+
+  &__title {
+    @include section-title;
+  }
+
+  &__subtitle {
+    color: $text-secondary;
+    font-size: $text-sm;
+    margin-top: $space-1;
+  }
+}
+
+// ===========================
+// SKELETON
+// ===========================
+.skeleton {
+  @include skeleton;
+  border-radius: $radius-sm;
+
+  &--card {
+    display: flex;
+    flex-direction: column;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    background: $bg-card;
+    border: 1px solid $border-primary;
+  }
+
+  &__image {
+    @include skeleton;
+    height: 200px;
+  }
+
+  &__line {
+    @include skeleton;
+    height: 16px;
+    border-radius: $radius-full;
+
+    &--sm { height: 12px; width: 60%; }
+    &--lg { height: 20px; margin-bottom: $space-2; }
+  }
+
+  &__body {
+    padding: $space-4;
+    display: flex;
+    flex-direction: column;
+    gap: $space-3;
+  }
+}
+
+// ===========================
+// EMPTY STATE
+// ===========================
+.empty-state {
+  @include flex-col;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: $space-16 $space-8;
+  color: $text-muted;
+  gap: $space-4;
+
+  &__icon {
+    font-size: 3rem;
+    opacity: 0.5;
+  }
+
+  &__title {
+    font-size: $text-xl;
+    font-weight: 600;
+    color: $text-secondary;
+  }
+
+  &__subtitle {
+    font-size: $text-sm;
+    max-width: 400px;
+  }
+}
+
+// ===========================
+// ANIMATIONS
+// ===========================
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px rgba(124, 58, 237, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(124, 58, 237, 0.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+// Stagger children
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 400ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 500ms; }
+
+// Noise overlay
+.noise-overlay {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.02;
+    pointer-events: none;
+  }
+}
+
+// Divider
+.divider {
+  height: 1px;
+  background: $border-primary;
+  margin: $space-6 0;
+}
+
+// Tag
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-1 $space-2;
+  background: rgba($accent-primary, 0.1);
+  border: 1px solid rgba($accent-primary, 0.2);
+  border-radius: $radius-sm;
+  color: $accent-glow;
+  font-size: $text-xs;
+  font-weight: 500;
+}
+
+// Stat item
+.stat {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-1;
+  color: $text-muted;
+  font-size: $text-xs;
+
+  &__icon { font-size: 0.9em; }
+}

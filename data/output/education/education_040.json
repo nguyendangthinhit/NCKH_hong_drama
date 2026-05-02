@@ -1,0 +1,68 @@
+{
+  "id_content": "education_040",
+  "ten_su_kien": "Dự kiến bổ sung môn Tin học thành MÔN BẮT BUỘC trong Chương trình bồi dưỡng kiến thức",
+  "content": "Bộ Giáo dục và Đào tạo (GD&ĐT) đang lấy ý kiến về Dự thảo Thông tư sửa đổi, bổ sung Thông tư số 44/2021. Mục tiêu của việc sửa đổi là nâng cao chất lượng giáo dục và mở rộng cơ hội học tập cho học sinh dân tộc thiểu số tại các trường dự bị đại học, đồng thời khắc phục tình trạng thiếu văn bản quy định chương trình bồi dưỡng kiến thức văn hóa. Dự thảo đề xuất 5 điểm mới nổi bật, trong đó có việc bổ sung môn Tin học thành môn bắt buộc trong chương trình bồi dưỡng kiến thức văn hóa. Các điểm khác bao gồm: tổ hợp môn học đa dạng hơn (cho phép lựa chọn có hoặc không có Tiếng Anh và Tin học), tăng thời lượng học cho các môn cốt lõi như Toán (8 tiết/tuần) và Ngữ văn (7 tiết/tuần), tăng cường nội dung thực hành, thí nghiệm và ứng dụng công nghệ (đặc biệt là trí tuệ nhân tạo AI). Chương trình mới được thiết kế linh hoạt với 70% nội dung bắt buộc và 30% do nhà trường chủ động xây dựng, dựa trên nguyên tắc kế thừa, phát triển từ chương trình môn học tại Thông tư số 32/2018/TT-BGDĐT.",
+  "actor_related": [
+    {
+      "name": "Bộ Giáo dục và Đào tạo",
+      "role": "Cơ quan đề xuất và ban hành"
+    }
+  ],
+  "time_event": "2025-07-29",
+  "analyzed": {
+    "comment_counts": {
+      "total": 311,
+      "tích_cực": 62,
+      "tiêu_cực": 25,
+      "trung_lập": 37,
+      "ý_kiến_riêng": 11,
+      "rác": 176
+    },
+    "analysis": {
+      "tích cực": {
+        "count": 62,
+        "percent": "45.9%",
+        "summary": "Nhiều người ủng hộ việc cải cách và đầu tư vào giáo dục từ cấp 1, cho rằng đây là giai đoạn dễ tiếp thu nhất. Họ cũng muốn bổ sung và cải thiện cơ sở vật chất để học sinh có môi trường học tập tốt hơn.",
+        "examples": [
+          "Cải cách thì cải cách luôn từ cấp 1 các bác à, tuổi đó dễ tiếp thu nhất. Chứ giờ ba mẹ đóng tiền mà các con chỉ vào chơi game trong trường, thì vừa ph",
+          "Thích thì bổ sung luôn chứ dự kiến làm chi",
+          "Đầu tư cơ sở vật chất đầy đủ cho các cháu\nĐừng để học tin học trên vở"
+        ]
+      },
+      "tiêu cực": {
+        "count": 25,
+        "percent": "18.5%",
+        "summary": "Nhiều người cảm thấy việc bổ sung chứng chỉ tin học là không cần thiết và gây áp lực. Họ cho rằng việc này nên được thực hiện từ sớm hơn, không nên để đến khi ra trường mới bổ sung. Ngoài ra, một số người cũng lo lắng về việc này sẽ ảnh hưởng đến thời gian học tập và nghỉ ngơi của sinh viên.",
+        "examples": [
+          "Chuẩn bị cái chứng chỉ tin học lại ngang ngửa ielts",
+          "sao e ra trường r mới bổ sung hả bgd 😔",
+          "Làm ơn để cho tụi nhỏ có thời gian ngủ, học làm người nữa."
+        ]
+      },
+      "trung lập": {
+        "count": 37,
+        "percent": "27.4%",
+        "summary": "Xu hướng chung cho thấy sự quan tâm đến các môn học và chương trình đào tạo đặc biệt, như môn Tin học và Dự bị đại học. Một số người cũng bày tỏ sự ngạc nhiên về việc học sinh cấp 3 không học môn Tin mà học công nghệ công nghiệp.",
+        "examples": [
+          "Năm tới môn Tin tăng vọt",
+          "Trộm vía cấp 3 k học tin mà học công nghệ công nghiệp:)",
+          "Dự bị đại học là một chương trình đào tạo đặc biệt dành cho học sinh (thường là người dân tộc thiểu số, vùng sâu, vùng xa, hoặc diện chính sách) trước"
+        ]
+      },
+      "ý kiến riêng": {
+        "count": 11,
+        "percent": "8.1%",
+        "summary": "Xu hướng chung cho rằng môn tin học nên được phổ biến và trở thành môn học bắt buộc, đặc biệt là trong thời đại 4.0. Một số ý kiến đề xuất rằng học sinh nên được học chương trình tin học văn phòng và ứng dụng thực tế để phục vụ công việc sau này.",
+        "examples": [
+          "Kinh tế & pháp luật tại sao lại không phải là môn học bắt buộc  ạ",
+          "Ngộ ta. Thấy mọi người ko ai mong muốn phổ biến tin học vi tính hết nhỉ. Thôi thì thời đại 4.0 rồi. Ai muốn mù tin học thì cứ mù tin học tiếp đi. Còn ",
+          "Chuẩn, nhưng HS cần  học chương trình tin học văn phòng, ứng dụng cho sát công việc 😄"
+        ]
+      }
+    },
+    "conclusion": {
+      "focus": "",
+      "trend": ""
+    }
+  }
+}

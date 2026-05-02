@@ -1,0 +1,73 @@
+{
+  "id_content": "education_013",
+  "ten_su_kien": "Công ty của Shark Thuỷ nợ lương giáo viên",
+  "content": "Các công ty thuộc hệ sinh thái của Shark Thủy, đặc biệt là chuỗi trung tâm Anh ngữ Apax Leaders, đã vướng vào bê bối nợ lương giáo viên và học phí phụ huynh từ cuối năm 2020, đầu năm 2021. Nhiều giáo viên nước ngoài như Avinash Soni và Alexander Wood cho biết họ bị nợ hàng trăm triệu đồng tiền lương, và thậm chí cả tiền thai sản của giáo viên mầm non cũng không được thanh toán. Vấn đề trở nên nghiêm trọng khiến Shark Thủy (ông Nguyễn Ngọc Thủy), Chủ tịch HĐQT kiêm Tổng giám đốc Tập đoàn Giáo dục Egroup, phải lên tiếng vào tháng 11/2022. Sau nhiều khiếu nại trên toàn quốc từ phụ huynh và giáo viên, cơ quan chức năng đã vào cuộc điều tra. Ông Nguyễn Ngọc Thủy bị bắt tạm giam vào tháng 3/2024 và sau đó bị truy tố về tội Lừa đảo chiếm đoạt tài sản và Đưa hối lộ. Cáo trạng cho biết ông Thủy đã lợi dụng danh tiếng của Apax Leaders để 'đánh bóng' hình ảnh, huy động vốn từ nhà đầu tư thông qua việc bán hơn 206 triệu cổ phần khống của Egroup cho hơn 10.000 người, chiếm đoạt gần 7.700 tỷ đồng từ năm 2015 đến 2023. Trong vụ án này, bà Tống Thị Kim Liên, Chủ tịch HĐQT kiêm Giám đốc tài chính Công ty Nhất Trần, cũng bị cáo buộc tội Nhận hối lộ, cùng với 26 người khác thuộc Egame bị truy tố về tội Lừa đảo chiếm đoạt tài sản. Sau khi Shark Thủy bị bắt, Apax Leaders đã tạm ngừng việc hoàn trả học phí, và Bộ Công an đang tiếp tục tìm kiếm các bị hại liên quan đến vụ án.",
+  "actor_related": [
+    {
+      "name": "Nguyễn Ngọc Thủy",
+      "role": "Chủ tịch HĐQT kiêm Tổng giám đốc Tập đoàn Giáo dục Egroup (Shark Thủy)"
+    },
+    {
+      "name": "Tống Thị Kim Liên",
+      "role": "Chủ tịch HĐQT kiêm Giám đốc tài chính Công ty Nhất Trần"
+    },
+    {
+      "name": "Avinash Soni",
+      "role": "Giáo viên nước ngoài bị nợ lương"
+    },
+    {
+      "name": "Alexander Wood",
+      "role": "Giáo viên nước ngoài bị nợ lương"
+    }
+  ],
+  "time_event": "2024-03-26",
+  "analyzed": {
+    "comment_counts": {
+      "total": 135,
+      "tích_cực": 0,
+      "tiêu_cực": 50,
+      "trung_lập": 22,
+      "ý_kiến_riêng": 5,
+      "rác": 58
+    },
+    "analysis": {
+      "tích cực": {
+        "count": 0,
+        "percent": "0.0%",
+        "summary": "",
+        "examples": []
+      },
+      "tiêu cực": {
+        "count": 50,
+        "percent": "64.9%",
+        "summary": "Xu hướng chung của các bình luận tiêu biểu là chỉ trích và hài hước về việc công ty của Shark Thuỷ nợ lương giáo viên, với nhiều người bày tỏ sự thất vọng và bất ngờ về việc sử dụng số tiền lớn mà không thể trả lương cho giáo viên. Họ cũng đặt câu hỏi về việc quản lý tài chính của công ty và trách nhiệm của Shark Thuỷ.",
+        "examples": [
+          "Xài hết 7000 tỷ ối đmmmm ông lên cung trăng sống à",
+          "Toàn mời thứ dữ lên chương trình cho giới trẻ xem ko 🤣",
+          "7600 tỷ là nghìn tỷ mà đọc thế nào thành 7 tỉ :)))) nghĩ sao shark mà 7 tỉ ko nộp lại cho nhà nước đc :))"
+        ]
+      },
+      "trung lập": {
+        "count": 22,
+        "percent": "28.6%",
+        "summary": "Xu hướng chung của nhóm \"trung lập\" là họ không tập trung vào vấn đề nợ lương giáo viên mà thay vào đó họ đưa ra những bình luận hài hước hoặc không liên quan. Họ dường như không quan tâm đến sự kiện này và không có ý kiến cụ thể về vấn đề.",
+        "examples": [
+          "👏 Táo quân năm nay chắc dài lắm đây😆",
+          "Giá mình hiểu về thị trường cổ phiếu. Đọc sẽ thú vị biết bao"
+        ]
+      },
+      "ý kiến riêng": {
+        "count": 5,
+        "percent": "6.5%",
+        "summary": "Sự kiện công ty của Shark Thuỷ nợ lương giáo viên đã gây ra nhiều ý kiến trái chiều. Một số người cho rằng cần có quy định và hình phạt nghiêm khắc đối với các hành vi tham ô và nhận hối lộ. Tuy nhiên, cũng có ý kiến cho rằng nên thay đổi hình phạt, không còn án tử hình đối với tội tham ô và nhận hối lộ.",
+        "examples": [
+          "Hối lộ và nhận hối lộ có phải chớt đâu mà lo có quy định 01/07/2025, không còn án tử hình đối với tội tham ô và nhận hối lộ. Thay vào đó, hình phạt ca"
+        ]
+      }
+    },
+    "conclusion": {
+      "focus": "",
+      "trend": ""
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id_content": "education_010",
+  "event_name": "Nghi vấn cán bộ Đại học Vinh gửi ảnh nhạy cảm, đe dọa nữ sinh",
+  "comment_counts": {
+    "total": 20,
+    "tích_cực": 0,
+    "tiêu_cực": 3,
+    "trung_lập": 1,
+    "ý_kiến_riêng": 0,
+    "rác": 16
+  },
+  "analysis": {
+    "tích cực": {
+      "count": 0,
+      "percent": "0.0%",
+      "summary": "",
+      "examples": []
+    },
+    "tiêu cực": {
+      "count": 3,
+      "percent": "75.0%",
+      "summary": "Xu hướng chung của các bình luận về sự kiện này là yêu cầu xử lý nghiêm khắc đối với cán bộ Đại học Vinh, với nhiều người đề nghị đuổi việc ngay lập tức. Một số người khác lại bày tỏ sự hoài nghi về việc sẽ có sự bao che và rằng những người có quyền lực sẽ không bị xử lý nghiêm.",
+      "examples": [
+        "Đề nghị đuổi việc luôn",
+        "Chắc khầy này dậy nhầm trường rồi",
+        "Tất cả rồi sẽ đc bao che hết.\nNổi rồi sẽ trìm thầy rồi vẫn sẽ làm thầy mà quan rồi sẽ làm quan thôi"
+      ]
+    },
+    "trung lập": {
+      "count": 1,
+      "percent": "25.0%",
+      "summary": "Một sinh viên Đại học Vinh đã đăng tải bài viết tố cáo một cán bộ của trường này về hành vi gửi ảnh nhạy cảm và đe dọa. Sự việc đang gây ra sự quan tâm và tranh cãi trong cộng đồng sinh viên. Thông tin chi tiết về vụ việc vẫn chưa được xác minh.",
+      "examples": [
+        "Ngày 29/5, trên một diễn đàn sinh viên, tài khoản ẩn danh tự xưng là sinh viên khóa 64 Đại học Vinh (Nghệ An) đã đăng tải bài viết dài tố cáo một cán "
+      ]
+    },
+    "ý kiến riêng": {
+      "count": 0,
+      "percent": "0.0%",
+      "summary": "",
+      "examples": []
+    }
+  },
+  "conclusion": {
+    "focus": "",
+    "trend": ""
+  }
+}

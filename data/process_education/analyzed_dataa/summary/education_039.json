@@ -1,0 +1,57 @@
+{
+  "id_content": "education_039",
+  "event_name": "",
+  "comment_counts": {
+    "total": 163,
+    "tích_cực": 10,
+    "tiêu_cực": 32,
+    "trung_lập": 22,
+    "ý_kiến_riêng": 2,
+    "rác": 97
+  },
+  "analysis": {
+    "tích cực": {
+      "count": 10,
+      "percent": "15.2%",
+      "summary": "Xu hướng chung của các bình luận là tích cực và lạc quan, với nhiều người cảm thấy may mắn và hài lòng với kết quả. Họ cũng cho rằng các vấn đề sẽ được giải quyết và các thắc mắc sẽ được trả lời. Một số người còn cảm thấy bất ngờ và vui mừng khi thấy kết quả tốt hơn dự kiến.",
+      "examples": [
+        "Ủa lên trg trg giải quyết hết mà chứ có phủi bỏ trách nhiệm đâu nhỉ, thắc mắc gì lên hỏi ngta trả lời hết mà",
+        "May quá cg mình đã xác nhận nhập học",
+        "Bảykabảyka Gặpbốnbachínchín vài thí sinh tưởng rớt mà lại được web báo đỗ 😎"
+      ]
+    },
+    "tiêu cực": {
+      "count": 32,
+      "percent": "48.5%",
+      "summary": "",
+      "examples": [
+        "khổ quâ tr oi e đậu uth với 1100+ mà mãi vẫn k thấy thông báo đậu, web trường thì lúc trước tra có tên nhưng hqua đến nay k còn tra thấy luôn🥲mấy trg ",
+        "Năm nay sao 2K7 sóng gió mãi luôn vậy😭",
+        "Bộ để yên như mọi năm đi, lôi hết lên web bộ chi rồi kham không nổi, lỗi tè le."
+      ]
+    },
+    "trung lập": {
+      "count": 22,
+      "percent": "33.3%",
+      "summary": "",
+      "examples": [
+        "Thi cử, có điểm, có công thức tính điểm xét tuyển, trường công bố điểm chuẩn là tự bản thân mình bít mình đậu-trượt, cái thông báo trên web chỉ tăng t",
+        "Web bộ mình lỗi k hiển thị luôn mà mình xác nhận nhập học, đóng hp ròii điền profile trên web trường tất là ok rồi chứ?",
+        "Thấy trường cũng đẹp chứ ngoài ra ko biết nói gì hơn ¯\\_(ツ)_/¯"
+      ]
+    },
+    "ý kiến riêng": {
+      "count": 2,
+      "percent": "3.0%",
+      "summary": "",
+      "examples": [
+        "Bộ giáo dục và trường có hương nhanh cho các ph đi gửi qua sdt xho các em",
+        "Giờ trường nhận sv rồi up dữ liệu báo cáo lại lên BGD đi, tội các con quá,nhập học đến nơi rồi"
+      ]
+    }
+  },
+  "conclusion": {
+    "focus": "",
+    "trend": ""
+  }
+}
