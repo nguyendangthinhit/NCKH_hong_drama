@@ -61,5 +61,14 @@
     "the_loai": "",
     "su_kien": "",
     "timestamp": "2026-04-28T12:03:53.382Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "hello",
+    "answer": "Chào bạn! Mình là AI Điều phối của Drama Intelligence System — mình có thể giúp bạn phân tích dư luận mạng xã hội về các drama giáo dục/giải trí. Bạn cần mình hỗ trợ gì?",
+    "source_type": "database",
+    "the_loai": "",
+    "su_kien": "",
+    "timestamp": "2026-05-05T06:19:33.403Z"
   }
 ]
