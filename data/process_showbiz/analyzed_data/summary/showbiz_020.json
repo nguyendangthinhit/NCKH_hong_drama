@@ -1,0 +1,80 @@
+{
+  "id_content": "showbiz_020",
+  "event_name": "Mailisa – ồn ào liên quan Mailisa bị bắt do buôn lậu",
+  "total_comments": 3809,
+  "emotion_stats": {
+    "Phẫn nộ": 3,
+    "Cà khịa": 19,
+    "Đồng cảm": 0,
+    "Ủng hộ": 1,
+    "Trung lập": 3784
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_020_3010",
+        "text": "Khi bố còn sống thì kinh tế khó khăn ko báo hiếu dc, giờ có điều kiện thì nghĩ thương bố, bù đắp bằng cách xây lăng mộ to đẹp cũng là một cách báo hiếu.",
+        "likes": 993,
+        "reply_count": 100,
+        "score": 1093,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_020_0313",
+        "text": "2700 tỷ \nviết ngắn gọn thôi shop",
+        "likes": 814,
+        "reply_count": 21,
+        "score": 835,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_020_0010",
+        "text": "Cho nốt con Ngân Collagen thách thức trang TTCP lên thớt luôn thôi các bác nhà mình ơi",
+        "likes": 775,
+        "reply_count": 0,
+        "score": 775,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Phẫn nộ": {
+        "comment_id": "cmt_showbiz_020_1714",
+        "text": "mafia",
+        "score": 0
+      },
+      "Cà khịa": {
+        "comment_id": "cmt_showbiz_020_1734",
+        "text": "MiMi Ph nhanh gọn",
+        "score": 25
+      },
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_020_3010",
+        "text": "Khi bố còn sống thì kinh tế khó khăn ko báo hiếu dc, giờ có điều kiện thì nghĩ thương bố, bù đắp bằng cách xây lăng mộ to đẹp cũng là một cách báo hiếu.",
+        "score": 1093
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": [
+    {
+      "comment_id": "cmt_showbiz_020_1701",
+      "text": "Giầu nhanh quá. Vô lý quá. Thì ch...ết là phải thôi.....!???. Các ông các bà cứ khen nó tốt nó làm từ thiện nhiều.... Chỉ có những loại ăn rồi há hốc mồm ra chờ \"sung rụng \" mới khen thôi. Đừng quên đất nước VN là một Đất nước \" sáng chắn bão giông. Chiều ngăn nắng nửa \". Một đất nước kiên cường trong chiến tranh. Quyết chí đi lên thì không dễ để mấy bọn 3que sỏ lá VNCH chống phá. Mà cả những kẻ khốn nạn trong nước cũng sẽ bị trừng phạt. Hệ thống chính trị của Việt Nam đâu phải trò đùa để chúng mày muốn làm gì thì làm. OK...",
+      "thread_stats": {
+        "total": 7,
+        "emotions": {
+          "Trung lập": 3,
+          "Phẫn nộ": 2,
+          "Cà khịa": 2
+        },
+        "toxic_count": 0,
+        "controversial": true
+      }
+    }
+  ]
+}

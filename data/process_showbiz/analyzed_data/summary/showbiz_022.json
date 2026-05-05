@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_022",
+  "event_name": "TikToker Phùng Văn Thắng (Thắng Không Kịp/Thắng Phỏng) – đoạn clip camera lan truyền cho thấy nam TikToker có hành vi bạo lực với vợ cũ khi cô đang bế con nhỏ",
+  "total_comments": 181,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 181
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_022_0005",
+        "text": "TÓM TẮT : VÌ VỢ ANH ĐÁNH A NÊN ANH ĐÁNH VỢ. \n\nĐúng k a :)))",
+        "likes": 204,
+        "reply_count": 9,
+        "score": 213,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_022_0004",
+        "text": "Lên tiếng 4 mặt giấy:",
+        "likes": 169,
+        "reply_count": 27,
+        "score": 196,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_022_0010",
+        "text": "Chắc video clip là AI :))))",
+        "likes": 50,
+        "reply_count": 109,
+        "score": 159,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_022_0005",
+        "text": "TÓM TẮT : VÌ VỢ ANH ĐÁNH A NÊN ANH ĐÁNH VỢ. \n\nĐúng k a :)))",
+        "score": 213
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

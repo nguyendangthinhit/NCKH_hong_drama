@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_030",
+  "event_name": "Dương Ái Vy – bị tố sử dụng bài hát của người khác trong drama liên quan ca khúc “Ngày Chung Đôi”",
+  "total_comments": 330,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 330
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_030_0117",
+        "text": "Ý kiến riêng là mình méo thích con nhỏ Dương Ái Vy tí nào. Không muốn so sánh nhưng mà Út Nhị vẫn dễ thương, giọng hát hay, khiêm tốn hơn.",
+        "likes": 250,
+        "reply_count": 19,
+        "score": 269,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_030_0004",
+        "text": "Ai nói gì kệ đii chị DAV , mình có phải con người đâu mà biết buồn 😹",
+        "likes": 76,
+        "reply_count": 13,
+        "score": 89,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_030_0121",
+        "text": "Dương ái Vy mà là ca sĩ gì nó ảo",
+        "likes": 38,
+        "reply_count": 1,
+        "score": 39,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_030_0117",
+        "text": "Ý kiến riêng là mình méo thích con nhỏ Dương Ái Vy tí nào. Không muốn so sánh nhưng mà Út Nhị vẫn dễ thương, giọng hát hay, khiêm tốn hơn.",
+        "score": 269
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

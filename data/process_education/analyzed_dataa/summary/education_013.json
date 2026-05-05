@@ -1,0 +1,51 @@
+{
+  "id_content": "education_013",
+  "event_name": "Công ty của Shark Thuỷ nợ lương giáo viên",
+  "comment_counts": {
+    "total": 135,
+    "tích_cực": 0,
+    "tiêu_cực": 50,
+    "trung_lập": 22,
+    "ý_kiến_riêng": 5,
+    "rác": 58
+  },
+  "analysis": {
+    "tích cực": {
+      "count": 0,
+      "percent": "0.0%",
+      "summary": "",
+      "examples": []
+    },
+    "tiêu cực": {
+      "count": 50,
+      "percent": "64.9%",
+      "summary": "Xu hướng chung của các bình luận tiêu biểu là chỉ trích và hài hước về việc công ty của Shark Thuỷ nợ lương giáo viên, với nhiều người bày tỏ sự thất vọng và bất ngờ về việc sử dụng số tiền lớn mà không thể trả lương cho giáo viên. Họ cũng đặt câu hỏi về việc quản lý tài chính của công ty và trách nhiệm của Shark Thuỷ.",
+      "examples": [
+        "Xài hết 7000 tỷ ối đmmmm ông lên cung trăng sống à",
+        "Toàn mời thứ dữ lên chương trình cho giới trẻ xem ko 🤣",
+        "7600 tỷ là nghìn tỷ mà đọc thế nào thành 7 tỉ :)))) nghĩ sao shark mà 7 tỉ ko nộp lại cho nhà nước đc :))"
+      ]
+    },
+    "trung lập": {
+      "count": 22,
+      "percent": "28.6%",
+      "summary": "Xu hướng chung của nhóm \"trung lập\" là họ không tập trung vào vấn đề nợ lương giáo viên mà thay vào đó họ đưa ra những bình luận hài hước hoặc không liên quan. Họ dường như không quan tâm đến sự kiện này và không có ý kiến cụ thể về vấn đề.",
+      "examples": [
+        "👏 Táo quân năm nay chắc dài lắm đây😆",
+        "Giá mình hiểu về thị trường cổ phiếu. Đọc sẽ thú vị biết bao"
+      ]
+    },
+    "ý kiến riêng": {
+      "count": 5,
+      "percent": "6.5%",
+      "summary": "Sự kiện công ty của Shark Thuỷ nợ lương giáo viên đã gây ra nhiều ý kiến trái chiều. Một số người cho rằng cần có quy định và hình phạt nghiêm khắc đối với các hành vi tham ô và nhận hối lộ. Tuy nhiên, cũng có ý kiến cho rằng nên thay đổi hình phạt, không còn án tử hình đối với tội tham ô và nhận hối lộ.",
+      "examples": [
+        "Hối lộ và nhận hối lộ có phải chớt đâu mà lo có quy định 01/07/2025, không còn án tử hình đối với tội tham ô và nhận hối lộ. Thay vào đó, hình phạt ca"
+      ]
+    }
+  },
+  "conclusion": {
+    "focus": "",
+    "trend": ""
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_027",
+  "event_name": "Hoa hậu Tiểu Vy – gây tranh cãi khi xuất hiện trong bức ảnh được cho là có liên quan đến người bị nghi là nhà cái cá cược",
+  "total_comments": 6,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 6
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_027_0003",
+        "text": "Cách xử lý vậy là chấp nhận được",
+        "likes": 23,
+        "reply_count": 0,
+        "score": 23,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_027_0004",
+        "text": "Mình thấy giải thích rõ ràng",
+        "likes": 10,
+        "reply_count": 0,
+        "score": 10,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_027_0005",
+        "text": "Thấy xử lý nhanh gọn là đc r",
+        "likes": 10,
+        "reply_count": 0,
+        "score": 10,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_027_0003",
+        "text": "Cách xử lý vậy là chấp nhận được",
+        "score": 23
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

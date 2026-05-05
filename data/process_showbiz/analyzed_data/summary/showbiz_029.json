@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_029",
+  "event_name": "Dương Ái Vy – bị tranh cãi về chất lượng giọng hát và danh xưng “ca sĩ TikTok”",
+  "total_comments": 87,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 87
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_029_0034",
+        "text": "Thiết nghĩ nên có quy định muốn làm ca sĩ phải tốt nghiệp trường lớp chính quy và có khả năng hát biểu diễn thật sự, mới được đi biểu diễn chứ thấy ca sĩ biểu diễn giờ chả khác gì lừa đảo khán giả.",
+        "likes": 15,
+        "reply_count": 1,
+        "score": 16,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_029_0004",
+        "text": "Mọi người ơi, góc thắc mắc ! Ca sĩ là mình tự phong hay phải được bộ văn hóa công nhận ạ",
+        "likes": 10,
+        "reply_count": 5,
+        "score": 15,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_029_0040",
+        "text": "Lòi sĩ thì được, chứ ca sĩ gì vậy tèn 😌",
+        "likes": 5,
+        "reply_count": 0,
+        "score": 5,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_029_0034",
+        "text": "Thiết nghĩ nên có quy định muốn làm ca sĩ phải tốt nghiệp trường lớp chính quy và có khả năng hát biểu diễn thật sự, mới được đi biểu diễn chứ thấy ca sĩ biểu diễn giờ chả khác gì lừa đảo khán giả.",
+        "score": 16
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

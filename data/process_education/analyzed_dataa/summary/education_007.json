@@ -1,0 +1,58 @@
+{
+  "id_content": "education_007",
+  "event_name": "Tranh luận việc xếp bác sĩ nội trú, chuyên khoa I tương đương thạc sĩ",
+  "comment_counts": {
+    "total": 879,
+    "tích_cực": 131,
+    "tiêu_cực": 268,
+    "trung_lập": 320,
+    "ý_kiến_riêng": 52,
+    "rác": 108
+  },
+  "analysis": {
+    "tích cực": {
+      "count": 131,
+      "percent": "17.0%",
+      "summary": "Nhiều người cho rằng học vấn cao không phải lúc nào cũng quyết định khả năng của bác sĩ. Một số ý kiến cho rằng bác sĩ nội trú, chuyên khoa I có thể giỏi hơn thạc sĩ hoặc tiến sĩ về mặt thực hành. Học vấn và kinh nghiệm lâm sàng là hai yếu tố quan trọng và không thể so sánh một cách tuyệt đối.",
+      "examples": [
+        "Học càng cao thì tốt..nhưng bác sĩ Trần đông A..Trần thành Trai..chỉ là bác sĩ thôi..mà 2 bác sĩ này mổ bóc trách các bé dính nhau rất thành công",
+        "Đúng thế, TS về mặt học thuật hơn hẳn CKII!\nThs hơn CKI! \nRiêng BSNT thì hơn Ths và CKI!",
+        "Bs chuyên khoa chính quy ĐHYD còn giỏi hơn Tiến sĩ!!"
+      ]
+    },
+    "tiêu cực": {
+      "count": 268,
+      "percent": "34.8%",
+      "summary": "Nhiều người cho rằng xếp bác sĩ nội trú, chuyên khoa I tương đương thạc sĩ là không phù hợp do mục tiêu đào tạo khác nhau. Họ cũng chỉ ra rằng việc xếp hạng này phụ thuộc vào từng quốc gia và ở Việt Nam, bằng Y khoa thường không được coi trọng. Ngoài ra, một số người cũng nhấn mạnh sự khác biệt giữa kiến thức thực hành và nghiên cứu trong các lĩnh vực khác nhau.",
+      "examples": [
+        "Rõ ràng là không tương đương,khác nhau  ngay từ mục tiêu đào tạo, ck1 thiên về lâm sàng, ths thiên về nghiên cứu , giảng dạy. Còn không có ai hơn ai c",
+        "Mỗi nước có cách xếp khác nhau. Nhưng Việt Nam không coi trọng bác sĩ Y khoa cho lắm. Xếp bằng Y khoa tương đương với bằng đại hoc. Đứng ra học 6 năm ",
+        "Không phải chỉ Y khoa mà các ngành khác cũng vậy. Tiến Sĩ thường là nghiêm cứu, cái basic chưa chắc họ biết, hoặc đã quên. Cái này mình nói thiệt. \nNg"
+      ]
+    },
+    "trung lập": {
+      "count": 320,
+      "percent": "41.5%",
+      "summary": "Xu thế chung cho thấy nhiều người ủng hộ việc công nhận trình độ chuyên sâu sau đại học trong lĩnh vực sức khỏe, đặc biệt là việc xếp bác sĩ nội trú, chuyên khoa I tương đương thạc sĩ. Một số người cho rằng việc công nhận này sẽ giúp nâng lương và tạo điều kiện cho các bác sĩ phát triển sự nghiệp. Tuy nhiên, cũng có một số ý kiến trái chiều và cần được xem xét kỹ lưỡng.",
+      "examples": [
+        "Góp ý về dự thảo Nghị định, Bộ Y tế đề nghị quy định rõ việc công nhận trình độ chuyên sâu sau đại học trong lĩnh vực sức khỏe (người có văn bằng bác ",
+        "Ơ… Sao mọi người phản hồi tiêu cực vậy. Chắc có mỗi mình thấy ý kiến đó hợp lý à? Kiểu Bộ Y Tế công nhận thì cứ nâng lương cho tinh hoa đi, chứ BGD có",
+        "E nhận thấy 1 điều rằng đa số mn muốn chuyển từ ck1,2 sang ths/ts còn số lượng chuyển ngược lại khá là ít, nên đa số cmt ở đây chắc mn tha thiết bộ cô"
+      ]
+    },
+    "ý kiến riêng": {
+      "count": 52,
+      "percent": "6.7%",
+      "summary": "Nhiều người cho rằng không nên xếp bác sĩ nội trú, chuyên khoa I tương đương thạc sĩ vì chúng thuộc hai hệ khác nhau. Họ đề xuất cần bổ sung các học phần của nhau nếu muốn xếp tương đương. Ngoài ra, một số ý kiến quan tâm đến việc nâng lương tương xứng với công sức của y bác sĩ thay vì chỉ tập trung vào học hàm.",
+      "examples": [
+        "Bsck1,2 và ths, tiến sĩ là 2 hệ khác nhau nên ko xếp tương đương. Nếu 2 bộ linh hoạt thì muốn xếp tương đương thì phải bổ sung các học phần của nhau r",
+        "dân y tế đọc mới hiểu chuyên 1, chuyên 2 chứ cứ truyền thông mãi thế này thì người dân sẽ có tâm lý so sánh chuyên 1 ko bằng ths, chuyên 2 ko bằng ts",
+        "Chuyên khoa II sao bằng Tiến sĩ (lĩnh vực chung được). Cái nên quan tâm phải là nâng lương tương xứng với công sức y bác sĩ, không phải học hàm."
+      ]
+    }
+  },
+  "conclusion": {
+    "focus": "",
+    "trend": ""
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_010",
+  "event_name": "ViruSs – ồn ào liên quan nữ trợ lý khi mạng xã hội lan truyền nghi vấn mối quan hệ thân thiết vượt mức giữa streamer và trợ lý",
+  "total_comments": 231,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 231
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_010_0136",
+        "text": "những ng họ thích anh - anh ko thể cản được !",
+        "likes": 309,
+        "reply_count": 16,
+        "score": 325,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_010_0133",
+        "text": "Hợp lý. 2 đứa bay đừng rời tay nhau nha. 😂",
+        "likes": 144,
+        "reply_count": 4,
+        "score": 148,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_010_0138",
+        "text": "T bảo rồi\nCộng đồng mạng đồn “Chỉ có đúng”\nChỉ là sớm hay muộn thôi",
+        "likes": 108,
+        "reply_count": 4,
+        "score": 112,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_010_0136",
+        "text": "những ng họ thích anh - anh ko thể cản được !",
+        "score": 325
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

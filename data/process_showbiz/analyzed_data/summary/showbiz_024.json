@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_024",
+  "event_name": "Nhà thiết kế Nguyễn Công Trí – vướng bê bối pháp lý liên quan chất cấm khiến giới thời trang và showbiz Việt chấn động",
+  "total_comments": 399,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 399
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_024_0269",
+        "text": "Tài năng của anh đã dc trả công xứng đáng bằng tiền rồi, ko nợ nầng gì nhau cả, sai phạm thì phải trả giá thôi.",
+        "likes": 359,
+        "reply_count": 14,
+        "score": 373,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_024_0001",
+        "text": "Công Trí Công Trí\nKhông chơi hơi phí \nChơi vào hết ý\nThiết kế thâm thuý !!!",
+        "likes": 182,
+        "reply_count": 7,
+        "score": 189,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_024_0260",
+        "text": "Tài năng gì thì cũng phải đi cùng nhân cách chứ .Người có danh không thể băng hoại được .Phải làm gương cho lớp trẻ noi theo .Nếu ai cũng buông thả như thế , xã hội đi về đâu .",
+        "likes": 156,
+        "reply_count": 6,
+        "score": 162,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_024_0269",
+        "text": "Tài năng của anh đã dc trả công xứng đáng bằng tiền rồi, ko nợ nầng gì nhau cả, sai phạm thì phải trả giá thôi.",
+        "score": 373
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

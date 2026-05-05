@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_015",
+  "event_name": "Độ Mixi – hình ảnh trong chương trình Sao Nhập Ngũ bị gỡ sau khi lan truyền ồn ào liên quan việc hút shisha",
+  "total_comments": 406,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 406
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_015_0062",
+        "text": "Anh này chuyên nói tục trên livetream. rất phản cảm",
+        "likes": 320,
+        "reply_count": 190,
+        "score": 510,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_015_0055",
+        "text": "Shisha mà cấm thì tốt nhất nên cấm mẹ luôn thuốc lá còn độc hơn.",
+        "likes": 165,
+        "reply_count": 199,
+        "score": 364,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_015_0001",
+        "text": "🗣️ Dit, cay nhất là mình đ’ biết shisha nó bị cấm các bạn ạ",
+        "likes": 338,
+        "reply_count": 23,
+        "score": 361,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_015_0062",
+        "text": "Anh này chuyên nói tục trên livetream. rất phản cảm",
+        "score": 510
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}

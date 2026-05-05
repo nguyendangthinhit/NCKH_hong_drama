@@ -1,0 +1,55 @@
+{
+  "id_content": "showbiz_023",
+  "event_name": "Hòa Minzy – vướng nghi vấn âm thầm sinh con thứ hai sau khi clip của Đại úy Thăng Văn Cương lan truyền",
+  "total_comments": 406,
+  "emotion_stats": {
+    "Phẫn nộ": 0,
+    "Cà khịa": 0,
+    "Đồng cảm": 0,
+    "Ủng hộ": 0,
+    "Trung lập": 406
+  },
+  "toxic_stats": {
+    "total_toxic": 0,
+    "chửi bới": 0,
+    "công kích cá nhân": 0,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz_023_0001",
+        "text": "nay t phải vào tiktok tìm lại đoạn này, nhớ đợt đó đồn C Hoà có bầu mà k ai tin, nếu là thật thì đúng VN đồn là chuẩn 100% 😂",
+        "likes": 347,
+        "reply_count": 11,
+        "score": 358,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_023_0004",
+        "text": "Đây cùng xóm chú rể nhé , họ chưa có con chu ng đâu",
+        "likes": 322,
+        "reply_count": 30,
+        "score": 352,
+        "emotion": "Trung lập"
+      },
+      {
+        "comment_id": "cmt_showbiz_023_0002",
+        "text": "đợi đi, có thì bả cũng chia sẻ thôiii",
+        "likes": 242,
+        "reply_count": 17,
+        "score": 259,
+        "emotion": "Trung lập"
+      }
+    ],
+    "by_emotion": {
+      "Trung lập": {
+        "comment_id": "cmt_showbiz_023_0001",
+        "text": "nay t phải vào tiktok tìm lại đoạn này, nhớ đợt đó đồn C Hoà có bầu mà k ai tin, nếu là thật thì đúng VN đồn là chuẩn 100% 😂",
+        "score": 358
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": []
+}
