@@ -1,195 +1,173 @@
 """
-merge_final_data là file tổng hợp cuối cùng, lấy data đã được làm sạch từ xulycontent.py và phân tích insights từ analyze_insights.py để tạo ra một file JSON tổng hợp toàn bộ thông tin.
-Input:
-  output/education/   → các file education_XXX.json đã gộp
-  output/showbiz/     → các file showbiz_XXX.json đã gộp
+merge_final_data.py  v2
+------------------------
+Gộp data web + data analyzed (summary) theo id_content.
 
-Output:
-  insights.json       → tổng hợp toàn bộ
+Hỗ trợ format data_web.json:
+  { "showbiz": [...], "giáo dục": [...] }
 
 Cách dùng:
-    python3 analyze_insights.py --input ./output --output ./insights.json
+    py merge_final_data.py --web .\data_web.json --edu_sum .\analyzed\education\summary --output .\output
+    py merge_final_data.py --web .\data_web.json --edu_sum .\analyzed\education\summary --show_sum .\analyzed\showbiz\summary --output .\output
 """
 
 import json
 import os
 import argparse
-from collections import defaultdict
 
 
-def load_category(cat_dir):
-    """Đọc tất cả file JSON trong thư mục."""
-    records = []
-    if not os.path.isdir(cat_dir):
-        return records
-    for filename in sorted(os.listdir(cat_dir)):
+def load_web_data(web_path):
+    with open(web_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    education_map = {}
+    showbiz_map   = {}
+
+    def process_record(record):
+        """Chuẩn hóa 1 record — bỏ field parse_error nhưng vẫn giữ record."""
+        if "parse_error" in record:
+            print(f"  ℹ️  Bỏ field parse_error: {record.get('id_content', '?')}")
+        id_content = record.get("id_content", "").strip()
+        if not id_content:
+            return None
+        return {
+            "id_content":    id_content,
+            "ten_su_kien":   record.get("ten_su_kien", ""),
+            "content":       record.get("content", ""),
+            "actor_related": record.get("actor_related", []),
+            "time_event":    record.get("time_event", ""),
+        }
+
+    if isinstance(data, dict):
+        # Format: { "showbiz": [...], "giáo dục": [...] }
+        for key, records in data.items():
+            if not isinstance(records, list):
+                continue
+            key_lower = key.lower().strip()
+            is_edu = any(k in key_lower for k in ["giáo dục", "giao duc", "education", "giáo"])
+            for record in records:
+                clean = process_record(record)
+                if clean:
+                    if is_edu:
+                        education_map[clean["id_content"]] = clean
+                    else:
+                        showbiz_map[clean["id_content"]] = clean
+
+    elif isinstance(data, list):
+        # Format: flat list với field danh_muc
+        for record in data:
+            danh_muc = record.get("danh_muc", "").lower().strip()
+            is_edu   = any(k in danh_muc for k in ["giáo dục", "giao duc", "education"])
+            clean    = process_record(record)
+            if clean:
+                if is_edu:
+                    education_map[clean["id_content"]] = clean
+                else:
+                    showbiz_map[clean["id_content"]] = clean
+
+    print(f"  📚 Education: {len(education_map)} records")
+    print(f"  🎬 Showbiz:   {len(showbiz_map)} records")
+    return education_map, showbiz_map
+
+
+def load_summary_dir(summary_dir):
+    if not summary_dir or not os.path.isdir(summary_dir):
+        return {}
+    result = {}
+    for filename in sorted(os.listdir(summary_dir)):
         if not filename.endswith(".json"):
             continue
-        with open(os.path.join(cat_dir, filename), "r", encoding="utf-8") as f:
+        with open(os.path.join(summary_dir, filename), "r", encoding="utf-8") as f:
             data = json.load(f)
-        if isinstance(data, list):
-            records.extend(data)
-        elif isinstance(data, dict):
-            records.append(data)
-    return records
+        id_content = data.get("id_content", filename.replace(".json", ""))
+        result[id_content] = data
+    return result
 
 
-def analyze_category(records, category):
-    """Phân tích insights cho 1 danh mục (education hoặc showbiz)."""
-    
+# ── THAY THẾ hàm merge_records trong merge_final_data_v2.py ──
 
-    total_events   = len(records)
-    events_with_analyzed = [r for r in records if "analyzed" in r]
+def merge_records(web_map, summary_map, category_label):
+    merged  = []
+    all_ids = set(web_map.keys()) | set(summary_map.keys())
 
-    # ── Tổng số comment ──
-    total_comments_raw  = 0  # gồm cả rác
-    total_comments_clean = 0  # đã lọc rác
-    total_trash         = 0
+    for id_content in sorted(all_ids):
+        web_rec     = web_map.get(id_content)
+        summary_rec = summary_map.get(id_content)
 
-    # ── Phân bố stance/emotion ──
-    stance_totals = defaultdict(int)
-
-    # ── Top events theo tổng comment ──
-    event_comment_counts = []
-
-    # ── Phân bố theo thời gian ──
-    events_by_year = defaultdict(int)
-
-    for r in records:
-        time_event = r.get("time_event", "")
-        year = time_event[:4] if time_event and len(time_event) >= 4 else "unknown"
-        events_by_year[year] += 1
-
-        analyzed = r.get("analyzed")
-        if not analyzed:
+        if web_rec is None:
+            print(f"  ⚠️  [{category_label}] {id_content}: có analyzed nhưng không có data web → bỏ qua")
             continue
 
-        counts = analyzed.get("comment_counts", {})
-        total  = counts.get("total", 0)
-        trash  = counts.get("rác", 0)
-        clean  = total - trash
+        record = {**web_rec}
 
-        total_comments_raw   += total
-        total_comments_clean += clean
-        total_trash          += trash
+        if summary_rec:
+            # Phân biệt schema education vs showbiz
+            if category_label == "education":
+                # Education: dùng comment_counts, analysis, conclusion
+                record["analyzed"] = {
+                    "comment_counts": summary_rec.get("comment_counts", {}),
+                    "analysis":       summary_rec.get("analysis", {}),
+                    "conclusion":     summary_rec.get("conclusion", {})
+                }
+            else:
+                # Showbiz: dùng emotion_stats, toxic_stats, total_comments, top_comments, controversial_threads
+                record["analyzed"] = {
+                    "total_comments":       summary_rec.get("total_comments", 0),
+                    "emotion_stats":        summary_rec.get("emotion_stats", {}),
+                    "toxic_stats":          summary_rec.get("toxic_stats", {}),
+                    "top_comments":         summary_rec.get("top_comments", {}),
+                    "controversial_threads": summary_rec.get("controversial_threads", [])
+                }
+        else:
+            print(f"  ℹ️  [{category_label}] {id_content}: chưa có analyzed data")
 
-        # Stance/emotion totals
-        analysis = analyzed.get("analysis", {})
-        for label, data in analysis.items():
-            stance_totals[label] += data.get("count", 0)
+        merged.append(record)
 
-        event_comment_counts.append({
-            "id_content":  r.get("id_content"),
-            "ten_su_kien": r.get("ten_su_kien", ""),
-            "time_event":  r.get("time_event", ""),
-            "total":       total,
-            "clean":       clean,
-            "trash":       trash
-        })
-
-    # Top 10 events được quan tâm nhất (theo clean comments)
-    top_events = sorted(event_comment_counts, key=lambda x: x["clean"], reverse=True)[:10]
-
-    # Tỷ lệ % stance
-    total_clean_all = sum(stance_totals.values())
-    stance_percent = {}
-    for label, count in stance_totals.items():
-        pct = round(count / total_clean_all * 100, 1) if total_clean_all > 0 else 0
-        stance_percent[label] = {
-            "count":   count,
-            "percent": f"{pct}%"
-        }
-
-    return {
-        "category":             category,
-        "total_events":         total_events,
-        "events_with_analysis": len(events_with_analyzed),
-        "events_without_analysis": total_events - len(events_with_analyzed),
-        "comment_stats": {
-            "total_raw":   total_comments_raw,
-            "total_clean": total_comments_clean,
-            "total_trash": total_trash,
-            "trash_rate":  f"{round(total_trash/total_comments_raw*100, 1)}%" if total_comments_raw > 0 else "0%"
-        },
-        "stance_distribution": stance_percent,
-        "top_events_by_comments": top_events,
-        "events_by_year": dict(sorted(events_by_year.items()))
-    }
-
-
-def analyze_overall(edu_insights, show_insights):
-    """Tổng hợp toàn bộ 2 danh mục."""
-
-    def safe_int(s):
-        try:
-            return int(str(s).replace("%", ""))
-        except:
-            return 0
-
-    total_events   = edu_insights["total_events"] + show_insights["total_events"]
-    total_raw      = edu_insights["comment_stats"]["total_raw"]   + show_insights["comment_stats"]["total_raw"]
-    total_clean    = edu_insights["comment_stats"]["total_clean"] + show_insights["comment_stats"]["total_clean"]
-    total_trash    = edu_insights["comment_stats"]["total_trash"] + show_insights["comment_stats"]["total_trash"]
-
-    return {
-        "total_events":   total_events,
-        "total_comments": {
-            "raw":      total_raw,
-            "clean":    total_clean,
-            "trash":    total_trash,
-            "trash_rate": f"{round(total_trash/total_raw*100, 1)}%" if total_raw > 0 else "0%"
-        },
-        "by_category": {
-            "education": {
-                "events":         edu_insights["total_events"],
-                "comments_clean": edu_insights["comment_stats"]["total_clean"]
-            },
-            "showbiz": {
-                "events":         show_insights["total_events"],
-                "comments_clean": show_insights["comment_stats"]["total_clean"]
-            }
-        }
-    }
+    return merged
+def save_output(records, output_dir, category):
+    cat_dir = os.path.join(output_dir, category)
+    os.makedirs(cat_dir, exist_ok=True)
+    for record in records:
+        id_content = record["id_content"]
+        out_path   = os.path.join(cat_dir, f"{id_content}.json")
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(record, f, ensure_ascii=False, indent=2)
+    print(f"  ✅ Đã lưu {len(records)} files → {cat_dir}/")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Phân tích tổng hợp data")
-    parser.add_argument("--input",  required=True, help="Thư mục chứa education/ và showbiz/")
-    parser.add_argument("--output", default="insights.json", help="File output JSON")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--web",      required=True)
+    parser.add_argument("--edu_sum",  required=True)
+    parser.add_argument("--show_sum", default="")
+    parser.add_argument("--output",   required=True)
     args = parser.parse_args()
 
-    print("📂 Đọc data education...")
-    edu_records  = load_category(os.path.join(args.input, "education"))
-    print(f"  → {len(edu_records)} events")
+    print("📂 Đọc data web...")
+    education_web, showbiz_web = load_web_data(args.web)
 
-    print("📂 Đọc data showbiz...")
-    show_records = load_category(os.path.join(args.input, "showbiz"))
-    print(f"  → {len(show_records)} events")
+    print("\n📂 Đọc data analyzed education...")
+    education_summary = load_summary_dir(args.edu_sum)
+    print(f"  → {len(education_summary)} files summary")
 
-    print("\n📊 Phân tích education...")
-    edu_insights  = analyze_category(edu_records,  "education")
+    print("\n📂 Đọc data analyzed showbiz...")
+    showbiz_summary = load_summary_dir(args.show_sum) if args.show_sum else {}
+    print(f"  → {len(showbiz_summary)} files summary")
 
-    print("📊 Phân tích showbiz...")
-    show_insights = analyze_category(show_records, "showbiz")
+    print("\n🔀 Gộp education...")
+    education_merged = merge_records(education_web, education_summary, "education")
 
-    print("📊 Tổng hợp overall...")
-    overall = analyze_overall(edu_insights, show_insights)
+    print("\n🔀 Gộp showbiz...")
+    showbiz_merged = merge_records(showbiz_web, showbiz_summary, "showbiz")
 
-    result = {
-        "overall":   overall,
-        "education": edu_insights,
-        "showbiz":   show_insights
-    }
+    print("\n💾 Lưu output...")
+    save_output(education_merged, args.output, "education")
+    save_output(showbiz_merged,   args.output, "showbiz")
 
-    with open(args.output, "w", encoding="utf-8") as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
-
-    print(f"\n🎉 Hoàn tất! → {args.output}")
-    print(f"\n📋 Tóm tắt nhanh:")
-    print(f"   Tổng sự kiện    : {overall['total_events']}")
-    print(f"   Tổng comment    : {overall['total_comments']['raw']}")
-    print(f"   Comment sạch    : {overall['total_comments']['clean']}")
-    print(f"   Comment rác     : {overall['total_comments']['trash']} ({overall['total_comments']['trash_rate']})")
+    print(f"\n🎉 Hoàn tất!")
+    print(f"   Education: {len(education_merged)} files")
+    print(f"   Showbiz:   {len(showbiz_merged)} files")
+    print(f"   Output:    {args.output}/")
 
 
 if __name__ == "__main__":

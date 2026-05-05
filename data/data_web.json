@@ -440,13 +440,11 @@
         {
           "name": "Hoàng Kim Khánh",
           "role": "Tổng giám đốc Công ty TNHH thẩm mỹ viện Mailisa"
-<<<<<<< HEAD
-=======
         },
         {
           "name": "Khách hàng Mailisa",
           "role": "Người tiêu dùng"
->>>>>>> 4e7e5014b13a4bf3239f79eacf5e5f42b802fbe0
+
         }
       ],
       "time_event": "2025-11-21"
@@ -1170,7 +1168,6 @@
         {
           "name": "N.V.Đ.",
           "role": "Chủ tịch Hội đồng trường THPT tư thục Tô Hiến Thành"
-<<<<<<< HEAD
         },
         {
           "name": "Sở GD-ĐT Ninh Bình",
@@ -1179,8 +1176,6 @@
         {
           "name": "Trường THPT tư thục Tô Hiến Thành",
           "role": "Đơn vị quản lý trực tiếp"
-=======
->>>>>>> 4e7e5014b13a4bf3239f79eacf5e5f42b802fbe0
         }
       ],
       "time_event": "2025-11-10"
@@ -1268,13 +1263,6 @@
         {
           "name": "Ban tổ chức Genius Olympiad",
           "role": "Đơn vị tổ chức cuộc thi, đưa ra kết luận và hình thức xử lý"
-<<<<<<< HEAD
-        },
-        {
-          "name": "Trường THPT Gia Định",
-          "role": "Trường của nam sinh Q.U. và giáo viên hướng dẫn"
-=======
->>>>>>> 4e7e5014b13a4bf3239f79eacf5e5f42b802fbe0
         }
       ],
       "time_event": "2023-07-11"
@@ -1369,13 +1357,10 @@
         {
           "name": "39 giáo viên Trường THPT Tô Hiến Thành",
           "role": "người thực hiện sửa điểm"
-<<<<<<< HEAD
         },
         {
           "name": "Trường THPT Tô Hiến Thành",
           "role": "nơi xảy ra sự việc"
-=======
->>>>>>> 4e7e5014b13a4bf3239f79eacf5e5f42b802fbe0
         }
       ],
       "time_event": "2026-01"
@@ -1551,7 +1536,7 @@
       ]
     },
     {
-    "id_content": "tuyensinh_037",
+    "id_content": "education_037",
     "ten_su_kien": "Bộ Giáo dục lấy ý kiến về việc BỎ hình thức tuyển sinh bằng xét tuyển học bạ",
     "danh_muc": "Giáo dục - Tuyển sinh",
     "content": "Bộ Giáo dục và Đào tạo đang trong quá trình lấy ý kiến về đề xuất loại bỏ hình thức xét tuyển đại học dựa trên kết quả học bạ trung học phổ thông. Thông tin này được đăng tải trên VnExpress, cho thấy một sự thay đổi tiềm năng trong quy chế tuyển sinh đại học sắp tới.",
@@ -1559,7 +1544,7 @@
     "time_event": "2024-12-02"
   },
   {
-    "id_content": "showbiz_038",
+    "id_content": "education_038",
     "ten_su_kien": "ĐƯA TIẾNG ANH THÀNH NGÔN NGỮ THỨ HAI TRONG TRƯỜNG HỌC",
     "danh_muc": "Chỉ đạo, quyết định của Chính phủ - Thủ tướng Chính phủ",
     "content": "Phó Thủ tướng Lê Thành Long đã ký Quyết định số 2371/QĐ-TTg nhằm phê duyệt Đề án về việc đưa tiếng Anh trở thành ngôn ngữ thứ hai trong các trường học ở Việt Nam.",
@@ -1572,8 +1557,8 @@
     "time_event": ""
   },
   {
-    "id_content": "GTVT_HCM_039",
-    "ten_su_kien": "Nhiều thí sinh hốt hoảng vì đã được thông báo đỗ trường Đại học Giao thông Vận tải TP HCM nhưng bị 'đánh trượt' trên hệ thống",
+    "id_content": "education_039",
+    "ten_su_kien": "Nhiều thí sinh hốt hoảng vì đã được thông báo đỗ trường Đại học Giao thông Vận tải TP HCM nhưng bị 'đánh trượt' trên hệ thống",
     "danh_muc": "Thời sự",
     "content": "Sự kiện xoay quanh việc nhiều thí sinh tại TP HCM đã nhận được thông báo trúng tuyển vào trường Đại học Giao thông Vận tải TP HCM, nhưng sau đó lại bất ngờ bị thông báo trượt trên hệ thống tuyển sinh. Tình trạng này đã gây hoang mang và hốt hoảng cho các em học sinh và gia đình, đặt ra câu hỏi về quy trình và tính chính xác của thông báo tuyển sinh ban đầu cũng như dữ liệu trên hệ thống.",
     "actor_related": [
@@ -1589,7 +1574,7 @@
     "time_event": "2023-09-15"
   },
   {
-    "id_content": "showbiz_040",
+    "id_content": "education_040",
     "ten_su_kien": "Dự kiến bổ sung môn Tin học thành MÔN BẮT BUỘC trong Chương trình bồi dưỡng kiến thức",
     "danh_muc": "Giáo dục",
     "content": "Bộ Giáo dục và Đào tạo (GD&ĐT) đang lấy ý kiến về Dự thảo Thông tư sửa đổi, bổ sung Thông tư số 44/2021. Mục tiêu của việc sửa đổi là nâng cao chất lượng giáo dục và mở rộng cơ hội học tập cho học sinh dân tộc thiểu số tại các trường dự bị đại học, đồng thời khắc phục tình trạng thiếu văn bản quy định chương trình bồi dưỡng kiến thức văn hóa. Dự thảo đề xuất 5 điểm mới nổi bật, trong đó có việc bổ sung môn Tin học thành môn bắt buộc trong chương trình bồi dưỡng kiến thức văn hóa. Các điểm khác bao gồm: tổ hợp môn học đa dạng hơn (cho phép lựa chọn có hoặc không có Tiếng Anh và Tin học), tăng thời lượng học cho các môn cốt lõi như Toán (8 tiết/tuần) và Ngữ văn (7 tiết/tuần), tăng cường nội dung thực hành, thí nghiệm và ứng dụng công nghệ (đặc biệt là trí tuệ nhân tạo AI). Chương trình mới được thiết kế linh hoạt với 70% nội dung bắt buộc và 30% do nhà trường chủ động xây dựng, dựa trên nguyên tắc kế thừa, phát triển từ chương trình môn học tại Thông tư số 32/2018/TT-BGDĐT.",

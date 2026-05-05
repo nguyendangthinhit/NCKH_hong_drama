@@ -1,23 +1,22 @@
 {
   "overall": {
     "total_events": 85,
-    "total_events_with_analysis": 20,
-    "total_events_without_analysis": 65,
-    "total_links": 221,
     "total_comments": {
-      "raw": 7815,
-      "clean": 5370,
-      "trash": 2445,
-      "trash_rate": "31.3%"
+      "raw": 36078,
+      "clean": 29622,
+      "trash": 6456,
+      "trash_rate": "17.9%"
     },
     "by_category": {
       "education": {
         "events": 40,
-        "comments_clean": 5370
+        "comments_clean": 5370,
+        "events_with_analysis": 20
       },
       "showbiz": {
         "events": 45,
-        "comments_clean": 0
+        "comments_clean": 24252,
+        "events_with_analysis": 30
       }
     }
   },
@@ -25,7 +24,6 @@
     "category": "education",
     "total_events": 40,
     "events_with_analysis": 20,
-    "total_links": 82,
     "events_without_analysis": 20,
     "comment_stats": {
       "total_raw": 7815,
@@ -43,11 +41,11 @@
         "percent": "49.3%"
       },
       "trung lập": {
-        "count": 1729,
+        "count": 1728,
         "percent": "32.2%"
       },
       "ý kiến riêng": {
-        "count": 352,
+        "count": 353,
         "percent": "6.6%"
       }
     },
@@ -89,7 +87,7 @@
         "ten_su_kien": "hà nội dự kiến di dời đại học về phía Tây",
         "time_event": "2026-03-15",
         "total": 631,
-        "clean": 500,  
+        "clean": 500,
         "trash": 131
       },
       {
@@ -146,17 +144,128 @@
   "showbiz": {
     "category": "showbiz",
     "total_events": 45,
-    "events_with_analysis": 0,
-    "total_links": 139,
-    "events_without_analysis": 45,
+    "events_with_analysis": 30,
+    "events_without_analysis": 15,
     "comment_stats": {
-      "total_raw": 0,
-      "total_clean": 0,
-      "total_trash": 0,
-      "trash_rate": "0%"
+      "total_raw": 28263,
+      "total_clean": 24252,
+      "total_trash": 4011,
+      "trash_rate": "14.2%"
     },
-    "stance_distribution": {},
-    "top_events_by_comments": [],
+    "emotion_distribution": {
+      "Phẫn nộ": {
+        "count": 299,
+        "percent": "1.2%"
+      },
+      "Cà khịa": {
+        "count": 814,
+        "percent": "3.4%"
+      },
+      "Đồng cảm": {
+        "count": 58,
+        "percent": "0.2%"
+      },
+      "Ủng hộ": {
+        "count": 33,
+        "percent": "0.1%"
+      },
+      "Trung lập": {
+        "count": 23048,
+        "percent": "95.0%"
+      }
+    },
+    "toxic_stats": {
+      "total_toxic": {
+        "count": 54,
+        "percent": "0.2%"
+      },
+      "chửi bới": {
+        "count": 20,
+        "percent": "0.1%"
+      },
+      "công kích cá nhân": {
+        "count": 32,
+        "percent": "0.1%"
+      },
+      "công kích người thân": {
+        "count": 1,
+        "percent": "0.0%"
+      }
+    },
+    "top_events_by_comments": [
+      {
+        "id_content": "showbiz_033",
+        "ten_su_kien": "Hoàng Hường bị bắt về hành vi sản xuất, buôn bán hàng giả",
+        "time_event": "",
+        "total": 4740,
+        "clean": 3838,
+        "trash": 902
+      },
+      {
+        "id_content": "showbiz_020",
+        "ten_su_kien": "Mailisa – ồn ào liên quan Mailisa bị bắt do buôn lậu",
+        "time_event": "2025-11-21",
+        "total": 5190,
+        "clean": 3807,
+        "trash": 1383
+      },
+      {
+        "id_content": "showbiz_034",
+        "ten_su_kien": "Shark Bình từ 'cá mập' đến tội phạm lừa đảo, rửa tiền",
+        "time_event": "2026-03-23",
+        "total": 3620,
+        "clean": 3089,
+        "trash": 531
+      },
+      {
+        "id_content": "showbiz_018",
+        "ten_su_kien": "Tizi – Đích Lép – tin đồn ly hôn lan truyền trên mạng xã hội sau thời gian dài cặp đôi xây dựng hình ảnh hôn nhân",
+        "time_event": "2025-03-06",
+        "total": 1236,
+        "clean": 1050,
+        "trash": 186
+      },
+      {
+        "id_content": "showbiz_019",
+        "ten_su_kien": "Scandal kẹo Kera – tranh cãi liên quan sản phẩm kẹo giảm cân Kera khi bị nghi ngờ quảng cáo quá mức công dụng và chất lượng",
+        "time_event": "2025-03-06",
+        "total": 1311,
+        "clean": 1008,
+        "trash": 303
+      },
+      {
+        "id_content": "showbiz_008",
+        "ten_su_kien": "Jack (J97) – bị cơ quan chức năng xử phạt hành chính vì các vấn đề liên quan biểu diễn và quản lý nghệ sĩ",
+        "time_event": "2025-11-07",
+        "total": 919,
+        "clean": 806,
+        "trash": 113
+      },
+      {
+        "id_content": "showbiz_009",
+        "ten_su_kien": "ViruSs – Ngọc Kem drama tình cảm và tố qua lại trên livestream khiến cộng đồng mạng tranh cãi mạnh",
+        "time_event": "2025-03-20",
+        "total": 960,
+        "clean": 772,
+        "trash": 188
+      },
+      {
+        "id_content": "showbiz_007",
+        "ten_su_kien": "Jack (J97) – Thúy Vy đăng bài phốt tố nam ca sĩ có quan hệ tình cảm phức tạp với nhiều cô gái cùng thời điểm",
+        "time_event": "2021-08-07",
+        "total": 885,
+        "clean": 633,
+        "trash": 252
+      },
+      {
+        "id_content": "showbiz_004",
+        "ten_su_kien": "Ngân 98 – thông tin bị bắt lan truyền trên mạng xã hội liên quan nghi vấn sử dụng và quảng bá sản phẩm chứa chất cấm chất cấm trong giới giải trí gây tranh cãi",
+        "time_event": "2025-10-13",
+        "total": 619,
+        "clean": 467,
+        "trash": 152
+      }
+    ],
     "events_by_year": {
       "2019": 1,
       "2021": 1,

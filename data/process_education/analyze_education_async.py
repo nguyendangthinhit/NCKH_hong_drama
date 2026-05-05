@@ -398,7 +398,7 @@ LƯU Ý:
    - "cần xem xét" = PHẢI có nội dung suy nghĩ/sửa chữa
    - Comment ngắn "Đúng rồi" / "Sai hoàn toàn" → tích cực/tiêu cực
  
-=== FEW-SHOT EXAMPLES ===
+=== FEW-SHOT EXAMPLES === 
 "Nguồn: https://moet.gov.vn/..." → is_trash: true, stance: "rác"
 "Hocmai.vn THPT Thảo Su"        → is_trash: true, stance: "rác"
 "Nguyễn Vanh"                   → is_trash: true, stance: "rác"
@@ -432,8 +432,10 @@ Phân loại chính xác các comment sau: "trung lập" hay "ý kiến riêng"?
 COMMENTS:{items_str}
 
 PHÂN BIỆT:
-"trung lập": thờ ơ, không quan tâm, chỉ hỏi han, chờ xem
-"ý kiến riêng": ủng hộ một phần + phê phán phần khác, đề xuất giải pháp, phân tích 2 chiều
+"trung lập": thờ ơ, không quan tâm, chỉ hỏi han, chờ xem, các câu hỏi mang tính chất 
+"kệ", không có ý kiến rõ ràng.
+"ý kiến riêng": ủng hộ một phần + phê phán phần khác, đề xuất giải pháp, phân tích 
+2 chiều, có quan điểm rõ ràng dù có thể không hoàn toàn tích cực hoặc tiêu cực.
 
 Chỉ trả về JSON array, không giải thích:
 [{{"comment_id":"...","is_trash":false,"stance":"ý kiến riêng"}}]"""
