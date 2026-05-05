@@ -1,6 +1,11 @@
 {
   "overall": {
     "total_events": 85,
+    "total_events_with_analysis": 50,
+    "total_events_without_analysis": 35,
+    "total_links": 668,
+    "total_links_website": 446,
+    "total_links_facebook": 222,
     "total_comments": {
       "raw": 36078,
       "clean": 29622,
