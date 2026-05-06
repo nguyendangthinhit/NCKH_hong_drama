@@ -4,6 +4,7 @@ import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
 import FacebookPage from './pages/FacebookPage/FacebookPage';
 import NewsPage from './pages/NewsPage/NewsPage';
+import Chatbot from './components/Chatbot/Chatbot';
 
 function App() {
   return (
@@ -15,7 +16,7 @@ function App() {
         <Route path="/facebook" element={<FacebookPage />} />
         <Route path="/news"     element={<NewsPage />} />
       </Routes>
-
+      <Chatbot />
       <Footer />
     </BrowserRouter>
   );

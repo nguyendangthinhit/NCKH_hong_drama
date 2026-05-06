@@ -1,5 +1,5 @@
 
-// BẠN SẼ ĐIỀN LINK API TỪ GOOGLE APPS SCRIPT HOẶC (SHEETDB, MOCKAPI...) VÀO ĐÂY:
+// API TỪ GOOGLE APPS SCRIPT 
 const DRIVE_API_URL = 'https://script.google.com/macros/s/AKfycbynT1r0tDzNhf8er-zNsDIJuQB5yfpy6VrxhDk_k83EB9FPOkYbKq1NF16nFMZ2403C/exec'; 
 
 const SIMULATED_DELAY = 600;
