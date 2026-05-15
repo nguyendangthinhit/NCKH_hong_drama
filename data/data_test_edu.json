@@ -52,12 +52,12 @@
   {
     "text": "Toán văn 1/3 thì có khi trượt hết mất:<",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "sướng nhất khầy 🤣",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Giải thể để tránh mầm hoạ sau này!\nMột quyết định sáng suốt!",
@@ -87,7 +87,7 @@
   {
     "text": "Dột hoài. Dột mãi thôi 😢",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Chắc trừ cd ra :)))",
@@ -97,7 +97,7 @@
   {
     "text": "Quá tuyệt",
     "emotion": "trung lập",
-    "is_label_correct": 1
+    "is_label_correct": 0
   },
   {
     "text": "GV đang “hót” cần có những quy định về tuyển đầu vào ĐH hợp xu thế hơn",
@@ -177,12 +177,12 @@
   {
     "text": "Phan Thanh Huyền đúng ngành rùi  nè ☘️",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Chắc thang cu kia cũng là hs cá biệt. Nghich ngợm nên bị cả lớp ghét. Ngxua tao đi học. Gặp mấy đứa nói bậy tao cũng ghét lắm. Chỉ ước đc tát nó một phát. Haha. Cô giao hơi quá tay.",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Phương Nghi khổ kh ai bằng 😭",
@@ -267,7 +267,7 @@
   {
     "text": "Công bằng 😁😁",
     "emotion": "rác",
-    "is_label_correct": 1
+    "is_label_correct": 0
   },
   {
     "text": "Quá chuẩn Bộ ơi",
@@ -502,7 +502,7 @@
   {
     "text": "Đúng rồi \nPhải thi đầu vào thì chất lượng mới cao và phản ánh đúng năng lực\nXét học bạ đẹp , cơ chế xin - cho ươm mầm từ bé trách sao khi trưởng thành tham nhũng gia tăng",
     "emotion": "tích cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "thời đại 4.0 rồi, tin học cũng cần được trở thành môn bắt buộc",
@@ -547,7 +547,7 @@
   {
     "text": "Đã thiếu đạo đức thì chê mặt làm gì nữa",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Khổ😞",
@@ -672,12 +672,12 @@
   {
     "text": "=)))) sinh 2007 cũng chưa bất hạnh lắm",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Mấy con này không ngủ với thằng này thì nó cũng lại đi ngủ với các thằng khác.nó ăn vào máu rồi",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Chắc giáo viên trong trường ô nếm hết rồi...",
@@ -832,7 +832,7 @@
   {
     "text": "Em cũng nói với con là nếu bạn nào trong lớp vi phạm cô yêu cầu con tát bạn thì con không được tát, bởi con không có quyền tát bạn. Nếu cô phạt con thì con cũng không được tát. Mẹ sẽ nói chuyện với cô. Nếu con vi phạm mà cô yêu cầu bạn tát con, con hãy nói với bạn là bạn không có quyền tát mình. Nếu bạn vẫn làm, con có quyền chống cự. Em biết cách của em có nhiều tiêu cực song trong bối cảnh nhà trường chỉ biết có thành tích thì đành làm thế.",
     "emotion": "trung lập",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Chất lượng giáo dục thì chưa thấy cải tiến mà đã ra đề đánh đố r :)))",
@@ -902,7 +902,7 @@
   {
     "text": "Trường K vừa mới xây lại xong kiểu 🗿",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Em xin phép share chị nhé",
@@ -917,37 +917,37 @@
   {
     "text": "2028 chắc cho thi bằng máy giặt :)))",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "cứ để thi tập trung đi sao lại thí điểm thi trên máy tính làm gì vậy nhỉ? cái này quan điểm cá nhân của mình là không hợp lý!",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Bài viết của bạn hay quá.mình cũng có con học tiểu học nhiều khi rất bức xúc về cách hành xử của cô giáo.",
     "emotion": "tích cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Ái chà 2k9 chuột bạch à>:)",
     "emotion": "trung lập",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Nguyễn Băng :)))))))",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Thi xong chết ngay tại chỗ luôn",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Cấm nói xấu cán bộ",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Khối cô ngồi rung. Các cô giờ như cave chúa mời thiên hạ xơi khắp nơi",
@@ -1077,7 +1077,7 @@
   {
     "text": "Chắc k học thêm nhà cô 😏😏😏",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Hc tht thi giả thì có , ôn bt bao nhiêu , chả có cái nào giống trog đề thi",
@@ -1107,7 +1107,7 @@
   {
     "text": "Tuyết Vy =))",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Cho nghỉ dạy là vừa",
@@ -1117,12 +1117,12 @@
   {
     "text": "Học bạ 20đ ko dám ý kiến gì Nguyen Phu Viet 🥴🥴🥴🥴",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Con tui học ngày học đêm để đạt học bạ loại giỏi. Bây giờ lại đòi bỏ xét học bạ? Mấy ông bà quản lý giáo dục thay đổi xoành xoạch như vậy thì trình quản lý của các ông quá kém, nên từ chức đi để cho tụi nhỏ được nhờ.",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Trường hợp nầy ở trường nào cũng có những giáo viên như nầy con tôi 3 đứa đều như vậy n̈hưng tôi chỉ khiếu nại riêng và cô thầy nói thông cảm đây là vì không học thêm nên như vậy",
@@ -1137,7 +1137,7 @@
   {
     "text": "Đừng vì lợi ích riêng mà che giấu sự thật. \nCon sâu làm rầu nồi canh, tiếc gì? đổ đi thôi. \nHay hiệu trưởng cho toàn thể  giáo viên trường đưa cô ấy ra mà tát.",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Bây giờ mong nhà nước nghiêm cấm không cho day thêm nữa, không biết đến lop học cái gì, day cái gì mà cứ đe day thêm là sao",
@@ -1167,7 +1167,7 @@
   {
     "text": "Danh sách 12 giải nhất của cuộc thi: 2025 bài thi khoa học kỹ thuật đạt giải nhất của hs trung học phổ thông nước ta năm học 2025-2026 chắc nhiều giáo sư , tiến sỹ , nhà khoa học trên thế giới phải nể phục , còn bao nhiêu là thật\n1. Phát triển giải pháp hỗ trợ đánh giá sức khỏe sinh sản nam giới tại nhà (Nguyễn Mai Khuê, Phạm Quang Phúc An, trường THPT chuyên Khoa học Tự nhiên, Đại học Quốc gia Hà Nội).\n2. Nghiên cứu tạo kháng thể trung hòa độc tố Botulinim Type A dựa trên công nghệ nanobody (Mai Tâm Trung, Đặng Trần Bảo Anh, trường THPT chuyên Khoa học Tự nhiên, Đại học Quốc gia Hà Nội).\n3. Nghiên cứu tạo chủng Vibrio Natriegens có khả năng sinh tổng B-Nicotonamide Mononucleotide bằng kỹ thuật trao đổi chất (Trần Vũ Thảo Phương và Phạm Huy Tuấn Đạt, trường THPT Khoa học Giáo dục, Đại học Quốc gia Hà Nội).\n4. Hệ vi hạt chứa nano Zine oxide trong ứng dụng tự làm sạch và kháng khuẩn (Nguyễn Anh Thơ, Chu Đức Thịnh, trường THPT An Dương, Hải Phòng).\n5. Vật liệu oxi hóa hiệu năng cao lithium vanadium oxide xử lý môi trường (Đỗ Hà Phương, Nguyễn Đức Thái, trường THPT Việt Đức,Hà Nội \n6. Mũ bảo hiểm tiện ích AT-05 (Nguyễn Lê Minh Khôi, Nguyễn Trịnh Bắc, trường THPT Hàn Thuyên, Bắc Ninh).\n7. Ứng dụng học sâu trong sáng tác nhạc tự động, định hướng bảo tồn và phát triển Đờn ca tài tử Nam Bộ (Nguyễn Đức Tấn, Hà Nhật Bảo, trường THPT chuyên Lê Hồng Phong, TP HCM).\n8. Talkie Vbot- Robot hỗ trợ giáo dục cho trẻ em khuyết tật ngôn ngữ (Huỳnh Huy Hưng, Nguyễn Nhật Tuấn Kiệt, trường THPT chuyên Lê Quý Đôn, Đà Nẵng).\n9. Hệ thống phân loại rác thông minh tích hợp trí tuệ nhân tạo và cảm biến âm thanh (Vũ Ngọc Anh và Vũ Đình Đăng Hiển, trường THPT Nguyễn Siêu, Hưng Yên).\n10. Xe lăn tự hành hỗ trợ người mắc bệnh xơ cứng teo cơ một bên trong di chuyển và giao tiếp (Cao Trung Quân và Lê Minh Hiếu, trường THPT thị xã Quảng Trị, Quảng Trị).\n11. Xác định nhân tố ảnh hưởng và đề xuất bộ tiêu chí tự đánh giá lựa chọn ngành học bậc đại học phù hợp cho học sinh THPT ( Đỗ Mai Hồng Anh và Nguyễn Thị Linh Đan, trường THPT chuyên Lam Sơn, Thanh Hóa).\n12. Yếu tố ảnh hưởng đến nguy cơ bị thao túng tâm lý trong mối quan hệ bạn bè đồng trang lứa của học sinh THPT tại Hà Nội (Nguyễn Vũ Hồng Phúc",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Đoàn Đức Thành",
@@ -1192,7 +1192,7 @@
   {
     "text": "Dm la con chau tao la chet me. Tao de ra tat vo mu lồn cho khỏi đụ luon",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Gì má, có thật hả trời",
@@ -1217,7 +1217,7 @@
   {
     "text": "Nha truong đat chuan đe lm gi .? Khi ma giao vien hanh xu voi hoc sinh nhu côn đô  vay . K bao gio chap nhan nhung loai giao vien the nay dc",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Cô có tâm quá",
@@ -1227,7 +1227,7 @@
   {
     "text": "Ánhh DươnggLữ Thái NguyệtLại Thị Kiều Vy cíu bé",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Bắt góc camera nét như vậy mà vẫn sờ soạng nhau thì chỉ có thể là cố tình lấy làm tư liệu thôi.",
@@ -1267,17 +1267,17 @@
   {
     "text": "Có thể là ngất luôn trong phòng thi",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Bộ gd giờ đỉnh vc. Sợ vch",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Đọc mà muốn ói máu !!! Luôn",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Cho hết về phía Nam, Thanh Trì, Thường Tín, Phú xuyên. Để SV đi gà Ngọc Hồi và bến xe Phía Nam Ngọc Hồi là hợp lý.",
@@ -1287,7 +1287,7 @@
   {
     "text": "tha cho e 🙏🏻",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Là người từng chứng kiến bạn học cùng lớp \"phao\" rất nhiều môn để xét học bạ vào trường top thì thiết nghĩ học bạ không đánh giá đúng hoàn toàn cái gọi là năng lực học sinh. Nhưng, nếu bỏ luôn xét học bạ thì có rất nhiều bạn giỏi sẽ bị thiệt thòi. Học bạ vẫn nên giữ nhưng giảm chỉ tiêu vì dù để lọt lưới một vài cá thể nhưng với mức độ kiến thức trên đại học thì những cá thể đã lọt đó cũng phải oằng mình hết sức mới tới được đầu ra. Có thể sẽ không chất lượng hoàn toàn với những học sinh đã cố gắng từ ban đầu, song vẫn đảm bảo chất lượng về mặt \"có cố gắng\". Môi trường trên đại học sẽ tự đào thải những cá thể không có khả năng. Công việc sau này cũng thế.",
@@ -1312,7 +1312,7 @@
   {
     "text": "Chắc lại bắt phụ huynh và học sinh đống tiền để mua trang thiết bị",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Năm nay đề đánh đố hs khó quá mong rằng bgd sẽ nhẹ nhàng hơn với 2k8",
@@ -1327,7 +1327,7 @@
   {
     "text": "Cho các con 2k7  1 đòn chí mạng đứa nào cũng ngấp ngoải .Giờ báo với chả cáo  chỉ là mớ giấy lộn .",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Học bạ cũng là sự nổ lực của các con . Con các vị học ko giỏi bằng con ngt . Rồi các vị kiu bỏ sao . Nếu ganh tỵ sao ko kiu con học cho đẹp học bạ để xét tuyển . Học trong lớp đánh giá toàn bộ 1 quá trình nổ lực . Còn thi chỉ là hên và xui . Có đứa học gioi tới ngày thi vì 1 lý do nào đó làm ko tốt . Lại đạp đổ cả mấy năm hs xs .vạy thì cần gì nổ lực học giỏi , các con thức khuya dậy sớm học lại bị đánh giá “k công băng” ????",
@@ -1412,7 +1412,7 @@
   {
     "text": "Thủy Ngọc =))",
     "emotion": "rác",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Đề nghị bộ xem xét quay lưng vs điều thứ nhất, đề năm nay chắc chắn khó hơn năm của 2k7",
@@ -1452,7 +1452,7 @@
   {
     "text": "Nghĩ thôi cũng thấy đẹp rồi! Tương lai con e chúng ta sẽ nói TA như tiếng Việt!",
     "emotion": "tích cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Giáo dục ko sướng bằng tình duc kkk",
@@ -1472,7 +1472,7 @@
   {
     "text": "Chuẩn xhcn là phải như thế .",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Thì đúng là như vậy mà.",
@@ -1482,7 +1482,7 @@
   {
     "text": "Chạy lên được đấy thì kiếm thêm chút thôi mà",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   },
   {
     "text": "Tạch tạch tạch",
@@ -1497,6 +1497,6 @@
   {
     "text": "Lâu nay đớp sướng quen mồm rồi, phát này đớp tiếp mất mồm luôn",
     "emotion": "tiêu cực",
-    "is_label_correct": 0
+    "is_label_correct": 1
   }
 ]
