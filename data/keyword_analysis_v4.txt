@@ -1,0 +1,92 @@
+DRAMA INTELLIGENCE SYSTEM — KEYWORD FREQUENCY ANALYSIS v4
+PMI min_count=3 | threshold=1.0 | ranking: freq × log2(1+PMI)
+
+=================================================================
+  TOP 10 TỪ/CỤM TỪ — EDUCATION  (score = freq × log2(1+PMI))
+=================================================================
+
+ 1. "xét học bạ"  [trigram]
+    Tổng: 53 lần | 2 bài | PMI: 7.92 | Score: 167.3
+    Chi tiết: [education_037: 52, education_020: 1]
+
+ 2. "xét tuyển"  [bigram]
+    Tổng: 28 lần | 5 bài | PMI: 8.41 | Score: 90.6
+    Chi tiết: [education_037: 21, education_016: 3, education_020: 2, education_017: 1, education_039: 1]
+
+ 3. "khỏi ngành"  [bigram]
+    Tổng: 27 lần | 4 bài | PMI: 7.35 | Score: 82.7
+    Chi tiết: [education_005: 13, education_009: 6, education_011: 6, education_014: 2]
+
+ 4. "ngành giáo dục"  [trigram]
+    Tổng: 29 lần | 6 bài | PMI: 5.79 | Score: 80.1
+    Chi tiết: [education_011: 15, education_005: 6, education_009: 4, education_004: 2, education_007: 1, education_017: 1]
+
+ 5. "thi tốt nghiệp"  [trigram]
+    Tổng: 22 lần | 5 bài | PMI: 5.27 | Score: 58.3
+    Chi tiết: [education_020: 8, education_017: 6, education_037: 4, education_016: 3, education_038: 1]
+
+ 6. "đứa trẻ"  [bigram]
+    Tổng: 17 lần | 2 bài | PMI: 8.32 | Score: 54.8
+    Chi tiết: [education_009: 16, education_017: 1]
+
+ 7. "điểm cao"  [bigram]
+    Tổng: 18 lần | 5 bài | PMI: 6.24 | Score: 51.4
+    Chi tiết: [education_037: 8, education_005: 6, education_009: 2, education_007: 1, education_020: 1]
+
+ 8. "ck1 ck2"  [bigram]
+    Tổng: 13 lần | 1 bài | PMI: 8.29 | Score: 41.8
+    Chi tiết: [education_007: 13]
+
+ 9. "trường cao đẳng"  [trigram]
+    Tổng: 13 lần | 1 bài | PMI: 7.03 | Score: 39.1
+    Chi tiết: [education_004: 13]
+
+10. "nền giáo dục"  [trigram]
+    Tổng: 12 lần | 5 bài | PMI: 8.04 | Score: 38.1
+    Chi tiết: [education_009: 6, education_011: 2, education_017: 2, education_001: 1, education_007: 1]
+
+
+=================================================================
+  TOP 10 TỪ/CỤM TỪ — SHOWBIZ  (score = freq × log2(1+PMI))
+=================================================================
+
+ 1. "trốn thuế"  [bigram]
+    Tổng: 94 lần | 4 bài | PMI: 8.80 | Score: 309.5
+    Chi tiết: [showbiz_043: 81, showbiz_012: 5, showbiz_020: 5, showbiz_044: 3]
+
+ 2. "hàng giả"  [bigram]
+    Tổng: 67 lần | 6 bài | PMI: 8.06 | Score: 213.0
+    Chi tiết: [showbiz_043: 26, showbiz_004: 17, showbiz_020: 14, showbiz_019: 6, showbiz_017: 3, showbiz_044: 1]
+
+ 3. "bán hàng"  [bigram]
+    Tổng: 62 lần | 11 bài | PMI: 7.23 | Score: 188.6
+    Chi tiết: [showbiz_043: 25, showbiz_019: 13, showbiz_020: 11, showbiz_004: 6, showbiz_007: 1, showbiz_009: 1, showbiz_010: 1, showbiz_011: 1, showbiz_017: 1, showbiz_024: 1, showbiz_044: 1]
+
+ 4. "kiếm tiền"  [bigram]
+    Tổng: 63 lần | 13 bài | PMI: 5.72 | Score: 173.2
+    Chi tiết: [showbiz_044: 17, showbiz_020: 15, showbiz_043: 8, showbiz_013: 5, showbiz_019: 5, showbiz_004: 3, showbiz_009: 3, showbiz_011: 2, showbiz_008: 1, showbiz_017: 1, showbiz_018: 1, showbiz_021: 1, showbiz_030: 1]
+
+ 5. "soi mói"  [bigram]
+    Tổng: 41 lần | 7 bài | PMI: 10.46 | Score: 144.2
+    Chi tiết: [showbiz_020: 26, showbiz_023: 8, showbiz_018: 2, showbiz_043: 2, showbiz_006: 1, showbiz_030: 1, showbiz_044: 1]
+
+ 6. "chụp ảnh"  [bigram]
+    Tổng: 42 lần | 6 bài | PMI: 8.96 | Score: 139.3
+    Chi tiết: [showbiz_043: 32, showbiz_020: 5, showbiz_007: 2, showbiz_004: 1, showbiz_015: 1, showbiz_023: 1]
+
+ 7. "ngọc kem"  [bigram]
+    Tổng: 37 lần | 3 bài | PMI: 11.76 | Score: 135.9
+    Chi tiết: [showbiz_009: 35, showbiz_010: 1, showbiz_011: 1]
+
+ 8. "cuộc thi"  [bigram]
+    Tổng: 36 lần | 4 bài | PMI: 9.95 | Score: 124.3
+    Chi tiết: [showbiz_032: 21, showbiz_021: 13, showbiz_019: 1, showbiz_029: 1]
+
+ 9. "shark bình"  [bigram]
+    Tổng: 42 lần | 4 bài | PMI: 6.02 | Score: 118.1
+    Chi tiết: [showbiz_044: 30, showbiz_034: 7, showbiz_020: 4, showbiz_012: 1]
+
+10. "nhân quả"  [bigram]
+    Tổng: 34 lần | 7 bài | PMI: 9.61 | Score: 115.9
+    Chi tiết: [showbiz_044: 23, showbiz_020: 3, showbiz_043: 3, showbiz_018: 2, showbiz_004: 1, showbiz_006: 1, showbiz_012: 1]
+
