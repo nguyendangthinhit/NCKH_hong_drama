@@ -93,7 +93,7 @@
   },
   {
     "text": "Đúng vậy \nLàm ăn tử tế chỉ đủ ăn chứ không sa hoa được \nCầu mong mọi người làm ăn tử tế",
-    "emotion": "Ủng hộ",  "is_label_correct": "0"
+    "emotion": "Ủng hộ",  "is_label_correct": "1"
   },
   {
     "text": "Cuối cùng J97 vẫn tốt hơn, ảnh tệ nhưng ảnh không lèm bèm",
@@ -221,7 +221,7 @@
   },
   {
     "text": "Đọc mà không cầm được nước mắt. Cũng nhiều người trong hoàn cảnh như vậy. Thế mới biết hàng giả nó nguy hiểm như thế nào ?",
-    "emotion": "Đồng cảm",  "is_label_correct": "0"
+    "emotion": "Đồng cảm",  "is_label_correct": "1"
   },
   {
     "text": "Xong lên xin lỗi...cái kết thì nhiều người mất lòng tin, hình ảnh xây dựng bao năm nay, mà lòng tin là thứ khó có thể có được nhưng mất thì thấy đơn giản quá. Đây xem như 1 hình thức luadao lòng tin😁",
@@ -713,7 +713,7 @@
   },
   {
     "text": "Quá dư dật trong cuộc sống hôm nay  !",
-    "emotion": "Cà khịa",  "is_label_correct": "0"
+    "emotion": "Cà khịa",  "is_label_correct": "1"
   },
   {
     "text": "Cty ZuBu là Zú Bự à 😂",
@@ -769,7 +769,7 @@
   },
   {
     "text": "Giàu vãi đạn 😂😂",
-    "emotion": "Cà khịa",  "is_label_correct": "0"
+    "emotion": "Cà khịa",  "is_label_correct": "1"
   },
   {
     "text": "Đã xấu lại còn xa,nhìn cái mặt hl thế kia 😏",
@@ -813,7 +813,7 @@
   },
   {
     "text": "Chưnga kiến bnhiu cặp yêu nhau bao năm rôid cưới dc 1,2 năm tan vỡ =))) chán luôn",
-    "emotion": "Cà khịa",  "is_label_correct": "0"
+    "emotion": "Cà khịa",  "is_label_correct": "1"
   },
   {
     "text": "Dương Thị Thương mong mấy con mình ghét có 1 virut để đời 🤣",
@@ -1001,7 +1001,7 @@
   },
   {
     "text": "Nó cười vì nó đã có hàng nghìn tỷ rồi bắt 1 vài năm trả đang j",
-    "emotion": "Trung lập",  "is_label_correct": "0"
+    "emotion": "Trung lập",  "is_label_correct": "1"
   },
   {
     "text": "cả mấy tiềm spa nữa chưa hành nghề chứng chỉ gì mà tiêm bơm như thật",
@@ -1021,7 +1021,7 @@
   },
   {
     "text": "Csvn huấn luyện bài bản trước khi đem ra nước ngoài làm, nhờ vậy mà có nhiều ngoại tệ gởi về",
-    "emotion": "Trung lập",  "is_label_correct": "0"
+    "emotion": "Trung lập",  "is_label_correct": "1"
   },
   {
     "text": "Đình chỉ hẳn được không ạ 🥺",
@@ -1041,11 +1041,11 @@
   },
   {
     "text": "Lên chùa mà lấy",
-    "emotion": "Trung lập",  "is_label_correct": "1"
+    "emotion": "Trung lập",  "is_label_correct": "0"
   },
   {
     "text": "Cái chương trình shark tank toàn gián tiếp tay cho bọn lừa đảo",
-    "emotion": "Trung lập",  "is_label_correct": "0"
+    "emotion": "Trung lập",  "is_label_correct": "1"
   },
   {
     "text": "Ngày này đã toiy",
@@ -1061,7 +1061,7 @@
   },
   {
     "text": "mấy thằng vâu vâu nguy hiểm vl",
-    "emotion": "Trung lập",  "is_label_correct": "0"
+    "emotion": "Trung lập",  "is_label_correct": "1"
   },
   {
     "text": "Chí Bảo bên nào đông thì theo bên đó :)))",
