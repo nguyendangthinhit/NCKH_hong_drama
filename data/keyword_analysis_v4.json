@@ -1,0 +1,307 @@
+{
+    "EDUCATION": [
+        {
+            "keyword": "xét học bạ",
+            "ngram_type": "trigram",
+            "total_frequency": 53,
+            "total_articles": 2,
+            "pmi_score": 7.92,
+            "score": 167.3,
+            "details": {
+                "education_037": 52,
+                "education_020": 1
+            }
+        },
+        {
+            "keyword": "xét tuyển",
+            "ngram_type": "bigram",
+            "total_frequency": 28,
+            "total_articles": 5,
+            "pmi_score": 8.41,
+            "score": 90.6,
+            "details": {
+                "education_037": 21,
+                "education_016": 3,
+                "education_020": 2,
+                "education_017": 1,
+                "education_039": 1
+            }
+        },
+        {
+            "keyword": "khỏi ngành",
+            "ngram_type": "bigram",
+            "total_frequency": 27,
+            "total_articles": 4,
+            "pmi_score": 7.35,
+            "score": 82.7,
+            "details": {
+                "education_005": 13,
+                "education_009": 6,
+                "education_011": 6,
+                "education_014": 2
+            }
+        },
+        {
+            "keyword": "ngành giáo dục",
+            "ngram_type": "trigram",
+            "total_frequency": 29,
+            "total_articles": 6,
+            "pmi_score": 5.79,
+            "score": 80.1,
+            "details": {
+                "education_011": 15,
+                "education_005": 6,
+                "education_009": 4,
+                "education_004": 2,
+                "education_007": 1,
+                "education_017": 1
+            }
+        },
+        {
+            "keyword": "thi tốt nghiệp",
+            "ngram_type": "trigram",
+            "total_frequency": 22,
+            "total_articles": 5,
+            "pmi_score": 5.27,
+            "score": 58.3,
+            "details": {
+                "education_020": 8,
+                "education_017": 6,
+                "education_037": 4,
+                "education_016": 3,
+                "education_038": 1
+            }
+        },
+        {
+            "keyword": "đứa trẻ",
+            "ngram_type": "bigram",
+            "total_frequency": 17,
+            "total_articles": 2,
+            "pmi_score": 8.32,
+            "score": 54.8,
+            "details": {
+                "education_009": 16,
+                "education_017": 1
+            }
+        },
+        {
+            "keyword": "điểm cao",
+            "ngram_type": "bigram",
+            "total_frequency": 18,
+            "total_articles": 5,
+            "pmi_score": 6.24,
+            "score": 51.4,
+            "details": {
+                "education_037": 8,
+                "education_005": 6,
+                "education_009": 2,
+                "education_007": 1,
+                "education_020": 1
+            }
+        },
+        {
+            "keyword": "ck1 ck2",
+            "ngram_type": "bigram",
+            "total_frequency": 13,
+            "total_articles": 1,
+            "pmi_score": 8.29,
+            "score": 41.8,
+            "details": {
+                "education_007": 13
+            }
+        },
+        {
+            "keyword": "trường cao đẳng",
+            "ngram_type": "trigram",
+            "total_frequency": 13,
+            "total_articles": 1,
+            "pmi_score": 7.03,
+            "score": 39.1,
+            "details": {
+                "education_004": 13
+            }
+        },
+        {
+            "keyword": "nền giáo dục",
+            "ngram_type": "trigram",
+            "total_frequency": 12,
+            "total_articles": 5,
+            "pmi_score": 8.04,
+            "score": 38.1,
+            "details": {
+                "education_009": 6,
+                "education_011": 2,
+                "education_017": 2,
+                "education_001": 1,
+                "education_007": 1
+            }
+        }
+    ],
+    "SHOWBIZ": [
+        {
+            "keyword": "trốn thuế",
+            "ngram_type": "bigram",
+            "total_frequency": 94,
+            "total_articles": 4,
+            "pmi_score": 8.8,
+            "score": 309.5,
+            "details": {
+                "showbiz_043": 81,
+                "showbiz_012": 5,
+                "showbiz_020": 5,
+                "showbiz_044": 3
+            }
+        },
+        {
+            "keyword": "hàng giả",
+            "ngram_type": "bigram",
+            "total_frequency": 67,
+            "total_articles": 6,
+            "pmi_score": 8.06,
+            "score": 213.0,
+            "details": {
+                "showbiz_043": 26,
+                "showbiz_004": 17,
+                "showbiz_020": 14,
+                "showbiz_019": 6,
+                "showbiz_017": 3,
+                "showbiz_044": 1
+            }
+        },
+        {
+            "keyword": "bán hàng",
+            "ngram_type": "bigram",
+            "total_frequency": 62,
+            "total_articles": 11,
+            "pmi_score": 7.23,
+            "score": 188.6,
+            "details": {
+                "showbiz_043": 25,
+                "showbiz_019": 13,
+                "showbiz_020": 11,
+                "showbiz_004": 6,
+                "showbiz_007": 1,
+                "showbiz_009": 1,
+                "showbiz_010": 1,
+                "showbiz_011": 1,
+                "showbiz_017": 1,
+                "showbiz_024": 1,
+                "showbiz_044": 1
+            }
+        },
+        {
+            "keyword": "kiếm tiền",
+            "ngram_type": "bigram",
+            "total_frequency": 63,
+            "total_articles": 13,
+            "pmi_score": 5.72,
+            "score": 173.2,
+            "details": {
+                "showbiz_044": 17,
+                "showbiz_020": 15,
+                "showbiz_043": 8,
+                "showbiz_013": 5,
+                "showbiz_019": 5,
+                "showbiz_004": 3,
+                "showbiz_009": 3,
+                "showbiz_011": 2,
+                "showbiz_008": 1,
+                "showbiz_017": 1,
+                "showbiz_018": 1,
+                "showbiz_021": 1,
+                "showbiz_030": 1
+            }
+        },
+        {
+            "keyword": "soi mói",
+            "ngram_type": "bigram",
+            "total_frequency": 41,
+            "total_articles": 7,
+            "pmi_score": 10.46,
+            "score": 144.2,
+            "details": {
+                "showbiz_020": 26,
+                "showbiz_023": 8,
+                "showbiz_018": 2,
+                "showbiz_043": 2,
+                "showbiz_006": 1,
+                "showbiz_030": 1,
+                "showbiz_044": 1
+            }
+        },
+        {
+            "keyword": "chụp ảnh",
+            "ngram_type": "bigram",
+            "total_frequency": 42,
+            "total_articles": 6,
+            "pmi_score": 8.96,
+            "score": 139.3,
+            "details": {
+                "showbiz_043": 32,
+                "showbiz_020": 5,
+                "showbiz_007": 2,
+                "showbiz_004": 1,
+                "showbiz_015": 1,
+                "showbiz_023": 1
+            }
+        },
+        {
+            "keyword": "ngọc kem",
+            "ngram_type": "bigram",
+            "total_frequency": 37,
+            "total_articles": 3,
+            "pmi_score": 11.76,
+            "score": 135.9,
+            "details": {
+                "showbiz_009": 35,
+                "showbiz_010": 1,
+                "showbiz_011": 1
+            }
+        },
+        {
+            "keyword": "cuộc thi",
+            "ngram_type": "bigram",
+            "total_frequency": 36,
+            "total_articles": 4,
+            "pmi_score": 9.95,
+            "score": 124.3,
+            "details": {
+                "showbiz_032": 21,
+                "showbiz_021": 13,
+                "showbiz_019": 1,
+                "showbiz_029": 1
+            }
+        },
+        {
+            "keyword": "shark bình",
+            "ngram_type": "bigram",
+            "total_frequency": 42,
+            "total_articles": 4,
+            "pmi_score": 6.02,
+            "score": 118.1,
+            "details": {
+                "showbiz_044": 30,
+                "showbiz_034": 7,
+                "showbiz_020": 4,
+                "showbiz_012": 1
+            }
+        },
+        {
+            "keyword": "nhân quả",
+            "ngram_type": "bigram",
+            "total_frequency": 34,
+            "total_articles": 7,
+            "pmi_score": 9.61,
+            "score": 115.9,
+            "details": {
+                "showbiz_044": 23,
+                "showbiz_020": 3,
+                "showbiz_043": 3,
+                "showbiz_018": 2,
+                "showbiz_004": 1,
+                "showbiz_006": 1,
+                "showbiz_012": 1
+            }
+        }
+    ]
+}

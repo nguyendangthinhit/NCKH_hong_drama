@@ -1,6 +1,9 @@
 """
 Drama Intelligence System - Keyword Frequency Analyzer v4
 ==========================================================
+DRAMA INTELLIGENCE SYSTEM — KEYWORD FREQUENCY ANALYSIS v4
+PMI min_count=3 | threshold=1.0 | ranking: freq × log2(1+PMI)
+
 Cải tiến so v3:
   - Thêm stopwords: sao, nữa, tui, đừng, yêu, thích, tươi, hát...
   - Ranking mới: score = freq × log2(1 + PMI)  thay vì chỉ dùng freq
