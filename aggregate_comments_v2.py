@@ -3,6 +3,7 @@ aggregate_comments_v2.py
 ------------------------
 Gộp tất cả comments từ full folders.
 
+
 Input:
   - D:\py\git\NCKH_hong_drama\data\process_education\analyzed_dataa\full
   - D:\py\git\NCKH_hong_drama\data\process_showbiz\analyzed_data\full
