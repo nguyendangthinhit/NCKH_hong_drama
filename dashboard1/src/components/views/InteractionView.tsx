@@ -15,11 +15,11 @@ import { useState, useEffect, useRef } from 'react';
 import { GoogleGenAI } from '@google/genai';
 
 const HISTORY_URL = 'https://raw.githubusercontent.com/nguyendangthinhit/NCKH_hong_drama/main/history.json';
-const GEMINI_API_KEY = 'AIzaSyDwEamxxAb_UiLDh8Wclsi246mx9aNpIYM'; // Using first key from api.txt
-const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 export default function InteractionView({ data, theme = 'dark' }: { data: InsightsData, theme?: 'dark' | 'light' }) {
   const [history, setHistory] = useState<any[]>([]);
+  const [apiKeys, setApiKeys] = useState<string[]>([]);
+  const [currentKeyIndex, setCurrentKeyIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [topEvents, setTopEvents] = useState<string>('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -27,6 +27,26 @@ export default function InteractionView({ data, theme = 'dark' }: { data: Insigh
   const historyRef = useRef<any[]>([]);
 
   useEffect(() => {
+    // Load API keys from public file
+    const fetchApiKeys = async () => {
+      try {
+        const timestamp = new Date().getTime();
+        const res = await fetch(`/api.txt?t=${timestamp}`);
+        if (!res.ok) throw new Error("Failed to load API keys");
+        const text = await res.text();
+        const keys = text.split('\n').map(k => k.trim()).filter(k => k.length > 0);
+        if (keys.length > 0) {
+          setApiKeys(keys);
+        } else {
+          console.error("No API keys found in api.txt");
+        }
+      } catch (err) {
+        console.error("Error loading API keys:", err);
+      }
+    };
+    
+    fetchApiKeys();
+
     const fetchHistory = async () => {
       try {
         setIsLoading(true);
@@ -77,20 +97,69 @@ export default function InteractionView({ data, theme = 'dark' }: { data: Insigh
   }, []);
 
   const analyzeTopEvents = async (historyData: any[]) => {
+    // Wait until keys are loaded or give up if empty
     if (historyData.length === 0) return;
+    
     setIsAnalyzing(true);
     try {
       const questions = historyData.map((h: any) => h.message).join('\n');
       const prompt = `Dưới đây là danh sách các câu hỏi của người dùng:\n${questions}\n\nHãy phân tích và tổng hợp thành danh sách Top 5 sự kiện/chủ đề được hỏi nhiều nhất.\nLưu ý quan trọng: KHÔNG TÍNH các câu hỏi xã giao, chào hỏi (ví dụ: hello, hi, chào bạn...).\nChỉ tập trung vào các sự kiện, drama hoặc nội dung cụ thể.\nTrả về định dạng danh sách rút gọn, ngắn gọn (chỉ gồm các gạch đầu dòng, không giải thích dài dòng).`;
       
-      const response = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
-          contents: prompt,
-      });
-      setTopEvents(response.text || 'Không có kết quả.');
-    } catch (error) {
-      console.error("Failed to analyze with Gemini:", error);
-      setTopEvents('Lỗi khi phân tích dữ liệu.');
+      let attempt = 0;
+      let success = false;
+      let lastError = null;
+
+      // Ensure we have keys to use
+      let availableKeys = [...apiKeys];
+      let startIndex = currentKeyIndex;
+      
+      // If component loaded fast and keys haven't loaded yet from useEffect, do an emergency fallback fetch
+      if (availableKeys.length === 0) {
+        try {
+          const res = await fetch(`/api.txt?t=${new Date().getTime()}`);
+          const text = await res.text();
+          availableKeys = text.split('\n').map(k => k.trim()).filter(k => k.length > 0);
+          if (availableKeys.length > 0) setApiKeys(availableKeys);
+        } catch (e) {
+          console.error("Could not fetch fallback keys");
+        }
+      }
+
+      if (availableKeys.length === 0) {
+        setTopEvents('Không tìm thấy API Key nào trong cấu hình.');
+        return;
+      }
+
+      // Try rotating through keys until one works
+      while (attempt < availableKeys.length && !success) {
+        const keyToUse = availableKeys[(startIndex + attempt) % availableKeys.length];
+        
+        try {
+          const ai = new GoogleGenAI({ apiKey: keyToUse });
+          const response = await ai.models.generateContent({
+              model: 'gemini-2.5-flash',
+              contents: prompt,
+          });
+          setTopEvents(response.text || 'Không có kết quả.');
+          success = true;
+          
+          // Update the current working index so next time we use it first
+          if (attempt > 0) {
+            setCurrentKeyIndex((startIndex + attempt) % availableKeys.length);
+          }
+        } catch (error) {
+          console.error(`Gemini API call failed with key index ${(startIndex + attempt) % availableKeys.length}:`, error);
+          lastError = error;
+          attempt++;
+        }
+      }
+
+      if (!success) {
+        setTopEvents(`Lỗi phân tích: Đã thử toàn bộ ${availableKeys.length} API keys nhưng đều thất bại.`);
+      }
+    } catch (err) {
+      console.error("Unexpected error in analyzeTopEvents:", err);
+      setTopEvents('Lỗi hệ thống khi phân tích dữ liệu.');
     } finally {
       setIsAnalyzing(false);
     }
