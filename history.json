@@ -205,5 +205,14 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-05-19T17:33:33.375Z"
+  },
+  {
+    "user_id": "24898395059855953",
+    "question": "Thông tin về vụ việc nữ sinh thành phố HCM đánh cắp bài thi Olympiad",
+    "answer": "Tôi cần thông tin bổ sung để xác nhận vụ việc nữ sinh Thành phố HCM đánh cắp bài thi Olympiad. Tuy nhiên, tôi không tìm thấy thông tin cụ thể về vụ việc trong dữ liệu tra cứu.\n\nĐể xác minh thông tin, bạn có thể cung cấp thêm thông tin như sau:\n\n- Tên sự kiện/nhân vật liên quan (nếu biết)\n- Tên trường học/địa phương liên quan (ví dụ: trường trung học phổ thông, quận/huyện)\n- Thời điểm vụ việc xảy ra (năm, tháng, ngày)\n\nSau khi có thông tin bổ sung, tôi sẽ cố gắng xác nhận và cung cấp thông tin chính xác.",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-05-19T17:37:49.791Z"
   }
 ]
