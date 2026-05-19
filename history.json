@@ -268,5 +268,14 @@
     "the_loai": "education",
     "su_kien": "",
     "timestamp": "2026-05-19T17:54:43.000Z"
+  },
+  {
+    "user_id": "24898395059855953",
+    "question": "Nam sinh đạt 30/30 khối A00 là ai?",
+    "answer": "Thông tin chi tiết về nam sinh trường 'làng' đạt 30/30 điểm khối A00 và là thủ khoa kỳ thi đánh giá năng lực như sau:\n\n- Tên: Nguyễn Duy Phong\n- Lớp: Lớp 12A5\n- Trường: Trường THPT Chương Mỹ A\n- Thành phố: Hà Nội\n- Kết quả: 30/30 điểm khối A00 (môn Toán, Lý, Hóa)\n- Kết quả kỳ thi đánh giá năng lực: Thủ khoa với 130/150 điểm\n- Năm tốt nghiệp: 2025",
+    "source_type": "database",
+    "the_loai": "education",
+    "su_kien": "",
+    "timestamp": "2026-05-19T18:01:03.863Z"
   }
 ]
