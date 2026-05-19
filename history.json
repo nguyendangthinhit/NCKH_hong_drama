@@ -178,5 +178,14 @@
     "the_loai": "education",
     "su_kien": "",
     "timestamp": "2026-05-19T17:24:12.581Z"
+  },
+  {
+    "user_id": "24898395059855953",
+    "question": "Pháo bị cộng đồng mạng kéo vào drama nào?",
+    "answer": "Tôi cần biết thêm thông tin để trả lời chính xác. Bạn có thể cung cấp thêm thông tin về pháo và drama mà bạn đang nhắc đến? Ví dụ như:\n\n- Tên của drama\n- Nhân vật nào liên quan\n- Thời gian xảy ra sự kiện\n- Thông tin khác liên quan đến sự kiện\n\nDựa trên thông tin đó, tôi sẽ giúp bạn tìm kiếm được câu trả lời chính xác.",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-05-19T17:27:02.827Z"
   }
 ]
