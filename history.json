@@ -169,5 +169,14 @@
     "the_loai": "showbiz",
     "su_kien": "",
     "timestamp": "2026-05-19T17:14:16.842Z"
+  },
+  {
+    "user_id": "24898395059855953",
+    "question": "Vụ 39 giáo viên sửa điểm trên VnEdu xảy ra thế nào?",
+    "answer": "Vụ 39 giáo viên sửa điểm trên VnEdu tại Trường THPT Tô Hiến Thành được phát hiện khi Sở Giáo dục và Đào tạo tỉnh Thanh Hóa tiến hành kiểm tra và xác minh. Quá trình kiểm tra cho thấy có 566 lượt điểm tăng và 733 lượt điểm giảm ban đầu, và 287 lượt tăng, 232 lượt giảm sau khi rà soát.\n\nCơ quan chức năng đã tiến hành điều tra về động cơ và mục đích của từng giáo viên. Các bên liên quan bao gồm Sở Giáo dục và Đào tạo tỉnh Thanh Hóa và Trường THPT Tô Hiến Thành. Nhà trường đã thông báo rà soát và chỉnh sửa điểm, nhưng sau đó vẫn tiếp tục có 519 lượt nhập, sửa điểm từ ngày 17 đến 19 tháng 1 năm 2026.\n\nCơ quan chức năng đã tổ chức kiểm điểm tập thể, cá nhân có liên quan. Kết quả kiểm tra cho thấy có 1.299 lượt nhập, sửa, xóa điểm từ ngày 4 đến 16 tháng 1 năm 2026. Tình hình đã được giải quyết và các bên liên quan đang tiếp tục làm việc để xác định nguyên nhân thực sự của vụ việc.",
+    "source_type": "database",
+    "the_loai": "education",
+    "su_kien": "",
+    "timestamp": "2026-05-19T17:24:12.581Z"
   }
 ]
