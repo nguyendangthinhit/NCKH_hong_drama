@@ -1,0 +1,58 @@
+{
+  "id_content": "education_001",
+  "ten_su_kien": "Hủy kết quả thi khoa học kỹ thuật quốc gia vì đạo nhái",
+  "content": "{  \"id_content\": \"education_001\",  \"ten_su_kien\": \"Hủy kết quả thi khoa học kỹ thuật quốc gia vì đạo nhái\",  \"danh_muc\": \"Giáo dục\",  \"content\": \"Bộ Giáo dục và Đào tạo (Bộ GD&ĐT) đã chính thức hủy kết quả giải nhất Cuộc thi khoa học kỹ thuật cấp quốc gia dành cho học sinh THCS - THPT năm học 2024-2025. Quyết định này, do Thứ trưởng Bộ GD&ĐT Phạm Ngọc Thưởng ký ngày 29/4/2025, được đưa ra sau khi dự án \"Hệ thống phân loại rác thông minh tích hợp trí tuệ nhân tạo và cảm biến âm thanh\" của nhóm học sinh Trường THPT Nguyễn Siêu, Hưng Yên bị tố có dấu hiệu sao chép sản phẩm nước ngoài. Cụ thể, dự án này được cho là có nhiều điểm tương đồng với một sản phẩm phân loại rác thải do kỹ sư Samuel Alexander (Indonesia) công bố trên nền tảng Hackaday.io vào năm 2023. Các chuyên gia đã chỉ ra sự giống nhau rõ rệt từ ý tưởng sử dụng âm thanh để phân loại rác đến phương pháp triển khai, bao gồm ứng dụng mô hình học máy (CNN) trong trí tuệ nhân tạo để phân tích âm thanh rác thải va vào vách thùng. Thạc sĩ Phan Văn Hiệp, giảng viên Đại học Văn Hiến, nhận định đề tài vi phạm liêm chính khoa học. Bộ GD&ĐT đã yêu cầu Sở Giáo dục và Đào tạo Hưng Yên xử lý nghiêm các tập thể, cá nhân có liên quan trước ngày 30/4. Vụ việc này cũng dấy lên những quan ngại về tính công bằng, minh bạch trong quy trình tổ chức và chấm thi của cuộc thi, đặc biệt là việc thay đổi cơ cấu nhóm lĩnh vực chấm thi không tuân thủ quy định đã ban hành.\",  \"actor_related\": [    {\"name\": \"Bộ Giáo dục và Đào tạo\", \"role\": \"Cơ quan ra quyết định hủy giải và xử lý vi phạm\"},    {\"name\": \"Sở Giáo dục và Đào tạo tỉnh Hưng Yên\", \"role\": \"Đơn vị quản lý học sinh và dự án, chịu trách nhiệm xử lý vi phạm\"},    {\"name\": \"Học sinh Trường THPT Nguyễn Siêu\", \"role\": \"Nhóm tác giả dự án bị hủy giải\"},    {\"name\": \"Samuel Alexander\", \"role\": \"Kỹ sư người Indonesia, tác giả sản phẩm gốc bị cho là đã đạo nhái\"},    {\"name\": \"Phạm Ngọc Thưởng\", \"role\": \"Thứ trưởng Bộ GD&ĐT, người ký quyết định hủy giải\"},    {\"name\": \"Phan Văn Hiệp\", \"role\": \"Thạc sĩ, giảng viên Đại học Văn Hiến, chuyên gia đưa ra nhận định về đạo nhái\"}  ],  \"time_event\": \"2025-04-29\"}",
+  "actor_related": [],
+  "time_event": "",
+  "analyzed": {
+    "comment_counts": {
+      "total": 54,
+      "tích_cực": 2,
+      "tiêu_cực": 10,
+      "trung_lập": 0,
+      "ý_kiến_riêng": 4,
+      "rác": 38
+    },
+    "analysis": {
+      "tích cực": {
+        "count": 2,
+        "percent": "12.5%",
+        "summary": "Xu hướng chung cho thấy mọi người ủng hộ quyết định hủy kết quả thi khoa học kỹ thuật quốc gia vì đạo nhái. Họ đánh giá cao hành động này và hy vọng sẽ có cơ chế hiệu quả để phòng chống tham nhũng trong giáo dục. Điều này thể hiện sự quan tâm đến tính công bằng và minh bạch trong lĩnh vực giáo dục.",
+        "examples": [
+          "Rất tốt.",
+          "Hi vọng sẽ sớm có cơ chế về vấn đề phòng và chống tham nhũng trong giáo dục ^^."
+        ]
+      },
+      "tiêu cực": {
+        "count": 10,
+        "percent": "62.5%",
+        "summary": "Nhiều người cảm thấy thất vọng và bất bình với việc lùm xùm trong cuộc thi khoa học kỹ thuật quốc gia. Họ cho rằng Bộ Giáo dục và Đào tạo nên chịu trách nhiệm và có biện pháp cải thiện để tránh những sự việc tương tự. Một số người thậm chí đề xuất nên hủy bỏ cuộc thi này.",
+        "examples": [
+          "Nên chăng dẹp cuộc thi này đi ko",
+          "Cuộc thi này lùm xùm kiện cáo, tai tiếng nhiều năm rồi nhưng nơi đứng ra tổ chức là Bộ GDĐT không chịu trách nhiệm gì.",
+          "Nghĩ cũng quá buồn, khi mà giáo dục không thể “tự làm sạch chính mình”. Cái gì cũng phải đưa còng, đưa súng đến thì mới chịu nhận sai.\n\nĐÚNG VẬY.\nGIÁO"
+        ]
+      },
+      "trung lập": {
+        "count": 0,
+        "percent": "0.0%",
+        "summary": "",
+        "examples": []
+      },
+      "ý kiến riêng": {
+        "count": 4,
+        "percent": "25.0%",
+        "summary": "Sự kiện hủy kết quả thi khoa học kỹ thuật quốc gia vì đạo nhái đã gây ra nhiều ý kiến trái chiều. Nhiều người cho rằng nguyên nhân của vấn đề là do quản lý lỏng lẻo và thiếu quy trình bắt buộc để xử lý các trường hợp vi phạm. Một số khác lại cho rằng nên tập trung vào việc khuyến khích và phát triển tài năng khoa học kỹ thuật của giới trẻ.",
+        "examples": [
+          "Ở ta muốn công an vào cuộc cũng khó, vì không có quy trình bắt buộc, nghĩa là khi có dấu hiệu vi phạm pháp luật thì công an phải bắt buộc điều tra và ",
+          "Nguyên nhân ai cũng biết, muốn xử lý thì xử chính là vấn đề quản lý",
+          "Thưa anh/chị, sáng nay tôi vừa đọc một tin về hai bạn mới 13 tuổi vừa giành được giải thưởng mấy chục ngàn USD do sáng chế về thiết bị loại vi nhựa tr"
+        ]
+      }
+    },
+    "conclusion": {
+      "focus": "",
+      "trend": ""
+    }
+  }
+}

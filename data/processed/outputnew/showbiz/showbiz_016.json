@@ -1,0 +1,84 @@
+{
+  "id_content": "showbiz_016",
+  "ten_su_kien": "Streamer Độ Mixi – gây tranh luận khi phát ngôn trên livestream về việc quản lý fan và cộng đồng game",
+  "content": "Streamer Phùng Thanh Độ, được biết đến với nghệ danh Độ Mixi, đã trở thành tâm điểm của dư luận và bị Công an TP Hà Nội, cụ thể là Phòng An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao, mời làm việc vào ngày 11/9/2025. Sự việc bắt nguồn từ một đoạn clip lan truyền trên mạng xã hội, ghi lại hình ảnh Độ Mixi sử dụng shisha tại một quán bar vào ngày 3/9/2025. Hành vi này gây tranh cãi gay gắt vì shisha là chất cấm tại Việt Nam từ ngày 1/1/2025. Ngoài ra, cơ quan chức năng cũng làm việc với anh về các phát ngôn lệch chuẩn trên mạng xã hội. Tại buổi làm việc, Độ Mixi đã thừa nhận mình là người trong clip và xác nhận việc sử dụng shisha, đồng thời giải thích rằng anh không biết shisha là chất cấm. Công an đã phân tích về việc tuân thủ pháp luật, trách nhiệm công dân và trách nhiệm xã hội của một người nổi tiếng như Độ Mixi. Công an TP Hà Nội cũng kêu gọi các KOL, KOC, influencer nâng cao ý thức trách nhiệm về văn hóa ứng xử và phát ngôn trên không gian mạng. Vụ việc đã vấp phải làn sóng chỉ trích mạnh mẽ từ dư luận, bởi Độ Mixi là một trong những streamer hàng đầu Việt Nam, sở hữu lượng người hâm mộ và theo dõi lớn, có ảnh hưởng sâu rộng đến giới trẻ. Anh sinh năm 1989, từng là nhân viên văn phòng trước khi chuyển sang làm game thủ và streamer từ năm 2017, nổi tiếng là một trong “tứ hoàng streamer” với kênh YouTube hơn 8 triệu người đăng ký và kênh TikTok 7,2 triệu người theo dõi.",
+  "actor_related": [
+    {
+      "name": "Độ Mixi",
+      "role": "Streamer/KOL"
+    }
+  ],
+  "time_event": "2025-09-11",
+  "analyzed": {
+    "total_comments": 324,
+    "emotion_stats": {
+      "Phẫn nộ": 1,
+      "Cà khịa": 10,
+      "Đồng cảm": 0,
+      "Ủng hộ": 0,
+      "Trung lập": 313
+    },
+    "toxic_stats": {
+      "total_toxic": 1,
+      "chửi bới": 0,
+      "công kích cá nhân": 1,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_016_0041",
+          "text": "viết cái bài thể hiện độ ngu",
+          "likes": 779,
+          "reply_count": 95,
+          "score": 874,
+          "emotion": "Cà khịa"
+        },
+        {
+          "comment_id": "cmt_showbiz_016_0020",
+          "text": "Những người như này  rất ảnh hưởng giới trẻ",
+          "likes": 496,
+          "reply_count": 78,
+          "score": 574,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_016_0034",
+          "text": "đó là lý do tại sao số 36, Bộ pc, \"con chó cao bằng cái ghế\", \"người dùng thread có độ ngu cao bằng người rừng\" tồn tại khắp fb t",
+          "likes": 503,
+          "reply_count": 30,
+          "score": 533,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Cà khịa": {
+          "comment_id": "cmt_showbiz_016_0041",
+          "text": "viết cái bài thể hiện độ ngu",
+          "score": 874
+        },
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_016_0020",
+          "text": "Những người như này  rất ảnh hưởng giới trẻ",
+          "score": 574
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": [
+      {
+        "comment_id": "cmt_showbiz_016_0041",
+        "text": "viết cái bài thể hiện độ ngu",
+        "thread_stats": {
+          "total": 8,
+          "emotions": {
+            "Cà khịa": 3,
+            "Trung lập": 5
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "id_content": "showbiz_020",
+  "ten_su_kien": "Mailisa – ồn ào liên quan Mailisa bị bắt do buôn lậu",
+  "content": "Vào ngày 21/11/2025, Cục Cảnh sát điều tra tội phạm về tham nhũng, kinh tế, buôn lậu (Bộ Công an) đã khởi tố vụ án \"Buôn lậu\" và bắt tạm giam bà Phan Thị Mai (biệt danh Mailisa), Giám đốc Công ty TNHH thẩm mỹ viện Mailisa, cùng chồng là ông Hoàng Kim Khánh, Tổng giám đốc công ty, và 6 đối tượng liên quan. Họ bị cáo buộc đã đặt mua mỹ phẩm giá rẻ, không đảm bảo chất lượng từ Quảng Châu (Trung Quốc), sau đó cấu kết làm giả giấy tờ để thay đổi nguồn gốc thành \"Hong Kong\" nhằm buôn lậu về Việt Nam. Các sản phẩm này được Mailisa quảng cáo là cao cấp và bán với giá cao gấp nhiều lần, thu lợi bất chính hàng nghìn tỷ đồng. Trước đó, từ ngày 13/11/2025, sự kiện Mailisa đã gây ồn ào lớn trên mạng xã hội. Thẩm mỹ viện Mailisa và các sản phẩm Doctor Magic từng vướng nhiều lùm xùm về chất lượng và đã bị xử phạt hành chính. Sau vụ bắt giữ, ngày 25/11/2025, Cục Quản lý Dược đã ra quyết định thu hồi 162 loại mỹ phẩm của Mailisa do thiếu hồ sơ thông tin sản phẩm. Chuỗi thẩm mỹ viện Mailisa cũng thông báo tạm ngừng hoạt động, khiến nhiều khách hàng lo lắng. Đáng chú ý, các fanpage giả mạo \"Mailisa hoàn tiền - thu hồi sản phẩm\" đã xuất hiện trên mạng xã hội, có dấu hiệu lừa đảo khách hàng giữa lúc vụ việc đang được điều tra. Vụ án được nhận định có tính chất phức tạp với dòng tiền lớn.",
+  "actor_related": [
+    {
+      "name": "Phan Thị Mai",
+      "role": "Giám đốc Công ty TNHH thẩm mỹ viện Mailisa"
+    },
+    {
+      "name": "Hoàng Kim Khánh",
+      "role": "Tổng giám đốc Công ty TNHH thẩm mỹ viện Mailisa"
+    },
+    {
+      "name": "Khách hàng Mailisa",
+      "role": "Người tiêu dùng"
+    }
+  ],
+  "time_event": "2025-11-21",
+  "analyzed": {
+    "total_comments": 3809,
+    "emotion_stats": {
+      "Phẫn nộ": 3,
+      "Cà khịa": 19,
+      "Đồng cảm": 0,
+      "Ủng hộ": 1,
+      "Trung lập": 3784
+    },
+    "toxic_stats": {
+      "total_toxic": 0,
+      "chửi bới": 0,
+      "công kích cá nhân": 0,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_020_3010",
+          "text": "Khi bố còn sống thì kinh tế khó khăn ko báo hiếu dc, giờ có điều kiện thì nghĩ thương bố, bù đắp bằng cách xây lăng mộ to đẹp cũng là một cách báo hiếu.",
+          "likes": 993,
+          "reply_count": 100,
+          "score": 1093,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_020_0313",
+          "text": "2700 tỷ \nviết ngắn gọn thôi shop",
+          "likes": 814,
+          "reply_count": 21,
+          "score": 835,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_020_0010",
+          "text": "Cho nốt con Ngân Collagen thách thức trang TTCP lên thớt luôn thôi các bác nhà mình ơi",
+          "likes": 775,
+          "reply_count": 0,
+          "score": 775,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Phẫn nộ": {
+          "comment_id": "cmt_showbiz_020_1714",
+          "text": "mafia",
+          "score": 0
+        },
+        "Cà khịa": {
+          "comment_id": "cmt_showbiz_020_1734",
+          "text": "MiMi Ph nhanh gọn",
+          "score": 25
+        },
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_020_3010",
+          "text": "Khi bố còn sống thì kinh tế khó khăn ko báo hiếu dc, giờ có điều kiện thì nghĩ thương bố, bù đắp bằng cách xây lăng mộ to đẹp cũng là một cách báo hiếu.",
+          "score": 1093
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": [
+      {
+        "comment_id": "cmt_showbiz_020_1701",
+        "text": "Giầu nhanh quá. Vô lý quá. Thì ch...ết là phải thôi.....!???. Các ông các bà cứ khen nó tốt nó làm từ thiện nhiều.... Chỉ có những loại ăn rồi há hốc mồm ra chờ \"sung rụng \" mới khen thôi. Đừng quên đất nước VN là một Đất nước \" sáng chắn bão giông. Chiều ngăn nắng nửa \". Một đất nước kiên cường trong chiến tranh. Quyết chí đi lên thì không dễ để mấy bọn 3que sỏ lá VNCH chống phá. Mà cả những kẻ khốn nạn trong nước cũng sẽ bị trừng phạt. Hệ thống chính trị của Việt Nam đâu phải trò đùa để chúng mày muốn làm gì thì làm. OK...",
+        "thread_stats": {
+          "total": 7,
+          "emotions": {
+            "Trung lập": 3,
+            "Phẫn nộ": 2,
+            "Cà khịa": 2
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      }
+    ]
+  }
+}

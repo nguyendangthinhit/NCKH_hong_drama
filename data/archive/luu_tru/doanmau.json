@@ -1,0 +1,105 @@
+"data  cũ" : 
+{[
+    {
+        "name": "mailisa",
+        "id_content": "showbiz_020",
+        "events": [
+            {
+                
+                "events": "2700_ti_dong",
+                "post_content": "🙀 2.700.000.000.000 đồng - là số tiền chảy vào túi vợ chồng Mailisa khi bán 3 mã sản phẩm chủ lực ra thị trường 🥲",
+                "comments": [
+                    {
+                        "text": "Hệ thống Mailisa đã phân phối hơn 8 triệu sản phẩm của gần 100 mã hàng mang thương hiệu Doctor Magic, ngoài ra, Mailisa còn kinh doanh nhiều dòng sản phẩm như kem dưỡng trắng mờ thâm căng bóng, kem phục hồi da, sữa rửa mặt, nước hoa hồng,… với mức giá từ hàng chục nghìn đến hàng triệu đồng cho mỗi sản phẩm 👉 https://s.biz.vn/4L3Q5l1\n\nTheo: Đời sống & Pháp luật",
+                        "profileName": "Kenh14.vn",
+                        "likesCount": "145",
+                        "commentsCount": 2
+                    },
+                    {
+                        "text": "2700 tỷ \nviết ngắn gọn thôi shop",
+                        "profileName": "Tâm An",
+                        "likesCount": "814",
+                        "commentsCount": 67
+                    },
+                    {
+                        "text": "CE phụ nữ công nhận tiêu tiền ác thật 😆",
+                        "profileName": "ママ レジ",
+                        "likesCount": "51",
+                        "commentsCount": 9
+                    },
+                    {
+                        "text": "ママ レジ từ xưa đến giờ rồi,kinh doanh buôn bán mặt hàng dành cho ce phụ nữ là khi nào cũng lời nhiều nhất,ce chịu chi cho làm đẹp 😅😅😅",
+                        "profileName": "Đào Minh San",
+                        "parentReply": {
+                            "author": {
+                                "__typename": "User",
+                                "name": "ママ レジ",
+                                "gender": "FEMALE",
+                                "id": "pfbid0Qn8EE1jqTRJydSkJXjcqTYz8g2J4yPTdazvrTyFUtnmn9VYwrA4fwurSecbALnoyl"
+                            },
+                            "id": "Y29tbWVudDoxMzA0NjAyOTE4MzY3MzcxXzgyNjk1MDI3MzQ3NDU2OA=="
+                        },
+                        "likesCount": "8",
+                        "commentsCount": 3
+                    },
+                    {
+                        "text": "Tâm An đúng rồi. Nãy giờ tui ngồi đếm như thế nào cho đúng số tiền nữa",
+                        "profileName": "Nhật Linh",
+                        "parentReply": {
+                            "author": {
+                                "__typename": "User",
+                                "name": "Tâm An",
+                                "gender": "MALE",
+                                "id": "100085194900960"
+                            },
+                            "id": "Y29tbWVudDoxMzA0NjAyOTE4MzY3MzcxXzExMzAzNzk0MjIyMjgzMzA="
+                        },
+                        "likesCount": "17",
+                        "commentsCount": 3
+                    }
+                ]
+            }
+        ]
+    }
+]}
+                    
+
+"datamoi":[
+    {
+        "id_content": "showbiz_001",
+        "event_name": "Bình Gold – ồn ào khi nhiều bài rap và phát ngôn trên mạng xã hội bị cho là dung tục, phản cảm và gây tranh cãi mạnh trong cộng đồng mạng",
+        "sort_mode": "most_relevant",
+        "post_content": "BÌNH GOLD VÀ LOẠT “CHIẾN TÍCH”: VAR CĂNG VỚI HIEUTHUHAI, BỊ VTV RÉO TÊN VÌ MV NHAYCAM\n\n“Bình Vàng” trở thành cái tên nóng nhất mạng xã hội sau khi bị bế vì chạy xe lạng lách, dương tính với 👻 tóe....",
+        "comments": [
+            {
+                "comment_id": "cmt_showbiz001_0001",
+                "order": 1,
+                "text": "Nhưng nhạc nó ra Chất thật :v",
+                "likes": 1,
+                "reply_count": 7,
+                "replies": [
+                    {
+                        "comment_id": "cmt_showbiz001_0001_r01",
+                        "order": 1,
+                        "reply_to_id": "cmt_showbiz001_0001",
+                        "text": "Nguyễn Phương thì chơi ma toé biểu sao ko chất! 😅",
+                        "likes": 1
+                    },
+                    {
+                        "comment_id": "cmt_showbiz001_0001_r02",
+                        "order": 2,
+                        "reply_to_id": "cmt_showbiz001_0001",
+                        "text": "Nguyễn Kỳ Anh Tú chắc chơi xong cảm xúc nó thăng hoa và ca từ bay bỗng😂",
+                        "likes": 0
+                    }]
+                },
+            {
+                "comment_id": "cmt_showbiz001_0002",
+                "order": 2,
+                "text": "Ngông cuồng",
+                "likes": 12,
+                "reply_count": 0,
+                "replies": []
+            }
+        ]
+},]

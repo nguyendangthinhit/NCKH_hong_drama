@@ -1,0 +1,45 @@
+{
+  "python_single": {
+    "education": 4.99,
+    "showbiz": 11.7,
+    "total": 16.69
+  },
+  "spark_runs": [
+    {
+      "education": 18.53,
+      "education_n_docs": 4285,
+      "showbiz": 24.24,
+      "showbiz_n_docs": 13960,
+      "total": 42.77,
+      "label": "local[1]",
+      "speedup_vs_python": 0.39
+    },
+    {
+      "education": 18.9,
+      "education_n_docs": 4285,
+      "showbiz": 19.77,
+      "showbiz_n_docs": 13960,
+      "total": 38.67,
+      "label": "local[2]",
+      "speedup_vs_python": 0.43
+    },
+    {
+      "education": 26.69,
+      "education_n_docs": 4285,
+      "showbiz": 25.27,
+      "showbiz_n_docs": 13960,
+      "total": 51.96,
+      "label": "local[4]",
+      "speedup_vs_python": 0.32
+    },
+    {
+      "education": 60.35,
+      "education_n_docs": 4285,
+      "showbiz": 62.94,
+      "showbiz_n_docs": 13960,
+      "total": 123.29,
+      "label": "local[*]",
+      "speedup_vs_python": 0.14
+    }
+  ]
+}

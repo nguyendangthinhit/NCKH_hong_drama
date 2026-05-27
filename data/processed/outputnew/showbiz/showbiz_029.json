@@ -1,0 +1,77 @@
+{
+  "id_content": "showbiz_029",
+  "ten_su_kien": "Dương Ái Vy – bị tranh cãi về chất lượng giọng hát và danh xưng “ca sĩ TikTok”",
+  "content": "Dương Ái Vy, từ một TikToker chuyên làm nội dung ngắn, đã nhanh chóng trở thành hiện tượng âm nhạc được nhắc đến nhiều nhất trên đường đua nhạc Việt, đặc biệt với ca khúc viral “Muốn cưa anh làm bồ”. Sự nổi tiếng này đã mang lại cho cô thu nhập lớn và cơ hội biểu diễn tại các sân khấu tỉnh, quán bar, và sự kiện thương mại. Tuy nhiên, song song với đó là những tranh cãi gay gắt về chất lượng giọng hát, bị cho là không đủ tiêu chuẩn để đứng sân khấu chuyên nghiệp, cùng với ca từ bị đánh giá là nhảm nhí và giai điệu đơn điệu. Thay vì chững lại để hoàn thiện kỹ năng, Dương Ái Vy tiếp tục ra mắt các ca khúc tương tự, dựa trên “công thức TikTok” gồm ca từ dễ nhớ, câu hook lặp lại, giai điệu vui tai và dễ tạo trend. Hiện tượng Dương Ái Vy không phải là cá biệt mà nằm trong xu hướng bùng nổ của các “ca sĩ tự phong” và TikToker từ miền Tây Nam Bộ như Hana Cẩm Tiên, Tuệ Ny, Dung Hoàng Phạm. Những người này thường không có nền tảng đào tạo bài bản nhưng vẫn nhanh chóng nổi tiếng nhờ TikTok và chiếm lĩnh thị trường biểu diễn. Tình trạng này đặt ra câu hỏi về khái niệm “ca sĩ” trong thời đại số và liệu TikTok có đang thúc đẩy sự ra đời của những sản phẩm âm nhạc thiên về minh họa cho clip hơn là khả năng thưởng thức thực sự.",
+  "actor_related": [
+    {
+      "name": "Dương Ái Vy",
+      "role": "nhân vật chính gây tranh cãi"
+    },
+    {
+      "name": "Hana Cẩm Tiên",
+      "role": "ca sĩ TikTok nổi lên cùng xu hướng"
+    },
+    {
+      "name": "Tuệ Ny",
+      "role": "ca sĩ TikTok nổi lên cùng xu hướng"
+    },
+    {
+      "name": "Dung Hoàng Phạm",
+      "role": "ca sĩ TikTok nổi lên cùng xu hướng"
+    }
+  ],
+  "time_event": "2025-12-06",
+  "analyzed": {
+    "total_comments": 87,
+    "emotion_stats": {
+      "Phẫn nộ": 0,
+      "Cà khịa": 0,
+      "Đồng cảm": 0,
+      "Ủng hộ": 0,
+      "Trung lập": 87
+    },
+    "toxic_stats": {
+      "total_toxic": 0,
+      "chửi bới": 0,
+      "công kích cá nhân": 0,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_029_0034",
+          "text": "Thiết nghĩ nên có quy định muốn làm ca sĩ phải tốt nghiệp trường lớp chính quy và có khả năng hát biểu diễn thật sự, mới được đi biểu diễn chứ thấy ca sĩ biểu diễn giờ chả khác gì lừa đảo khán giả.",
+          "likes": 15,
+          "reply_count": 1,
+          "score": 16,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_029_0004",
+          "text": "Mọi người ơi, góc thắc mắc ! Ca sĩ là mình tự phong hay phải được bộ văn hóa công nhận ạ",
+          "likes": 10,
+          "reply_count": 5,
+          "score": 15,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_029_0040",
+          "text": "Lòi sĩ thì được, chứ ca sĩ gì vậy tèn 😌",
+          "likes": 5,
+          "reply_count": 0,
+          "score": 5,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_029_0034",
+          "text": "Thiết nghĩ nên có quy định muốn làm ca sĩ phải tốt nghiệp trường lớp chính quy và có khả năng hát biểu diễn thật sự, mới được đi biểu diễn chứ thấy ca sĩ biểu diễn giờ chả khác gì lừa đảo khán giả.",
+          "score": 16
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": []
+  }
+}

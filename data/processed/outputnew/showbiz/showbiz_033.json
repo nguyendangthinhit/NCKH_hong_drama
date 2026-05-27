@@ -1,0 +1,111 @@
+{
+  "id_content": "showbiz_033",
+  "ten_su_kien": "Hoàng Hường bị bắt về hành vi sản xuất, buôn bán hàng giả",
+  "content": "Bài báo từ nguồn Kenh14.vn được cung cấp không chứa bất kỳ thông tin nào liên quan đến sự kiện Hoàng Hường bị bắt về hành vi sản xuất, buôn bán hàng giả. Thay vào đó, nội dung bài báo hiển thị các mục điều hướng của trang web và các tiêu đề tin tức khác như vụ BTC Vietnam's Next Top Model xin lỗi giám khảo Thi Phạm, tin tức về Hòa Minzy công khai bạn trai và Hoa hậu Thanh Thủy hẹn hò ca sĩ Trịnh Thăng Bình.",
+  "actor_related": [
+    {
+      "name": "Hoàng Hường",
+      "role": "Nhân vật chính bị cáo buộc"
+    }
+  ],
+  "time_event": "",
+  "analyzed": {
+    "total_comments": 3838,
+    "emotion_stats": {
+      "Phẫn nộ": 26,
+      "Cà khịa": 97,
+      "Đồng cảm": 5,
+      "Ủng hộ": 3,
+      "Trung lập": 3707
+    },
+    "toxic_stats": {
+      "total_toxic": 6,
+      "chửi bới": 3,
+      "công kích cá nhân": 3,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_043_1940",
+          "text": "Bà con giải thích cho bác ấy hiểu được không 😢",
+          "likes": 421,
+          "reply_count": 582,
+          "score": 1003,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_033_0001",
+          "text": "Với nhiều tiền thế thì vào tò cũng chỉ như đi nghỉ dưỡng thôi :))",
+          "likes": 700,
+          "reply_count": 234,
+          "score": 934,
+          "emotion": "Cà khịa"
+        },
+        {
+          "comment_id": "cmt_showbiz_043_1939",
+          "text": "Từ tháng 1/2021 đến tháng 6/2025: Hoàng Hường đã:\n- Để ngoài sổ sách kế toán doanh thu gần 1800 tỷ\n- Kê sai quy định thuế giá trị gia tăng doanh thu gần 2100 tỷ",
+          "likes": 796,
+          "reply_count": 0,
+          "score": 796,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Phẫn nộ": {
+          "comment_id": "cmt_showbiz_043_1220",
+          "text": "Chả nhẽ bat nguoi ta phai buon phai khóc \nVớ vẩn",
+          "score": 0
+        },
+        "Cà khịa": {
+          "comment_id": "cmt_showbiz_033_0001",
+          "text": "Với nhiều tiền thế thì vào tò cũng chỉ như đi nghỉ dưỡng thôi :))",
+          "score": 934
+        },
+        "Ủng hộ": {
+          "comment_id": "cmt_showbiz_043_1946",
+          "text": "Việc gì ra việc đó, sai đã có pháp luật, nhưng mặt tốt là Hoàng Hường làm rất nhiều việc ý nghĩa, tấm lòng hảo tâm của Hường nhất định tôi sẽ mãi ghi nhớ khi giúp rất nhiều những hoàn cảnh khó khăn, chia sẻ gánh nặng cho chính quyền và nhân dân cả nước!",
+          "score": 307
+        },
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_043_1940",
+          "text": "Bà con giải thích cho bác ấy hiểu được không 😢",
+          "score": 1003
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": [
+      {
+        "comment_id": "cmt_showbiz_033_0001",
+        "text": "Với nhiều tiền thế thì vào tò cũng chỉ như đi nghỉ dưỡng thôi :))",
+        "thread_stats": {
+          "total": 178,
+          "emotions": {
+            "Cà khịa": 85,
+            "Trung lập": 69,
+            "Phẫn nộ": 20,
+            "Ủng hộ": 1,
+            "Đồng cảm": 3
+          },
+          "toxic_count": 6,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_043_0002",
+        "text": "Nghĩ là nộp lại tiền thì đc ra ak",
+        "thread_stats": {
+          "total": 5,
+          "emotions": {
+            "Trung lập": 3,
+            "Phẫn nộ": 1,
+            "Cà khịa": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      }
+    ]
+  }
+}

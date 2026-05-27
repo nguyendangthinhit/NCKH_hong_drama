@@ -1,0 +1,65 @@
+{
+  "id_content": "showbiz_015",
+  "ten_su_kien": "Độ Mixi – hình ảnh trong chương trình Sao Nhập Ngũ bị gỡ sau khi lan truyền ồn ào liên quan việc hút shisha",
+  "content": "Hình ảnh của Streamer Độ Mixi trong chương trình Sao Nhập Ngũ đã bị gỡ hoặc cắt bớt đáng kể sau khi những ồn ào liên quan đến việc anh hút shisha lan truyền trên mạng xã hội. Phòng An ninh mạng và phòng, chống tội phạm sử dụng công nghệ cao, Công an TP Hà Nội đã tiến hành làm việc với Độ Mixi để xác minh, làm rõ. Trước đó, hình ảnh nam Streamer sử dụng chất nghi là shisha tại một quán bar đã bị đăng tải, gây ra sự lên án gay gắt từ dư luận xã hội. Hành vi này, được thực hiện bởi một KOL có ảnh hưởng lớn đến giới trẻ, bị cho là đã ảnh hưởng đến an ninh trật tự trên không gian mạng. Quá trình làm việc, Độ Mixi đã thừa nhận mình là người trong video được lan truyền và xác nhận việc sử dụng shisha vào ngày 3/9/2025. Cơ quan chức năng nhấn mạnh hành vi sử dụng shisha sẽ bị cấm tại Việt Nam từ ngày 1/1/2025. Công an đã tuyên truyền cho nam Streamer về hành vi vi phạm, cũng như vai trò và trách nhiệm của mỗi cá nhân, đặc biệt là người nổi tiếng, trong việc xây dựng môi trường không gian mạng an toàn, lành mạnh và tuân thủ pháp luật. Vụ việc hiện vẫn đang được tiếp tục xác minh, làm rõ đối với các tổ chức, cá nhân có liên quan. Công an thành phố Hà Nội cũng đề nghị các KOL, KOC, influencer nâng cao tinh thần trách nhiệm, văn hóa ứng xử và phát ngôn trên không gian mạng.",
+  "actor_related": [
+    {
+      "name": "Độ Mixi",
+      "role": "Streamer, KOL"
+    }
+  ],
+  "time_event": "2025-09-03",
+  "analyzed": {
+    "total_comments": 406,
+    "emotion_stats": {
+      "Phẫn nộ": 0,
+      "Cà khịa": 0,
+      "Đồng cảm": 0,
+      "Ủng hộ": 0,
+      "Trung lập": 406
+    },
+    "toxic_stats": {
+      "total_toxic": 0,
+      "chửi bới": 0,
+      "công kích cá nhân": 0,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_015_0062",
+          "text": "Anh này chuyên nói tục trên livetream. rất phản cảm",
+          "likes": 320,
+          "reply_count": 190,
+          "score": 510,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_015_0055",
+          "text": "Shisha mà cấm thì tốt nhất nên cấm mẹ luôn thuốc lá còn độc hơn.",
+          "likes": 165,
+          "reply_count": 199,
+          "score": 364,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_015_0001",
+          "text": "🗣️ Dit, cay nhất là mình đ’ biết shisha nó bị cấm các bạn ạ",
+          "likes": 338,
+          "reply_count": 23,
+          "score": 361,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_015_0062",
+          "text": "Anh này chuyên nói tục trên livetream. rất phản cảm",
+          "score": 510
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": []
+  }
+}

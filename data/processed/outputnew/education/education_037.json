@@ -1,0 +1,63 @@
+{
+  "id_content": "education_037",
+  "ten_su_kien": "Bộ Giáo dục lấy ý kiến về việc BỎ hình thức tuyển sinh bằng xét tuyển học bạ",
+  "content": "Bộ Giáo dục và Đào tạo đang trong quá trình lấy ý kiến về đề xuất loại bỏ hình thức xét tuyển đại học dựa trên kết quả học bạ trung học phổ thông. Thông tin này được đăng tải trên VnExpress, cho thấy một sự thay đổi tiềm năng trong quy chế tuyển sinh đại học sắp tới.",
+  "actor_related": [],
+  "time_event": "2024-12-02",
+  "analyzed": {
+    "comment_counts": {
+      "total": 579,
+      "tích_cực": 136,
+      "tiêu_cực": 165,
+      "trung_lập": 53,
+      "ý_kiến_riêng": 72,
+      "rác": 153
+    },
+    "analysis": {
+      "tích cực": {
+        "count": 136,
+        "percent": "31.9%",
+        "summary": "",
+        "examples": [
+          "Học bạ cũng là sự nổ lực của các con . Con các vị học ko giỏi bằng con ngt . Rồi các vị kiu bỏ sao . Nếu ganh tỵ sao ko kiu con học cho đẹp học bạ để ",
+          "Bỏ xét học bạ sẽ công băng hơn",
+          "Bỏ đi, nên tổ chức thi là hợp lý nhất"
+        ]
+      },
+      "tiêu cực": {
+        "count": 165,
+        "percent": "38.7%",
+        "summary": "Xu hướng chung của các bình luận tiêu biểu nhóm \"tiêu cực\" cho thấy sự không hài lòng với việc xét học bạ và thay đổi phương thức tuyển sinh. Nhiều người cho rằng thi cử là hình thức công bằng nhất và xét học bạ không đánh giá đúng năng lực của học sinh. Họ cũng cảm thấy bối rối và khó khăn với việc thay đổi quy định thường xuyên.",
+        "examples": [
+          "- Thi là hình thức công bằng nhất, các em có nền căn bản tốt không bao giờ lo việc thi cử.\n- Xét học bạ là vấn đề bất cập nhất : không đánh giá đúng đ",
+          "Mấy ông quy định gì thì có chủ trương sớm  đi, thay đổi hoài đu theo ko kịp, có con học lớp 12 như ngồi trên đống lửa, theo cá nhân tôi 05 phương thức",
+          "Trường con mình thật khó để có học bạ đẹp"
+        ]
+      },
+      "trung lập": {
+        "count": 53,
+        "percent": "12.4%",
+        "summary": "Nhiều người cho rằng việc xét tuyển IELTS nên là điểm cộng thêm, không nên là yêu cầu bắt buộc để tạo điều kiện cho các bạn ở vùng nông thôn. Họ cũng đề xuất nên có đề thi chung cho cả tỉnh hoặc cả nước nếu xét học bạ để đảm bảo công bằng. Ngoài ra, một số người cho rằng các trường nên tự cân nhắc hình thức xét tuyển phù hợp.",
+        "examples": [
+          "Kệ đi. Cứ vào học rồi biết đá biết vàng! Các trường sẽ tự cân nhắc hình thức xét tuyển phù hợp.",
+          "Mình nghĩ xét tuyển IELTS chỉ nên là điểm cộng. Sẽ thật sự khó khăn cho các bạn ở vùng nông thôn để học IELTS để xét tuyển. Việc đổi điểm IELTS sang đ",
+          "Nếu xét học bạ thì ra đề cả tỉnh hay cả nước ra cùng đề thi, vậy mới công bằng cho các em, vì mỗi trường mỗi đề độ khó dễ khác nhau, nhất là các em tr"
+        ]
+      },
+      "ý kiến riêng": {
+        "count": 72,
+        "percent": "16.9%",
+        "summary": "Nhiều người cho rằng việc xét học bạ không công bằng giữa các trường chuyên và không chuyên do mức độ khó của đề kiểm tra khác nhau. Một số đề xuất bỏ hình thức xét học bạ ở các trường chất lượng cao. Điều này cho thấy sự không đồng đều trong cách đánh giá kết quả học tập giữa các trường.",
+        "examples": [
+          "Có Giáo viên ra đề kiểm tra dễ, có giáo viên ra đề kiểm tra khó, có trường ra đề thi dễ, có trường ra đề thi khó, thì kết quả trong học bạ có giống nh",
+          "xét học bạn không công bằng cho nhóm trường chuyên và trường không chuyên, ở trường chuyên đề ktra thường khó hơn trường không chuyên, do đó điểm các ",
+          "Các trường chất lượng cao thì nên bỏ hình thức này"
+        ]
+      }
+    },
+    "conclusion": {
+      "focus": "",
+      "trend": ""
+    }
+  }
+}

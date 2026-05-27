@@ -1,0 +1,23 @@
+# GNN module dependencies
+# Local prep (chạy trên máy):
+#   - pandas, pyarrow: lưu nodes_meta.parquet
+#   - scipy, scikit-learn: TF-IDF
+#   - numpy
+#
+# Colab (extract PhoBERT + train GNN):
+#   - torch >= 2.1
+#   - transformers >= 4.40
+#   - torch-geometric >= 2.5
+
+# ----- Local -----
+numpy>=1.24
+pandas>=2.0
+pyarrow>=14
+scipy>=1.10
+scikit-learn>=1.3
+
+# ----- Colab (cài thêm trên Colab) -----
+# torch
+# transformers
+# sentencepiece
+# torch-geometric

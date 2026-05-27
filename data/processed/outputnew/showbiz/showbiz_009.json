@@ -1,0 +1,203 @@
+{
+  "id_content": "showbiz_009",
+  "ten_su_kien": "ViruSs – Ngọc Kem drama tình cảm và tố qua lại trên livestream khiến cộng đồng mạng tranh cãi mạnh",
+  "content": "Mối tình chênh lệch 11 tuổi giữa streamer ViruSs (tên thật Đặng Tiến Hoàng, sinh năm 1988) và hot girl TikToker Ngọc Kem (tên thật Trần Nguyễn Hồng Ngọc, sinh năm 1999) đã kết thúc trong ồn ào sau chưa đầy một năm hẹn hò. Dù cả hai đã chia tay được khoảng ba tháng, drama chỉ thực sự bùng nổ vào tối 20/3/2025 khi Ngọc Kem livestream 'bóc phốt' bạn trai cũ ngoại tình và đối xử không tốt. Buổi livestream này đã thu hút gần 200.000 lượt xem, trong đó Ngọc Kem tố ViruSs 'cắm sừng', phát hiện nhiều quần áo và vật dụng cá nhân của phụ nữ trong nhà anh. ViruSs đã giải thích rằng đó là đồ của nhân viên bỏ quên. Trước đó, Ngọc Kem cũng từng tiết lộ trên kênh MisThy vào tháng 8/2024 về việc ViruSs thường xuyên áp dụng 'silent treatment' (im lặng từ chối giao tiếp) khi cãi vã. Phản hồi lại các cáo buộc, ViruSs cũng livestream vào nửa đêm cùng ngày, thu hút hơn 100.000 lượt xem. Anh thừa nhận đã 'thay lòng' nhưng phủ nhận hoàn toàn các cáo buộc ngoại tình, khẳng định mình 'không sai' và thậm chí có thể 'tố ngược' Ngọc Kem. Vụ việc còn kéo theo rapper Pháo khi cô đăng tải dòng trạng thái đầy ẩn ý vào ngày 22/3/2025, làm dấy lên nghi vấn về mối quan hệ cũ với ViruSs. Tuy nhiên, phía quản lý của Pháo đã lên tiếng phủ nhận mọi tin đồn không chính xác và khẳng định sự việc không liên quan đến nữ rapper. Sự ồn ào này đã gây tranh cãi dữ dội trên mạng xã hội, đến mức Bộ Văn hóa đã phải chỉ đạo tìm hiểu vụ lùm xùm tình ái liên quan đến các nghệ sĩ và TikToker này vào ngày 31/3/2025.",
+  "actor_related": [
+    {
+      "name": "ViruSs",
+      "role": "Streamer, bạn trai cũ của Ngọc Kem"
+    },
+    {
+      "name": "Ngọc Kem",
+      "role": "Hot girl, TikToker, bạn gái cũ của ViruSs"
+    },
+    {
+      "name": "Pháo",
+      "role": "Rapper, bị kéo vào drama do nghi vấn mối quan hệ trong quá khứ"
+    },
+    {
+      "name": "MisThy",
+      "role": "Streamer, từng phỏng vấn Ngọc Kem"
+    }
+  ],
+  "time_event": "2025-03-20",
+  "analyzed": {
+    "total_comments": 773,
+    "emotion_stats": {
+      "Phẫn nộ": 13,
+      "Cà khịa": 32,
+      "Đồng cảm": 2,
+      "Ủng hộ": 0,
+      "Trung lập": 725
+    },
+    "toxic_stats": {
+      "total_toxic": 4,
+      "chửi bới": 0,
+      "công kích cá nhân": 3,
+      "công kích người thân": 1
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_009_0021",
+          "text": "Thật ra người thứ 3 ở đây cũng chính là ổng lun á. Ông này ái kỷ nên ổng chỉ yêu bản thân ổng thôi. Cạn phước lắm mới gặp đc loại ng như này :))))",
+          "likes": 606,
+          "reply_count": 14,
+          "score": 620,
+          "emotion": "Cà khịa"
+        },
+        {
+          "comment_id": "cmt_showbiz_009_0211",
+          "text": "Thấy may mắn cho bà Ngân Sát Thủ vì kh lấy phải thằng này",
+          "likes": 519,
+          "reply_count": 8,
+          "score": 527,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_009_0039",
+          "text": "Ê ko nha, t vs nyc t cũng ở chung, mà nó vẫn quen con khác từ lúc chưa ct nè :)) tại vì nó dẫn đi chỗ khác chứ có dẫn về nhà đ đâu :))",
+          "likes": 499,
+          "reply_count": 27,
+          "score": 526,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Phẫn nộ": {
+          "comment_id": "cmt_showbiz_009_0033",
+          "text": "Ngưng đăng về th lờ này đx k tr , đã 6677 rồi còn xl",
+          "score": 89
+        },
+        "Cà khịa": {
+          "comment_id": "cmt_showbiz_009_0021",
+          "text": "Thật ra người thứ 3 ở đây cũng chính là ổng lun á. Ông này ái kỷ nên ổng chỉ yêu bản thân ổng thôi. Cạn phước lắm mới gặp đc loại ng như này :))))",
+          "score": 620
+        },
+        "Đồng cảm": {
+          "comment_id": "cmt_showbiz_009_0020",
+          "text": "Tỏ ra rất thâm tình và đóng vai \"nạn nhân\" nhưng lại là người làm tổn thương sâu sắc nhất...đấy là mình từng gặp vậy, ông này mình ko biết :)) thấy văn vở quen quen hoy, chắc \"văn mẫu\"",
+          "score": 25
+        },
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_009_0211",
+          "text": "Thấy may mắn cho bà Ngân Sát Thủ vì kh lấy phải thằng này",
+          "score": 527
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": [
+      {
+        "comment_id": "cmt_showbiz_009_0009",
+        "text": "Chuyện này đúng sai phải chờ bằng chứng cụ thể chứ nhiều người chưa gì đã nhảy vào nói VR rồi. Nhưng mà hồi trước xem chương trình thấy 2 người chia sẻ thì thấy Ngọc Kem có 1 điểm đối lập với VR là tình yêu bị kiểu trẻ con quá. Kiểu rảnh rảnh nt cho VR rồi chờ tin nhắn xong thắc mắc sao ảnh k rep mình, kiểu muốn VR chú ý đến mình. Trong khi người như VR giờ này kiêm bao nhiêu job thế thì bận tối tăm mặt mũi làm sao đáp ứng những yêu cầu như thế được. Ngoài ra mối quan hệ này Ngọc Kem có vẻ lụy VR chứ VR thì k lụy Ngọc Kem. Nên nếu k thích nữa thì chia tay rồi quen ai thì quen chứ việc gì phải ngoại tình cho xấu mặt ra. Đằng nào mới là ny chứ đã phải kết hôn hay gì đâu",
+        "thread_stats": {
+          "total": 16,
+          "emotions": {
+            "Trung lập": 5,
+            "Cà khịa": 8,
+            "Phẫn nộ": 3
+          },
+          "toxic_count": 1,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_009_0016",
+        "text": "Ê trên nhóm có 1 bạn ck mang tiền về nhà hàng tháng luôn, ko giữ tí nào , bồ biết có vk con mà bồ còn cho tiền để yêu nhau luôn á chứ \nT là t ko thích khứa này trước giờ",
+        "thread_stats": {
+          "total": 2,
+          "emotions": {
+            "Phẫn nộ": 1,
+            "Trung lập": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_009_0021",
+        "text": "Thật ra người thứ 3 ở đây cũng chính là ổng lun á. Ông này ái kỷ nên ổng chỉ yêu bản thân ổng thôi. Cạn phước lắm mới gặp đc loại ng như này :))))",
+        "thread_stats": {
+          "total": 7,
+          "emotions": {
+            "Cà khịa": 4,
+            "Ứng hộ": 1,
+            "Đồng cảm": 1,
+            "Phẫn nộ": 1
+          },
+          "toxic_count": 1,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_009_0022",
+        "text": "Sống như hạch xong chia tay y như rằng nó đóng vai tình nghĩa với nhận hết lỗi về phần nó! Ko suy nghĩ ra được kịch bản khác hả",
+        "thread_stats": {
+          "total": 2,
+          "emotions": {
+            "Phẫn nộ": 1,
+            "Trung lập": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_009_0023",
+        "text": "Thì tính ra hồi ck cũ t nó chưa xoá hình 2 đứa trên fb nó vẫn ngoại tình được mà :)))",
+        "thread_stats": {
+          "total": 2,
+          "emotions": {
+            "Cà khịa": 1,
+            "Trung lập": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_009_0027",
+        "text": "Có tk l nào cắm sừng nhận mình cắm sừng đâu :)",
+        "thread_stats": {
+          "total": 11,
+          "emotions": {
+            "Trung lập": 6,
+            "Cà khịa": 3,
+            "Phẫn nộ": 2
+          },
+          "toxic_count": 2,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_009_0034",
+        "text": "Kèo thơm thì mình sẽ chịu đựng đc vr mình hiểu ảnh ntn ntk nên mới quen\nKo thơm thì quay ra bóc mẽ🐧",
+        "thread_stats": {
+          "total": 8,
+          "emotions": {
+            "Trung lập": 5,
+            "Phẫn nộ": 1,
+            "Cà khịa": 2
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_009_0206",
+        "text": "nghe nhạc giải trí đi mn",
+        "thread_stats": {
+          "total": 9,
+          "emotions": {
+            "Trung lập": 6,
+            "Phẫn nộ": 1,
+            "Cà khịa": 2
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      }
+    ]
+  }
+}

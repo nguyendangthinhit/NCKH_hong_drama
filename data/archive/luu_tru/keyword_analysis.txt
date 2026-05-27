@@ -1,0 +1,72 @@
+DRAMA INTELLIGENCE SYSTEM — KEYWORD FREQUENCY ANALYSIS
+Phân tích từ/cụm từ xuất hiện nhiều nhất trong bình luận
+
+============================================================
+  TOP 10 TỪ/CỤM TỪ — EDUCATION
+============================================================
+
+ 1. "học"
+    Tổng: 552 lần | Chi tiết: [education_007: 137, education_020: 105, education_037: 81, education_005: 78, education_009: 33, education_040: 33, education_017: 25, education_038: 21, education_018: 17, education_011: 9, education_016: 7, education_001: 1, education_004: 1, education_013: 1, education_015: 1, education_019: 1, education_039: 1]
+
+ 2. "thi"
+    Tổng: 473 lần | Chi tiết: [education_017: 218, education_020: 90, education_037: 80, education_005: 30, education_016: 20, education_007: 17, education_009: 5, education_018: 3, education_040: 3, education_001: 2, education_038: 2, education_011: 1, education_014: 1, education_015: 1]
+
+ 3. "rồi"
+    Tổng: 354 lần | Chi tiết: [education_007: 45, education_011: 45, education_017: 41, education_020: 41, education_037: 33, education_009: 32, education_018: 28, education_005: 21, education_004: 17, education_040: 11, education_015: 9, education_038: 8, education_039: 6, education_010: 5, education_016: 5, education_013: 3, education_001: 2, education_014: 1, education_019: 1]
+
+ 4. "trường"
+    Tổng: 294 lần | Chi tiết: [education_037: 49, education_018: 43, education_011: 29, education_004: 27, education_007: 26, education_009: 26, education_005: 24, education_015: 20, education_039: 12, education_016: 11, education_040: 11, education_020: 10, education_017: 3, education_038: 2, education_010: 1]
+
+ 5. "năm"
+    Tổng: 249 lần | Chi tiết: [education_007: 79, education_017: 31, education_020: 28, education_018: 24, education_037: 24, education_009: 15, education_016: 11, education_004: 8, education_040: 6, education_038: 5, education_039: 5, education_005: 3, education_011: 3, education_002: 2, education_019: 2, education_001: 1, education_013: 1, education_015: 1]
+
+ 6. "nhiều"
+    Tổng: 232 lần | Chi tiết: [education_007: 31, education_011: 30, education_005: 29, education_009: 26, education_037: 20, education_016: 19, education_017: 19, education_020: 14, education_040: 10, education_018: 9, education_004: 8, education_015: 8, education_001: 3, education_010: 2, education_039: 2, education_014: 1, education_038: 1]
+
+ 7. "thêm"
+    Tổng: 204 lần | Chi tiết: [education_005: 84, education_007: 21, education_037: 21, education_020: 19, education_016: 18, education_009: 12, education_017: 8, education_011: 5, education_018: 5, education_004: 4, education_038: 3, education_040: 2, education_013: 1, education_039: 1]
+
+ 8. "giáo dục"
+    Tổng: 203 lần | Chi tiết: [education_007: 45, education_011: 43, education_009: 41, education_004: 14, education_017: 14, education_005: 9, education_020: 9, education_037: 7, education_001: 6, education_016: 3, education_019: 3, education_040: 3, education_015: 2, education_038: 2, education_018: 1, education_039: 1]
+
+ 9. "thầy"
+    Tổng: 203 lần | Chi tiết: [education_011: 116, education_009: 32, education_004: 23, education_007: 9, education_005: 8, education_020: 4, education_010: 2, education_037: 2, education_038: 2, education_001: 1, education_016: 1, education_017: 1, education_018: 1, education_039: 1]
+
+10. "chứ"
+    Tổng: 202 lần | Chi tiết: [education_007: 33, education_005: 30, education_020: 25, education_009: 21, education_011: 20, education_017: 18, education_037: 15, education_018: 9, education_040: 9, education_004: 5, education_016: 5, education_039: 4, education_013: 2, education_014: 2, education_015: 2, education_019: 2]
+
+
+
+============================================================
+  TOP 10 TỪ/CỤM TỪ — SHOWBIZ
+============================================================
+
+ 1. "tiền"
+    Tổng: 1423 lần | Chi tiết: [showbiz_020: 497, showbiz_043: 381, showbiz_044: 314, showbiz_019: 43, showbiz_013: 26, showbiz_009: 22, showbiz_021: 21, showbiz_012: 17, showbiz_004: 13, showbiz_011: 13, showbiz_024: 12, showbiz_023: 10, showbiz_030: 10, showbiz_034: 9, showbiz_032: 7, showbiz_006: 6, showbiz_008: 5, showbiz_007: 4, showbiz_015: 3, showbiz_018: 3, showbiz_029: 3, showbiz_025: 2, showbiz_017: 1, showbiz_033: 1]
+
+ 2. "rồi"
+    Tổng: 1411 lần | Chi tiết: [showbiz_043: 315, showbiz_044: 309, showbiz_020: 293, showbiz_019: 68, showbiz_009: 43, showbiz_018: 42, showbiz_030: 39, showbiz_007: 30, showbiz_008: 29, showbiz_011: 27, showbiz_023: 27, showbiz_004: 24, showbiz_012: 22, showbiz_024: 22, showbiz_032: 19, showbiz_013: 18, showbiz_021: 16, showbiz_006: 15, showbiz_025: 10, showbiz_014: 8, showbiz_015: 7, showbiz_016: 7, showbiz_022: 7, showbiz_029: 6, showbiz_010: 5, showbiz_001: 1, showbiz_005: 1, showbiz_034: 1]
+
+ 3. "nhiều"
+    Tổng: 1037 lần | Chi tiết: [showbiz_043: 291, showbiz_020: 240, showbiz_044: 225, showbiz_018: 38, showbiz_019: 37, showbiz_012: 23, showbiz_009: 19, showbiz_021: 17, showbiz_024: 16, showbiz_004: 15, showbiz_006: 13, showbiz_007: 13, showbiz_008: 12, showbiz_023: 12, showbiz_032: 11, showbiz_011: 10, showbiz_013: 10, showbiz_030: 9, showbiz_015: 8, showbiz_025: 6, showbiz_005: 2, showbiz_010: 2, showbiz_029: 2, showbiz_034: 2, showbiz_016: 1, showbiz_017: 1, showbiz_022: 1, showbiz_033: 1]
+
+ 4. "mới"
+    Tổng: 665 lần | Chi tiết: [showbiz_044: 135, showbiz_020: 133, showbiz_043: 89, showbiz_024: 36, showbiz_018: 31, showbiz_007: 29, showbiz_012: 29, showbiz_009: 23, showbiz_004: 22, showbiz_008: 20, showbiz_030: 16, showbiz_006: 13, showbiz_019: 13, showbiz_023: 12, showbiz_032: 12, showbiz_011: 11, showbiz_021: 10, showbiz_013: 8, showbiz_022: 6, showbiz_015: 5, showbiz_029: 4, showbiz_025: 3, showbiz_001: 2, showbiz_014: 2, showbiz_010: 1]
+
+ 5. "mấy"
+    Tổng: 657 lần | Chi tiết: [showbiz_020: 151, showbiz_044: 109, showbiz_043: 103, showbiz_018: 50, showbiz_009: 39, showbiz_019: 33, showbiz_011: 20, showbiz_013: 19, showbiz_004: 17, showbiz_007: 16, showbiz_008: 14, showbiz_032: 14, showbiz_024: 13, showbiz_021: 9, showbiz_016: 7, showbiz_023: 7, showbiz_015: 6, showbiz_012: 5, showbiz_014: 5, showbiz_030: 5, showbiz_006: 4, showbiz_010: 3, showbiz_029: 3, showbiz_005: 2, showbiz_017: 1, showbiz_022: 1, showbiz_025: 1]
+
+ 6. "chứ"
+    Tổng: 575 lần | Chi tiết: [showbiz_020: 118, showbiz_043: 113, showbiz_044: 79, showbiz_018: 32, showbiz_009: 29, showbiz_019: 24, showbiz_030: 21, showbiz_007: 18, showbiz_008: 16, showbiz_023: 14, showbiz_024: 13, showbiz_013: 12, showbiz_021: 12, showbiz_011: 10, showbiz_012: 9, showbiz_032: 9, showbiz_004: 8, showbiz_006: 8, showbiz_010: 8, showbiz_022: 6, showbiz_029: 6, showbiz_025: 4, showbiz_015: 2, showbiz_001: 1, showbiz_005: 1, showbiz_014: 1, showbiz_017: 1]
+
+ 7. "giờ"
+    Tổng: 507 lần | Chi tiết: [showbiz_020: 130, showbiz_044: 119, showbiz_043: 59, showbiz_019: 23, showbiz_007: 20, showbiz_018: 18, showbiz_012: 17, showbiz_008: 14, showbiz_009: 14, showbiz_006: 12, showbiz_013: 12, showbiz_030: 12, showbiz_004: 8, showbiz_011: 8, showbiz_023: 7, showbiz_010: 6, showbiz_024: 6, showbiz_014: 5, showbiz_021: 4, showbiz_029: 4, showbiz_032: 4, showbiz_005: 2, showbiz_015: 1, showbiz_016: 1, showbiz_022: 1]
+
+ 8. "cười"
+    Tổng: 503 lần | Chi tiết: [showbiz_043: 412, showbiz_020: 15, showbiz_013: 12, showbiz_032: 12, showbiz_008: 11, showbiz_044: 9, showbiz_018: 8, showbiz_010: 6, showbiz_007: 4, showbiz_030: 4, showbiz_019: 2, showbiz_023: 2, showbiz_006: 1, showbiz_009: 1, showbiz_011: 1, showbiz_021: 1, showbiz_022: 1, showbiz_029: 1]
+
+ 9. "lắm"
+    Tổng: 478 lần | Chi tiết: [showbiz_043: 115, showbiz_044: 94, showbiz_020: 93, showbiz_018: 46, showbiz_019: 18, showbiz_008: 15, showbiz_009: 11, showbiz_004: 8, showbiz_007: 8, showbiz_013: 8, showbiz_023: 8, showbiz_024: 8, showbiz_032: 8, showbiz_030: 7, showbiz_011: 6, showbiz_012: 5, showbiz_010: 4, showbiz_014: 3, showbiz_015: 3, showbiz_025: 3, showbiz_021: 2, showbiz_022: 2, showbiz_029: 2, showbiz_006: 1]
+
+10. "chưa"
+    Tổng: 473 lần | Chi tiết: [showbiz_020: 109, showbiz_044: 81, showbiz_043: 77, showbiz_018: 21, showbiz_007: 19, showbiz_030: 18, showbiz_009: 17, showbiz_011: 17, showbiz_019: 15, showbiz_023: 15, showbiz_008: 14, showbiz_032: 13, showbiz_012: 9, showbiz_013: 9, showbiz_006: 7, showbiz_004: 6, showbiz_015: 4, showbiz_021: 4, showbiz_022: 4, showbiz_024: 4, showbiz_005: 3, showbiz_010: 2, showbiz_014: 2, showbiz_025: 2, showbiz_034: 1]

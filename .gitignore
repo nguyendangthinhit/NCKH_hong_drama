@@ -1,55 +1,81 @@
-<<<<<<< HEAD
-# Google credentials (local only)
+# ============================================================
+# NCKH Hong Drama — .gitignore
+# Khóa: API keys, credentials, plans, docs báo cáo, .claude, _tmp, _colab
+# Cho phép: toàn bộ data/ (raw, processed, gnn, gnn-result, ...)
+# ============================================================
+
+# -------- Secrets / API / Credentials --------
+.env
+.env.*
+!.env.example
+*.env
+
+# Service accounts / OAuth tokens
+creadentials/
+credentials/
 credentials.json
-
-# local folders
+credentials_*.json
 secrets/
-local_data/
+*_secret*
+*_credentials*
+api_key*
+API_KEY*
+API_KEYS*
 
+# API endpoint / token dạng txt
+api*.txt
+serving/api/
+ingestion/cao_fb/api.txt
 
-# Python
+# n8n workflows export — chứa hardcoded Gemini keys
+ingestion/n8n/
+
+# Google OAuth refresh tokens / FB session
+**/session/fb_session.json
+**/session/*.json
+
+# -------- Plans / Reports / Docs báo cáo --------
+plans/
+docs/reports/
+*.docx
+
+# -------- Claude / IDE --------
+.claude/
+.vscode/
+.idea/
+.cursor/
+
+# -------- Tmp / Colab snapshot / Zip --------
+_tmp/
+_colab/
+*.zip
+
+# -------- Python --------
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+*.egg-info/
+build/
+dist/
 
-# Virtual environment
+# Virtualenvs
 venv/
 .venv/
 env/
 ENV/
 
+# -------- Node (dashboard, code_web) --------
+node_modules/
 
-# OS files
+# -------- OS --------
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Logs
+# -------- Logs --------
 *.log
 
-# Build
-build/
-dist/
-*.egg-info/
-
-api*.txt
-
-credentials_*.json
-.env
-API_KEY
-@"
-venv/
-.venv/
-__pycache__/
-*.pyc
-.env
-.vscode/
-"@ > .gitignore
-
-API_KEYS
-creadentials
-luu_tru
-outputnew
-full 
-n8n
-genera.py
+# -------- KHÔNG ignore data --------
+!data/
+!data/**

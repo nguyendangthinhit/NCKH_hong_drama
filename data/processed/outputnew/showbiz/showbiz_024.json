@@ -1,0 +1,69 @@
+{
+  "id_content": "showbiz_024",
+  "ten_su_kien": "Nhà thiết kế Nguyễn Công Trí – vướng bê bối pháp lý liên quan chất cấm khiến giới thời trang và showbiz Việt chấn động",
+  "content": "Nhà thiết kế (NTK) Nguyễn Công Trí đã vướng vào bê bối pháp lý nghiêm trọng khi bị bắt giữ vì cáo buộc liên quan đến hành vi mua bán, tổ chức sử dụng trái phép chất ma túy. Thông tin này đã gây chấn động mạnh trong giới thời trang và showbiz Việt. Cùng bị bắt với Nguyễn Công Trí còn có Trần Phú Long. Đại diện Sở Văn hóa – Thể thao TP.HCM và Cục Nghệ thuật biểu diễn đều khẳng định rằng nghệ sĩ, người nổi tiếng cũng là công dân và sẽ bị xử lý nghiêm minh theo pháp luật khi vi phạm. Vụ việc của Nguyễn Công Trí cũng gợi nhắc đến một số trường hợp sao Việt khác từng dính líu đến ma túy như diễn viên Hữu Tín, ca sĩ Chi Dân, người mẫu An Tây. Với cáo buộc này, NTK Công Trí có thể đối diện với các mức án hình sự nghiêm khắc. Sự việc đã ảnh hưởng đến hình ảnh cá nhân và hoạt động kinh doanh tại cửa hàng của anh, theo chia sẻ từ nhân viên.",
+  "actor_related": [
+    {
+      "name": "Nguyễn Công Trí",
+      "role": "Nhà thiết kế"
+    },
+    {
+      "name": "Trần Phú Long",
+      "role": "Người liên quan, bị bắt cùng"
+    }
+  ],
+  "time_event": "2025-07-23",
+  "analyzed": {
+    "total_comments": 399,
+    "emotion_stats": {
+      "Phẫn nộ": 0,
+      "Cà khịa": 0,
+      "Đồng cảm": 0,
+      "Ủng hộ": 0,
+      "Trung lập": 399
+    },
+    "toxic_stats": {
+      "total_toxic": 0,
+      "chửi bới": 0,
+      "công kích cá nhân": 0,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_024_0269",
+          "text": "Tài năng của anh đã dc trả công xứng đáng bằng tiền rồi, ko nợ nầng gì nhau cả, sai phạm thì phải trả giá thôi.",
+          "likes": 359,
+          "reply_count": 14,
+          "score": 373,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_024_0001",
+          "text": "Công Trí Công Trí\nKhông chơi hơi phí \nChơi vào hết ý\nThiết kế thâm thuý !!!",
+          "likes": 182,
+          "reply_count": 7,
+          "score": 189,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_024_0260",
+          "text": "Tài năng gì thì cũng phải đi cùng nhân cách chứ .Người có danh không thể băng hoại được .Phải làm gương cho lớp trẻ noi theo .Nếu ai cũng buông thả như thế , xã hội đi về đâu .",
+          "likes": 156,
+          "reply_count": 6,
+          "score": 162,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_024_0269",
+          "text": "Tài năng của anh đã dc trả công xứng đáng bằng tiền rồi, ko nợ nầng gì nhau cả, sai phạm thì phải trả giá thôi.",
+          "score": 373
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": []
+  }
+}

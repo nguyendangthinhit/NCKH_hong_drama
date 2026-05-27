@@ -1,0 +1,77 @@
+{
+  "id_content": "showbiz_013",
+  "ten_su_kien": "Phạm Thoại – bị tranh cãi về hoạt động quyên góp từ thiện liên quan trường hợp “mẹ bé Bắp”",
+  "content": "Sự kiện bắt đầu vào tháng 11/2024 khi TikToker Phạm Thoại kêu gọi cộng đồng quyên góp hỗ trợ bé Bắp (Minh Hải), một bệnh nhi ung thư máu đang trong tình trạng nguy kịch, với chi phí điều trị dự kiến tại Trung Quốc lên đến 4-7 tỷ đồng. Phạm Thoại đã sử dụng một ứng dụng công nghệ để gây quỹ, và tổng số tiền quyên góp lên đến hơn 16.7 tỷ đồng. Đến tháng 2/2025, tranh cãi gay gắt bùng lên trên mạng xã hội khi cộng đồng mạng phát hiện tài khoản gây quỹ chỉ còn lại khoảng 54.7 triệu đồng, và đặt ra nghi vấn về tính minh bạch trong việc sử dụng số tiền này. Mẹ bé Bắp, bà Lê Thị Thu Hòa, ban đầu có những phát ngôn gây bức xúc khi cho rằng tiền quyên góp là tự nguyện và không cần sao kê hay giải trình chi tiết. Trước áp lực lớn từ dư luận, tối ngày 25/2/2025, Phạm Thoại cùng mẹ bé Bắp đã livestream công khai các giao dịch và hóa đơn liên quan, thu hút hàng trăm nghìn người theo dõi, tuy nhiên vẫn chưa hoàn toàn xoa dịu được sự hoài nghi. Vụ việc thu hút sự quan tâm của các cơ quan chức năng. Thiếu tướng Tô Cao Lanh, Phó Cục trưởng C02 Bộ Công an, khẳng định lực lượng công an đang theo dõi sát sao và nhấn mạnh các hoạt động từ thiện phải tuân thủ Nghị định số 93/2021/NĐ-CP về vận động, tiếp nhận, phân phối và sử dụng các nguồn đóng góp từ thiện. Các luật sư cũng đưa ra ý kiến về quyền của người ủng hộ khi yêu cầu công khai, minh bạch và khả năng tố giác đến cơ quan công an nếu phát hiện dấu hiệu vi phạm. Tháng 4/2025, bé Bắp qua đời. Đến ngày 24/7/2025, Cơ quan cảnh sát điều tra Công an tỉnh Khánh Hòa chính thức công bố kết luận điều tra, khẳng định bà Lê Thị Thu Hòa (mẹ bé Bắp) không có dấu hiệu phạm tội trong quá trình kêu gọi và sử dụng tiền từ thiện. Ngay sau đó, TikToker Phạm Thoại đã lên tiếng sau nhiều tháng im lặng, bày tỏ sự nhẹ nhõm khi kết quả điều tra được công bố, gửi lời cảm ơn đến cơ quan chức năng và xin lỗi những người đã bị kéo vào ồn ào không đáng có.",
+  "actor_related": [
+    {
+      "name": "Phạm Thoại",
+      "role": "TikToker, người kêu gọi quyên góp"
+    },
+    {
+      "name": "Lê Thị Thu Hòa",
+      "role": "Mẹ bé Bắp, người nhận tiền quyên góp"
+    },
+    {
+      "name": "Bé Bắp (Minh Hải)",
+      "role": "Bệnh nhi ung thư máu, đối tượng được quyên góp (đã qua đời)"
+    },
+    {
+      "name": "Nguyễn Đức Liên",
+      "role": "Chuyên gia về từ thiện"
+    }
+  ],
+  "time_event": "2025-07-24",
+  "analyzed": {
+    "total_comments": 342,
+    "emotion_stats": {
+      "Phẫn nộ": 0,
+      "Cà khịa": 0,
+      "Đồng cảm": 0,
+      "Ủng hộ": 0,
+      "Trung lập": 342
+    },
+    "toxic_stats": {
+      "total_toxic": 0,
+      "chửi bới": 0,
+      "công kích cá nhân": 0,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_013_0205",
+          "text": "tôi trộn cơm cho chó đôi khi còn đớp vài thìa nữa là ...🙂",
+          "likes": 242,
+          "reply_count": 24,
+          "score": 266,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_013_0211",
+          "text": "nói thật là t đút cơm cho cháu ăn t cũng đớp đc vài thìa nói gì đến mẹ bắp =)))",
+          "likes": 144,
+          "reply_count": 14,
+          "score": 158,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_013_0033",
+          "text": "Sau khi nhìn mặt con mẹ này cùng drama, thấy Đờm Vĩnh Biệt với HL14 cũng bớt ghét phần nào.",
+          "likes": 106,
+          "reply_count": 12,
+          "score": 118,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_013_0205",
+          "text": "tôi trộn cơm cho chó đôi khi còn đớp vài thìa nữa là ...🙂",
+          "score": 266
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": []
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "id_content": "showbiz_017",
+  "ten_su_kien": "TikToker Hải Sen – bị bắt do buôn bán thực phẩm giả",
+  "content": "TikToker Lê Văn Hải (Hải Sen, sinh năm 1995 tại Ninh Bình), chủ kênh “Gia đình Hải Sen” nổi tiếng trên các nền tảng mạng xã hội với 2,6 triệu lượt theo dõi, cùng với Trần Đại Phúc, Giám đốc Công ty TNHH Hải Bé, đã bị Cơ quan Cảnh sát điều tra Công an tỉnh Ninh Bình khởi tố và bắt tạm giam vào chiều ngày 15 tháng 6 năm 2025. Cả hai bị điều tra về hành vi buôn bán hàng giả là thực phẩm chức năng và mỹ phẩm. Cuộc điều tra bắt đầu khi Công an tỉnh Ninh Bình phát hiện tài khoản TikTok của Hải Sen rao bán nhiều sản phẩm có dấu hiệu vi phạm, đặc biệt là sản phẩm “Siro ăn ngon Hải Bé” nhận nhiều phản hồi tiêu cực. Qua kiểm tra trụ sở Công ty TNHH Hải Bé tại xã Văn Phú, huyện Nho Quan (Ninh Bình), cơ quan chức năng đã thu giữ hàng loạt mỹ phẩm và thực phẩm chức năng không rõ nguồn gốc, không có hóa đơn, chứng từ hợp lệ. Kết quả giám định cho thấy “Siro ăn ngon Hải Bé” chỉ đạt dưới 70% hàm lượng các thành phần công bố như Vitamin A, Canxi, Vitamin C, không đáp ứng quy định chất lượng theo Nghị định 98/2020/NĐ-CP và được xác định là hàng giả. Từ năm 2024 đến thời điểm bị bắt, Công ty TNHH Hải Bé đã bán ra hơn 800.000 sản phẩm qua TikTok Shop, Shopee và Facebook dưới các thương hiệu như “Gia đình Hải Sen”, “Hải Sen Vlog”, trong đó có hơn 100.000 hộp “Siro ăn ngon Hải Bé”. Ngoài hoạt động kinh doanh, Lê Văn Hải còn được biết đến qua việc tổ chức các khóa học xây dựng kênh TikTok với học phí lên đến 100 triệu đồng. Anh thường xuyên khoe cuộc sống giàu có với nhà lầu, xe sang (Mazda, Mercedes GLC 300, Lexus 350) trên mạng xã hội. Tuy nhiên, các video của anh cũng nhiều lần gây tranh cãi vì nội dung bị cho là phản cảm, phi thực tế, thậm chí có sự tham gia của con gái nhỏ với những câu thoại hỗn hào. Sau khi vụ việc bị phanh phui, toàn bộ video trên kênh TikTok “Gia đình Hải Sen” đã bị ẩn, trang Facebook với 2,3 triệu người theo dõi cũng bị khóa. Nhiều học viên từng tham gia khóa học của Hải Sen, như TikToker Nhung Cận Natural, đang phải đối mặt với sự công kích từ cộng đồng mạng và bị ảnh hưởng uy tín. Trước khi bị bắt, Lê Văn Hải đã dừng đăng video từ đầu tháng 5 năm 2025, thông báo đang phối hợp làm việc với cơ quan chức năng.",
+  "actor_related": [
+    {
+      "name": "Lê Văn Hải (Hải Sen)",
+      "role": "TikToker, chủ kênh 'Gia đình Hải Sen', thành viên góp vốn Công ty TNHH Hải Bé"
+    },
+    {
+      "name": "Trần Đại Phúc",
+      "role": "Giám đốc Công ty TNHH Hải Bé"
+    },
+    {
+      "name": "Nhung Cận Natural",
+      "role": "Học viên của Hải Sen"
+    }
+  ],
+  "time_event": "2025-06-15",
+  "analyzed": {
+    "total_comments": 32,
+    "emotion_stats": {
+      "Phẫn nộ": 0,
+      "Cà khịa": 0,
+      "Đồng cảm": 0,
+      "Ủng hộ": 0,
+      "Trung lập": 32
+    },
+    "toxic_stats": {
+      "total_toxic": 0,
+      "chửi bới": 0,
+      "công kích cá nhân": 0,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_017_0076",
+          "text": "Thấy trên video có cỗ thì các bác hàng xóm ăn nhiệt tình thế mà k mua hàng ủng hộ ah",
+          "likes": 43,
+          "reply_count": 2,
+          "score": 45,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_017_0075",
+          "text": "muỗi đốt inox , kiếm vài chục tỷ , đi vài năm về , xong nghĩa vụ , khổ bao nhiêu bà mẹ mua cho con dùng , nó âm ỷ trong ng , hại gan hại thận , nhg đứa trẻ là ng chịu đau thương nhất",
+          "likes": 36,
+          "reply_count": 4,
+          "score": 40,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_017_0085",
+          "text": "Còn thằng cú đấm thép nữa !?",
+          "likes": 28,
+          "reply_count": 5,
+          "score": 33,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_017_0076",
+          "text": "Thấy trên video có cỗ thì các bác hàng xóm ăn nhiệt tình thế mà k mua hàng ủng hộ ah",
+          "score": 45
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": []
+  }
+}

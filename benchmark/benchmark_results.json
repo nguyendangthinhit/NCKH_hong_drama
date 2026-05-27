@@ -1,0 +1,70 @@
+{
+  "scales": [
+    {
+      "scale": 1,
+      "python_single": 26.66,
+      "runs": [
+        {
+          "education": 18.64,
+          "education_n_docs": 7660,
+          "showbiz": 30.25,
+          "showbiz_n_docs": 24097,
+          "total": 48.89,
+          "label": "local[1]",
+          "speedup_vs_python": 0.55
+        },
+        {
+          "education": 24.13,
+          "education_n_docs": 7660,
+          "showbiz": 29.93,
+          "showbiz_n_docs": 24097,
+          "total": 54.06,
+          "label": "local[4]",
+          "speedup_vs_python": 0.49
+        },
+        {
+          "education": 24.5,
+          "education_n_docs": 7660,
+          "showbiz": 28.6,
+          "showbiz_n_docs": 24097,
+          "total": 53.1,
+          "label": "local[*]",
+          "speedup_vs_python": 0.5
+        }
+      ]
+    },
+    {
+      "scale": 3,
+      "python_single": 82.19,
+      "runs": [
+        {
+          "education": 34.05,
+          "education_n_docs": 22980,
+          "showbiz": 71.5,
+          "showbiz_n_docs": 72291,
+          "total": 105.55,
+          "label": "local[1]",
+          "speedup_vs_python": 0.78
+        },
+        {
+          "education": 30.16,
+          "education_n_docs": 22980,
+          "showbiz": 49.34,
+          "showbiz_n_docs": 72291,
+          "total": 79.5,
+          "label": "local[4]",
+          "speedup_vs_python": 1.03
+        },
+        {
+          "education": 63.1,
+          "education_n_docs": 22980,
+          "showbiz": 74.41,
+          "showbiz_n_docs": 72291,
+          "total": 137.51,
+          "label": "local[*]",
+          "speedup_vs_python": 0.6
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,192 @@
+{
+  "id_content": "showbiz_034",
+  "ten_su_kien": "Shark Bình từ 'cá mập' đến tội phạm lừa đảo, rửa tiền",
+  "content": "Bài báo có tiêu đề 'Shark Bình từ 'cá mập' đến tội phạm lừa đảo, rửa tiền' đề cập đến các cáo buộc hình sự liên quan đến hoạt động lừa đảo và rửa tiền đối với nhân vật Shark Bình. Tuy nhiên, nội dung chi tiết của bài báo không được cung cấp trong dữ liệu đầu vào, do đó không thể tổng hợp sâu hơn về diễn biến cụ thể của sự kiện, các bên liên quan hay chi tiết về các cáo buộc được nêu.",
+  "actor_related": [
+    {
+      "name": "Shark Bình",
+      "role": "Nhân vật chính bị cáo buộc"
+    }
+  ],
+  "time_event": "2026-03-23",
+  "analyzed": {
+    "total_comments": 3090,
+    "emotion_stats": {
+      "Phẫn nộ": 33,
+      "Cà khịa": 58,
+      "Đồng cảm": 6,
+      "Ủng hộ": 1,
+      "Trung lập": 2991
+    },
+    "toxic_stats": {
+      "total_toxic": 8,
+      "chửi bới": 8,
+      "công kích cá nhân": 0,
+      "công kích người thân": 0
+    },
+    "top_comments": {
+      "most_popular": [
+        {
+          "comment_id": "cmt_showbiz_044_2070",
+          "text": "Ông này có câu “ngáo giá” thì bản thân cũng ngáo sức mạnh. Khôn mới giàu, nhưng nhiều lúc giàu quá mất khôn. \n\nBuồn cười nhất là ông Hiếu Orion gì đó, biết có mùi là phủi phui sự dính dáng mặc dù trước đó chơi với nhau.\n\nThôi thì vào đó mất sự tự do nhưng không đến mức khổ cực gì. Ra tò làm vài quả lùa thêm đám gà mới nhú lại như xưa thôi.",
+          "likes": 772,
+          "reply_count": 80,
+          "score": 852,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_034_0001",
+          "text": "Ngày 14/10, Công an thành phố Hà Nội cho biết, Cơ quan Cảnh sát điều tra đã khởi tố Nguyễn Hòa Bình (tức Shark Bình), 44 tuổi, và 9 người để điều tra về tội Lừa đảo chiếm đoạt tài sản và Vi phạm quy định về kế toán gây hậu quả nghiêm trọng.\n\nTheo điều tra ban đầu, từ tháng 5/2021, ông Bình, Chủ tịch HĐQT Công ty cổ phần tập đoàn NextTech, cùng một số người \"có trình độ chuyên môn, hiểu biết về đồng tiền số\" thống nhất góp tiền xây dựng, phát triển dự án \"tiền số AntEx\" - được lưu giữ trên ví điện tử binance. Tiền góp vốn ban đầu 5 tỷ, trong đó ông Bình là 2 tỷ.\n\nMục đích của nhóm này là bán đồng tiền số AntEx và kêu gọi các nhà đầu tư mua để huy động vốn xây dựng dự án đồng tiền số VNDT và phần mềm ví điện tử VNDT trong tương lai. Nhưng thực tế, nhóm này chưa hoàn thiện xây dựng dự án đồng tiền số VNDT.\n\nĐể vận hành dự án tiền số AntEx, Shark Bình chỉ đạo thành lập pháp nhân Công ty Cổ phần dịch vụ công nghệ Blockchain Việt Nam. Số tiền góp vốn ban đầu được chuyển vào tài khoản của công ty để duy trì hoạt động của dự án. Trong đó có các chi phí như trả lương cho nhân viên và đội ngũ kỹ thuật viên, mua máy chủ cung cấp dịch vụ trên mạng internet.\n\nNhóm ông Bình dự kiến bán tổng 100 tỷ \"đồng tiền số Antex\" - gọi tắt là 100 tỷ token, ra thị trường. Riêng tháng 8/2021 đến 11/2021, họ phát hành và bán 33,2 tỷ cho khoảng 30.000 nhà đầu tư trên các sàn giao dịch. Qua đó, nhóm thu về ví điện tử trên sàn giao dịch là 4,5 triệu USDT (USDT là đồng tiền số, được quy đổi tương đương với 4,5 triệu USD, bằng khoảng 117 tỷ đồng).\n\nCuối năm 2021, Shark Bình đã sử dụng uy tín và tầm ảnh hưởng của bản thân để đăng tải thông tin trên mạng xã hội về việc ra mắt quỹ đầu tư \"Next100 Blockchain\". Ông cam kết đầu tư vào các dự án đồng tiền số với tổng số vốn 50 triệu USD trong 10 năm nhằm quảng bá Antex và củng cố niềm tin của nhà đầu tư. Động thái này được cho là để tránh xảy ra tình trạng bán tháo để rút vốn khỏi dự án, gây sụt giảm giá trị.\n\nNhà chức trách cáo buộc, dù dự án triển khai không đúng như lộ trình đề ra nhưng ông Bình và các cổ đông NextTech thống nhất rút tiền từ ví tổng của dự án. Tiền sau đó được chuyển vào ví điện tử của một số cá nhân trong dự án rồi bán quy đổi ra tiền VNĐ để chia nhau.\n\nTiền còn được chuyển vào các công ty trong hệ sinh thái của Nexttech để sử dụng không đúng mục đích với số tiền của các nhà đầu tư.\n\nCông an xác định Shark Bình và cộng sự sáng lập đã rút tiền từ 30.000 ví của các nhà đầu tư, \"chiếm đoạt với số tiền đặc biệt lớn\".\n\n‼️Vi phạm quy định về kế toán tại Công ty Nextland\n\nCơ quan điều tra cáo buộc từ năm 2022, ông Bình chỉ đạo thành lập Công ty CP Kinh doanh BĐS Nextland. Sau đó, ông giao cho nhân viên sử dụng hai hệ thống sổ sách kế toán.\n\nÔng Bình chỉ đạo nhân viên làm giảm lợi nhuận, che giấu doanh thu bằng thủ đoạn hạ giá trị bán trên hợp đồng mua bán với khách hàng. Hành vi này gây thiệt hại đặc biệt lớn cho ngân sách Nhà nước.\n\nShark Bình được ví là \"cá mập\" công nghệ, được nhiều người biết đến qua biệt danh Shark Bình khi tham gia chương trình \"Thương vụ bạc tỷ\" (Shark Tank Vietnam), từng rót vốn vào hàng chục startup hoạt động chủ yếu trong lĩnh vực thương mại điện tử, công nghệ tài chính và truyền thông.\n\nKhông chỉ trong công việc, đời tư của Shark Bình cũng được nhiều người chú ý từ khi ông có cuộc hôn nhân thứ hai với một diễn viên.\n..........\n\nTheo báo Vnexpress",
+          "likes": 668,
+          "reply_count": 4,
+          "score": 672,
+          "emotion": "Trung lập"
+        },
+        {
+          "comment_id": "cmt_showbiz_044_1078",
+          "text": "Trên đời này ngu nhất là đưa tiền cho người khác cầm, như cho vay, góp hụi… rồi chờ sự lương thiện của họ",
+          "likes": 558,
+          "reply_count": 76,
+          "score": 634,
+          "emotion": "Trung lập"
+        }
+      ],
+      "by_emotion": {
+        "Phẫn nộ": {
+          "comment_id": "cmt_showbiz_044_0036",
+          "text": "Nghiệp quậT đấy ,phụ vợ khi trong tay có quá nhiều tiền k biết để làm gì\n\nĐàn ông càng phụ bạc với vợ,\nthì càng đánh mất phúc phần của chính mình.\nTiền có thể nhiều lên,\nnhưng phúc thì cạn dần —và đến lúc sa cơ, chẳng còn ai thật lòng ở bên cạnh nữa. 💔",
+          "score": 109
+        },
+        "Cà khịa": {
+          "comment_id": "cmt_showbiz_044_0006",
+          "text": "Tịch thu đưa vào làm đường giao thông cho dân đi lại cho đỡ khổ .",
+          "score": 105
+        },
+        "Đồng cảm": {
+          "comment_id": "cmt_showbiz_044_0013",
+          "text": "Phải nói chị vợ có Phước , người tào khang khó khăn thủa đầu an toàn khi thuyền có dự định lật , trời có mắt , để chị rời xa phi pháp",
+          "score": 8
+        },
+        "Trung lập": {
+          "comment_id": "cmt_showbiz_044_2070",
+          "text": "Ông này có câu “ngáo giá” thì bản thân cũng ngáo sức mạnh. Khôn mới giàu, nhưng nhiều lúc giàu quá mất khôn. \n\nBuồn cười nhất là ông Hiếu Orion gì đó, biết có mùi là phủi phui sự dính dáng mặc dù trước đó chơi với nhau.\n\nThôi thì vào đó mất sự tự do nhưng không đến mức khổ cực gì. Ra tò làm vài quả lùa thêm đám gà mới nhú lại như xưa thôi.",
+          "score": 852
+        }
+      },
+      "notable_opinions": []
+    },
+    "controversial_threads": [
+      {
+        "comment_id": "cmt_showbiz_044_0005",
+        "text": "Má ơi sao họ giàu giữ",
+        "thread_stats": {
+          "total": 3,
+          "emotions": {
+            "Cà khịa": 2,
+            "Phẫn nộ": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_044_0006",
+        "text": "Tịch thu đưa vào làm đường giao thông cho dân đi lại cho đỡ khổ .",
+        "thread_stats": {
+          "total": 11,
+          "emotions": {
+            "Cà khịa": 5,
+            "Trung lập": 4,
+            "Phẫn nộ": 1,
+            "Đồng cảm": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_044_0008",
+        "text": "Mấy ngày nay toàn Ac nổi tiếng không hầy",
+        "thread_stats": {
+          "total": 3,
+          "emotions": {
+            "Cà khịa": 2,
+            "Phẫn nộ": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_044_0009",
+        "text": "Chia bớt cho dân nghèo với ạ. Ôm mình chết có mang theo đc đâu.kkk",
+        "thread_stats": {
+          "total": 17,
+          "emotions": {
+            "Cà khịa": 9,
+            "Trung lập": 3,
+            "Phẫn nộ": 4,
+            "Ủng hộ": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_044_0016",
+        "text": "Giàu vãi đạn 😂😂",
+        "thread_stats": {
+          "total": 3,
+          "emotions": {
+            "Cà khịa": 1,
+            "Trung lập": 1,
+            "Phẫn nộ": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_044_0017",
+        "text": "Hy vọng trả lại cho người đã mất tiền để đầu tư.",
+        "thread_stats": {
+          "total": 3,
+          "emotions": {
+            "Đồng cảm": 1,
+            "Cà khịa": 2
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_044_0036",
+        "text": "Nghiệp quậT đấy ,phụ vợ khi trong tay có quá nhiều tiền k biết để làm gì\n\nĐàn ông càng phụ bạc với vợ,\nthì càng đánh mất phúc phần của chính mình.\nTiền có thể nhiều lên,\nnhưng phúc thì cạn dần —và đến lúc sa cơ, chẳng còn ai thật lòng ở bên cạnh nữa. 💔",
+        "thread_stats": {
+          "total": 10,
+          "emotions": {
+            "Phẫn nộ": 2,
+            "Trung lập": 3,
+            "Cà khịa": 4,
+            "Đồng cảm": 1
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      },
+      {
+        "comment_id": "cmt_showbiz_044_0037",
+        "text": "Cái thằng khi nói mồm nó cứ vén lên thấy gian kinh",
+        "thread_stats": {
+          "total": 3,
+          "emotions": {
+            "Phẫn nộ": 1,
+            "Cà khịa": 2
+          },
+          "toxic_count": 0,
+          "controversial": true
+        }
+      }
+    ]
+  }
+}

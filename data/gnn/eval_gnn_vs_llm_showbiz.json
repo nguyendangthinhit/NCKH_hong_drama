@@ -1,0 +1,24 @@
+{
+  "domain": "showbiz",
+  "n_total_comments": 20400,
+  "f1_macro_gnn_on_test": 0.217,
+  "f1_weighted_gnn_on_test": 0.9161,
+  "gnn_inference": {
+    "device": "cpu",
+    "total_sec_for_all_nodes": 0.5245,
+    "per_node_ms": 0.026
+  },
+  "llm_inference_estimate": {
+    "latency_per_call_sec": 0.5,
+    "total_sec_for_all_nodes": 10200.0,
+    "cost_usd_per_comment": 2.025e-05,
+    "total_cost_usd": 0.4131,
+    "total_cost_vnd": 10493.0
+  },
+  "speedup_gnn_vs_llm": 19447.0,
+  "interpretation": {
+    "f1_high_means": "GNN học match LLM tốt — có thể replace ở scale lớn",
+    "speedup_means": "GNN nhanh hơn bao lần so với gọi LLM API tuần tự",
+    "cost_savings": "~10493.0 VND tiết kiệm cho mỗi 20400 comments"
+  }
+}

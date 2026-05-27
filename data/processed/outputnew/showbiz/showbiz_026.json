@@ -1,0 +1,28 @@
+{
+  "id_content": "showbiz_026",
+  "ten_su_kien": "Dược sĩ Tiến – gây tranh cãi trên mạng xã hội vì các phát ngôn liên quan trí tuệ nhân tạo và nghi vấn quảng bá sản phẩm chức năng",
+  "content": "Dược sĩ Tiến (tên thật Phạm Minh Hữu Tiến), một nhân vật quen thuộc trong giới giải trí Việt Nam với vai trò dược sĩ, nhà sản xuất và host nhiều chương trình, đã trở thành tâm điểm của nhiều tranh cãi trên mạng xã hội trong năm 2025. Các ồn ào xoay quanh phát ngôn liên quan đến trí tuệ nhân tạo (AI) và nghi vấn quảng bá sản phẩm chức năng sai sự thật.\n\nVề mảng trí tuệ nhân tạo, vào tháng 7/2025, Dược sĩ Tiến gây chú ý khi công bố dự án chatbot AI mang tên ChatDST, tự tin tuyên bố vượt trội hơn ChatGPT và sử dụng hệ thống phần cứng tối tân với 12 GPU Nvidia A100, cung cấp 960 GB VRAM. Tuy nhiên, tuyên bố này nhanh chóng vấp phải nghi vấn từ cộng đồng công nghệ khi Nvidia xác nhận không phân phối chip A100 tại Việt Nam, đặt ra câu hỏi về khả năng một doanh nghiệp giải trí nhỏ có thể tiếp cận được loại phần cứng đắt đỏ, vốn ưu tiên cho các trung tâm dữ liệu lớn. ChatDST dự kiến ra mắt vào tháng 10/2025 nhưng đã bị trì hoãn. Dược sĩ Tiến lý giải sự chậm trễ là do công ty bận triển khai các dự án thiện nguyện như xây trường cho trẻ em vùng thiên tai, khẳng định ChatDST đã hoàn thành và chỉ còn chờ các thủ tục pháp lý. Các chuyên gia AI cũng kêu gọi sự minh bạch dữ liệu, mô hình và hạ tầng để tránh gây ảnh hưởng tiêu cực đến lĩnh vực AI còn non trẻ ở Việt Nam.\n\nSong song đó, Dược sĩ Tiến cũng bị kéo vào lùm xùm liên quan đến sản phẩm chức năng. Cụ thể, vào tháng 4/2025, anh bị réo tên rầm rộ khi hoa hậu Thùy Tiên bị cấm xuất cảnh, còn Hằng Du Mục và Quang Linh Vlogs bị khởi tố, bắt tạm giam vì sản xuất hàng giả và lừa dối khách hàng liên quan đến việc quảng cáo kẹo rau củ Kera. Trước đó, vào tháng 3/2025, Dược sĩ Tiến đã đăng tải video phân tích sản phẩm này dưới góc độ khoa học, với chuyên môn dược của mình. Anh chỉ ra rằng chiến dịch marketing của Kera đã sai lầm khi đánh đồng rau và chất xơ, thổi phồng công dụng như “ăn một viên kẹo bằng một đĩa rau”, đồng thời bày tỏ tiếc nuối cho Thùy Tiên. Tuy nhiên, việc anh không gỡ bỏ video này dù sản phẩm và những người liên quan vướng vòng lao lý đã khiến dư luận tiếp tục chỉ trích.\n\nNgoài ra, vào tháng 5/2025, Dược sĩ Tiến còn bất ngờ vướng tin đồn “bị bắt” và trở thành từ khóa tìm kiếm hàng đầu trên mạng xã hội. Tuy nhiên, anh đã nhanh chóng lên tiếng đính chính, làm rõ rằng đây là sự nhầm lẫn với một người khác có tên Phạm Ngọc Tiến, đang bị điều tra về việc sản xuất và buôn bán hàng giả, lương thực, thực phẩm và trang thiết bị y tế.",
+  "actor_related": [
+    {
+      "name": "Dược sĩ Tiến (Phạm Minh Hữu Tiến)",
+      "role": "Nhân vật chính, dược sĩ, nhà sản xuất giải trí, chủ chatbot AI"
+    },
+    {
+      "name": "Hoa hậu Thùy Tiên",
+      "role": "Người mẫu quảng cáo sản phẩm Kẹo Kera, bị phạt và cấm xuất cảnh"
+    },
+    {
+      "name": "Hằng Du Mục",
+      "role": "Người quảng cáo sản phẩm Kẹo Kera, bị khởi tố và bắt tạm giam"
+    },
+    {
+      "name": "Quang Linh Vlogs",
+      "role": "Người quảng cáo sản phẩm Kẹo Kera, bị khởi tố và bắt tạm giam"
+    },
+    {
+      "name": "Phạm Ngọc Tiến",
+      "role": "Người bị nhầm lẫn với Dược sĩ Tiến trong tin đồn bị bắt"
+    }
+  ],
+  "time_event": "2025-04-05"
+}

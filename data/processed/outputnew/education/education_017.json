@@ -1,0 +1,72 @@
+{
+  "id_content": "education_017",
+  "ten_su_kien": "thí điểm thi trung học phổ thông trên máy tính",
+  "content": "Chính phủ Việt Nam đã chỉ đạo Bộ Giáo dục và Đào tạo (Bộ GD-ĐT) nghiên cứu và xây dựng lộ trình thí điểm, sau đó chính thức áp dụng hình thức thi tốt nghiệp THPT và thi đại học trên máy tính. Đây được coi là một bước cải cách mạnh mẽ, bắt nhịp với xu thế giáo dục hiện đại và bối cảnh chuyển đổi số quốc gia. Theo kế hoạch, Bộ GD-ĐT sẽ xây dựng Đề án tổ chức kỳ thi trên máy tính ngay trong năm học 2025-2026, dự kiến thử nghiệm cho hơn 100.000 học sinh. Mặc dù kỳ thi tốt nghiệp THPT năm 2026 sẽ giữ ổn định về hình thức như năm 2025, việc áp dụng chính thức thi trên máy tính dự kiến sẽ bắt đầu từ năm 2027 tại một số địa phương. Bộ GD-ĐT cũng đã công bố giao diện bài thi tốt nghiệp THPT trên máy tính để học sinh và nhà trường làm quen. Lộ trình thực hiện được đề xuất theo nhiều giai đoạn, nhằm đảm bảo sự chuẩn bị kỹ lưỡng về cơ sở vật chất và kỹ năng cho học sinh, đặc biệt trong bối cảnh yêu cầu hiện đại hóa thi cử quốc gia ngày càng cấp thiết.",
+  "actor_related": [
+    {
+      "name": "Thủ tướng Chính phủ",
+      "role": "Người chỉ đạo"
+    },
+    {
+      "name": "Huỳnh Thanh Phú",
+      "role": "Hiệu trưởng trường THPT Bùi Thị Xuân, người đề xuất giải pháp"
+    }
+  ],
+  "time_event": "2025-07-09",
+  "analyzed": {
+    "comment_counts": {
+      "total": 1212,
+      "tích_cực": 106,
+      "tiêu_cực": 389,
+      "trung_lập": 184,
+      "ý_kiến_riêng": 28,
+      "rác": 505
+    },
+    "analysis": {
+      "tích cực": {
+        "count": 106,
+        "percent": "15.0%",
+        "summary": "Học sinh tỏ ra phấn khích và hào hứng với hình thức thi trung học phổ thông trên máy tính vì nó giúp họ biết điểm ngay lập tức và có trải nghiệm làm quen với hình thức thi này. Nhiều bạn cho rằng, việc thi trên máy tính sẽ giúp họ chuẩn bị tốt hơn cho các kỳ thi đại học sau này. Hình thức này cũng giúp giảm bớt lo lắng và chờ đợi kết quả.",
+        "examples": [
+          "Nộp bài xong biết điểm là ngất tại chỗ luôn",
+          "Quá tuyệt biết điểm xong phát k muốn thi nữa luôn =)))",
+          "Thật ra thì coi như làm quen trước cũng được mà, tại lên đại học một số môn cũng thi kiểu vậy ấy, làm trên máy tính xong biết kết quả luôn đỡ phải lo "
+        ]
+      },
+      "tiêu cực": {
+        "count": 389,
+        "percent": "55.0%",
+        "summary": "Nhiều người phản đối việc thi trung học phổ thông trên máy tính vì lo lắng về tác động tiêu cực đến mắt và sức khỏe của học sinh. Họ cho rằng việc luyện đề trên máy tính có thể gây cận thị và làm nặng thêm tình trạng này. Ngoài ra, một số người cũng cảm thấy việc thi trên máy tính không phù hợp và có thể gây khó khăn cho học sinh.",
+        "examples": [
+          "đến 2k11 là thi bằng máy giặt luôn 😆",
+          "thi xong mỗi e 1 xe cứu thương",
+          "Phản đối kịch liệt.\n\nHs giờ phải luyện đề trên máy tính. Cận nhẹ thành cận nặng. Ko cận cũng thành cận. Nhìn đề thi thì trên máy khác trên giấy, mắt s"
+        ]
+      },
+      "trung lập": {
+        "count": 184,
+        "percent": "26.0%",
+        "summary": "Xu hướng chung cho thấy nhiều người vẫn còn hoài nghi về việc thi trung học phổ thông trên máy tính. Một số người cho rằng việc thi trên máy tính không công bằng nếu không chung đề chung đợt. Tuy nhiên, cũng có những ý kiến ủng hộ việc áp dụng công nghệ vào kỳ thi.",
+        "examples": [
+          "Thứ trưởng Phạm Ngọc Thưởng khẳng định: Trước mắt, thi tốt nghiệp trên máy tính chỉ thí điểm tại một số nơi đủ điều kiện từ năm 2027. Mục tiêu là sau ",
+          "Lên đại học toàn thi máy :)",
+          "Thi trên máy, không chung đề chung đợt đã là ko công bằng rồi, hãy nhìn vào kết quả kì thi đánh giá năng lực trên máy của tpHCM 2 đợt thi là rõ. Việc "
+        ]
+      },
+      "ý kiến riêng": {
+        "count": 28,
+        "percent": "4.0%",
+        "summary": "Nhiều người ủng hộ việc thi trung học phổ thông trên máy tính vì tính tiện lợi và dễ dàng chỉnh sửa. Tuy nhiên, một số người lo lắng về việc báo điểm trên màn hình có thể gây quá tải. Một số khác lại cho rằng việc thi trên máy tính sẽ giúp giảm bớt gánh nặng và áp lực cho học sinh.",
+        "examples": [
+          "Thi xong máy chấm nhưng ko báo điểm trên màn hình cho thid sinh thì ok. Chứ báo điểm liền là khoa câp cứu quá tải đấy",
+          "Thi máy tính cho dễ chỉnh sửa ạ",
+          "Khoi hoc khoi thi luon kho bon nho qua"
+        ]
+      }
+    },
+    "conclusion": {
+      "focus": "",
+      "trend": ""
+    }
+  }
+}
