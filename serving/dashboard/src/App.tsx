@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import Sidebar, { TabType } from './components/Sidebar';
 import { BarChart3, Users, Globe, RefreshCcw } from 'lucide-react';
 import OverviewView from './components/views/OverviewView';
@@ -74,43 +75,73 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-sans selection:bg-blue-500/30 transition-colors duration-300">
-      <Sidebar 
-        activeTab={activeTab} 
-        setActiveTab={setActiveTab} 
-        theme={theme} 
-        toggleTheme={toggleTheme} 
+      {/* Animated aurora mesh — drifts slowly for atmospheric depth */}
+      <div className="pointer-events-none fixed inset-0 z-0 opacity-60 dark:opacity-100 transition-opacity">
+        <motion.div
+          className="absolute -top-40 -left-40 w-[40rem] h-[40rem] rounded-full bg-blue-500/5 dark:bg-blue-500/10 blur-3xl"
+          animate={{ x: [0, 60, 0], y: [0, 40, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute top-1/3 -right-40 w-[35rem] h-[35rem] rounded-full bg-purple-500/5 dark:bg-purple-500/10 blur-3xl"
+          animate={{ x: [0, -50, 0], y: [0, 30, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute -bottom-40 left-1/3 w-[30rem] h-[30rem] rounded-full bg-indigo-500/5 dark:bg-indigo-500/8 blur-3xl"
+          animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </div>
+
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
-      
-      <main className="lg:pl-64 transition-all duration-300">
+
+      <main className="lg:pl-64 transition-all duration-300 relative z-10">
         <div className="p-4 lg:p-8 max-w-7xl mx-auto">
           {/* Header Section */}
-          <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-8">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <h2 className="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white italic font-serif">
-                  {activeTab === 'overview' && 'Hiệu suất thu thập'}
-                  {activeTab === 'sentiment' && 'Insight Dư luận'}
-                  {activeTab === 'interaction' && 'Hành vi Tương tác'}
-                  {activeTab === 'system' && 'Trạng thái Hệ thống'}
+          <header className="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-zinc-200/70 dark:border-zinc-800/70">
+            <div className="space-y-1">
+              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
+                {activeTab === 'overview' && 'Section · 01'}
+                {activeTab === 'sentiment' && 'Section · 02'}
+                {activeTab === 'interaction' && 'Section · 03'}
+                {activeTab === 'system' && 'Section · 04'}
+              </p>
+              <div className="flex items-center gap-3">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+                  {activeTab === 'overview' && 'Overview'}
+                  {activeTab === 'sentiment' && 'Sentiment insights'}
+                  {activeTab === 'interaction' && 'Interaction signals'}
+                  {activeTab === 'system' && 'System health'}
                 </h2>
-                {isRefreshing && <RefreshCcw className="w-5 h-5 text-blue-500 animate-spin" />}
+                {isRefreshing && <RefreshCcw className="w-4 h-4 text-blue-500 animate-spin" />}
               </div>
-              <p className="text-zinc-500 text-sm flex items-center gap-2">
-                Cập nhật tự động (30s). Lần cuối: {lastUpdated.toLocaleTimeString()}
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                {activeTab === 'overview' && 'Hiệu suất thu thập và bao phủ dữ liệu thời gian thực.'}
+                {activeTab === 'sentiment' && 'Phân tích sắc thái dư luận theo lĩnh vực và sự kiện.'}
+                {activeTab === 'interaction' && 'Hành vi tương tác và phát hiện bot.'}
+                {activeTab === 'system' && 'Tình trạng pipeline và performance metrics.'}
+                <span className="mx-2 text-zinc-300 dark:text-zinc-700">·</span>
+                <span className="text-zinc-400 dark:text-zinc-500">cập nhật {lastUpdated.toLocaleTimeString()}</span>
               </p>
             </div>
-            
-            <div className="flex items-center gap-6 px-6 py-3 bg-zinc-50 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-xl">
-              <StatItem 
-                label="Tổng bản ghi" 
-                value={data?.overall?.total_comments?.raw?.toLocaleString() ?? "0"} 
-                icon={<Globe className="w-4 h-4 text-blue-500 dark:text-blue-400" />} 
+
+            <div className="flex items-center gap-5 px-5 py-3 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md rounded-2xl border border-zinc-200/70 dark:border-zinc-800/70 shadow-sm">
+              <StatItem
+                label="Records"
+                value={data?.overall?.total_comments?.raw?.toLocaleString() ?? "0"}
+                icon={<Globe className="w-4 h-4 text-blue-500 dark:text-blue-400" />}
               />
               <div className="w-px h-8 bg-zinc-200 dark:bg-zinc-800" />
-              <StatItem 
-                label="Links verify" 
-                value={data?.overall?.total_links?.toString() ?? "0"} 
-                icon={<Users className="w-4 h-4 text-purple-500 dark:text-purple-400" />} 
+              <StatItem
+                label="Links"
+                value={data?.overall?.total_links?.toString() ?? "0"}
+                icon={<Users className="w-4 h-4 text-purple-500 dark:text-purple-400" />}
               />
             </div>
           </header>
@@ -119,16 +150,24 @@ export default function App() {
           <div className="grid grid-cols-1 gap-6">
              {isLoading ? (
                <div className="h-96 flex flex-col items-center justify-center">
-                 <RefreshCcw className="w-10 h-10 text-blue-500 animate-spin mb-4" />
-                 <p className="text-zinc-500 font-mono text-sm tracking-widest uppercase">Loading fresh intelligence...</p>
+                 <RefreshCcw className="w-8 h-8 text-blue-500 animate-spin mb-4" />
+                 <p className="text-zinc-500 text-sm">Loading intelligence data…</p>
                </div>
              ) : (
-               <>
-                 {activeTab === 'overview' && <OverviewView data={data} theme={theme} />}
-                 {activeTab === 'sentiment' && <SentimentView data={data} theme={theme} />}
-                 {activeTab === 'interaction' && <InteractionView data={data} theme={theme} />}
-                 {activeTab === 'system' && <SystemView data={data} theme={theme} />}
-               </>
+               <AnimatePresence mode="wait">
+                 <motion.div
+                   key={activeTab}
+                   initial={{ opacity: 0, y: 12 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   exit={{ opacity: 0, y: -8 }}
+                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                 >
+                   {activeTab === 'overview' && <OverviewView data={data} theme={theme} />}
+                   {activeTab === 'sentiment' && <SentimentView data={data} theme={theme} />}
+                   {activeTab === 'interaction' && <InteractionView data={data} theme={theme} />}
+                   {activeTab === 'system' && <SystemView data={data} theme={theme} />}
+                 </motion.div>
+               </AnimatePresence>
              )}
           </div>
         </div>
@@ -139,11 +178,11 @@ export default function App() {
 
 function StatItem({ label, value, icon }: { label: string, value: string, icon: React.ReactNode }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2.5">
       <div className="hidden sm:block">{icon}</div>
       <div>
-        <p className="text-[10px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider font-semibold">{label}</p>
-        <p className="text-lg font-bold text-zinc-900 dark:text-white font-mono">{value}</p>
+        <p className="text-[10px] text-zinc-500 dark:text-zinc-500 uppercase tracking-wider font-medium">{label}</p>
+        <p className="text-sm font-semibold text-zinc-900 dark:text-white tabular-nums">{value}</p>
       </div>
     </div>
   );
