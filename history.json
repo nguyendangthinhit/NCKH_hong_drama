@@ -331,5 +331,14 @@
     "the_loai": "showbiz",
     "su_kien": "",
     "timestamp": "2026-05-28T15:18:29.957Z"
+  },
+  {
+    "user_id": "27072475635745610",
+    "question": "Vụ gì hot",
+    "answer": "Dựa trên dữ liệu bạn cung cấp, có thể thấy các sự kiện hot và nổi bật nhất hiện nay trong cả hai lĩnh vực Giáo dục và Showbiz như sau:\n\nGiáo dục:\n\n- Vụ việc Sở Giáo dục và Đào tạo tỉnh Ninh Bình xác minh clip lãnh đạo trường THPT có hành vi thân mật không chuẩn mực\n- Câu chuyện về việc thí điểm thi trung học phổ thông trên máy tính\n\nShowbiz:\n\n- Vụ việc Shark Bình liên quan đến các vấn đề pháp lý về lừa đảo và rửa tiền\n- Vụ việc Mailisa bị bắt do nghi vấn buôn lậu\n- Vụ việc bà Hoàng Hường bị bắt vì hành vi sản xuất và buôn bán hàng giả",
+    "source_type": "database",
+    "the_loai": "insights",
+    "su_kien": "",
+    "timestamp": "2026-05-28T15:24:14.446Z"
   }
 ]
