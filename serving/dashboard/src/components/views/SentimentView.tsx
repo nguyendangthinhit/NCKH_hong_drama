@@ -99,7 +99,7 @@ export default function SentimentView({ data, theme = 'dark' }: { data: Insights
 
   const fetchKeywordsData = async () => {
     try {
-      const response = await fetch(`${BASE_RAW_URL}/keyword_analysis_v4.json`);
+      const response = await fetch(`${BASE_RAW_URL}/analysis-output/keyword_analysis_v4.json`);
       if (response.ok) {
         const json = await response.json();
         setKeywordsData(json);
@@ -121,18 +121,12 @@ export default function SentimentView({ data, theme = 'dark' }: { data: Insights
     setIsLoading(true);
     setError(null);
     try {
-      // Use analyzed_dataa for education as requested by user
+      // Education uses analyzed_dataa (double-a), showbiz uses analyzed_data
       const folder = activeCategory === 'education' ? 'process_education/analyzed_dataa' : 'process_showbiz/analyzed_data';
-      let url = `${BASE_RAW_URL}/${folder}/summary/${id}.json`;
+      const url = `${BASE_RAW_URL}/processed/${folder}/summary/${id}.json`;
       console.log("Fetching event detail from:", url);
-      let response = await fetch(url);
-      
-      if (!response.ok && activeCategory === 'education') {
-        // Fallback for education if analyzed_dataa fails
-        const fallbackUrl = `${BASE_RAW_URL}/process_education/analyzed_data/summary/${id}.json`;
-        response = await fetch(fallbackUrl);
-      }
-      
+      const response = await fetch(url);
+
       if (!response.ok) throw new Error(`Could not load event data (${id}). Status: ${response.status}`);
       const json = await response.json();
       setEventDetail(json);
