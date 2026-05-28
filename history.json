@@ -304,5 +304,14 @@
     "the_loai": "education",
     "su_kien": "",
     "timestamp": "2026-05-19T18:07:39.849Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "hello",
+    "answer": "Chào mừng bạn đến với hệ thống! Tôi sẵn sàng giúp đỡ và trả lời các câu hỏi của bạn. Bạn có muốn hỏi điều gì hay muốn biết thông tin về các chức năng của hệ thống?",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-05-28T15:14:55.106Z"
   }
 ]
