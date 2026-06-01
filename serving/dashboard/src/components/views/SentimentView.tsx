@@ -17,6 +17,7 @@ import {
 } from 'recharts';
 import { InsightsData, StanceDistribution } from '../../types';
 import { GraduationCap, Ticket, Activity, ChevronLeft, ExternalLink, MessageCircle, TrendingUp, Users } from 'lucide-react';
+import { TrendingEventsSection } from './trending-events-section';
 
 const STANCE_COLORS: Record<string, string> = {
   'tích cực': '#10b981',
@@ -317,87 +318,10 @@ export default function SentimentView({ data, theme = 'dark' }: { data: Insights
             </div>
           )}
 
-          <div className="p-8 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl shadow-xl overflow-hidden relative">
-            <div className="flex items-center gap-2 mb-8">
-              <TrendingUp className="w-5 h-5 text-purple-600" />
-              <h3 className="text-xl font-bold text-zinc-900 dark:text-white">Sự kiện Trending</h3>
-            </div>
-            
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-12">
-              {(() => {
-                const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
-                const trendingEvents = (categoryData?.top_events_by_comments ?? [])
-                  .sort((a: any, b: any) => (b.total || 0) - (a.total || 0))
-                  .slice(0, 5)
-                  .map((e: any, i: number) => ({
-                    ...e,
-                    fillColor: colors[i % colors.length],
-                    displayName: (e.ten_su_kien?.length > 25) ? e.ten_su_kien.substring(0, 25) + "..." : e.ten_su_kien
-                  }));
-
-                return (
-                  <>
-                    <div className="h-80 w-full">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={trendingEvents} layout="vertical" onClick={(d: any) => d && d.activePayload && setSelectedEventId(d.activePayload[0].payload.id_content)}>
-                          <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-                          <XAxis type="number" hide />
-                          <YAxis dataKey="displayName" type="category" fontSize={10} width={120} />
-                          <Tooltip />
-                          <Bar dataKey="total" radius={[0, 4, 4, 0]} className="cursor-pointer">
-                            {trendingEvents.map((entry, index) => <Cell key={`bar-${index}`} fill={entry.fillColor} />)}
-                          </Bar>
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
-
-                    <div className="h-80 w-full bg-zinc-900/10 dark:bg-zinc-100/5 p-4 rounded-2xl relative z-10">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <ScatterChart margin={{ top: 20, right: 30, bottom: 20, left: 10 }}>
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis type="number" dataKey="clean" name="Clean" domain={['auto', 'auto']} padding={{ left: 40, right: 40 }} />
-                          <YAxis type="number" dataKey="trash" name="Trash" domain={['auto', 'auto']} padding={{ top: 40, bottom: 40 }} />
-                          <ZAxis type="number" dataKey="total" range={[400, 3000]} />
-                          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-                          <Scatter data={trendingEvents} onClick={(d) => setSelectedEventId(d.id_content)}>
-                            {trendingEvents.map((entry, index) => <Cell key={`bubble-${index}`} fill={entry.fillColor} fillOpacity={0.7} className="cursor-pointer" />)}
-                          </Scatter>
-                        </ScatterChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </>
-                );
-              })()}
-            </div>
-
-            <h3 className="text-xl font-bold text-zinc-900 dark:text-white mb-6">Danh sách chi tiết</h3>
-            <div className="grid grid-cols-1 gap-4">
-              {(categoryData?.top_events_by_comments ?? []).sort((a: any, b: any) => (b.total || 0) - (a.total || 0)).slice(0, 5).map((event: any, index: number) => (
-                <div key={event.id_content} onClick={() => setSelectedEventId(event.id_content)} className="p-5 bg-zinc-50 dark:bg-zinc-950/50 border rounded-2xl flex flex-col md:flex-row justify-between gap-4 cursor-pointer hover:border-blue-500 shadow-sm transition-all group">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-2">
-                       <span className="bg-zinc-200 dark:bg-zinc-800 text-xs font-bold px-2 py-0.5 rounded">#{index + 1}</span>
-                       <span className="text-[10px] font-mono text-zinc-400">ID: {event.id_content}</span>
-                    </div>
-                    <h4 className="text-sm font-bold text-zinc-900 dark:text-white group-hover:text-blue-600 transition-colors">{event.ten_su_kien}</h4>
-                    <p className="text-[10px] text-zinc-400 italic">{event.time_event || "Unknown date"}</p>
-                  </div>
-                  <div className="flex items-center gap-10 border-t md:border-t-0 md:border-l border-zinc-200 dark:border-zinc-800 pt-4 md:pt-0 md:pl-10">
-                    <div className="text-center min-w-[60px]">
-                      <p className="text-[9px] text-zinc-400 uppercase font-bold mb-1">Volume</p>
-                      <p className="text-lg font-black text-zinc-900 dark:text-white">{event.total?.toLocaleString() ?? "0"}</p>
-                    </div>
-                    <div className="flex-1 min-w-[140px]">
-                       <div className="h-2 w-full bg-zinc-200 dark:bg-zinc-800 rounded-full flex overflow-hidden">
-                          <div className="bg-emerald-500 h-full" style={{ width: `${event.total ? (event.clean / event.total) * 100 : 0}%` }} />
-                          <div className="bg-red-500 h-full" style={{ width: `${event.total ? (event.trash / event.total) * 100 : 0}%` }} />
-                       </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <TrendingEventsSection
+            events={categoryData?.top_events_by_comments ?? []}
+            onSelect={setSelectedEventId}
+          />
         </div>
       )}
 

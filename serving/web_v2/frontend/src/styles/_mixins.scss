@@ -1,0 +1,120 @@
+@use 'variables' as *;
+@use 'theme' as *;
+@use 'sass:color';
+
+// Responsive breakpoints
+@mixin sm { @media (min-width: #{$bp-sm}) { @content; } }
+@mixin md { @media (min-width: #{$bp-md}) { @content; } }
+@mixin lg { @media (min-width: #{$bp-lg}) { @content; } }
+@mixin xl { @media (min-width: #{$bp-xl}) { @content; } }
+@mixin max-md { @media (max-width: #{$bp-md}) { @content; } }
+@mixin max-sm { @media (max-width: #{$bp-sm}) { @content; } }
+
+// Flex helpers
+@mixin flex-center { display: flex; align-items: center; justify-content: center; }
+@mixin flex-between { display: flex; align-items: center; justify-content: space-between; }
+@mixin flex-col { display: flex; flex-direction: column; }
+
+// Glass effect
+@mixin glass($blur: 12px, $bg: rgba(255,255,255,0.05)) {
+  background: $bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid $border-primary;
+}
+
+// Card base
+@mixin card-base {
+  background: $bg-card;
+  border: 1px solid $border-primary;
+  border-radius: $radius-lg;
+  transition: transform $transition-base, box-shadow $transition-base, border-color $transition-base;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-glow;
+    border-color: rgba(124, 58, 237, 0.3);
+  }
+}
+
+// Text truncate
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Button base
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3 $space-5;
+  border: none;
+  border-radius: $radius-full;
+  font-family: $font-primary;
+  font-size: $text-sm;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all $transition-base;
+  text-decoration: none;
+}
+
+// Gradient text
+@mixin gradient-text($gradient: $gradient-primary) {
+  background: $gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Skeleton loading
+@mixin skeleton {
+  background: linear-gradient(90deg, $border 25%, color.adjust($border, $lightness: 3%) 50%, $border 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+// Scrollbar
+@mixin custom-scrollbar($thumb: $accent-primary, $track: $bg-secondary) {
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-track { background: $track; }
+  &::-webkit-scrollbar-thumb {
+    background: $thumb;
+    border-radius: $radius-full;
+  }
+}
+
+// Section title
+@mixin section-title {
+  font-family: $font-display;
+  font-size: $text-2xl;
+  font-weight: 800;
+  color: $text-primary;
+  letter-spacing: -0.02em;
+}
+
+// Platform badge
+@mixin platform-badge($color, $bg) {
+  color: $color;
+  background: $bg;
+  border: 1px solid rgba($color, 0.3);
+  padding: $space-1 $space-3;
+  border-radius: $radius-full;
+  font-size: $text-xs;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
