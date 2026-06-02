@@ -1,0 +1,268 @@
+@use '../../styles/theme' as *;
+@use 'sass:color';
+
+// ── Card base ────────────────────────────────────────────────
+.card {
+  background: $bg-card;
+  border: 1.5px solid $border-strong;
+  border-radius: 0.875rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.22s, transform 0.22s, border-color 0.22s;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  // ── Variants ──────────────────────────────────────────────
+  &--facebook {
+    &:hover {
+      box-shadow: 0 6px 24px rgba(24, 119, 242, 0.14);
+      border-color: rgba(24, 119, 242, 0.35);
+    }
+
+    .card__accent { background: $facebook; }
+    .card__badge  { background: $facebook; }
+    .card__link   { color: $facebook; }
+    .card__read-more { color: $facebook; }
+    .card__title:hover { color: $facebook; }
+  }
+
+  &--news {
+    &:hover {
+      box-shadow: 0 6px 24px rgba(16, 185, 129, 0.13);
+      border-color: rgba(16, 185, 129, 0.35);
+    }
+
+    .card__accent { background: linear-gradient(90deg, $primary, #ff6b6b); }
+    .card__badge  { background: $news-green; }
+    .card__link   { color: $news-green; }
+    .card__read-more { color: $primary; }
+    .card__title:hover { color: $primary; }
+  }
+
+  // ── Compact mode (homepage preview) ───────────────────────
+  &--compact {
+    .card__links-list {
+      // Cho compact: giới hạn links hiển thị ngắn hơn
+      max-height: none;
+    }
+  }
+
+  // ── Accent stripe ─────────────────────────────────────────
+  &__accent {
+    height: 4px;
+    flex-shrink: 0;
+  }
+
+  // ── Rank badge ────────────────────────────────────────────
+  &__rank {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+
+    &--top {
+      background: linear-gradient(135deg, #ff4d4f, #ff7a45);
+      font-size: 0.85rem;
+      padding: 0.3rem 0.6rem;
+    }
+  }
+
+  // ── Media (image / gradient) ──────────────────────────────
+  &__media {
+    position: relative;
+    height: 140px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  &__media-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__media-icon {
+    font-size: 2.5rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &__hot-badge {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: #ff4d4f;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  // ── Stats ─────────────────────────────────────────────────
+  &__stats {
+    font-size: 0.75rem;
+    color: $text-muted;
+    font-weight: 600;
+  }
+
+  // ── Body ──────────────────────────────────────────────────
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.125rem 1.25rem;
+  }
+
+  // ── Top row ───────────────────────────────────────────────
+  &__top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 0.2rem 0.625rem;
+    border-radius: 2rem;
+
+    :global(.anticon) { font-size: 0.78rem; }
+  }
+
+  &__category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: $text-muted;
+    background: $bg-subtle;
+    padding: 0.2rem 0.625rem;
+    border-radius: 2rem;
+  }
+
+  // ── Title ─────────────────────────────────────────────────
+  &__title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: $text-main;
+    cursor: pointer;
+    transition: color 0.2s;
+    // Không clamp để hiện đầy đủ nội dung
+  }
+
+  // ── Links ─────────────────────────────────────────────────
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.375rem 0 0.125rem;
+    border-top: 1px dashed $border-strong;
+  }
+
+  &__links-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    :global(.anticon) { font-size: 0.7rem; }
+  }
+
+  &__links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  &__link {
+    font-size: 0.78rem;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+    transition: opacity 0.15s;
+
+    &::before {
+      content: '🔗 ';
+      font-style: normal;
+    }
+
+    &:hover {
+      opacity: 0.7;
+      text-decoration: underline;
+    }
+  }
+
+  &__link-more {
+    font-size: 0.73rem;
+    color: $text-muted;
+    font-weight: 600;
+    font-style: italic;
+  }
+
+  // ── Footer ────────────────────────────────────────────────
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.75rem;
+    border-top: 1px solid $border;
+    margin-top: auto;
+    gap: 0.5rem;
+  }
+
+  &__status {
+    font-size: 0.73rem;
+    font-weight: 600;
+    padding: 0.2rem 0.625rem;
+    border-radius: 2rem;
+
+    &--done    { background: rgba(16,185,129,0.1); color: #059669; }
+    &--pending { background: rgba(245,158,11,0.1); color: #d97706; }
+    &--default { background: $bg-subtle;           color: $text-muted; }
+  }
+
+  &__read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.83rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-left: auto;
+    transition: opacity 0.15s;
+
+    :global(.anticon) { font-size: 0.75rem; }
+
+    &:hover { opacity: 0.7; text-decoration: underline; }
+  }
+}

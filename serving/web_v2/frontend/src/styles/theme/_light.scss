@@ -1,0 +1,45 @@
+
+// ── Màu nhấn (brand) 
+$primary:       #ea2a33;
+$primary-dark:  #c8102e;
+$primary-light: #ff6584;
+
+// ── Gradient chính (header / hero / footer)
+$brand-gradient: linear-gradient(135deg, #c8102e 0%, #e8192c 45%, #ff6584 100%);
+$brand-gradient-dark: linear-gradient(135deg, #a80d26 0%, #c8102e 45%, #e8192c 100%);
+
+// ── Màu nền 
+$bg-page:       #fcf8f8;  
+$bg-card:       #ffffff;  
+$bg-subtle:     #f3e7e8;
+
+// ── Màu viền 
+$border:        #f3e7e8;   
+$border-strong: #e7d0d1;  
+
+// ── Màu chữ 
+$text-main:     #1b0e0e;  
+$text-muted:    #994d51;   
+$text-sub:      #6b6b85;  
+
+// ── Platform colors 
+$facebook:      #1877f2;
+$youtube:       #ff0000;
+$news-green:    #10b981;
+
+// ── Xuất CSS custom properties (dùng được trong JS / inline style)
+:root {
+  --color-primary:       #{$primary};
+  --color-primary-dark:  #{$primary-dark};
+  --color-primary-light: #{$primary-light};
+  --color-facebook:      #{$facebook};
+  --color-news-green:    #{$news-green};
+  --color-bg-page:       #{$bg-page};
+  --color-bg-card:       #{$bg-card};
+  --color-bg-subtle:     #{$bg-subtle};
+  --color-border:        #{$border};
+  --color-border-strong: #{$border-strong};
+  --color-text-main:     #{$text-main};
+  --color-text-muted:    #{$text-muted};
+  --color-text-sub:      #{$text-sub};
+}
