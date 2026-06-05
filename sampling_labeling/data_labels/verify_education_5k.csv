@@ -1,8 +1,6 @@
 ﻿comment_id,event_id,text,llm_stance,is_trash,verified_label,notes
-cmt_education011_0006_r01,education_011,"Nguyễn Dung Tiền bạc thay vì là phương tiện phục vụ cuộc sống đã trở thành mục tiêu tối thượng của không ít người.
-Họ sẵn sàng đánh đổi mọi thứ, kể cả thân xác hay danh dự gia đình, chỉ để “leo lên” hoặc “được che chở”.
-Đây không chỉ là sự đổ vỡ đạo đức cá nhân, mà còn là bi kịch xã hội, nơi mà sự trong sạch và lòng tự trọng trở thành xa xỉ phẩm.",tiêu cực,False,,
-cmt_education_007_0358,education_007,Bài viết rất hay,rác,True,,
+cmt_education011_0006_r01,education_011,"Nguyễn Dung Tiền bạc thay vì là phương tiện phục vụ cuộc sống đã trở thành mục tiêu tối thượng của không ít người. Họ sẵn sàng đánh đổi mọi thứ, kể cả thân xác hay danh dự gia đình, chỉ để “leo lên” hoặc “được che chở”. Đây không chỉ là sự đổ vỡ đạo đức cá nhân, mà còn là bi kịch xã hội, nơi mà sự trong sạch và lòng tự trọng trở thành xa xỉ phẩm.",tiêu cực,False,,
+cmt_education_007_0358,education_007,Bài viết rất hay,rác,False,,
 cmt_education007_0006_r02,education_007,Hoàng Dũng lên ti vi mà nhận,trung lập,False,,
 cmt_education_011_0156,education_011,Thách bắt hết đc sâu công chức,tiêu cực,False,,
 cmt_education_040_0043,education_040,thấy học tin là đúng,tích cực,False,,
