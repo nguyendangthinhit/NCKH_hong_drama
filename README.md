@@ -91,7 +91,7 @@ NCKH_hong_drama/
 ## Quy trình làm việc
 
 ### 1. Ingestion
-Cào FB → JSON theo schema event/comment/reply. Xem `ingestion/cao_fb/README.md`.
+Cào FB → JSON theo schema event/comment/reply. Xem `ingestion/cao_fb/README.md`. ( n8n)
 
 ### 2. Preprocessing
 - **Single**: `python preprocessing/single/tienxuly_vietlaiorder.py`
@@ -129,23 +129,10 @@ Xem `sampling_labeling/data_sampling_process.md` + `sampling_labeling/data_label
 
 ### 7. Serving
 - Dashboard: `cd serving/dashboard && npm run dev`
-- Code Web: `cd serving/code_web && npm run dev`
+- Code Web: `serving\web_v2\frontend> npm run dev ----- backend> python -m uvicorn app:app --reload --port 8001 `
 
 ---
 
-## Kế hoạch hiện tại
-
-Plan ML Pipeline (deadline 2026-06-25) — xem `plans/260525-0019-ml-pipeline-improvements/plan.md`:
-
-| Phase | Mô tả | Trạng thái |
-|---|---|---|
-| 01 | PySpark Preprocessing + PMI | ✅ Done |
-| 02 | PhoBERT Fine-tune | ⏳ Pending |
-| 03 | GNN Thread Analysis | 🟡 Đã có data + code |
-| 04 | Báo cáo + Bảng so sánh | ⏳ Pending |
-| 05 | Streaming + Auto Pipeline | future |
-
----
 
 ## Yêu cầu môi trường
 
