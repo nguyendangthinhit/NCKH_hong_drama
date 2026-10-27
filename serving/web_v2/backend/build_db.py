@@ -190,27 +190,62 @@ def main():
     ).fetchall()
 
     if rows:
-        url_map = []  # [(id_content, first_link), ...]
+        FB_DOMAINS = ("facebook.com", "fb.com", "fb.watch", "m.facebook.com")
+
+        def is_fb(url: str) -> bool:
+            from urllib.parse import urlparse
+            return any(d in urlparse(url).netloc for d in FB_DOMAINS)
+
+        def pick_web_links(links: list[str]) -> list[str]:
+            """Sort links: web URLs first, FB URLs last."""
+            web = [u for u in links if not is_fb(u)]
+            fb = [u for u in links if is_fb(u)]
+            return web + fb
+
+        # Build candidate list: each event gets multiple URLs to try (web first)
+        event_links = []  # [(id_content, [url1, url2, ...]), ...]
         for row in rows:
             links = json.loads(row[1] or "[]")
-            if links:
-                url_map.append((row[0], links[0]))
+            ordered = pick_web_links(links)
+            if ordered:
+                event_links.append((row[0], ordered))
 
-        if url_map:
-            urls = [u for _, u in url_map]
-            print(f"  Fetching og:image for {len(urls)} events (concurrency=10)...")
-            images = asyncio.run(fetch_og_images_batch(urls, concurrency=10))
+        if event_links:
+            # First pass: try the best (first web) link for each event
+            first_urls = [urls[0] for _, urls in event_links]
+            print(f"  Fetching og:image for {len(first_urls)} events (concurrency=10)...")
+            images = asyncio.run(fetch_og_images_batch(first_urls, concurrency=10))
 
+            # Identify failures that have fallback URLs
+            retry_list = []  # [(index_in_event_links, fallback_url), ...]
             updated = 0
-            for (pid, _), img_url in zip(url_map, images):
+            for i, ((pid, urls), img_url) in enumerate(zip(event_links, images)):
                 if img_url:
                     conn.execute(
                         "UPDATE events SET image_url = ? WHERE id_content = ?",
                         (img_url, pid),
                     )
                     updated += 1
+                elif len(urls) > 1:
+                    # Try next available link
+                    retry_list.append((i, urls[1]))
+
+            # Second pass: retry failures with fallback URL
+            if retry_list:
+                print(f"  Retrying {len(retry_list)} events with fallback links...")
+                retry_urls = [u for _, u in retry_list]
+                retry_images = asyncio.run(fetch_og_images_batch(retry_urls, concurrency=10))
+                for (idx, _), img_url in zip(retry_list, retry_images):
+                    if img_url:
+                        pid = event_links[idx][0]
+                        conn.execute(
+                            "UPDATE events SET image_url = ? WHERE id_content = ?",
+                            (img_url, pid),
+                        )
+                        updated += 1
+
             conn.commit()
-            print(f"  ✓ Scraped {updated}/{len(urls)} images")
+            print(f"  ✓ Scraped {updated}/{len(first_urls)} images")
         else:
             print("  No events with links to scrape")
     else:
