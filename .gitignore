@@ -46,6 +46,7 @@ docs/reports/
 .cursor/
 .codex
 .agents
+AGENTS*
 
 
 # -------- Tmp / Colab snapshot / Zip --------
