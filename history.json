@@ -313,5 +313,14 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-10-30T12:15:09.952Z"
+  },
+  {
+    "user_id": "7ed20770b1784cfd9929e4c38e2dc343",
+    "question": "Cho tôi thông tin về drama Jack J97",
+    "answer": "Bạn muốn biết chi tiết về drama nào trong các sự kiện kể trên?",
+    "source_type": "database",
+    "the_loai": "showbiz",
+    "su_kien": "",
+    "timestamp": "2026-10-30T13:15:39.570Z"
   }
 ]
