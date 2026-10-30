@@ -340,5 +340,14 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-10-30T15:02:47.049Z"
+  },
+  {
+    "user_id": "24471930822440690",
+    "question": "hello",
+    "answer": "ĐÚNG",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-30T15:15:59.102Z"
   }
 ]
