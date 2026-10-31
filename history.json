@@ -358,5 +358,14 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-10-30T15:16:14.980Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "hello",
+    "answer": "Hello! How can I help you today?",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-31T00:44:58.222Z"
   }
 ]
