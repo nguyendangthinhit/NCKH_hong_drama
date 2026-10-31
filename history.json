@@ -367,5 +367,14 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-10-31T00:48:51.536Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "Xin chào",
+    "answer": "Chào bạn!",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-31T00:50:24.160Z"
   }
 ]
