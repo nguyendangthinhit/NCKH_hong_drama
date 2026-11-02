@@ -307,6 +307,7 @@
   },
   {
     "user_id": "25195266413472651",
+<<<<<<< HEAD
     "question": "hello",
     "answer": "Chào mừng bạn đến với hệ thống! Tôi sẵn sàng giúp đỡ và trả lời các câu hỏi của bạn. Bạn có muốn hỏi điều gì hay muốn biết thông tin về các chức năng của hệ thống?",
     "source_type": "database",
@@ -358,5 +359,139 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-05-28T15:33:26.227Z"
+=======
+    "question": "sự kiện của miu lê",
+    "answer": "Miu Lê, ca sĩ nổi tiếng, bị bắt giữ vào ngày 30 / 10 / 2026 tại Hải Phòng vì sử dụng ma túy. Cảnh sát phát hiện chất ma trong hành lý của cô và ngay lập tức tiến hành điều tra pháp lý. Tin tức này được Vietnamnet và Tiền Phong đưa tin nhanh, nhấn mạnh rằng Miu Lê đang trong tình trạng điều tra và chưa có thông báo chính thức về kết quả.\n\nSự kiện đã gây sốc trên mạng xã hội, nơi có hàng ngàn bình luận và tranh luận về tác động của ma túy trong ngành showbiz. Các trang truyền thông đã nhanh chóng phản ứng, đồng thời lưu ý rằng thông tin hiện tại chỉ là những phát hiện ban đầu và chưa có quyết định cuối cùng.\n\nNếu bạn muốn biết thêm chi tiết về quá trình điều tra, phản ứng công chúng cụ thể hoặc các bước tiếp theo trong vụ việc, vui lòng cho biết.",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-30T12:15:09.952Z"
+  },
+  {
+    "user_id": "7ed20770b1784cfd9929e4c38e2dc343",
+    "question": "Cho tôi thông tin về drama Jack J97",
+    "answer": "Bạn muốn biết chi tiết về drama nào trong các sự kiện kể trên?",
+    "source_type": "database",
+    "the_loai": "showbiz",
+    "su_kien": "",
+    "timestamp": "2026-10-30T13:15:39.570Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "hello",
+    "answer": "Chào bạn! Bạn muốn tìm hiểu thêm về nghĩa của từ “Hello”, chi tiết về bộ phim “Hello Vietnam” 2017, hay cách mua phim trên trang Hello‑Drama.com? Hãy cho mình biết phần nào bạn quan tâm nhé.",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-30T14:48:20.642Z"
+  },
+  {
+    "user_id": "25195266413472651",
+    "question": "sự kiện của miu lê",
+    "answer": "Sự kiện của Miu Lê bắt đầu khi được báo cáo lần đầu vào ngày 13 tháng 5 2026 là đang bị điều tra vì sử dụng ma tư. Sự kiện này nhanh chóng lan rộng trên mạng, gây ra một cuộc tranh luận rộng rãi. Tình hình leo thang vào ngày 30 tháng 10 2026 khi cảnh sát tạm giam cô tại Hai Phòng vì có ma tư bất hợp pháp trong tay. Trước những sự kiện này, Miu Lê đã nhiều lần bị chỉ trích vì các cuộc tranh cãi nóng vội với các đồng nghiệp và những tuyên bố gây tranh cãi trên công chúng. Hai vụ việc vừa được truyền thông chú ý mạnh mẽ vừa khiến hình ảnh công chúng và sự nghiệp của cô bị ảnh hưởng đáng kể. Nếu muốn biết chi tiết hơn về một khía cạnh nào, vui lòng cho biết.",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-30T15:02:47.049Z"
+  },
+  {
+    "user_id": "24471930822440690",
+    "question": "hello",
+    "answer": "ĐÚNG",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-30T15:15:59.102Z"
+  },
+  {
+    "user_id": "24471930822440690",
+    "question": "hello",
+    "answer": "Chào bạn! Bạn cần hỗ trợ gì hôm nay?",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-30T15:16:14.980Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "hello",
+    "answer": "Hello! How can I help you today?",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-31T00:48:51.536Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "Xin chào",
+    "answer": "Chào bạn!",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-10-31T00:50:24.160Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "Cập nhật tin tức mới nhất của vụ án của Mr Pips và Shark Bình",
+    "answer": "Vụ án lừa đảo và rửa tiền của Shark Bình vẫn chưa có thông tin mới kể từ ngày 23/03/2026. Cơ quan điều tra đang tiếp tục tiến hành điều tra và chưa đưa ra quyết định xét xử hay công bố kết quả. Nếu bạn muốn biết thêm chi tiết về diễn biến, những bên liên quan hoặc phản ứng dư luận, vui lòng cho biết.",
+    "source_type": "database",
+    "the_loai": "showbiz",
+    "su_kien": "",
+    "timestamp": "2026-10-31T00:51:50.379Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "vụ của Shark Bình ngày 23/3 như thế nào",
+    "answer": "Ngày 23 tháng 3 năm 2026, Cơ quan Cảnh sát điều tra công bố quyết định khởi tố ông Nguyễn Văn Bình – còn gọi là “Shark Bình” – cùng 9 đồng phạm vì tội lừa đảo chiếm đoạt tài sản và vi phạm quy định kế toán. Quyết định dựa trên hồ sơ nắm bắt được hành vi thu lợi từ dự án tiền điện tử AntEx. Cảnh sát xác định rằng Binh và đồng phạm đã rút tiền từ 30.000 ví của nhà đầu tư, chuyển sang ví cá nhân, sau đó bán đổi thành tiền Việt Nam đồng. Ngoài ra, các cáo buộc còn bao gồm việc giảm lợi nhuận và che giấu doanh thu của công ty Nextland, vi phạm quy định kế toán. Sự kiện được đưa tin rộng rãi trên các phương tiện truyền thông, tuy nhiên dư luận chủ yếu giữ thái độ trung lập. Một số bình luận phẫn nộ và cá khịa nhưng không có công kích cá nhân. Cảnh sát hiện đang tiếp tục điều tra, thu thập thêm bằng chứng và xác định phạm vi thiệt hại. Đối với những thông tin chi tiết hơn về các bên liên quan hay diễn biến cụ thể, bạn có muốn biết thêm không?",
+    "source_type": "database",
+    "the_loai": "showbiz",
+    "su_kien": "",
+    "timestamp": "2026-10-31T00:55:24.143Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "có drama giáo dục nào không",
+    "answer": "Dưới đây là danh sách sáu sự kiện drama nổi bật trong giáo dục:  \n1. Hủy giải Nhất cuộc thi Khám phá khoa học công nghệ quốc gia tại Hưng Yên vì phát hiện đạo nhái dự án AI phân loại rác.  \n2. Vụ “đánh cắp” bài thi Genius Olympiad ở TP HCM, với mức độ tương đồng 86 %, khiến huy chương bị thu hồi.  \n3. Tranh cãi bãi bỏ xét tuyển học bạ THPT, hai phía có quan điểm trái ngược về phương pháp và công bằng.  \n4. Bất cập phổ điểm thi tốt nghiệp THPT 2025, khi điểm Toán và Vật lý tăng vọt, gây xôn xao trong cộng đồng học sinh và phụ huynh.  \n5. Dự án di dời các trường đại học khỏi nội đô Hà Nội, gặp phản ứng trái chiều về chi phí và hạ tầng.  \n6. Tranh cãi đưa tiếng Anh thành ngôn ngữ thứ hai, lo ngại chênh lệch vùng miền và năng lực giáo viên.  \n\nBạn muốn biết chi tiết về một sự kiện cụ thể nào?",
+    "source_type": "database",
+    "the_loai": "education",
+    "su_kien": "",
+    "timestamp": "2026-10-31T00:56:41.769Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "Top những drama được quan tâm nhất",
+    "answer": "Top những drama được quan tâm nhất hiện nay, theo dữ liệu mới nhất từ hệ thống Drama Intelligence, là:\n\n1. Vụ việc Mailisa – 5190 lượt bình luận, trong đó 1383 bình luận rác.  \n2. Hoàng Hường bị bắt vì sản xuất và buôn bán hàng giả – 4740 lượt thảo luận, 902 bình luận rác.  \n3. Shark Bình – 3620 lượt tương tác, 531 bình luận rác.  \n4. Thí điểm thi trung học phổ thông trên máy tính – 1212 lượt bình luận, 505 bình luận rác.  \n5. Vụ việc Sở Giáo dục và Đào tạo Ninh Bình xác minh clip lãnh đạo trường có hành động thân mật với phụ nữ – 1128 lượt thảo luận, 411 bình luận rác.\n\nBạn có muốn tôi đi sâu vào phân tích diễn biến tâm lý đám đông hoặc xem xét chi tiết các sắc thái dư luận của một sự kiện cụ thể nào không?",
+    "source_type": "database",
+    "the_loai": "insights",
+    "su_kien": "",
+    "timestamp": "2026-10-31T00:58:58.847Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "cho tôi biết tin drama về Hoàng Hường",
+    "answer": "Hoàng Hường, một doanh nhân trong ngành công nghiệp tiêu dùng, bị bắt giữ vào ngày 12 tháng 7 năm 2024. Cơ quan công tố cáo rằng anh đã tham gia vào chuỗi cung ứng hàng giả, vi phạm quy định về sản xuất và buôn bán hàng giả, gây hại nghiêm trọng cho người tiêu dùng và thị trường. Khi bị truy tố, anh đã ký biên bản nhận trách nhiệm và cam kết hợp tác với cuộc điều tra. Đến thời điểm hiện tại, các biện pháp xử lý tiếp theo – bao gồm mức án, hình thức xử lý hình sự và các biện pháp bảo vệ người tiêu dùng – vẫn chưa được công bố. Nếu cần thêm thông tin về quá trình điều tra, các bằng chứng thu thập hoặc dự kiến mức án, vui lòng cho biết.",
+    "source_type": "database",
+    "the_loai": "showbiz",
+    "su_kien": "",
+    "timestamp": "2026-11-02T10:42:24.614Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "hello",
+    "answer": "Xin chào! Tôi là ChatGPT, sẵn sàng hỗ trợ bạn với bất kỳ câu hỏi hoặc yêu cầu nào.",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-11-02T11:06:21.143Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "Thông tin về vụ của Shark Bình",
+    "answer": "Nguyễn Hòa Bình, hay biệt danh “Shark Bình”, sinh năm 1981, đã từng giữ chức vụ chủ tịch Hội đồng quản trị của tập đoàn công nghệ NextTech – một công ty có trụ sở tại Hà Nội và đã từng thu hút nhiều nhà đầu tư trong lĩnh vực blockchain. Từ 2023, ông đã triển khai dự án tiền điện tử AntEx, trong đó phát hành 33,2 tỷ token. Qua các kênh bán token, ông thu được khoảng 4,5 triệu USDT, tương đương 117 tỷ đồng. Để tạo uy tín, ông cam kết đầu tư 50 triệu USD vào quỹ Next100 Blockchain, tuy nhiên sau khi quỹ được quảng bá, ông đã rút tiền từ ví dự án, chuyển sang ví cá nhân và quy đổi sang VNĐ, sau đó phân phối cho các công ty trong hệ sinh thái NextTech, bao gồm Công ty CP Kinh doanh Bất động sản Nextland. \n\nĐể trốn thuế, ông sử dụng hai hệ thống sổ sách kế toán khác nhau, hạ giá trị bán hàng để giảm số thuế phải nộp, gây thiệt hại cho ngân sách nhà nước. Tham gia cùng ông là 9 cộng sự, tất cả đều đã bị truy tố đồng thời. Công an Hà Nội khởi tố ông vào 14/10/2025 với cáo buộc lừa đảo chiếm đoạt tài sản, vi phạm quy định kế toán và rửa tiền.",
+    "source_type": "database",
+    "the_loai": "showbiz",
+    "su_kien": "",
+    "timestamp": "2026-11-02T11:07:03.154Z"
+>>>>>>> db9034734c588bf301b5607ae3cf5a3f3cd619f3
   }
 ]

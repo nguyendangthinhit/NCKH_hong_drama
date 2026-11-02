@@ -44,6 +44,10 @@ docs/reports/
 .vscode/
 .idea/
 .cursor/
+.codex
+.agents
+AGENTS*
+
 
 # -------- Tmp / Colab snapshot / Zip --------
 _tmp/
