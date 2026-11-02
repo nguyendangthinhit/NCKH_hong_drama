@@ -421,5 +421,14 @@
     "the_loai": "showbiz",
     "su_kien": "",
     "timestamp": "2026-11-02T10:42:24.614Z"
+  },
+  {
+    "user_id": "24548557648146618",
+    "question": "hello",
+    "answer": "Xin chào! Tôi là ChatGPT, sẵn sàng hỗ trợ bạn với bất kỳ câu hỏi hoặc yêu cầu nào.",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-11-02T11:06:21.143Z"
   }
 ]
