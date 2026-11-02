@@ -466,5 +466,14 @@
     "the_loai": "showbiz",
     "su_kien": "",
     "timestamp": "2026-11-02T13:07:10.804Z"
+  },
+  {
+    "user_id": "7782a2af-d482-431c-af59-3c7913a3b648",
+    "question": "Thông tin về vụ của Shark Bình",
+    "answer": "Shark Bình, cựu chủ tịch Hội đồng quản trị Công ty cổ phần NextTech, bị khởi tố vào tháng 10 năm 2021 vì tội lừa đảo chiếm đoạt tài sản và vi phạm quy định kế toán. Theo báo cáo của Cơ quan Cảnh sát điều tra và Công an thành phố Hà Nội, ông đã tham gia huy động vốn từ hơn 30.000 nhà đầu tư qua dự án tiền số AntEx. Sau khi bán 33,2 tỷ token, NextTech thu về 4,5 triệu USDT, tương đương 117 tỷ đồng. Các cơ quan chức năng cho rằng ông và đồng nghiệp đã rút tiền từ ví dự án, chuyển vào ví cá nhân và bán đổi ra tiền Việt Nam. Họ cũng đã sử dụng tài sản của nhà đầu tư cho các công ty trong hệ sinh thái NextTech mà không tuân thủ mục đích đầu tư. Thêm vào đó, ông đã điều khiển kế toán giảm lợi nhuận và che giấu doanh thu, gây thiệt hại lớn cho ngân sách nhà nước. Các hành vi này được đánh giá là tội phạm lừa đảo và có đặc điểm rửa tiền, vì tiền thu được từ dự án được chuyển đổi và ẩn danh qua nhiều ví và tài khoản cá nhân.",
+    "source_type": "database",
+    "the_loai": "showbiz",
+    "su_kien": "",
+    "timestamp": "2026-11-02T13:08:19.769Z"
   }
 ]
