@@ -7,5 +7,14 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-11-02T13:17:00.616Z"
+  },
+  {
+    "user_id": "0e27063e-e04f-4da0-9eb5-7d62549724ff",
+    "question": "hello",
+    "answer": "Chào bạn! Bạn cần hỗ trợ gì hôm nay?",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-11-02T13:21:17.956Z"
   }
 ]
