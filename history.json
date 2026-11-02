@@ -448,5 +448,14 @@
     "the_loai": "showbiz",
     "su_kien": "",
     "timestamp": "2026-11-02T12:58:03.615Z"
+  },
+  {
+    "user_id": "7782a2af-d482-431c-af59-3c7913a3b648",
+    "question": "cho tôi biết về drama của Viruss",
+    "answer": "Bạn muốn biết chi tiết về phần nào trong các drama liên quan đến ViruSs?",
+    "source_type": "database",
+    "the_loai": "showbiz",
+    "su_kien": "",
+    "timestamp": "2026-11-02T13:05:32.679Z"
   }
 ]
