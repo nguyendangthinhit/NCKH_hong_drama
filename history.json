@@ -97,5 +97,14 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-11-06T15:46:32.390Z"
+  },
+  {
+    "user_id": "4a98abe9-fae4-4cb7-94bc-3f7b8408181b",
+    "question": "xin chào",
+    "answer": "Chào bạn! Bạn cần hỗ trợ gì hôm nay?",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-11-06T15:46:42.275Z"
   }
 ]
