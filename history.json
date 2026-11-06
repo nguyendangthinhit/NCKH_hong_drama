@@ -106,5 +106,14 @@
     "the_loai": "none",
     "su_kien": "",
     "timestamp": "2026-11-06T15:46:42.275Z"
+  },
+  {
+    "user_id": "4a98abe9-fae4-4cb7-94bc-3f7b8408181b",
+    "question": "tin tức hot nhât",
+    "answer": "Trong khoảng thời gian vừa qua, những sự kiện thu hút nhiều sự chú ý trên mạng xã hội được xếp theo mức độ thảo luận như sau:\n\n1. **Vụ Mailisa** – 5 190 lượt bình luận, trong đó 1 383 là bình luận rác.  \n2. **Vụ bà Hoàng Hường** – 4 740 lượt bình luận, 902 bình luận không liên quan.  \n3. **Vụ Shark Bình** – 3 620 lượt tương tác, liên quan đến cáo buộc lừa đảo và rửa tiền.  \n4. **Thí điểm thi trung học phổ thông trên máy tính** – 1 212 lượt bình luận, 505 bình luận rác.  \n5. **Vụ xôn xao tại Ninh Bình** – 1 128 lượt ý kiến, liên quan tới clip lãnh đạo trường THPT.  \n6. **Cuộc tranh luận về xếp hạng bác sĩ nội trú** – 879 lượt bình luận, 108 bình luận rác.\n\nBạn muốn đi sâu vào chi tiết hoặc phân tích cảm xúc của một trong những sự kiện này không?",
+    "source_type": "database",
+    "the_loai": "insights",
+    "su_kien": "",
+    "timestamp": "2026-11-06T15:47:06.969Z"
   }
 ]
