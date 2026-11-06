@@ -124,5 +124,14 @@
     "the_loai": "insights",
     "su_kien": "",
     "timestamp": "2026-11-06T16:26:01.550Z"
+  },
+  {
+    "user_id": "4a98abe9-fae4-4cb7-94bc-3f7b8408181b",
+    "question": "tin tức mới nhất",
+    "answer": "Dưới đây là danh sách các sự kiện đang thu hút nhiều dư luận rác nhất theo dữ liệu mới nhất từ hệ thống:\n\n1. **Mailisa** – nghi vấn buôn lậu. 1.383 bình luận rác trong tổng số 5.190 bình luận.  \n2. **Bà Hoàng Hường** – bị bắt vì sản xuất và buôn bán hàng giả. 902 bình luận rác trong 4.740 lượt tương tác.  \n3. **Shark Bình** – cáo buộc vi phạm pháp luật. 531 bình luận không liên quan trong 3.620 phản hồi.  \n4. **Kera** – bê bối quảng cáo quá mức cho sản phẩm kẹo giảm cân. 303 bình luận rác trong 1.311 bình luận.  \n5. **Jack & Thúy Vy** – lùm xùm tình cảm. 252 bình luận rác trong 885 bình luận.\n\nNhững con số này phản ánh mức độ lớn của thông tin nhiễu loạn xung quanh các sự kiện chấn động. Nếu bạn muốn tìm hiểu sâu hơn về nguyên nhân hoặc tác động của những bình luận rác này, xin cho biết.",
+    "source_type": "database",
+    "the_loai": "insights",
+    "su_kien": "",
+    "timestamp": "2026-11-06T16:26:34.308Z"
   }
 ]
