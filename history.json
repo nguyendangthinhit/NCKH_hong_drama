@@ -115,5 +115,14 @@
     "the_loai": "insights",
     "su_kien": "",
     "timestamp": "2026-11-06T15:47:06.969Z"
+  },
+  {
+    "user_id": "4a98abe9-fae4-4cb7-94bc-3f7b8408181b",
+    "question": "tin tức hot nhất",
+    "answer": "Top các sự kiện nổi bật nhất trong lĩnh vực giáo dục, dựa trên số lượt bình luận và mức độ thảo luận hiện nay, là:\n\n1. Thí điểm thi trung học phổ thông trên máy tính – 1.212 lượt bình luận, 505 phản hồi rác.\n2. Vụ việc Ninh Bình: Sở Giáo dục và Đào tạo xác minh clip lãnh đạo một trường trung học phổ thông có hành động thân mật với nhiều phụ nữ – 1.128 lượt bình luận.\n3. Tranh luận xếp bác sĩ nội trú và chuyên khoa tương đương trình độ thạc sĩ – 879 lượt bình luận, 108 phản hồi rác.\n4. Đề thi tốt nghiệp trung học phổ thông năm 2025 được đánh giá khó hơn dự kiến – 783 lượt bình luận.\n5. Kế hoạch di dời các trường đại học Hà Nội về phía Tây thành phố – 631 lượt bình luận.\n\nBạn muốn tôi phân tích sâu hơn về phản ứng của người dùng đối với bất kỳ sự kiện cụ thể nào trong danh sách này không?",
+    "source_type": "database",
+    "the_loai": "insights",
+    "su_kien": "",
+    "timestamp": "2026-11-06T16:26:01.550Z"
   }
 ]
