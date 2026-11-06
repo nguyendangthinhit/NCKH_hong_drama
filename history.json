@@ -70,5 +70,14 @@
     "the_loai": "showbiz",
     "su_kien": "",
     "timestamp": "2026-11-02T13:44:47.378Z"
+  },
+  {
+    "user_id": "4a98abe9-fae4-4cb7-94bc-3f7b8408181b",
+    "question": "hi",
+    "answer": "Chào bạn!",
+    "source_type": "database",
+    "the_loai": "none",
+    "su_kien": "",
+    "timestamp": "2026-11-06T04:33:22.546Z"
   }
 ]
