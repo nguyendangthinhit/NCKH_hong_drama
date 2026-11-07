@@ -1,0 +1,162 @@
+{
+  "name": "FB Messenger -> local chat agent",
+  "nodes": [
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000001",
+      "name": "Meta xac minh (GET)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "a1f0c001-aaaa-4000-8000-0000000000aa",
+      "parameters": {
+        "httpMethod": "GET",
+        "path": "fb-messenger",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000002",
+      "name": "Dung verify token?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [220, 0],
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 2 },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.query['hub.mode'] }}",
+              "rightValue": "subscribe",
+              "operator": { "type": "string", "operation": "equals" }
+            },
+            {
+              "id": "c2",
+              "leftValue": "={{ $json.query['hub.verify_token'] }}",
+              "rightValue": "DOI_THANH_VERIFY_TOKEN_CUA_BAN",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000003",
+      "name": "Tra challenge",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [440, -100],
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      }
+    },
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000004",
+      "name": "Tu choi 403",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [440, 100],
+      "parameters": {
+        "respondWith": "noData",
+        "options": { "responseCode": 403 }
+      }
+    },
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000005",
+      "name": "Meta su kien (POST)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 400],
+      "webhookId": "a1f0c001-bbbb-4000-8000-0000000000bb",
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fb-messenger",
+        "responseMode": "onReceived",
+        "options": {}
+      }
+    },
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000006",
+      "name": "Tach tin nhan",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 400],
+      "parameters": {
+        "jsCode": "// Meta có thể gửi nhiều tin trong một request. Chỉ giữ tin nhắn chữ của người dùng;\n// bỏ echo (tin do chính page gửi), delivery/read, sticker, ảnh. Không còn tin nào -> dừng.\nconst out = [];\nfor (const item of $input.all()) {\n  const body = item.json.body || {};\n  if (body.object !== 'page') continue;\n  for (const entry of body.entry || []) {\n    for (const ev of entry.messaging || []) {\n      const msg = ev.message;\n      if (!msg || msg.is_echo || typeof msg.text !== 'string' || !msg.text.trim()) continue;\n      out.push({ json: { sender_id: String(ev.sender.id), text: msg.text.slice(0, 2000) } });\n    }\n  }\n}\nreturn out;"
+      }
+    },
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000007",
+      "name": "Bao dang go",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [440, 400],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v23.0/me/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ recipient: { id: $json.sender_id }, sender_action: 'typing_on' }) }}",
+        "options": { "timeout": 5000 }
+      }
+    },
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000008",
+      "name": "Goi agent local",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [660, 400],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "method": "POST",
+        "url": "https://drama-chat-agent.dev01-velrano.workers.dev/chat",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ user_id: $('Tach tin nhan').item.json.sender_id, message: $('Tach tin nhan').item.json.text, source: 'messenger' }) }}",
+        "options": { "timeout": 30000 }
+      }
+    },
+    {
+      "id": "a1f0c001-0000-4000-8000-000000000009",
+      "name": "Gui tra loi",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [880, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v23.0/me/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ recipient: { id: $('Tach tin nhan').item.json.sender_id }, messaging_type: 'RESPONSE', message: { text: String($json.reply || 'Xin lỗi, hệ thống đang bận hoặc đang tắt. Bạn thử lại sau nhé.').slice(0, 2000) } }) }}",
+        "options": { "timeout": 10000 }
+      }
+    }
+  ],
+  "connections": {
+    "Meta xac minh (GET)": { "main": [[{ "node": "Dung verify token?", "type": "main", "index": 0 }]] },
+    "Dung verify token?": {
+      "main": [
+        [{ "node": "Tra challenge", "type": "main", "index": 0 }],
+        [{ "node": "Tu choi 403", "type": "main", "index": 0 }]
+      ]
+    },
+    "Meta su kien (POST)": { "main": [[{ "node": "Tach tin nhan", "type": "main", "index": 0 }]] },
+    "Tach tin nhan": { "main": [[{ "node": "Bao dang go", "type": "main", "index": 0 }]] },
+    "Bao dang go": { "main": [[{ "node": "Goi agent local", "type": "main", "index": 0 }]] },
+    "Goi agent local": { "main": [[{ "node": "Gui tra loi", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}

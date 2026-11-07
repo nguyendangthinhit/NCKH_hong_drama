@@ -131,6 +131,56 @@ Code tải danh sách key từ `/api.txt`, thử lần lượt từng key khi l�
 
 Việc tự phân tích lại dùng điều kiện số dòng lịch sử thay đổi hoặc history trong closure còn rỗng; không có so sánh nội dung/hash chắc chắn. Chưa xác minh giới hạn token, ngân sách gọi, phân trang lịch sử hay độ chính xác của top 5 do LLM suy ra.
 
+## 8b. Agent chatbot local `serving/chat_agent/` (thêm 2026-11-05)
+
+Service FastAPI thay agent n8n cho chatbot website; Messenger sẽ nối qua workflow n8n mới → ngrok (domain tĩnh) → agent. `Chatbot.jsx` đã đổi sang gọi agent (mặc định `http://127.0.0.1:8010/chat`, đổi bằng `VITE_CHAT_API_URL`). Các mục 2–7 ở trên mô tả agent n8n cũ, giữ để tham chiếu.
+
+| Bước | Cài đặt | Gọi mạng |
+|---|---|---|
+| 1. Luật | Chào / hỏi chức năng / tục tĩu → câu cố định (`intent_rules.py`) | Không |
+| 2. Khớp sự kiện | Điểm từ vựng bỏ dấu (unigram + bigram, IDF; tiêu đề/nhân vật ×3) trên `data/raw/showbiz.json` + `education.json` nạp vào RAM; gom tối đa 3 sự kiện điểm gần nhau (một người nhiều vụ) | Không |
+| 3. Insight | Hỏi top/thống kê mà không khớp mạnh sự kiện → lát cắt `data/analysis-output/insights.json`; hỏi dư luận → kèm `analyzed` của sự kiện | Không |
+| 4. Nối tiếp | "vụ đó", "dư luận thế nào"… → dùng sự kiện gần nhất của phiên (RAM, 3 lượt, hết hạn 30 phút) | Không |
+| 5. Trả lời | Đúng 1 lần LLM: Groq `qwen/qwen3.8-27b` (xoay vòng khoá, timeout 6s) → lỗi thì Gemini `gemini-3.5-flash-lite` | 1 |
+| 6. Không khớp | Có từ khoá drama → hỏi lại; không → báo ngoài phạm vi | Không |
+
+Không dùng Supabase, embedding, Cohere hay Firecrawl: mỗi sự kiện ở local ngắn (162–3.196 ký tự), báo cáo ghi chunk_size 7000 nên một sự kiện ≈ một chunk; tìm đúng sự kiện rồi đưa nguyên nội dung cho LLM. Lịch sử không còn ghi `history.json`.
+
+Hợp đồng: `POST /chat` nhận `{message, userId | user_id, source?}` (message ≤ 2.000 ký tự), trả `{reply, intent, event_ids, timings_ms}`; `GET /health`. Request gọi thẳng từ 127.0.0.1 không cần khoá; request qua tunnel (có `X-Forwarded-For`) phải gửi header `X-Agent-Key` = `AGENT_API_KEY`. CORS chỉ cho origin web local. Khoá và model cấu hình trong `serving/chat_agent/.env` (mẫu `.env.example`, file thật bị gitignore).
+
+Chạy: `cd serving/chat_agent && .venv/Scripts/python.exe -m uvicorn app:app --host 127.0.0.1 --port 8010`. Cài lần đầu: `uv venv .venv --python 3.11 && uv pip install --python .venv/Scripts/python.exe -r requirements.txt`. Test: `.venv/Scripts/python.exe -m pytest tests`.
+
+Kiểm chứng 2026-11-05: 12 test không LLM đạt; 14 câu (phần lớn lấy từ câu hỏi thật trong history) chạy 3 lượt với LLM thật: nhánh có LLM trung vị 0,7–0,9s, chậm nhất 6,6s (Groq treo, đổi khoá); nhánh luật < 5ms. Giới hạn: khớp từ vựng chưa hiểu diễn đạt khác hẳn tên sự kiện; `showbiz_034` (Shark Bình) trong dữ liệu chỉ có câu giữ chỗ nên bot báo thiếu thông tin; Gemini đang hay trả 503.
+
+### 8c. Nối Messenger qua n8n (thêm 2026-11-05, chưa chạy thật với Meta)
+
+Checklist giao việc cho người khác (2026-11-07): [`huong-dan-noi-messenger-n8n.md`](huong-dan-noi-messenger-n8n.md).
+
+Workflow import: [`serving/chat_agent/n8n/messenger-to-local-agent-workflow.json`](../serving/chat_agent/n8n/messenger-to-local-agent-workflow.json) (9 node, không chứa khoá). Webhook path `fb-messenger`, cùng URL cho GET và POST.
+
+- **GET (Meta xác minh):** `hub.mode = subscribe` và `hub.verify_token` khớp chuỗi trong node `Dung verify token?` → trả `hub.challenge`; sai → 403.
+- **POST (tin nhắn):** trả 200 ngay cho Meta → `Tach tin nhan` (chỉ giữ tin chữ của người dùng; bỏ echo, delivery/read, ảnh, sticker) → `Bao dang go` (typing_on, lỗi thì bỏ qua) → `Goi agent local` (`POST <ngrok>/chat`, body `{user_id: PSID, message, source: "messenger"}`, timeout 30s) → `Gui tra loi` (Send API v23, `messaging_type: RESPONSE`, cắt 2.000 ký tự). Agent lỗi/tắt → gửi câu "hệ thống đang bận".
+- **Credential n8n (nhập lại mỗi lần đổi tài khoản):** `Header Auth` tên `X-Agent-Key`, giá trị = `AGENT_API_KEY` trong `.env` (gắn vào `Goi agent local`); `Query Auth` tên `access_token`, giá trị = Page Access Token (gắn vào `Bao dang go` và `Gui tra loi`). Token không còn nằm trong URL node.
+- **Thay placeholder:** `DOI_THANH_VERIFY_TOKEN_CUA_BAN` (chuỗi tự đặt, dán giống hệt ở Meta). URL agent trong workflow đã trỏ sẵn Worker `https://drama-chat-agent.dev01-velrano.workers.dev/chat` (mục 8d; từ 2026-11-06 thay cho ngrok, vì 360 Total Security xoá `ngrok.exe` trên máy dev).
+- **Agent:** Worker Cloudflare (mục 8d) chạy khi máy tắt. Nếu dùng lại agent Python local thì phải có tunnel riêng.
+- **Meta:** Callback URL = production webhook URL của n8n (`.../webhook/fb-messenger`), Verify token như trên, subscribe field `messages` cho Page. Workflow phải bật (Active).
+
+Kiểm chứng 2026-11-05 (không qua Meta/n8n thật): JSON hợp lệ, cạnh nối đúng tên node; code `Tach tin nhan` chạy bằng Node trên payload mẫu chỉ giữ 1/5 tin (bỏ echo, ảnh, delivery, tin trống); agent nhận request giả lập tunnel: thiếu/sai khoá → 401, đúng khoá → 200 sau 1,6s. Chưa kiểm: import vào n8n, xác minh webhook với Meta, gửi tin thật. Chưa xác thực chữ ký `X-Hub-Signature-256` của Meta ở webhook n8n (agent vẫn được bảo vệ bằng khoá).
+
+### 8d. Bản Cloudflare Worker `serving/chat_agent_worker/` (thêm 2026-11-06, deploy 2026-11-06)
+
+Port TypeScript của agent Python để có URL cố định `*.workers.dev`, không cần tunnel, máy tắt vẫn chạy. Python `serving/chat_agent/` giữ làm chuẩn tham chiếu. Plan: `plans/261106-2024-cloudflare-worker-chat-agent/plan.md`.
+
+- **Khác biệt so với bản Python:** chỉ mục khớp sự kiện (IDF + danh sách sự kiện theo từ, 85 sự kiện, 14.705 từ, 805 KB) dựng sẵn bằng `scripts/build_agent_data.py` (dùng lại code Python) vào `src/generated/agent-data.json`, vì gói Workers miễn phí giới hạn CPU/request. Cập nhật dữ liệu sự kiện/insights → chạy lại `npm run build-data` rồi deploy. Bộ nhớ phiên: từ 2026-11-06 ở Durable Object `SessionStore` (SQLite, mỗi phiên `source:userId` một instance, ghi xong mới trả lời, alarm xoá sau 30 phút không hoạt động); trước đó dùng KV nhưng KV nhất quán sau nên câu hỏi dồn đọc phiên cũ. Xoay khoá LLM chọn ngẫu nhiên thay vì vòng tuần tự.
+- **Xác thực:** `Origin` nằm trong `ALLOWED_ORIGINS` (web) gọi không cần khoá; còn lại (n8n) phải có `X-Agent-Key` = secret `AGENT_API_KEY`; không cấu hình khoá thì từ chối. Origin giả mạo được bằng curl, nên người ngoài biết URL vẫn gọi được và tiêu hao hạn mức LLM; chấp nhận ở giai đoạn nghiên cứu.
+- **Secret:** `GROQ_API_KEYS`, `GEMINI_API_KEYS`, `AGENT_API_KEY` qua `wrangler secret put`; `.dev.vars` (local, đã ignore) cho `wrangler dev`.
+- **Kiểm chứng:** local 2026-11-06: 13 test vitest đạt (nay 14), khớp Python 129/129 câu về sự kiện, điểm, cờ ý định; `wrangler dev` + Groq thật 0,6–1,3s. Sau deploy 2026-11-07 (bản Durable Object): `/health` 200 (85 sự kiện); thiếu khoá → 401; 3 lượt thật qua Internet: Groq 0,62–0,66s phía Worker, tổng 0,9–1,7s từ máy dev, lượt 2 nhận đúng `event_followup` nhờ Durable Object. Chưa kiểm: CPU/giới hạn gói miễn phí dưới tải, nối n8n và Messenger thật.
+- **Triển khai (2026-11-06):** tài khoản Cloudflare `dev01.velrano@gmail.com`, Worker `drama-chat-agent`, URL `https://drama-chat-agent.dev01-velrano.workers.dev` (`POST /chat`, `GET /health`), Durable Object `SessionStore` (binding `SESSIONS`), 3 secret lấy từ `serving/chat_agent/.env`. Web đọc URL từ `VITE_CHAT_API_URL` (`serving/web_v2/frontend/.env.local`, mẫu ở `.env.example`). Deploy lại: `cd serving/chat_agent_worker && npx wrangler deploy`.
+- **Kiểm chứng sau deploy (2026-11-06):** thiếu khoá → 401; preflight CORS từ `127.0.0.1:5173` → 204; Origin web không khoá → 200; chào → `greeting` 0,45s; "Shark Bình có drama gì?" → `showbiz_034`, LLM ~0,5s, tổng HTTP 0,6–0,9s. Gửi tiếng Việt bằng `curl -d "..."` trên Windows làm hỏng dấu (bị xếp `unrelated`); thử bằng file JSON UTF-8 (`--data-binary @file`).
+- **Bộ nhớ phiên KV → Durable Object (2026-11-06):** với KV, câu nối tiếp gửi ngay sau câu trước đọc phiên cũ, khớp sai `showbiz_035`; chờ 70s mới đúng. Sau khi đổi sang DO: hỏi dồn không chờ → `event_followup` → `showbiz_034` (3/3 lượt qua n8n-key, 1/1 qua Origin web). Độ trễ HTTP đo từ máy dev: câu chào cùng người dùng 0,24–0,44s (ngang KV), phiên mới thêm ~0,3s tạo DO; câu có LLM 1,2–1,8s (bản KV 0,6–0,9s). Đọc phiên lỗi thì dùng phiên rỗng (một lần 500 ngay sau deploy đầu, chưa rõ nguyên nhân gốc); ghi lỗi thì tạo lại stub. Gọi không khoá (Origin web) luôn bị gán `source=web`, không chen được vào phiên Messenger.
+- **Giới hạn đã biết:** hai tin cùng người dùng gửi song song có thể cùng đọc phiên cũ; người gọi không gửi `user_id` dùng chung phiên `anonymous`; Origin vẫn giả mạo được nên ai biết URL có thể gọi không khoá (chỉ vào phiên `web:*`).
+- **Giới hạn:** DO gói miễn phí giới hạn request/ngày (mỗi lượt chat 2 lời gọi DO). Namespace KV `SESSIONS` (id `a9a4a97caca046cdb714e8b06d0b28df`) tạo trước đó nay không dùng.
+
 ## 9. Điểm còn thiếu thông tin
 
 1. Bản export workflow chatbot đang dùng và model/config của từng node; prompt local nào đang được triển khai?

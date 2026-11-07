@@ -144,7 +144,7 @@ Các `.npy` PhoBERT/node_features và checkpoint GNN tìm thấy ở `data/gnn-r
 2. Chưa có bằng chứng nối dự đoán PhoBERT/GNN vào luồng tạo summary/insight đang phục vụ web. Không có fallback LLM tự động trong batch inference hiện tại.
 3. CSV kiểm duyệt chưa có verified_label, có ID lặp; chia theo dòng/node và TF-IDF fit toàn dữ liệu giới hạn cách diễn giải kết quả. Chi tiết dữ liệu ở loại 5.
 4. Snapshot insight/full không hoàn toàn khớp; code tổng hợp hiện tại và artifact có thể khác phiên bản. Cần xác định input/lần chạy chuẩn để tái lập.
-5. README GNN có đường dẫn notebook/requirements/checkpoint mang tính hướng dẫn nhưng không phải tất cả file đều có trong working tree; tài liệu này mô tả code đã kiểm tra, không coi chuỗi lệnh cũ là đã chạy lại thành công.
+5. Working tree hiện có `ml/gnn/train_gnn_colab.ipynb`, `ml/gnn/requirements.txt` và notebook fine-tune PhoBERT. Requirements GNN chỉ khai báo active các gói chuẩn bị local; nhóm torch/transformers/PyG cho Colab còn ở comment. Notebook chưa có output được lưu, checkpoint vẫn cần đối chiếu đúng vị trí; sự hiện diện của notebook không chứng minh đã chạy lại thành công. Chi tiết tái lập ở loại 16.
 
 ## 9. Nguồn đối chiếu
 

@@ -1,0 +1,167 @@
+@use '../../styles/theme' as *;
+
+// Cột nội dung giữa, rộng tối đa 820px cho dễ đọc.
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 28px 20px 12px;
+}
+
+.rowUser {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rowBot {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: $brand-gradient;
+  color: #fff;
+  font-size: 18px;
+}
+
+.bubbleUser {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 18px 18px 4px 18px;
+  background: $brand-gradient;
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.bubbleBot {
+  max-width: calc(100% - 48px);
+  padding: 12px 16px;
+  border: 1px solid $border;
+  border-radius: 4px 18px 18px 18px;
+  background: $bg-card;
+  color: $text-main;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  word-break: break-word;
+  box-shadow: 0 2px 10px rgba(27, 14, 14, 0.04);
+
+  p { margin: 0 0 8px; }
+  p:last-child { margin-bottom: 0; }
+  ul, ol { margin: 4px 0 8px 20px; }
+  strong { color: $primary-dark; }
+}
+
+.bubbleError {
+  border-color: rgba(234, 42, 51, 0.35);
+  background: #fff5f5;
+}
+
+// 3 chấm nhấp nháy khi chờ bot.
+.typing {
+  display: flex;
+  gap: 5px;
+  padding: 16px 18px;
+
+  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $primary-light;
+    animation: blink 1.2s infinite ease-in-out;
+  }
+
+  span:nth-child(2) { animation-delay: 0.2s; }
+  span:nth-child(3) { animation-delay: 0.4s; }
+}
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.25; transform: translateY(0); }
+  40% { opacity: 1; transform: translateY(-3px); }
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.welcomeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 18px;
+  border-radius: 22px;
+  background: $brand-gradient;
+  color: #fff;
+  font-size: 36px;
+  box-shadow: 0 10px 30px rgba(200, 16, 46, 0.3);
+}
+
+.welcomeTitle {
+  margin-bottom: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: $text-main;
+}
+
+.welcomeText {
+  max-width: 520px;
+  margin-bottom: 28px;
+  color: $text-sub;
+  line-height: 1.6;
+}
+
+.suggestions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+}
+
+.suggestion {
+  padding: 14px 16px;
+  border: 1px solid $border-strong;
+  border-radius: 14px;
+  background: $bg-card;
+  color: $text-main;
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    border-color: $primary;
+    box-shadow: 0 4px 14px rgba(200, 16, 46, 0.12);
+    transform: translateY(-1px);
+  }
+}
+
+@media (max-width: 640px) {
+  .list { padding: 20px 12px 8px; }
+  .bubbleUser { max-width: 88%; }
+  .suggestions { grid-template-columns: 1fr; }
+  .welcomeTitle { font-size: 1.5rem; }
+}

@@ -175,7 +175,7 @@ Theo báo cáo nghiệm thu (chưa kiểm tra trực tiếp trên Google):
 | 2 | `status` lẫn `Done` / `done` | Truy vấn `events.db` |
 | 3 | Cột `image_url` NULL ở 45/85 sự kiện | Truy vấn `events.db` |
 | 4 | `total_comments` bằng 0 với sự kiện ngoài top, dù sự kiện có bình luận | `build_db.py:build_hot_lookup` |
-| 5 | Dashboard đọc `main/data/insights.json` trên GitHub; trong repo file nằm ở `data/analysis-output/insights.json` | `App.tsx:17` |
+| 5 | Dashboard hiện đọc `main/data/analysis-ouput/insights.json` (code đang dùng `ouput`); trong repo file nằm ở `data/analysis-output/insights.json` | `App.tsx:17` |
 | 6 | Báo cáo ghi 32.076 bình luận thô và 2.454 rác ở phần tổng kết, nhưng `insights.json` ghi 36.078 và 6.456 (trùng Hình 3.12 trong báo cáo) | `drama-intelligence-du-an.md`; `insights.json` |
 | 7 | Báo cáo mô tả mọi dữ liệu web nằm trên Google Sheets/Apps Script; thực tế web đọc `events.db` | `app.py` |
 

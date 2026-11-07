@@ -28,11 +28,11 @@ Xác nhận danh sách: user, 2026-10-29. Bộ kit gốc có 11 loại; dự án
 | 9 | Hợp đồng tích hợp | `docs/hop-dong-tich-hop.md` | Bản nháp, chờ user duyệt |
 | 10 | Backend / serving | `docs/backend-serving.md` | User đã duyệt, 2026-10-29 |
 | 11 | Thuộc tính chất lượng | `docs/thuoc-tinh-chat-luong.md` | Bản nháp, chờ user duyệt |
-| 12 | Bảo mật, dữ liệu, pháp lý và đạo đức | `docs/bao-mat-va-phap-ly.md` | Chưa viết |
-| 13 | Testing và nghiệm thu | `docs/testing-va-nghiem-thu.md` | Chưa viết |
-| 14 | Maintenance | `docs/maintenance.md` | Chưa viết |
-| 15 | User workflow và chức năng | `docs/user-workflow-va-chuc-nang.md` | Chưa viết |
-| 16 | Tái lập thí nghiệm | `docs/tai-lap-thi-nghiem.md` | Chưa viết |
+| 12 | Bảo mật, dữ liệu, pháp lý và đạo đức | `docs/bao-mat-va-phap-ly.md` | Bản nháp, chờ user duyệt |
+| 13 | Testing và nghiệm thu | `docs/testing-va-nghiem-thu.md` | Bản nháp, chờ user duyệt |
+| 14 | Maintenance | `docs/maintenance.md` | Bản nháp, chờ user duyệt |
+| 15 | User workflow và chức năng | `docs/user-workflow-va-chuc-nang.md` | Bản nháp, chờ user duyệt |
+| 16 | Tái lập thí nghiệm | `docs/tai-lap-thi-nghiem.md` | Bản nháp, chờ user duyệt |
 | – | Triển khai và hạ tầng | – | Chưa có (hoãn) |
 | – | Hướng dẫn sử dụng | – | Chưa có (hoãn) |
 

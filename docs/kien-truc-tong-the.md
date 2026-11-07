@@ -36,6 +36,10 @@ Chưa có đăng nhập hay phân quyền trong code (API chỉ có GET, CORS m�
 
 ### 3.1 Sơ đồ tổng quan
 
+![Sơ đồ tổng quan](images/so-do-tong-quan.png)
+
+Mã nguồn sơ đồ (Mermaid):
+
 ```mermaid
 flowchart LR
   subgraph IN[Thu thập - n8n]
@@ -167,7 +171,7 @@ Code là source of truth. Các document cũ giữ nguyên, nhưng khi đọc ph�
 | 1 | Backend web là Google Apps Script + Google Sheets (báo cáo 3.2.1.3.3) | FastAPI + SQLite. Apps Script chỉ còn là nguồn phụ lấy `links`, `status` khi build DB | `build_db.py:3-5, 41-60`; `app.py` |
 | 2 | Backend Node.js/Express + MongoDB (`thông tin về dự án.docx`) | Không có Node backend hay MongoDB trong repo | `serving/web_v2/backend/requirements.txt` |
 | 3 | Dashboard hiển thị trên AI Studio | Có bản React trong repo, và vẫn trỏ AI Studio trong README | `serving/dashboard/README.md` |
-| 4 | Dashboard lấy `insights.json` tại `main/data/insights.json` trên GitHub | File trong repo ở `data/analysis-output/insights.json`, không có `data/insights.json` | `App.tsx:17`; `ls data/` |
+| 4 | Dashboard hiện lấy `insights.json` tại `main/data/analysis-ouput/insights.json` trên GitHub | Code dùng `ouput`, còn thư mục local là `data/analysis-output/`; chưa xác minh nguồn remote | `App.tsx:17`; `ls data/` |
 | 5 | Cổng backend 8000 (mặc định `api.js:1`, docstring `app.py:3`) | README hướng dẫn chạy cổng 8001 và đặt `VITE_API_BASE` | `serving/web_v2/README.md` |
 | 6 | Dispatcher có 3 nhánh gồm `branch_firecrawl` (báo cáo ch.3) | `docs/prompts/agent đầu tien.md` chỉ có 2 nhánh (`branch_greeting`, `branch_database`) | Hai file prompt |
 | 7 | `README.md` gốc: `serving/code_web/`, `ingestion/cao_fb/` | Thư mục thực là `serving/web_v2/`; `ingestion/cao_fb/` đã xóa khỏi working tree | `ls serving ingestion` |
@@ -186,7 +190,7 @@ Hạng mục dự định làm sau (chưa có plan cụ thể): xem bảng "Vi�
 
 ## 9. Câu hỏi mở
 
-1. File `insights.json` trên GitHub (`main/data/insights.json`) có tồn tại và đang được dùng cho dashboard không? Trong repo chỉ có bản ở `data/analysis-output/`.
+1. File `insights.json` trên GitHub (`main/data/analysis-ouput/insights.json`, theo code hiện tại) có tồn tại và đang được dùng cho dashboard không? Trong repo chỉ có bản ở `data/analysis-output/`.
 2. Dispatcher đang chạy trên n8n cloud là bản 2 nhánh hay 3 nhánh (có `branch_firecrawl`)?
 3. Dữ liệu trong Supabase hiện nạp từ file nào, và có gồm Showbiz mới không?
 4. Dashboard chính thức chạy ở đâu: bản trong repo hay AI Studio?

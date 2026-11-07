@@ -11,7 +11,7 @@ Cấu trúc kho chi tiết ở [loại 3](./database-va-du-lieu.md), thu thập 
 | Bên cung cấp → bên nhận | Giao diện hiện có | Dữ liệu chính |
 |---|---|---|
 | FastAPI → website | HTTP GET `/api/*` | Sự kiện, top, danh mục, thống kê |
-| Website → n8n | HTTP POST `/webhook/nckh` | Câu hỏi và userId; client đợi reply |
+| Website → agent local | HTTP POST `http://127.0.0.1:8010/chat` (từ 2026-11-05, thay webhook n8n `/webhook/nckh`) | Câu hỏi và userId; client đợi reply. Hợp đồng chi tiết: [loại 7 mục 8b](./llm-agent-rag.md) |
 | GitHub raw → dashboard | HTTP GET JSON | Insights và lịch sử hội thoại |
 | Dashboard → Gemini | GoogleGenAI trong browser | Câu hỏi lịch sử → top chủ đề |
 | Apps Script → build_db | HTTP GET | Links và status theo mã sự kiện |
@@ -91,6 +91,8 @@ Không thấy SLA, rate limit, idempotency key hoặc contract test tự động
 
 ## 6. Webhook chatbot: phần quan sát được từ client
 
+Cập nhật 2026-11-05: chatbot nay gọi agent local `serving/chat_agent` (xem [loại 7 mục 8b](./llm-agent-rag.md)); đoạn dưới mô tả hợp đồng webhook n8n cũ, body request giữ nguyên.
+
 Chatbot POST trực tiếp JSON tới webhook n8n `/webhook/nckh`, không qua FastAPI ở trên. Request có hai trường: `message` lấy input và `userId` từ cookie. Thiếu cookie thì client dùng crypto.randomUUID, lưu cookie path `/` tối đa một năm. Request không gửi toàn bộ mảng messages.
 
 Client parse JSON; nếu response là array thì lấy phần tử đầu, sau đó đọc `result.reply`. Không có reply thì dùng thông báo không có phản hồi; lỗi fetch/parse/truy cập object vào catch và có thể dùng câu mẫu `datamock.js`. Hàm chưa kiểm `res.ok`, timeout hay retry. Đây là cách client tiêu thụ response, không phải bằng chứng server luôn trả đúng object/mảng đó.
@@ -107,7 +109,7 @@ Nếu gọi/parse/duyệt dữ liệu lỗi, hàm catch exception và trả `{}`
 
 ## 8. Dashboard và các giao diện JSON/file
 
-Dashboard `App.tsx` tải insight từ GitHub raw `main/data/insights.json`, đọc JSON và đưa thẳng vào state; state ban đầu dùng `constants.tsx`, lần tải sau lỗi thì giữ dữ liệu đang có, làm mới mỗi 30 giây. File local hiện ở `data/analysis-output/insights.json`; chưa xác minh hai nguồn cùng phiên bản.
+Dashboard `App.tsx` tải insight từ GitHub raw `main/data/analysis-ouput/insights.json` (giá trị code hiện tại dùng `ouput`), đọc JSON và đưa thẳng vào state; state ban đầu dùng `constants.tsx`, lần tải sau lỗi thì giữ dữ liệu đang có, làm mới mỗi 30 giây. File local hiện ở `data/analysis-output/insights.json`; chưa xác minh hai nguồn cùng phiên bản.
 
 TypeScript `InsightsData` mô tả ba phần overall/education/showbiz; các nhánh gồm số sự kiện, comment_stats, phân bố nhãn, top_events_by_comments, events_by_year. Count là số, nhiều tỷ lệ là chuỗi có `%`. Interface TypeScript không phải validator runtime cho JSON remote; không có schema version hoặc hash input để phát hiện lệch snapshot trong fetch này.
 

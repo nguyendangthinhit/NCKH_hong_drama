@@ -14,7 +14,7 @@ import SystemView from './components/views/SystemView';
 import { INSIGHTS_DATA as FALLBACK_DATA } from './constants';
 import { InsightsData } from './types';
 
-const INSIGHTS_URL = 'https://raw.githubusercontent.com/nguyendangthinhit/NCKH_hong_drama/main/data/insights.json';
+const INSIGHTS_URL = 'https://raw.githubusercontent.com/nguyendangthinhit/NCKH_hong_drama/main/data/analysis-ouput/insights.json';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<TabType>('overview');

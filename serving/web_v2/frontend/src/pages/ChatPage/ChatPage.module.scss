@@ -1,0 +1,167 @@
+@use '../../styles/theme' as *;
+
+// Header site cố định (62px) + thanh nav (44px) ở trên: trang chat chiếm phần còn lại của màn hình.
+$site-header-height: 108px;
+
+.page {
+  display: flex;
+  height: 100vh;
+  height: 100dvh;
+  padding-top: $site-header-height;
+  background: $bg-page;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid $border;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+.topbarTitle {
+  flex: 1;
+  min-width: 0;
+
+  h2 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 1rem;
+    font-weight: 700;
+    color: $text-main;
+  }
+
+  span {
+    font-size: 0.78rem;
+    color: $text-sub;
+  }
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border: 1px solid $border;
+  border-radius: 10px;
+  background: $bg-card;
+  color: $text-muted;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    border-color: $primary;
+    color: $primary;
+  }
+
+  // Nút mở lịch sử chỉ cần trên màn hình nhỏ (desktop luôn hiện sidebar).
+  &:first-child {
+    display: none;
+  }
+}
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.composerWrap {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 8px 20px 16px;
+}
+
+.composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 10px 10px 10px 18px;
+  border: 1px solid $border-strong;
+  border-radius: 20px;
+  background: $bg-card;
+  box-shadow: 0 6px 24px rgba(27, 14, 14, 0.06);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus-within {
+    border-color: $primary-light;
+    box-shadow: 0 6px 24px rgba(200, 16, 46, 0.12);
+  }
+
+  textarea {
+    flex: 1;
+    min-height: 24px;
+    max-height: 160px;
+    padding: 8px 0;
+    border: none;
+    outline: none;
+    resize: none;
+    background: transparent;
+    color: $text-main;
+    font: inherit;
+    font-size: 0.95rem;
+    line-height: 1.5;
+
+    &::placeholder {
+      color: $text-sub;
+    }
+  }
+}
+
+.sendBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 14px;
+  background: $brand-gradient;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.hint {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 0.74rem;
+  color: $text-sub;
+}
+
+@media (max-width: 768px) {
+  .iconBtn:first-child {
+    display: flex;
+  }
+
+  .topbar {
+    padding: 10px 12px;
+  }
+
+  .composerWrap {
+    padding: 6px 12px 12px;
+  }
+}
