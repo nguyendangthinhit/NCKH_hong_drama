@@ -25,6 +25,7 @@ except (AttributeError, ValueError):
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from content_extractor import extract_clean_content, make_excerpt  # noqa: E402
 from og_image_scraper import fetch_og_images_batch  # noqa: E402
+from platforms import preferred_platform, resolve_platform  # noqa: E402
 
 # ── Đường dẫn ──────────────────────────────────────────────
 BACKEND_DIR = Path(__file__).resolve().parent
@@ -59,6 +60,7 @@ def fetch_links_by_id() -> dict:
                 out[pid] = {
                     "links": p.get("links", []) or [],
                     "status": p.get("status", ""),
+                    "platform": p.get("platform"),
                 }
         print(f"  [api] lấy được links cho {len(out)} sự kiện")
         return out
@@ -155,7 +157,7 @@ def main():
                     pid,
                     ev.get("ten_su_kien", ""),
                     danh_muc,
-                    "news",
+                    resolve_platform(api.get("links"), ev.get("source_url"), preferred_platform(ev.get("platform"), api.get("platform"))),
                     full,
                     excerpt,
                     ev.get("time_event", ""),

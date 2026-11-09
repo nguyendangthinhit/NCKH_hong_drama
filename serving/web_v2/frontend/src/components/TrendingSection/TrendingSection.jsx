@@ -37,7 +37,7 @@ export default function TrendingSection() {
         <div className={styles['trending__header']}>
           <h2 className={styles['trending__title']}>
             <FireOutlined className={styles['trending__title-icon']} />
-            Sự kiện Trending
+            Top Trending
           </h2>
 
           <div className={styles['trending__tabs']}>
@@ -46,6 +46,7 @@ export default function TrendingSection() {
                 key={tab}
                 className={`${styles['trending__tab']} ${activeTab === tab ? styles['trending__tab--active'] : ''}`}
                 onClick={() => setActiveTab(tab)}
+                aria-pressed={activeTab === tab}
               >
                 {tab}
               </button>
@@ -70,6 +71,7 @@ export default function TrendingSection() {
                 showImage
                 compact
                 maxLinks={2}
+                layout="row"
               />
             ))
           )}

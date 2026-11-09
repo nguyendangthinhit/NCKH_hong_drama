@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { NavLink, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   HomeOutlined,
   FacebookOutlined,
@@ -10,6 +10,7 @@ import {
   DownOutlined,
 } from '@ant-design/icons';
 import styles from './Header.module.scss';
+import HeaderBrand from './header-brand';
 
 const navItems = [
   { path: '/', label: 'Trang chủ', icon: <HomeOutlined />, exact: true },
@@ -39,6 +40,10 @@ export default function Header() {
   const [scrolled, setScrolled]         = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [searchQuery, setSearchQuery]   = useState('');
+  const headerRef = useRef(null);
+  const searchComposing = useRef(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -46,48 +51,70 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  useEffect(() => {
+    const closeOutside = (event) => {
+      if (!headerRef.current?.contains(event.target)) setOpenDropdown(null);
+    };
+    document.addEventListener('pointerdown', closeOutside);
+    return () => document.removeEventListener('pointerdown', closeOutside);
+  }, []);
+
   const handleSearch = (e) => {
     e.preventDefault();
-    // TODO: implement search
+    if (searchComposing.current) return;
+    const query = searchQuery.trim();
+    navigate({ pathname: '/events', search: query ? `?${new URLSearchParams({ q: query })}` : '' });
+    setSearchQuery('');
+    setOpenDropdown(null);
   };
 
   return (
-    <>
-      {/* ── Top bar ── */}
-      <div className={`${styles.header} ${scrolled ? styles['header--scrolled'] : ''}`}>
+    <header ref={headerRef} className={`${styles.header} ${scrolled ? styles['header--scrolled'] : ''}`}>
+      <div className={styles.header__strip}>
+        <div className={styles['header__strip-inner']}>
+          <span className={styles['header__strip-label']}>HOT 24/7</span>
+          <span className={styles['header__strip-text']}>Thông tin · Thống kê · Phân tích</span>
+          <span className={styles['header__strip-topics']}>Showbiz / Giáo dục</span>
+        </div>
+      </div>
         <div className={styles.header__top}>
 
           {/* Logo */}
-          <Link to="/" className={styles.header__logo}>
-            <img src="/images/logo1.png" alt="Hóng News" className={styles['header__logo-img']} />
-          </Link>
+          <HeaderBrand />
 
           {/* Search */}
           <form className={styles.header__search} onSubmit={handleSearch}>
-            <span className={styles['header__search-icon']}><SearchOutlined /></span>
             <input
+              aria-label="Tìm kiếm sự kiện"
               type="text"
               placeholder="Tìm kiếm drama..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onCompositionStart={() => { searchComposing.current = true; }}
+              onCompositionEnd={(event) => { searchComposing.current = false; setSearchQuery(event.currentTarget.value); }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' && (event.nativeEvent.isComposing || event.keyCode === 229)) event.preventDefault();
+              }}
             />
+            <button type="submit" className={styles['header__search-submit']} aria-label="Tìm kiếm">
+              <SearchOutlined />
+            </button>
           </form>
 
           {/* Actions */}
           <div className={styles.header__actions}>
-            <button className={styles['header__noti-btn']} aria-label="Thông báo">
+            <button type="button" className={styles['header__noti-btn']} aria-label="Thông báo">
               <BellOutlined />
             </button>
 
-            <button className={styles['header__login-btn']}>
+            <button type="button" className={styles['header__login-btn']}>
               <UserOutlined /> Đăng nhập
             </button>
           </div>
         </div>
-      </div>
 
       {/* ── Navigation bar ── */}
-      <nav className={`${styles.header__nav} ${scrolled ? styles['header__nav--scrolled'] : ''}`}>
+      <nav className={styles.header__nav} aria-label="Điều hướng chính">
         <div className={styles['header__nav-inner']}>
           {navItems.map((item) =>
             item.children ? (
@@ -97,8 +124,23 @@ export default function Header() {
                 className={styles['header__nav-dropdown']}
                 onMouseEnter={() => setOpenDropdown(item.label)}
                 onMouseLeave={() => setOpenDropdown(null)}
+                onBlur={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) setOpenDropdown(null);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape') {
+                    setOpenDropdown(null);
+                    event.currentTarget.querySelector('button')?.focus();
+                  }
+                }}
               >
-                <button className={styles['header__nav-dropdown-trigger']}>
+                <button
+                  type="button"
+                  className={`${styles['header__nav-dropdown-trigger']} ${location.pathname === item.basePath ? styles['header__nav-link--active'] : ''}`}
+                  aria-expanded={openDropdown === item.label}
+                  aria-controls={`header-dropdown-${item.basePath.slice(1)}`}
+                  onClick={() => setOpenDropdown(item.label)}
+                >
                   <span className={styles['header__nav-icon']}>{item.icon}</span>
                   {item.label}
                   <span className={`${styles['header__nav-arrow']} ${openDropdown === item.label ? styles['header__nav-arrow--open'] : ''}`}>
@@ -106,7 +148,10 @@ export default function Header() {
                   </span>
                 </button>
 
-                <div className={`${styles['header__nav-dropdown-menu']} ${openDropdown === item.label ? styles['header__nav-dropdown-menu--open'] : ''}`}>
+                <div
+                  id={`header-dropdown-${item.basePath.slice(1)}`}
+                  className={`${styles['header__nav-dropdown-menu']} ${openDropdown === item.label ? styles['header__nav-dropdown-menu--open'] : ''}`}
+                >
                   {item.children.map((child) => (
                     <Link
                       key={child.label}
@@ -136,6 +181,6 @@ export default function Header() {
           )}
         </div>
       </nav>
-    </>
+    </header>
   );
 }

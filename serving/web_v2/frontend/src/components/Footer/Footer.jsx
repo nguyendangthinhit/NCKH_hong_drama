@@ -41,7 +41,7 @@ export default function Footer() {
       {/* Wave top */}
       <div className={styles['footer__wave']}>
         <svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,16 C360,48 1080,-16 1440,16 L1440,48 L0,48 Z" fill="#c8102e"/>
+          <path d="M0,16 C360,48 1080,-16 1440,16 L1440,48 L0,48 Z" fill="#171717"/>
         </svg>
       </div>
 

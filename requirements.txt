@@ -1,0 +1,48 @@
+# Python 3.11; full project including ML notebooks. See requirements.md.
+# Existing project constraints retained; unspecified versions are intentional.
+
+# Ingestion: ingestion/cao_fb/requirements.txt
+playwright==1.44.0
+python-dotenv==1.0.1
+colorlog==6.8.2
+google-auth==2.29.0
+google-api-python-client==2.128.0
+google-genai>=0.8.0
+
+
+# Legacy Gemini, async analysis, Sheets and tokenization
+google-generativeai
+google-api-core
+aiohttp
+aiofiles
+gspread
+oauth2client
+underthesea
+
+# Spark: README.md
+pyspark==3.5
+
+# Data and ML: ml/gnn/requirements.txt
+numpy>=1.24
+pandas>=2.0
+pyarrow>=14
+scipy>=1.10
+scikit-learn>=1.3
+torch>=2.1
+transformers>=4.40
+torch-geometric>=2.5
+
+# Excel and notebooks: explicit engine / notebook imports and install cells
+openpyxl
+sentencepiece
+matplotlib
+seaborn
+
+# Backend: serving/web_v2/backend/requirements.txt
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+httpx==0.27.2
+beautifulsoup4==4.12.3
+
+# Optional: accelerate (PhoBERT notebook setup only; no direct use found).
+# Colab google.colab is provided by the hosted runtime; not a local requirement.

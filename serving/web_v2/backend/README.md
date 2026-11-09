@@ -2,6 +2,8 @@
 
 API FastAPI đọc dữ liệu từ `events.db` trong thư mục này. Giữ file dữ liệu hiện có khi chạy local.
 
+`GET /api/events` hỗ trợ `platform=facebook`, `platform=news` hoặc bỏ trống để lấy mọi nguồn. Bộ lọc áp dụng trước tính tổng/phân trang. Dữ liệu hiện có 48 Facebook, 37 Tin tức. Cần khởi động lại server sau khi cập nhật code. Xem [sửa phân nguồn và sao lưu DB](../../../docs/website-source-filtering.md).
+
 ## Chạy local (PowerShell)
 
 ```powershell

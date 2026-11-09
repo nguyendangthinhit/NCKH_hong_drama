@@ -4,7 +4,7 @@ Chạy:  uvicorn app:app --reload --port 8000
 DB:    events.db (chạy build_db.py trước)
 
 Endpoints:
-  GET /api/events?category=&q=&page=&per_page=   danh sách + lọc + phân trang
+  GET /api/events?platform=&category=&q=&page=&per_page=   danh sách + lọc + phân trang
   GET /api/hot?category=&limit=                   sự kiện hot (xếp theo bình luận)
   GET /api/event/{id_content}                     chi tiết 1 sự kiện + actors
   GET /api/categories                             danh mục + số lượng
@@ -17,6 +17,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from platforms import normalize_platform
 
 DB_PATH = Path(__file__).resolve().parent / "events.db"
 
@@ -67,9 +68,13 @@ def list_events(
     q: str | None = None,
     page: int = Query(1, ge=1),
     per_page: int = Query(12, ge=1, le=9999),
+    platform: str | None = None,
 ):
     conn = get_conn()
     where, params = [], []
+    if platform and normalize_platform(platform):
+        where.append("LOWER(TRIM(COALESCE(platform, ''))) = ?")
+        params.append(normalize_platform(platform))
     if category:
         where.append("danh_muc = ?")
         params.append(category)
