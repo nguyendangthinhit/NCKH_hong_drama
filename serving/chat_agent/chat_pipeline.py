@@ -2,6 +2,7 @@
 import logging
 import time
 from dataclasses import dataclass, field
+from contextlib import aclosing
 
 import intent_rules as rules
 from answer_prompt import SYSTEM_PROMPT, build_user_prompt
@@ -27,6 +28,15 @@ class ChatResult:
     provider: str = ""
 
 
+@dataclass
+class ChatPlan:
+    intent: str
+    context: str = ""
+    event_ids: list[str] = field(default_factory=list)
+    match_ms: float = 0
+    reply: str | None = None
+
+
 class ChatPipeline:
     def __init__(self, events: EventStore, insights: InsightStore, llm: LLMClient):
         self.events = events
@@ -36,22 +46,65 @@ class ChatPipeline:
 
     async def handle(self, user_id: str, message: str) -> ChatResult:
         t0 = time.perf_counter()
-        result = await self._route(user_id, message.strip())
-        result.timings_ms["total"] = round((time.perf_counter() - t0) * 1000, 1)
+        message = message.strip()
+        plan = self._prepare(user_id, message)
+        result = ChatResult(plan.reply, plan.intent) if plan.reply is not None else await self._answer(
+            user_id, message, plan.context, plan.intent, plan.event_ids, plan.match_ms,
+        )
+        self._finish(user_id, message, result, t0)
+        return result
+
+    def _finish(self, user_id, message, result, started):
+        result.timings_ms["total"] = round((time.perf_counter() - started) * 1000, 1)
         self.memory.record(user_id, message, result.reply, result.event_ids)
         log.info(
             "user=%s intent=%s events=%s provider=%s timings=%s",
             user_id, result.intent, result.event_ids, result.provider, result.timings_ms,
         )
-        return result
 
-    async def _route(self, user_id: str, message: str) -> ChatResult:
+    async def handle_stream(self, user_id: str, message: str):
+        started = time.perf_counter()
+        message = message.strip()
+        plan = self._prepare(user_id, message)
+        metadata = {"intent": plan.intent, "event_ids": plan.event_ids}
+        yield {"event": "meta", "data": metadata}
+        chunks, provider = [], ""
+        llm_started = time.perf_counter()
+        try:
+            if plan.reply is not None:
+                chunks.append(plan.reply)
+                yield {"event": "delta", "data": {"text": plan.reply}}
+            else:
+                history = list(self.memory.get(user_id).turns)
+                prompt = build_user_prompt(message, plan.context, history)
+                async with aclosing(self.llm.stream_generate(SYSTEM_PROMPT, prompt)) as stream:
+                    async for text, provider in stream:
+                        chunks.append(text)
+                        yield {"event": "delta", "data": {"text": text}}
+            reply = "".join(chunks).strip()
+            if not reply:
+                raise LLMUnavailable("empty reply")
+        except LLMUnavailable as error:
+            log.warning("LLM stream không hoàn tất: %s", error)
+            yield {"event": "error", "data": {
+                "code": "upstream_error",
+                "message": "Câu trả lời bị gián đoạn. Bạn thử gửi lại nhé." if chunks else LLM_DOWN_REPLY,
+            }}
+            return
+        timings = {} if plan.reply is not None else {
+            "match": plan.match_ms, "llm": round((time.perf_counter() - llm_started) * 1000, 1),
+        }
+        result = ChatResult(reply, plan.intent, plan.event_ids, timings, provider)
+        self._finish(user_id, message, result, started)
+        yield {"event": "done", "data": {**metadata, "timings_ms": result.timings_ms}}
+
+    def _prepare(self, user_id: str, message: str) -> ChatPlan:
         if rules.is_spam(message):
-            return ChatResult(rules.SPAM_REPLY, "spam")
+            return ChatPlan("spam", reply=rules.SPAM_REPLY)
         if rules.is_greeting_only(message):
-            return ChatResult(rules.GREETING_REPLY, "greeting")
+            return ChatPlan("greeting", reply=rules.GREETING_REPLY)
         if rules.is_info(message):
-            return ChatResult(rules.INFO_REPLY, "info")
+            return ChatPlan("info", reply=rules.INFO_REPLY)
 
         t = time.perf_counter()
         match = self.events.match(message)
@@ -68,7 +121,7 @@ class ChatPipeline:
                 else self.insights.stats_text(category)
             )
             intent = "insights_top" if wants_top else "insights_stats"
-            return await self._answer(user_id, message, context, intent, [], match_ms)
+            return ChatPlan(intent, context, match_ms=match_ms)
 
         events = match.events
         intent = "event"
@@ -84,11 +137,11 @@ class ChatPipeline:
             with_stats = rules.is_opinion_request(message) or wants_stats
             context = "\n\n---\n\n".join(event_text(e, with_stats) for e in events)
             ids = [e.id for e in events]
-            return await self._answer(user_id, message, context, intent, ids, match_ms)
+            return ChatPlan(intent, context, ids, match_ms)
 
         if rules.mentions_drama(message):
-            return ChatResult(rules.CLARIFY_REPLY, "clarify", timings_ms={"match": match_ms})
-        return ChatResult(rules.UNRELATED_REPLY, "unrelated", timings_ms={"match": match_ms})
+            return ChatPlan("clarify", reply=rules.CLARIFY_REPLY, match_ms=match_ms)
+        return ChatPlan("unrelated", reply=rules.UNRELATED_REPLY, match_ms=match_ms)
 
     async def _answer(
         self, user_id: str, question: str, context: str, intent: str,

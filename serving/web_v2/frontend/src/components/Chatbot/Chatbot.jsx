@@ -1,76 +1,42 @@
-import React, { useState } from 'react';
+import React, { memo, useLayoutEffect, useRef, useState } from 'react';
 import styles from './Chatbot.module.scss';
 import ReactMarkdown from 'react-markdown';
-import { mockMessages } from './datamock';
+import { CHAT_MESSAGE_LIMIT } from '../../services/chat-api';
+import useChatbotStream from './use-chatbot-stream';
 
-function getOrCreateUserId() {
-  const name = "userId=";
-  const decodedCookie = decodeURIComponent(document.cookie);
-  const ca = decodedCookie.split(";");
+// Các tin đã hoàn tất không cần parse lại Markdown khi tin mới đang stream.
+const ChatMessage = memo(function ChatMessage({ message: msg }) {
+  return (
+    <div className={msg.type === 'bot' ? styles.messageRowBot : styles.messageRowUser}>
+      {msg.type === 'bot' && <div className={styles.avatarBot}>🤖</div>}
+      <div className={msg.type === 'bot' ? styles.bubbleBot : styles.bubbleUser}>
+        {msg.type === 'bot' ? <>
+          <ReactMarkdown>{msg.text || msg.error || 'Đang trả lời...'}</ReactMarkdown>
+          {msg.text && msg.error && <p role="status">{msg.error}</p>}
+        </> : msg.text}
+      </div>
+    </div>
+  );
+});
 
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i].trim();
-    if (c.indexOf(name) === 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-
-  const newId = crypto.randomUUID();
-  document.cookie = `userId=${newId}; path=/; max-age=31536000`;
-  return newId;
-}
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      type: 'bot',
-      text: 'Chào bạn, đây là hệ thống chatbot. Tôi có thể giúp gì cho bạn?'
-    }
-  ]);
+  const { messages, loading, send } = useChatbotStream();
   const [input, setInput] = useState('');
-  const [loading, setLoading] = useState(false);
+  const body = useRef(null);
+  const followBottom = useRef(true);
+  useLayoutEffect(() => {
+    if (followBottom.current && body.current) body.current.scrollTop = body.current.scrollHeight;
+  }, [messages, isOpen]);
 
-  // gửi message lên n8n
-  const sendMessage = async () => {
-    if (!input.trim()) return;
+  // Gửi câu hỏi tới agent, giữ nguyên userId để nối tiếp ngữ cảnh hội thoại.
+  const sendMessage = () => {
+    const message = input.trim();
+    if (!message || loading) return;
 
-    const userMessage = { type: 'user', text: input };
-    const userId = getOrCreateUserId();
-
-    // hiển thị message user ngay
-    setMessages(prev => [...prev, userMessage]);
+    followBottom.current = true;
     setInput('');
-    setLoading(true);
-
-    try {
-      //const res = await fetch('https://cdio3final.app.n8n.cloud/webhook/nckh', {
-      const res = await fetch('https://dacn00.app.n8n.cloud/webhook/nckh', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          message: input,
-          userId: userId})
-      });
-
-      const data = await res.json();
-      const result = Array.isArray(data) ? data[0] : data;
-
-      const botMessage = {
-        type: 'bot',
-        text: result.reply || 'Không có phản hồi'
-      };
-
-      setMessages(prev => [...prev, botMessage]);
-    } catch (err) {
-      const mockReply = mockMessages.find(m => m.message.includes(input));
-      const botMessage = {
-      type: 'bot',
-      text: mockReply ? mockReply.reply : 'Lỗi kết nối server 😢'
-    };
-    setMessages(prev => [...prev, botMessage]);
-  };
-
-    setLoading(false);
+    void send(message);
   };
 
   return (
@@ -89,42 +55,12 @@ const Chatbot = () => {
         </div>
 
         {/* BODY */}
-        <div className={styles.chatBody}>
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={
-                msg.type === 'bot'
-                  ? styles.messageRowBot
-                  : styles.messageRowUser
-              }
-            >
-              {msg.type === 'bot' && (
-                <div className={styles.avatarBot}>🤖</div>
-              )}
+        <div className={styles.chatBody} ref={body} onScroll={() => {
+          const element = body.current;
+          followBottom.current = element.scrollHeight - element.scrollTop - element.clientHeight < 48;
+        }}>
+          {messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
 
-              <div
-                className={
-                  msg.type === 'bot'
-                    ? styles.bubbleBot
-                    : styles.bubbleUser
-                }
-              >
-                {msg.type === 'bot' ? (
-                  <ReactMarkdown>{msg.text}</ReactMarkdown>
-                ) : (
-                  msg.text
-                )}
-              </div>
-            </div>
-          ))}
-
-          {loading && (
-            <div className={styles.messageRowBot}>
-              <div className={styles.avatarBot}>🤖</div>
-              <div className={styles.bubbleBot}>Đang trả lời...</div>
-            </div>
-          )}
         </div>
 
         {/* FOOTER */}
@@ -134,6 +70,7 @@ const Chatbot = () => {
             placeholder="Nhập tin nhắn..."
             className={styles.chatInput}
             value={input}
+            maxLength={CHAT_MESSAGE_LIMIT}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && !loading && sendMessage()}
             disabled={loading}

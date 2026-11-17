@@ -1,12 +1,14 @@
 """FastAPI service cho chatbot. Chạy: uvicorn app:app --port 8010 (trong thư mục này)."""
 import logging
 import secrets
-from contextlib import asynccontextmanager
+import json
+from contextlib import aclosing, asynccontextmanager
 
 import httpx
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import AliasChoices, BaseModel, Field
+from fastapi.responses import StreamingResponse
 
 from chat_pipeline import ChatPipeline
 from config import load_settings
@@ -68,14 +70,18 @@ def _is_direct_local(request: Request) -> bool:
     return host in ("127.0.0.1", "::1") and "x-forwarded-for" not in request.headers
 
 
-@app.post("/chat", response_model=ChatResponse)
-async def chat(
-    req: ChatRequest, request: Request, x_agent_key: str | None = Header(default=None)
-):
+def check_agent_key(request: Request, x_agent_key: str | None):
     # Trình duyệt không giữ được khoá bí mật -> chỉ bắt khoá với request từ ngoài (qua tunnel).
     needs_key = settings.agent_api_key and not _is_direct_local(request)
     if needs_key and not secrets.compare_digest(x_agent_key or "", settings.agent_api_key):
         raise HTTPException(status_code=401, detail="Sai hoặc thiếu X-Agent-Key")
+
+
+@app.post("/chat", response_model=ChatResponse)
+async def chat(
+    req: ChatRequest, request: Request, x_agent_key: str | None = Header(default=None)
+):
+    check_agent_key(request, x_agent_key)
     result = await state["pipeline"].handle(f"{req.source}:{req.user_id}", req.message)
     return ChatResponse(
         reply=result.reply,
@@ -83,3 +89,25 @@ async def chat(
         event_ids=result.event_ids,
         timings_ms=result.timings_ms,
     )
+
+
+@app.post("/chat/stream")
+async def chat_stream(
+    req: ChatRequest, request: Request, x_agent_key: str | None = Header(default=None)
+):
+    check_agent_key(request, x_agent_key)
+
+    async def events():
+        try:
+            # StreamingResponse hủy generator khi client ngắt; aclosing đóng upstream.
+            async with aclosing(state["pipeline"].handle_stream(f"{req.source}:{req.user_id}", req.message)) as stream:
+                async for item in stream:
+                    yield f"event: {item['event']}\ndata: {json.dumps(item['data'], ensure_ascii=False)}\n\n"
+        except Exception as error:
+            logging.getLogger("chat_agent").error("Stream lỗi: %s", type(error).__name__)
+            data = json.dumps({"code": "internal_error", "message": "Chatbot đang gặp sự cố. Bạn thử lại nhé."}, ensure_ascii=False)
+            yield f"event: error\ndata: {data}\n\n"
+
+    return StreamingResponse(events(), media_type="text/event-stream", headers={
+        "Cache-Control": "no-cache", "X-Accel-Buffering": "no",
+    })
