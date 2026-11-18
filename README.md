@@ -1,4 +1,4 @@
-# NCKH Hồng Drama — Drama Intelligence System
+# NCKH Hóng Drama — Drama Intelligence System
 
 Hệ thống thu thập, tiền xử lý, phân tích và phục vụ dữ liệu dư luận mạng xã hội (Showbiz + Education) phục vụ NCKH cấp trường.
 
