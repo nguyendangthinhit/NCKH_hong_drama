@@ -2,67 +2,67 @@
   "scales": [
     {
       "scale": 1,
-      "python_single": 26.66,
+      "python_single": 39.2,
       "runs": [
         {
-          "education": 18.64,
+          "education": 21.31,
           "education_n_docs": 7660,
-          "showbiz": 30.25,
+          "showbiz": 35.4,
           "showbiz_n_docs": 24097,
-          "total": 48.89,
+          "total": 56.71,
           "label": "local[1]",
-          "speedup_vs_python": 0.55
+          "speedup_vs_python": 0.69
         },
         {
-          "education": 24.13,
+          "education": 23.3,
           "education_n_docs": 7660,
-          "showbiz": 29.93,
+          "showbiz": 31.81,
           "showbiz_n_docs": 24097,
-          "total": 54.06,
+          "total": 55.11,
           "label": "local[4]",
-          "speedup_vs_python": 0.49
+          "speedup_vs_python": 0.71
         },
         {
-          "education": 24.5,
+          "education": 24.4,
           "education_n_docs": 7660,
-          "showbiz": 28.6,
+          "showbiz": 32.49,
           "showbiz_n_docs": 24097,
-          "total": 53.1,
+          "total": 56.89,
           "label": "local[*]",
-          "speedup_vs_python": 0.5
+          "speedup_vs_python": 0.69
         }
       ]
     },
     {
       "scale": 3,
-      "python_single": 82.19,
+      "python_single": 114.61,
       "runs": [
         {
-          "education": 34.05,
+          "education": 42.27,
           "education_n_docs": 22980,
-          "showbiz": 71.5,
+          "showbiz": 75.23,
           "showbiz_n_docs": 72291,
-          "total": 105.55,
+          "total": 117.5,
           "label": "local[1]",
-          "speedup_vs_python": 0.78
+          "speedup_vs_python": 0.98
         },
         {
-          "education": 30.16,
+          "education": 27.23,
           "education_n_docs": 22980,
-          "showbiz": 49.34,
+          "showbiz": 44.4,
           "showbiz_n_docs": 72291,
-          "total": 79.5,
+          "total": 71.63,
           "label": "local[4]",
-          "speedup_vs_python": 1.03
+          "speedup_vs_python": 1.6
         },
         {
-          "education": 63.1,
+          "education": 55.43,
           "education_n_docs": 22980,
-          "showbiz": 74.41,
+          "showbiz": 65.85,
           "showbiz_n_docs": 72291,
-          "total": 137.51,
+          "total": 121.28,
           "label": "local[*]",
-          "speedup_vs_python": 0.6
+          "speedup_vs_python": 0.94
         }
       ]
     }

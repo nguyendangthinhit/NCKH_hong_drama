@@ -84,3 +84,9 @@ desktop.ini
 # -------- KHÔNG ignore data --------
 !data/
 !data/**
+
+# Cache embedding API (tái tạo được, chứa vector của bình luận)
+data/gnn/embedding_cache.sqlite
+.env.local
+model_list.*
+api.txt

@@ -1,45 +1,45 @@
 {
   "python_single": {
-    "education": 4.99,
-    "showbiz": 11.7,
-    "total": 16.69
+    "education": 5.0,
+    "showbiz": 9.24,
+    "total": 14.24
   },
   "spark_runs": [
     {
-      "education": 18.53,
+      "education": 14.93,
       "education_n_docs": 4285,
-      "showbiz": 24.24,
+      "showbiz": 21.35,
       "showbiz_n_docs": 13960,
-      "total": 42.77,
+      "total": 36.28,
       "label": "local[1]",
       "speedup_vs_python": 0.39
     },
     {
-      "education": 18.9,
+      "education": 15.4,
       "education_n_docs": 4285,
-      "showbiz": 19.77,
+      "showbiz": 20.52,
       "showbiz_n_docs": 13960,
-      "total": 38.67,
+      "total": 35.92,
       "label": "local[2]",
-      "speedup_vs_python": 0.43
+      "speedup_vs_python": 0.4
     },
     {
-      "education": 26.69,
+      "education": 23.56,
       "education_n_docs": 4285,
-      "showbiz": 25.27,
+      "showbiz": 27.24,
       "showbiz_n_docs": 13960,
-      "total": 51.96,
+      "total": 50.8,
       "label": "local[4]",
-      "speedup_vs_python": 0.32
+      "speedup_vs_python": 0.28
     },
     {
-      "education": 60.35,
+      "education": 57.93,
       "education_n_docs": 4285,
-      "showbiz": 62.94,
+      "showbiz": 68.32,
       "showbiz_n_docs": 13960,
-      "total": 123.29,
+      "total": 126.25,
       "label": "local[*]",
-      "speedup_vs_python": 0.14
+      "speedup_vs_python": 0.11
     }
   ]
 }

@@ -1,0 +1,169 @@
+@use '../../styles/theme' as *;
+
+.page {
+  min-height: 70vh;
+  padding: calc(var(--site-header-height, 150px) + 30px) 0 4rem;
+  background: $bg-page;
+  color: $text-main;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  color: $primary-dark;
+  font-weight: 600;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.article, .sources, .notice {
+  min-width: 0;
+  padding: 2rem;
+  border: 1px solid $border-strong;
+  border-radius: 0.875rem;
+  background: $bg-card;
+  overflow-wrap: anywhere;
+}
+
+.header h1 {
+  margin: 0.875rem 0 1rem;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.35;
+}
+
+.category {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  background: $bg-subtle;
+  color: $primary-dark;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: $text-sub;
+}
+
+.excerpt {
+  margin-top: 1.25rem;
+  color: $text-sub;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.image {
+  width: 100%;
+  max-height: 420px;
+  margin-top: 1.5rem;
+  object-fit: contain;
+  border-radius: 0.625rem;
+}
+
+.section {
+  margin-top: 1.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border;
+}
+
+.section h2, .sources h2 {
+  margin-bottom: 0.875rem;
+  font-size: 1.2rem;
+}
+
+.content {
+  white-space: pre-line;
+  line-height: 1.9;
+}
+
+.content, .excerpt {
+  text-align: justify;
+  text-align-last: left;
+}
+
+.actors li + li {
+  margin-top: 0.75rem;
+}
+
+.sources {
+  padding: 1.5rem;
+}
+
+.sources > p {
+  color: $text-sub;
+  font-size: 0.9rem;
+}
+
+.sourceList li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.625rem;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid $border;
+}
+
+.sourceNumber {
+  color: $text-sub;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.sourceLink {
+  color: $primary-dark;
+  font-size: 0.9rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  background: $primary-dark;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.back:hover, .sourceLink:hover {
+  text-decoration: underline;
+}
+
+.back:focus-visible, .sourceLink:focus-visible, .button:focus-visible {
+  outline: 3px solid $primary;
+  outline-offset: 4px;
+}
+
+.notice {
+  text-align: center;
+
+  p { margin: 1rem 0; }
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .container { padding: 0 1rem; }
+  .article, .sources, .notice { padding: 1.25rem; }
+}

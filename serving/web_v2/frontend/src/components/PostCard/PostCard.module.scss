@@ -1,11 +1,13 @@
 @use '../../styles/theme' as *;
 @use 'sass:color';
+@use './post-card-layouts' as layouts;
 
 // ── Card base ────────────────────────────────────────────────
 .card {
+  font-family: 'Montserrat', 'Inter', 'Segoe UI', sans-serif;
   background: $bg-card;
-  border: 1.5px solid $border-strong;
-  border-radius: 0.875rem;
+  border: 1px solid $border-strong;
+  border-radius: 0.5rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -45,6 +47,12 @@
   }
 
   // ── Compact mode (homepage preview) ───────────────────────
+  &--source {
+    .card__accent, .card__badge { background: #475569; }
+    .card__link { color: #475569; }
+    .card__read-more, .card__title:hover { color: $primary; }
+  }
+
   &--compact {
     .card__links-list {
       // Cho compact: giới hạn links hiển thị ngắn hơn
@@ -164,7 +172,7 @@
 
   // ── Title ─────────────────────────────────────────────────
   &__title {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     line-height: 1.5;
     color: $text-main;
@@ -265,4 +273,6 @@
 
     &:hover { opacity: 0.7; text-decoration: underline; }
   }
+
+  @include layouts.presentation;
 }

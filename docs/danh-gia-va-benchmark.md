@@ -43,7 +43,7 @@ Trạng thái dự án ghi bản Phase 01 trước đây đã kiểm tra khớp,
 
 Docstring ghi Jaccard ≥0,7 và top 5 khớp 100%, nhưng `main()` thực tế chỉ chặn theo top5 ≥60%. Tài liệu này mô tả điều kiện chạy thật, không dùng docstring làm tiêu chí đã đạt. Khi top có ít hơn năm phần tử, mẫu số trong code vẫn là 5.
 
-Verifier còn import `data.spark.spark_session_factory` ở bước materialize, không khớp cấu trúc hiện tại. File keyword đã lưu và sự tồn tại của script chưa đủ chứng minh verifier hiện chạy pass; chưa có kết quả so sánh mới trong lần rà soát.
+Import của verifier đã sửa sang `preprocessing.spark.spark_session_factory` và đã chạy lại 2026-11-17: Giáo dục Jaccard top10 1,00, Showbiz 0,82, top5 khớp 100% (đạt ngưỡng). File keyword đã lưu và sự tồn tại của script chưa đủ chứng minh verifier hiện chạy pass; chưa có kết quả so sánh mới trong lần rà soát.
 
 ## 4. Benchmark PMI trên Parquet và dữ liệu nhân bản
 

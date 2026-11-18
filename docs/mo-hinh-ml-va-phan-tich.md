@@ -1,12 +1,61 @@
 # Mô hình ML và phân tích
 
-Document loại 6/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. **User đã duyệt ngày 2026-10-29.**
+Document loại 6/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-11-16 (viết lại mục 1 thành ba hướng phân tích; các mục còn lại user đã duyệt 2026-10-29, chưa duyệt lại mục 1 mới).
 
 Phạm vi: code phân tích, PhoBERT, GNN và kết quả đang lưu trong dự án. Không dùng ý tưởng phát triển để mô tả cài đặt hiện tại. Lần rà soát này chỉ đọc code/JSON và kiểm tra vị trí artifact; không huấn luyện, gọi LLM hoặc nạp checkpoint.
 
 Nguồn nhãn và chia tập xem [loại 5](./gan-nhan-va-tap-du-lieu.md); luồng xử lý xem [loại 2](./data-pipeline.md); cấu trúc kho dữ liệu xem [loại 3](./database-va-du-lieu.md). Phương pháp đo và benchmark sẽ có tài liệu riêng theo doc-map.
 
-## 1. Các nhóm phương pháp hiện có
+## 1. Ba hướng phân tích dữ liệu bình luận
+
+*Viết lại 2026-11-16 theo mô tả của user. Các hướng 1 và 3 là hướng đã chốt hoặc đã hoãn, không phải mô tả code đang chạy; các mục 2–7 bên dưới vẫn mô tả bản code cũ.*
+
+Mục tiêu chung: gán nhãn cảm xúc/lập trường cho bình luận rồi tổng hợp theo sự kiện. Có ba cách làm, độc lập với nhau.
+
+### 1.1 Hướng 1: LLM đọc cả cụm bình luận, giữ nguyên cấp bậc
+
+Ý tưởng gốc: lấy bình luận đưa cho LLM phân tích. Có hai biến thể:
+
+| | Cách cũ (làm phẳng) | Cách mới (giữ cấu trúc lớp) |
+|---|---|---|
+| Đơn vị đưa vào LLM | Mỗi bình luận và reply là một mục riêng trong danh sách phẳng | Một bình luận cấp 1 cùng toàn bộ reply con của nó |
+| Reply | Tách khỏi cây; chỉ kèm một dòng ngữ cảnh cha (80 ký tự đầu) | Không tách; gom lại một chỗ, giữ nguyên cấp bậc |
+| Bình luận cấp 1 không có reply | Một mục riêng | Phân tích riêng một mình nó |
+| Bình luận cấp 1 có reply | Cha và con là các mục rời, rải trong các batch | Phân tích cả cụm (cha + reply con) trong một lần đọc |
+| Cây | Dựng lại sau khi có nhãn, để tính `thread_stats` | Cấu trúc được giữ từ đầu vào |
+
+Cách cũ là `analysis/single/analyze_comments.py` (mục 2). Cách mới là hướng user chốt: LLM thấy cả cuộc trao đổi nên hiểu được reply chỉ có nghĩa trong ngữ cảnh (ví dụ reply tag tên người khác, đồng tình hay phản bác comment cha).
+
+**Cài đặt cách mới: `analysis_new/` (2026-11-17), có bản đơn luồng và bản PySpark dùng chung module.**
+
+| Mục | Cách làm |
+|---|---|
+| Đầu vào | **Định dạng chính thức (user chốt 2026-11-17)**, ví dụ `data/sample/showbiz_068 (1).json`: `{id_content, event_name, sort_mode, post_content, comments[]}`, mỗi comment `{comment_id, order, text, likes, reply_count, replies[]}`, reply có thêm `reply_to_id` và lồng tiếp `replies` (nhiều cấp). Loader duỗi cây thành danh sách phẳng, `parent_id` lấy theo vị trí trong cây. Định dạng B phẳng cũ không còn đọc |
+| Lọc rác | Rule `is_trash_rule` giữ nguyên bản cũ; comment rác vẫn hiện trong cụm làm ngữ cảnh nhưng không gán nhãn; cụm toàn rác không gọi LLM |
+| Prompt | Nhiều cụm/request (tối đa 60 comment; nội dung bài đăng cắt 2.000 ký tự), mỗi comment mã cục bộ `K<cụm>.<số>`, thụt lề theo cấp, ghi "trả lời Kx.y". LLM trả nhãn từng comment + `summary` 1–2 câu mỗi cụm |
+| Nhãn | Showbiz: emotion + toxic/toxic_type. Giáo dục: 4 stance gán một bước (bỏ bước 2 "cần xem xét" của bản cũ) + 1 request tổng hợp/sự kiện (thay 5 request cũ) |
+| API | `mmodiary` `POST /v1/responses`; key dòng 4 `.env.local` (nhiều key cách bằng dấu phẩy), model tuần tự từ `model_list.txt`: dùng một model tới khi lỗi mới đổi; key hết số dư thì sang key kế. Hết key/model thì dừng |
+| Đầu ra | `full/<event_id>.json` (comment gốc + `level`, `root_id`, nhãn, `label_source`; danh sách `clusters` với summary, `thread_stats`), `summary/<event_id>.json` cùng khoá với bản cũ để `analyze_insights.py` đọc được, `run_log.jsonl` |
+| Chạy | Mặc định chỉ ước tính số request + ghi prompt mẫu `_dry_run/`; `--yes` mới gọi API, `--max-requests` chặn chạy vượt. Sự kiện đã có summary thì bỏ qua (resume) |
+
+Bản PySpark (`analysis_new/spark/run_analysis_spark.py`): `flatMap` sự kiện → request, `mapPartitions` gọi LLM (mỗi partition một client, `--threads` = số request đồng thời), join theo `event_id` rồi gộp nhãn; driver ghi file. Sự kiện có request lỗi thì không ghi.
+
+**Kiểm chứng (2026-11-17, gọi API thật):** response mmodiary có text ở `output[].content[].text` (kèm `usage`, có `reasoning_tokens`). File `showbiz_068`: 787 comment, 590 cụm, sâu 7 cấp → 12 request. Đo trên bộ con 150 comment, model `doitac3/deepseek-v4.1-flash`: lô 60 comment mất ~130s, đủ nhãn 57/57 và tóm tắt 47/47 cụm; lô 150 comment từng ra 122/125 nhãn méo chữ ("Trung立"), nhưng lần chạy sau lô 60 cũng bị 47/57 → lỗi ngẫu nhiên của model, không do kích thước lô. Sửa: LLM trả nhãn bằng mã ASCII (`PN/CK/DC/UH/TL`, `TC/TI/TL/YK`, toxic `CB/CN/NT`), code đổi về tiếng Việt; vẫn giữ 60 comment/request vì đã kiểm chứng. Thời gian chờ mỗi request 600s (180s cũ gây timeout rồi gửi lại, tốn request). Cảnh báo khi >20% nhãn của một request bị fallback. 14 test offline đạt.
+
+Giới hạn: rule rác cũ coi reply "tên người + dưới 30 ký tự" là rác, nên một số reply tag tên có nội dung ngắn bị bỏ khỏi gán nhãn.
+
+### 1.2 Hướng 2: fine-tune PhoBERT
+
+Fine-tune `vinai/phobert-base-v2` trên dữ liệu đã gán nhãn (`labeling data/`), rồi áp dụng để dự đoán nhãn cho bình luận mới. Chi tiết cài đặt ở mục 5 và `ml/phobert/`.
+- Mỗi bình luận được phân loại theo nội dung của chính nó; mô hình không đọc cụm reply như hướng 1.
+- Chưa chạy fine-tune thật (cần Colab/GPU). Code chưa đọc cột `label` và `is_synthetic` của file nhãn hiện tại (xem `TASK_STATE.md` 2026-11-14).
+- Dữ liệu sinh (`is_synthetic`) nên chỉ vào tập train, không vào val/test (đề xuất, user chưa duyệt).
+
+### 1.3 Hướng 3: GNN (tạm hoãn)
+
+Phân loại nút bình luận trên đồ thị thảo luận (mục 6–7, `ml/gnn/`). **Tạm hoãn theo user, 2026-11-16:** `labeling data/` là mẫu ngẫu nhiên cộng dòng sinh, không có quan hệ cha-con nên không dùng được cho GNN. Mở lại khi có dữ liệu cào đủ cây reply, gán nhãn trên chính dữ liệu đó. Khung đã có và baseline thử cho GNN ≈ MLP vì đồ thị 0 cạnh: xem [khung-gnn-neo4j-phobert.md](./khung-gnn-neo4j-phobert.md).
+
+### 1.4 Bảng cài đặt hiện có
 
 | Nhóm | Cài đặt | Vai trò hiện tại |
 |---|---|---|
@@ -62,7 +111,7 @@ Trigram chỉ giữ khi đủ tần suất và hai bigram liền kề đều đ�
 
 `analysis/spark/pyspark_pmi_keywords.py` đọc Parquet sạch, tokenize qua UDF, tạo n-gram và đếm bằng Spark. Phần bigram/trigram đủ tần suất được collect về driver để tính PMI; không phải mọi bước đều phân tán. Mặc định CLI: min-count 3, min-pmi 1.0, top 10, threads 4; có tùy chọn `--strip-names`.
 
-Công thức score và quy tắc trigram bám nhánh Python. File hiện còn import `data.spark...` trong khi module đã chuyển thư mục; chưa chạy lại được coi là thành công chỉ từ artifact cũ. Không khẳng định hai nhánh tương đương trên snapshot mới khi chưa kiểm tra lại.
+Công thức score và quy tắc trigram bám nhánh Python. Import đã sửa sang `preprocessing.spark...` (2026-11-17) và script đã chạy lại được trên snapshot hiện tại. Không khẳng định hai nhánh tương đương trên snapshot mới khi chưa kiểm tra lại.
 
 ## 5. PhoBERT: classifier bình luận
 
@@ -145,6 +194,8 @@ Các `.npy` PhoBERT/node_features và checkpoint GNN tìm thấy ở `data/gnn-r
 3. CSV kiểm duyệt chưa có verified_label, có ID lặp; chia theo dòng/node và TF-IDF fit toàn dữ liệu giới hạn cách diễn giải kết quả. Chi tiết dữ liệu ở loại 5.
 4. Snapshot insight/full không hoàn toàn khớp; code tổng hợp hiện tại và artifact có thể khác phiên bản. Cần xác định input/lần chạy chuẩn để tái lập.
 5. Working tree hiện có `ml/gnn/train_gnn_colab.ipynb`, `ml/gnn/requirements.txt` và notebook fine-tune PhoBERT. Requirements GNN chỉ khai báo active các gói chuẩn bị local; nhóm torch/transformers/PyG cho Colab còn ở comment. Notebook chưa có output được lưu, checkpoint vẫn cần đối chiếu đúng vị trí; sự hiện diện của notebook không chứng minh đã chạy lại thành công. Chi tiết tái lập ở loại 16.
+
+6. Từ 2026-11-07 có khung chuẩn bị cho lần làm lại (embedding API, split theo sự kiện, Neo4j, code fine-tune PhoBERT mới): xem [khung-gnn-neo4j-phobert.md](./khung-gnn-neo4j-phobert.md). Các mục 5–7 ở trên mô tả bản code cũ.
 
 ## 9. Nguồn đối chiếu
 

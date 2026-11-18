@@ -4,6 +4,8 @@ import Footer from './components/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
 import FacebookPage from './pages/FacebookPage/FacebookPage';
 import NewsPage from './pages/NewsPage/NewsPage';
+import EventDetailPage from './pages/Event_detail/event-detail-page';
+import EventsPage from './pages/EventsPage/events-page';
 import ChatPage from './pages/ChatPage/ChatPage';
 import Chatbot from './components/Chatbot/Chatbot';
 import { ChatHistoryProvider } from './context/ChatHistoryContext';
@@ -17,10 +19,12 @@ function Layout() {
       <Header />
 
       <Routes>
-        <Route path="/"         element={<HomePage />} />
-        <Route path="/facebook" element={<FacebookPage />} />
-        <Route path="/news"     element={<NewsPage />} />
-        <Route path="/chat"     element={<ChatPage />} />
+        <Route path="/"           element={<HomePage />} />
+        <Route path="/facebook"   element={<FacebookPage />} />
+        <Route path="/news"       element={<NewsPage />} />
+        <Route path="/events"     element={<EventsPage />} />
+        <Route path="/events/:id" element={<EventDetailPage />} />
+        <Route path="/chat"       element={<ChatPage />} />
       </Routes>
       <Chatbot />
       {!isChatPage && <Footer />}

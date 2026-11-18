@@ -3,13 +3,13 @@ Benchmark apple-to-apple: cùng input baseline → so tốc độ Python vs Spar
 
 Input: `data/education_comments_new.json` + `data/showbiz_comments_new.json`
        (cùng nguồn `Analyze keywords.py` đã dùng để sinh
-       `data/keyword_analysis_v4.json`).
+       `data/analysis-output/keyword_analysis_v4.json`).
 
 Đo wall-clock cho:
   - Python single-thread: gọi trực tiếp `Analyze keywords.py::analyze_file`
   - Spark `local[N]`: nạp JSON list → DataFrame → analyze()
 
-Output: `data/spark/benchmark_apples.json`
+Output: `benchmark/benchmark_apples.json`
 """
 
 from __future__ import annotations

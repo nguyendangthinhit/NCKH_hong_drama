@@ -112,8 +112,8 @@ Code là source of truth. Các điểm sau cần biết khi chạy lại pipelin
 
 | # | Vấn đề | Bằng chứng |
 |---|---|---|
-| 1 | **Ba script Spark import từ `data.spark...` nhưng thư mục này không còn** (đã dời sang `preprocessing/spark/`, `analysis/spark/`). Chạy trực tiếp sẽ lỗi `ModuleNotFoundError`. Chỉ `verify_preprocessing.py` và `benchmark/*.py` đã dùng đường dẫn mới | `pyspark_preprocessing.py:31-32`, `pyspark_pmi_keywords.py:35-36`, `verify_pmi_keywords.py:41` |
-| 2 | Docstring Spark vẫn ghi đường dẫn cũ (`data/spark/clean`, `data/process_education/...`) | đầu `pyspark_preprocessing.py`, `pyspark_pmi_keywords.py` |
+| 1 | ~~Ba script Spark import `data.spark...`~~ **Đã sửa 2026-11-17**: import `preprocessing.spark...`; chạy thật preprocessing + PMI thành công trên `.venv-ml` | `pyspark_preprocessing.py`, `pyspark_pmi_keywords.py`, `verify_pmi_keywords.py` |
+| 2 | ~~Docstring Spark ghi đường dẫn cũ~~ **Đã sửa 2026-11-17** (docstring và `benchmark/*.py`) | — |
 | 3 | `Analyze keywords.py` đọc `education_comments.json` / `showbiz_comments.json` **cùng thư mục với script** (`analysis/single/`), nhưng thư mục này không có hai file đó; `aggregate_comments_v2.py` ghi ra `data/` | `Analyze keywords.py:310-313`; `ls analysis/single` |
 | 4 | `aggregate_comments_v2.py` viết cứng `D:\py\git\NCKH_hong_drama\data\process_education\...`; thực tế là `data/processed/process_education/...` | `aggregate_comments_v2.py` |
 | 5 | `data_sampling_process.md` hướng dẫn chạy `python aggregate_comments_v2.py` ở thư mục gốc, file nằm ở `sampling_labeling/` | `ls sampling_labeling` |

@@ -1,0 +1,61 @@
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #171717;
+  white-space: nowrap;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  background: #dc2626;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 900;
+  line-height: 36px;
+  letter-spacing: -0.05em;
+  box-shadow: inset 0 2px 4px #0000000d;
+}
+
+.wordmark { display: flex; flex-direction: column; line-height: 1; }
+.name { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; }
+.name span { color: #dc2626; }
+.subtitle {
+  margin-top: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #737373;
+}
+
+.slogan {
+  display: none;
+  width: 223px;
+  margin: 0;
+  padding-left: 12px;
+  border-left: 1px solid #e5e7eb;
+  color: #737373;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 16px;
+}
+
+@media (min-width: 1024px) { .slogan { display: block; } }
+@media (max-width: 767px) {
+  .identity { grid-column: 1 / -1; grid-row: 1; }
+  .badge { padding: 4px 8px; font-size: 26px; line-height: 31px; }
+  .name { font-size: 26px; }
+  .subtitle { font-size: 8px; line-height: 12px; letter-spacing: 0.8px; }
+}

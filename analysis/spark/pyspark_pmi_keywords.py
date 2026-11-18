@@ -5,13 +5,13 @@ Pipeline:
   Parquet (clean comments) → tokenize UDF → uni/bi/tri-grams →
   count → PMI → score = freq × log2(1+max(pmi,0)) → top-N
 
-Match logic của `data/Analyze keywords.py` (v4) trên cùng dataset
+Match logic của `analysis/single/Analyze keywords.py` (v4) trên cùng dataset
 để verify reproducibility.
 
 Run:
-    python data/spark/pyspark_pmi_keywords.py \
-        --parquet data/spark/clean \
-        --output data/spark/keyword_analysis_spark.json \
+    python analysis/spark/pyspark_pmi_keywords.py \
+        --parquet data/spark-output/clean \
+        --output data/analysis-output/keyword_analysis_spark.json \
         --top 10
 """
 
@@ -32,8 +32,8 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 
-from data.spark.spark_session_factory import get_spark
-from data.spark.text_tokenizer import tokenize, tokenize_strip
+from preprocessing.spark.spark_session_factory import get_spark
+from preprocessing.spark.text_tokenizer import tokenize, tokenize_strip
 
 # Stopwords copy từ Analyze keywords.py (v4) — giữ nguyên để PMI match baseline
 STOPWORDS = {
@@ -238,7 +238,7 @@ def top_keywords(
     pmi_scores: dict[str, float],
     top_n: int,
 ) -> list[dict]:
-    """Format giống baseline `data/keyword_analysis_v4.json` để dễ so sánh."""
+    """Format giống baseline `data/analysis-output/keyword_analysis_v4.json` để dễ so sánh."""
     ngram_label = {1: "unigram", 2: "bigram", 3: "trigram"}
     scored = []
     for token, counter in freq_map.items():
@@ -328,6 +328,7 @@ def analyze(
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8")  # console Windows mặc định cp1252 không in được tiếng Việt
     parser = argparse.ArgumentParser()
     parser.add_argument("--parquet", required=True)
     parser.add_argument("--output", required=True)

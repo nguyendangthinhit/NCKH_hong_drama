@@ -1,0 +1,396 @@
+{
+  "id_content": "showbiz_068",
+  "event_name": "Anh trai vượt ngàn chông gai sân khấu Chuyện chàng cô đơn sao chép Gucci",
+  "label_sources": {
+    "llm": 645,
+    "rule": 138,
+    "fallback_missing": 4
+  },
+  "total_comments": 649,
+  "emotion_stats": {
+    "Phẫn nộ": 28,
+    "Cà khịa": 304,
+    "Đồng cảm": 133,
+    "Ủng hộ": 74,
+    "Trung lập": 110
+  },
+  "toxic_stats": {
+    "total_toxic": 7,
+    "chửi bới": 2,
+    "công kích cá nhân": 5,
+    "công kích người thân": 0
+  },
+  "top_comments": {
+    "most_popular": [
+      {
+        "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTUxNTk5MDg1NzIxODUxNw%3D%3D",
+        "text": "Nhà có 3 con heo Ất Hợi 1995 + 1 Đinh Mão 1987 phạm tam tai thái tuế có khác 🥲\nLại còn 3 ông Hợi 1 ông Dần 1 ông Tỵ úi gần đủ tứ hành xung luôn ủa 🤡",
+        "likes": 719,
+        "reply_count": 20,
+        "score": 739,
+        "emotion": "Cà khịa"
+      },
+      {
+        "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMjA4Nzg5MTA0MTgyMjQ2MA%3D%3D",
+        "text": "Năm sau mình đặt tên \"Anh Trai Vượt Một Chông Gai\" nhé",
+        "likes": 609,
+        "reply_count": 4,
+        "score": 613,
+        "emotion": "Cà khịa"
+      },
+      {
+        "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTEwMjcyODU3MjY4OTYzNw%3D%3D",
+        "text": "K26 đúng nghĩa chông gai luôn đó trời :))))",
+        "likes": 491,
+        "reply_count": 0,
+        "score": 491,
+        "emotion": "Cà khịa"
+      }
+    ],
+    "by_emotion": {
+      "Phẫn nộ": {
+        "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTQ5ODM2OTE1NTY3ODg3Nw%3D%3D",
+        "text": "Rồi bà cho cái deadline ngày nào chỉnh sửa xong video và up lên lại đi. Chứ show phát sóng gần hết rồi đừng làm cái kiểu \"ẩn để chỉnh sửa\" xong rồi im ỉm luôn, kết thúc show rồi im luôn, coi như chưa từng có cái video đó trên đời. Tiết mục là công sức của các anh tài và nhiều bên, đừng vì sai phạm của 1 bên mà xoá sạch công sức của những người còn lại. Giờ này đáng lý tụi tui phải ồn về nhạc, cắt content, meme trong tiết mục chứ không phải ngồi xem lời xin lỗi, chứng kiến video bị ẩn (xoá) mà không biết ngày hiện lại.",
+        "score": 6
+      },
+      "Cà khịa": {
+        "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTUxNTk5MDg1NzIxODUxNw%3D%3D",
+        "text": "Nhà có 3 con heo Ất Hợi 1995 + 1 Đinh Mão 1987 phạm tam tai thái tuế có khác 🥲\nLại còn 3 ông Hợi 1 ông Dần 1 ông Tỵ úi gần đủ tứ hành xung luôn ủa 🤡",
+        "score": 739
+      },
+      "Đồng cảm": {
+        "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTM2NTU2MzQyOTk2NTk1OA%3D%3D",
+        "text": "Rất mong đây sẽ là chông gai cuối cùng của bà Gai vì sắp tới là concert, ko chuẩn bị kĩ là coi chừng có chông gai tiếp đó bà với lại hãy coi đây là bài học đắc giá để làm chị đẹp sắp tới kìa. Chưa một lần nào trách chương trình vì những chông gai vì đó là sự cố ko ai mong muốn nên hãy cố gắng để tạo nên một mùa anh tài thật đáng nhớ nha 🥰🥰🥰",
+        "score": 38
+      },
+      "Ủng hộ": {
+        "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfNDM2NDE0MDMzMDUxODYyMg%3D%3D",
+        "text": "Xin lỗi nhanh gọn dứt khoát, không trốn tránh. Đáng khen!",
+        "score": 35
+      },
+      "Trung lập": {
+        "comment_id": "cmt_showbiz068_Y29tbWVudDo5OTEzOTA5MDM3MzQyMDJfMTAyNTYzNDM1Njg0MjM3OQ%3D%3D",
+        "text": "Nhiều người quên đây là chương trình vượt chông gai chứ không phải là chương trình tìm kiếm tài năng âm nhạc! Những người tham gia chương trình họ đến từ nhiều ngành nghề, có người là ca sĩ nhưng đã qua thời nổi tiếng, có người là diễn viên, đạo diễn, mc, nghệ sĩ xiếc, cầu thủ... Điểm chung của họ là yêu âm nhạc, muốn vượt qua chông gai giới hạn của bản thân. Nhưng nhiều khán giả lại đi đánh giá với mắt nhìn tìm kiếm tài năng âm nhạc chuyên nghiệp chứ không phải theo tiêu chí vượt lên chông gai của chính họ thể hiện sự tiến bộ, tình yêu với âm nhạc, sự nỗ lực cống hiến cho khán giả!",
+        "score": 96
+      }
+    },
+    "notable_opinions": []
+  },
+  "controversial_threads": [
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDo5OTEzOTA5MDM3MzQyMDJfMTUyMDkzNTgxNjE4NTA0Ng%3D%3D",
+      "text": "Mà vụ j vậy mn",
+      "summary": "Một người hỏi về sự cố, người khác khuyên nên tận hưởng chương trình và không quan tâm đến những vấn đề vặt vãnh.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Trung lập": 1,
+          "Ủng hộ": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfOTYzNzY0OTM2NzY0MTY2",
+      "text": "Tuàn rồi Đan xơ tuần này Gu xì . Truyền thái i cho t thở oxi. Để t hồi chiêu t sát cánh cùng \"ATVNCG\" quài quài. Bây ơi bây😂",
+      "summary": "Bình luận đùa về drama Đan xơ và Gucci, tranh luận có kế hoạch hay không, cuối cùng thấy các anh tài thương nhau như gia đình.",
+      "thread_stats": {
+        "total": 5,
+        "labels": {
+          "Cà khịa": 3,
+          "Ủng hộ": 2
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMzYxNzI1NDYyMTc2MTM1Mw%3D%3D",
+      "text": "Cha trời có cái cổng cưới dàn dựng mà cũng bị soi mói",
+      "summary": "Cuộc thảo luận về việc cổng cưới cũng bị soi mói, một số replies chỉ trích hành vi ăn cắp bản quyền của Minh Nguyệt và yêu cầu giải quyết nhanh, replies khác phân biệt cách fan lớn tuổi và trẻ tuổi phản ứng.",
+      "thread_stats": {
+        "total": 6,
+        "labels": {
+          "Trung lập": 2,
+          "Cà khịa": 1,
+          "Phẫn nộ": 2,
+          "Đồng cảm": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTUxNTk5MDg1NzIxODUxNw%3D%3D",
+      "text": "Nhà có 3 con heo Ất Hợi 1995 + 1 Đinh Mão 1987 phạm tam tai thái tuế có khác 🥲\nLại còn 3 ông Hợi 1 ông Dần 1 ông Tỵ úi gần đủ tứ hành xung luôn ủa 🤡",
+      "summary": "Cuộc trò chuyện về tuổi pensamientos và định mệnh xui xẻo của các thành viên, nhiều replies than vãn và cười buồn về chuyện tâm linh và tuổi tam tai.",
+      "thread_stats": {
+        "total": 12,
+        "labels": {
+          "Cà khịa": 6,
+          "Đồng cảm": 4,
+          "Trung lập": 2
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTQ5ODM2OTE1NTY3ODg3Nw%3D%3D",
+      "text": "Rồi bà cho cái deadline ngày nào chỉnh sửa xong video và up lên lại đi. Chứ show phát sóng gần hết rồi đừng làm cái kiểu \"ẩn để chỉnh sửa\" xong rồi im ỉm luôn, kết thúc show rồi im luôn, coi như chưa từng có cái video đó trên đời. Tiết mục là công sức của các anh tài và nhiều bên, đừng vì sai phạm của 1 bên mà xoá sạch công sức của những người còn lại. Giờ này đáng lý tụi tui phải ồn về nhạc, cắt content, meme trong tiết mục chứ không phải ngồi xem lời xin lỗi, chứng kiến video bị ẩn (xoá) mà không biết ngày hiện lại.",
+      "summary": "Khán giả phẫn nộ và mỉa mai việc ekip ẩn video để chỉnh sửa không minh bạch, đồng thời chỉ trích sự cố âm nhạc liên tục",
+      "thread_stats": {
+        "total": 3,
+        "labels": {
+          "Phẫn nộ": 1,
+          "Cà khịa": 2
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTg2MjI4MDc2NDc1NDc0NQ%3D%3D",
+      "text": "Chắc bị cạnh tranh nên soi kỹ roài chứ mình chạ nhớ gì từ tận 2017 🤣🤣🤣",
+      "summary": "Các netizen tranh luận về việc đào lại lỗi cũ, nhưng đồng tình rằng dù có bị đối thủ soi thì sai vẫn là sai và chương trình cần chịu trách nhiệm",
+      "thread_stats": {
+        "total": 3,
+        "labels": {
+          "Trung lập": 1,
+          "Ủng hộ": 2
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTQ0ODAwMzI2NzIxNTQ3OQ%3D%3D",
+      "text": "Mùa 26 bùng nổ chông và gai đặc biệt là tuyển chọn Gai Con? Nhất là Bình chọn cho cá nhân anh tài đã công tâm chưa:))))",
+      "summary": "Một bình luận mỉa mai bình chọn cá nhân thiếu công tâm, còn phản hồi lại hỏi xem đó là làm số liệu hay chỉ do khán giả không theo ý bình luận viên",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Cà khịa": 1,
+          "Trung lập": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTU2MTEwOTMwOTEwMjA2Nw%3D%3D",
+      "text": "Bị chỗ nào vậy mọi người??? Ai cập nhật thông tin với",
+      "summary": "Các netizen hỏi cập nhật sự cố và mỉa mai ban thiết kế vì copy hình cưới từ mạng lên sân khấu, thiếu sáng tạo",
+      "thread_stats": {
+        "total": 3,
+        "labels": {
+          "Trung lập": 1,
+          "Cà khịa": 2
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTg1Mzg5NzIwMjYzNjUyNQ%3D%3D",
+      "text": "Huyen Mai quá đủ drama cho t rồi bạn ơi 😌",
+      "summary": "Cuộc tranh luận về drama liên quan đến Huyen Mai, các phản hồi thể hiện mệt mỏi, chỉ trích sản xuất và thắc mắc về công bằng.",
+      "thread_stats": {
+        "total": 13,
+        "labels": {
+          "Cà khịa": 7,
+          "Đồng cảm": 4,
+          "Phẫn nộ": 1,
+          "Trung lập": 1
+        },
+        "controversial": true,
+        "toxic_count": 1
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTg3ODYxMDY0NjQ1NTgxNw%3D%3D",
+      "text": "Ôi lần đầu thắng của a Will :))",
+      "summary": "Nói lần đầu a Will thắng, phản hồi nhắc Đinh Đức cũng từng thắng.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Cà khịa": 1,
+          "Trung lập": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMjg1NjM5NzUyNzMyMTk2Mzg%3D",
+      "text": "Tuần nào cũng có biến vậy chời",
+      "summary": "Nhận xét mỗi tuần đều có biến, phản hồi ủng hộ ekip biết nhận sai.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Trung lập": 1,
+          "Ủng hộ": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTQzNjkxNTU5ODUzNzczNg%3D%3D",
+      "text": "Chông gai thật Ánh Bùi",
+      "summary": "Thốt lên chông gai thật, phản hồi châm biếc vừa đọc xong.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Trung lập": 1,
+          "Cà khịa": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTAxNDM5NzgxMTY1NDE4MA%3D%3D",
+      "text": "Thảo P. Nguyễn siêu nhanh gọn, chứ k là nhức nhức cái đầu",
+      "summary": "Khen ngợi cách xử lý sự cố nhanh gọn của một thành viên ekip, và reply đồng tình đồng thời cà khịa về việc xử lý một số vụ việc khác chậm chạp.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Ủng hộ": 1,
+          "Cà khịa": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMjMyOTUxODkwNDQ1MzAzOQ%3D%3D",
+      "text": "Nguyễn Trang tới nữa rồi đó m, quá nhiều chông gai rồi.",
+      "summary": "Cà khịa về việc chương trình lại gặp chông gai mới. Các reply thể hiện sự đồng cảm vì chưa kịp hóng hết sự việc này.",
+      "thread_stats": {
+        "total": 3,
+        "labels": {
+          "Cà khịa": 1,
+          "Đồng cảm": 2
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTA4NjkwMjI4NzQwNDkwMQ%3D%3D",
+      "text": "Nga Nghiêm Thủy Pi chông gai vươn tới tầm quốc tế luôn rồi :v",
+      "summary": "",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Cà khịa": 1,
+          "Đồng cảm": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMjEwODc1NjAyMDA0NDg5NA%3D%3D",
+      "text": "Ông nào tìm ra kể cũng đỉnh",
+      "summary": "",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Ủng hộ": 1,
+          "Trung lập": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTc3MDkzNDc0NzU3NDc4Mw%3D%3D",
+      "text": "Năm nay nhà mình cúng dâng sao giải hạn chưa ạ",
+      "summary": "Cuộc trò chuyện bắt đầu bằng câu hỏi về cúng dâng, sau đó phân nhánh vào việc chê người sao chép, thương tiếc Hải Ăn và hỏi thêm về Nguyễn Thị Linh.",
+      "thread_stats": {
+        "total": 7,
+        "labels": {
+          "Trung lập": 2,
+          "Cà khịa": 4,
+          "Đồng cảm": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTEyNDcwMzA5OTkxMTM0Mg%3D%3D",
+      "text": "Chông gai đã quen rồi",
+      "summary": "Comment chính dùng meme chông gai đã quen, các reply rủ đi concert và khẳng định vẫn sẽ đi dù nhiều chông gai.",
+      "thread_stats": {
+        "total": 4,
+        "labels": {
+          "Cà khịa": 2,
+          "Trung lập": 1,
+          "Ủng hộ": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTYzMzYyMDE2NDc5NTg4NQ%3D%3D",
+      "text": "Lần đầu thắng của Cheng, K.O mà cũng k yên, sao số nó khổ dữ v chời",
+      "summary": "Bình luận đồng cảm với Cheng và K.O luôn gặp khó khăn, reply đùa về tuế hỗn năm 95.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Đồng cảm": 1,
+          "Cà khịa": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTQ2ODA1NTg2MjA1MDQyOA%3D%3D",
+      "text": "k tuần nào đc yên luon đó :)))",
+      "summary": "Cộng đồng mạng than thở về việc chương trình liên tục gặp chông gai, một người hỏi xin map và được trả lời là chưa xem tập 12.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Trung lập": 1,
+          "Cà khịa": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTUzMTE4OTU0NTQ4NTI5Nw%3D%3D",
+      "text": "Ngân Trần khổ vl",
+      "summary": "Một khán giả than thở 'khổ vl', người kia nhắc đến tháng cô hồn và người còn lại tiếp tục câu than thở quen thuộc về chông gai.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Cà khịa": 1,
+          "Đồng cảm": 1
+        },
+        "controversial": true,
+        "toxic_count": 0
+      }
+    },
+    {
+      "comment_id": "cmt_showbiz068_Y29tbWVudDoxMjIzNTE3NTk3NzQxOTkzMjFfMTc3NzAxMTA0MDExNDM3MA%3D%3D",
+      "text": "Xin lỗi hơi nhiều rồi đó. Kiểm duyệt kỹ vào kẻo lại tạch nhé con mẹ gai.",
+      "summary": "Khán giả cảnh báo chương trình phải kiểm duyệt kỹ nếu không sẽ 'tạch', một người khác đồng tình và mỉa mai thêm về việc xin lỗi nhiều.",
+      "thread_stats": {
+        "total": 2,
+        "labels": {
+          "Phẫn nộ": 1,
+          "Cà khịa": 1
+        },
+        "controversial": true,
+        "toxic_count": 1
+      }
+    }
+  ]
+}

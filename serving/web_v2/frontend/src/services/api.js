@@ -6,6 +6,9 @@ const mapEvent = (e) => ({
   category: e.category,
   platform: e.platform,
   description: e.description,
+  contentFull: e.content_full || '',
+  timeEvent: e.time_event || '',
+  actors: e.actors || [],
   links: e.links || [],
   status: e.status,
   totalComments: e.total_comments,
@@ -14,9 +17,13 @@ const mapEvent = (e) => ({
   imageUrl: e.image_url,
 });
 
-async function apiFetch(path) {
-  const res = await fetch(`${API_BASE}${path}`);
-  if (!res.ok) throw new Error(`API ${res.status}: ${path}`);
+async function apiFetch(path, options) {
+  const res = await fetch(`${API_BASE}${path}`, options);
+  if (!res.ok) {
+    const error = new Error(`API ${res.status}: ${path}`);
+    error.status = res.status;
+    throw error;
+  }
   return res.json();
 }
 
@@ -32,8 +39,8 @@ export const getPostsByPlatform = async (platform) => {
   );
 };
 
-export const getPostById = async (id) => {
-  const json = await apiFetch(`/api/event/${id}`);
+export const getPostById = async (id, options) => {
+  const json = await apiFetch(`/api/event/${encodeURIComponent(id)}`, options);
   return mapEvent(json);
 };
 
@@ -57,16 +64,18 @@ export const searchPosts = async (query, platform = null) => {
 
 export const getLatestPostsByPlatform = async (platform, limit = 5) => {
   const params = new URLSearchParams({ per_page: String(limit) });
+  if (platform?.trim()) params.set('platform', platform.trim().toLowerCase());
   const json = await apiFetch(`/api/events?${params}`);
   return json.data.map(mapEvent);
 };
 
-export const getPaginatedPosts = async (platform, page = 1, perPage = 12) => {
+export const getPaginatedPosts = async (platform, page = 1, perPage = 12, options) => {
   const params = new URLSearchParams({
     page: String(page),
     per_page: String(perPage),
   });
-  const json = await apiFetch(`/api/events?${params}`);
+  if (platform?.trim()) params.set('platform', platform.trim().toLowerCase());
+  const json = await apiFetch(`/api/events?${params}`, options);
   return {
     data: json.data.map(mapEvent),
     total: json.total,

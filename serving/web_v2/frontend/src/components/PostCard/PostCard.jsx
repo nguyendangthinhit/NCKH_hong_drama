@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
-  FacebookOutlined,
-  GlobalOutlined,
   LinkOutlined,
   RightOutlined,
   FireOutlined,
 } from '@ant-design/icons';
-import { getMainLink, shortenUrl } from '../../utils/postHelpers';
+import { shortenUrl } from '../../utils/postHelpers';
+import { getEventSource } from '../../utils/event-sources';
+import PostSourceIcon from './post-source-icon';
 import styles from './PostCard.module.scss';
 
 const GRADIENTS = {
@@ -15,18 +16,21 @@ const GRADIENTS = {
   default: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
 };
 
-export default function PostCard({ post, variant = 'news', maxLinks, compact = false, rank, showImage = false }) {
+export default function PostCard({ post, variant = 'news', maxLinks, compact = false, rank, showImage = false, layout = 'card', showDate = false, showHotBadge = true, sourceAware = false }) {
   const [imgError, setImgError] = useState(false);
-  const mainLink    = getMainLink(post);
+  const location = useLocation();
+  const detailPath = `/events/${encodeURIComponent(post.id)}`;
+  const navigationState = { from: `${location.pathname}${location.search}` };
   const allLinks    = post.links ?? [];
   const shownLinks  = maxLinks != null ? allLinks.slice(0, maxLinks) : allLinks;
   const hiddenCount = allLinks.length - shownLinks.length;
 
-  const isFb = variant === 'facebook';
+  const source = getEventSource(sourceAware ? post.platform : variant === 'facebook' ? 'facebook' : 'news');
+  const cardVariant = sourceAware ? (['facebook', 'news'].includes(source.key) ? source.key : 'source') : variant;
   const gradient = GRADIENTS[post.category] || GRADIENTS.default;
 
   return (
-    <div className={`${styles.card} ${styles[`card--${variant}`]} ${compact ? styles['card--compact'] : ''}`}>
+    <div className={`${styles.card} ${styles[`card--${cardVariant}`]} ${styles[`card--${layout}`] || ''} ${compact ? styles['card--compact'] : ''}`}>
       {/* Rank badge */}
       {rank != null && (
         <div className={`${styles['card__rank']} ${rank <= 3 ? styles['card__rank--top'] : ''}`}>
@@ -36,7 +40,13 @@ export default function PostCard({ post, variant = 'news', maxLinks, compact = f
 
       {/* Image / gradient media */}
       {showImage && (
-        <div className={styles['card__media']} style={{ background: gradient }}>
+        <Link
+          to={detailPath}
+          state={navigationState}
+          className={styles['card__media']}
+          style={{ background: gradient }}
+          aria-label={`Đọc sự kiện: ${post.title}`}
+        >
           {post.imageUrl && !imgError ? (
             <img
               src={post.imageUrl}
@@ -47,15 +57,15 @@ export default function PostCard({ post, variant = 'news', maxLinks, compact = f
             />
           ) : (
             <div className={styles['card__media-icon']}>
-              {isFb ? <FacebookOutlined /> : <GlobalOutlined />}
+              <PostSourceIcon source={source.key} />
             </div>
           )}
-          {post.isHot && (
+          {showHotBadge && post.isHot && (
             <span className={styles['card__hot-badge']}>
               <FireOutlined /> HOT
             </span>
           )}
-        </div>
+        </Link>
       )}
 
       {/* Accent stripe */}
@@ -65,8 +75,7 @@ export default function PostCard({ post, variant = 'news', maxLinks, compact = f
         {/* Top badges */}
         <div className={styles['card__top']}>
           <span className={styles['card__badge']}>
-            {isFb ? <FacebookOutlined /> : <GlobalOutlined />}
-            {isFb ? ' Facebook' : ' Tin tức'}
+            <PostSourceIcon source={source.key} />{' '}{source.label}
           </span>
           {post.category && (
             <span className={styles['card__category']}>{post.category}</span>
@@ -74,15 +83,16 @@ export default function PostCard({ post, variant = 'news', maxLinks, compact = f
         </div>
 
         {/* Title */}
-        <div
+        <Link
           className={styles['card__title']}
-          onClick={() => window.open(mainLink, '_blank')}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && window.open(mainLink, '_blank')}
+          to={detailPath}
+          state={navigationState}
         >
           {post.title}
-        </div>
+        </Link>
+
+        {showDate && post.timeEvent && <span className={styles['card__date']}>Ngày sự kiện: {post.timeEvent}</span>}
+        {post.description && <p className={styles['card__excerpt']}>{post.description}</p>}
 
         {/* Comment stats */}
         {post.totalComments > 0 && (
@@ -126,15 +136,13 @@ export default function PostCard({ post, variant = 'news', maxLinks, compact = f
               {post.status}
             </span>
           )}
-          <a
-            href={mainLink}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            to={detailPath}
+            state={navigationState}
             className={styles['card__read-more']}
-            onClick={(e) => e.stopPropagation()}
           >
-            Xem nguồn <RightOutlined />
-          </a>
+            Xem chi tiết <RightOutlined />
+          </Link>
         </div>
       </div>
     </div>

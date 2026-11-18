@@ -4,7 +4,8 @@ Train GNN node classifier per domain.
 Pipeline:
 1. Load graphs.pkl + node_features.npy + labels
 2. Build PyG Data object: 1 graph lớn (concat tất cả event), edge index toàn cục
-3. Stratified split node-level 70/15/15
+3. Split 70/15/15: --split node (stratified theo nút, mặc định, như bản cũ)
+   hoặc --split event (nguyên sự kiện vào 1 tập; không rò rỉ giữa các sự kiện)
 4. Train với class weight (showbiz cực kỳ imbalance)
 5. Eval F1 macro per epoch, save best model
 
@@ -31,8 +32,7 @@ from sklearn.model_selection import train_test_split
 
 from model_graphsage_classifier import make_model
 
-OUTPUT_DIR = Path("data/gnn")
-CKPT_DIR = OUTPUT_DIR / "checkpoints"
+OUTPUT_DIR = Path("data/gnn")  # nơi đọc đầu vào; đầu ra mặc định cũng ở đây (--out-dir để đổi)
 
 LABEL_MAPS = {
     "education": ["tích cực", "tiêu cực", "trung lập", "ý kiến riêng"],
@@ -41,13 +41,24 @@ LABEL_MAPS = {
 
 
 def build_pyg_data(domain: str, device: str):
-    from torch_geometric.data import Data
+    try:
+        from torch_geometric.data import Data
+    except ImportError:  # PyG chưa cài: dùng khối dữ liệu tối giản
+        from types import SimpleNamespace
+
+        class Data(SimpleNamespace):
+            def to(self, device):
+                for k, v in vars(self).items():
+                    if torch.is_tensor(v):
+                        setattr(self, k, v.to(device))
+                return self
 
     with open(OUTPUT_DIR / f"graphs_{domain}.pkl", "rb") as fh:
         graphs = pickle.load(fh)
     feats = np.load(OUTPUT_DIR / f"node_features_{domain}.npy")
     label_names = LABEL_MAPS[domain]
     label_to_id = {n: i for i, n in enumerate(label_names)}
+    event_of_node = []
 
     # Concat tất cả graph thành 1 graph lớn, offset edge theo node count
     all_edges_src = []
@@ -55,6 +66,7 @@ def build_pyg_data(domain: str, device: str):
     all_labels = []
     offset = 0
     for g in graphs:
+        event_of_node.extend([g["event_id"]] * g["n_nodes"])
         for nid, lbl in zip(g["node_ids"], g["labels"]):
             all_labels.append(label_to_id[lbl])
         for src, dst in g["edges"]:
@@ -70,8 +82,9 @@ def build_pyg_data(domain: str, device: str):
     x = torch.tensor(feats, dtype=torch.float32)
     y = torch.tensor(all_labels, dtype=torch.long)
     data = Data(x=x, edge_index=edge_index, y=y)
-    print(f"[{domain}] PyG Data: {data}")
-    return data.to(device), label_names
+    print(f"[{domain}] nút={data.x.shape[0]} chiều={data.x.shape[1]} cạnh={data.edge_index.shape[1]} "
+          f"lớp={len(label_names)}")
+    return data.to(device), label_names, np.array(event_of_node)
 
 
 def make_split(y: torch.Tensor, seed: int = 42):
@@ -92,6 +105,22 @@ def make_split(y: torch.Tensor, seed: int = 42):
     val_mask[val_idx] = True
     test_mask[test_idx] = True
     return train_mask, val_mask, test_mask
+
+
+def make_event_split(event_ids: np.ndarray, seed: int = 42):
+    """Chia theo sự kiện 70/15/15 (số sự kiện), mọi nút của 1 sự kiện cùng 1 tập."""
+    events = np.array(sorted(set(event_ids.tolist())))
+    rng = np.random.RandomState(seed)
+    rng.shuffle(events)
+    n = len(events)
+    n_val = max(1, round(n * 0.15))
+    n_test = max(1, round(n * 0.15))
+    test_ev = set(events[:n_test])
+    val_ev = set(events[n_test:n_test + n_val])
+    mask = lambda evs: torch.tensor([e in evs for e in event_ids], dtype=torch.bool)
+    test_m, val_m = mask(test_ev), mask(val_ev)
+    train_m = ~(test_m | val_m)
+    return train_m, val_m, test_m
 
 
 def class_weights(y: torch.Tensor, n_classes: int, device: str, mode: str = "inverse"):
@@ -131,15 +160,20 @@ def train_one(domain: str, epochs: int = 300, lr: float = 1e-3,
               hidden_dim: int = 128, dropout: float = 0.3,
               patience: int = 50, seed: int = 42,
               loss_type: str = "auto", weight_mode: str = "auto",
-              focal_gamma: float = 2.0):
+              focal_gamma: float = 2.0, split: str = "node",
+              out_dir: Path = OUTPUT_DIR, model_kind: str = "sage"):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"[{domain}] Device: {device}")
     torch.manual_seed(seed)
     np.random.seed(seed)
 
-    data, label_names = build_pyg_data(domain, device)
+    data, label_names, event_ids = build_pyg_data(domain, device)
     n_classes = len(label_names)
-    train_m, val_m, test_m = make_split(data.y, seed)
+    if split == "event":
+        train_m, val_m, test_m = make_event_split(event_ids, seed)
+    else:
+        train_m, val_m, test_m = make_split(data.y, seed)
+    train_m, val_m, test_m = train_m.to(device), val_m.to(device), test_m.to(device)
 
     # Auto: showbiz cực kỳ imbalance -> focal + log_inverse weight
     #       education cân hơn -> ce + sqrt_inverse
@@ -150,7 +184,8 @@ def train_one(domain: str, epochs: int = 300, lr: float = 1e-3,
     print(f"[{domain}] loss={loss_type} weight_mode={weight_mode} epochs={epochs} patience={patience}")
 
     model = make_model(domain, in_dim=data.x.shape[1],
-                       hidden_dim=hidden_dim, dropout=dropout).to(device)
+                       hidden_dim=hidden_dim, dropout=dropout,
+                       kind=model_kind).to(device)
     weights = class_weights(data.y[train_m], n_classes, device, weight_mode)
     print(f"[{domain}] class weights: {weights.cpu().tolist()}")
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=5e-4)
@@ -230,12 +265,16 @@ def train_one(domain: str, epochs: int = 300, lr: float = 1e-3,
             "epochs_max": epochs,
             "patience": patience,
             "seed": seed,
+            "split": split,
+            "model": model_kind,
+            "in_dim": int(data.x.shape[1]),
         },
     }
 
-    CKPT_DIR.mkdir(parents=True, exist_ok=True)
-    torch.save(best_state, CKPT_DIR / f"gnn_{domain}.pt")
-    with open(OUTPUT_DIR / f"metrics_{domain}.json", "w", encoding="utf-8") as fh:
+    out_dir = Path(out_dir)
+    (out_dir / "checkpoints").mkdir(parents=True, exist_ok=True)
+    torch.save(best_state, out_dir / "checkpoints" / f"gnn_{domain}.pt")
+    with open(out_dir / f"metrics_{domain}.json", "w", encoding="utf-8") as fh:
         json.dump(metrics, fh, ensure_ascii=False, indent=2)
 
     # Predictions toàn bộ node (cho evaluate vs LLM)
@@ -250,7 +289,7 @@ def train_one(domain: str, epochs: int = 300, lr: float = 1e-3,
             "confidence": float(prob[i, pred[i]].item()),
             "split": "train" if train_m[i] else ("val" if val_m[i] else "test"),
         })
-    with open(OUTPUT_DIR / f"predictions_{domain}.json", "w", encoding="utf-8") as fh:
+    with open(out_dir / f"predictions_{domain}.json", "w", encoding="utf-8") as fh:
         json.dump(preds_all, fh, ensure_ascii=False)
 
     print(f"[{domain}] test_f1_macro={test_f1_macro:.4f} test_f1_weighted={test_f1_weighted:.4f}")
@@ -269,12 +308,16 @@ def main():
     ap.add_argument("--loss-type", choices=["auto", "ce", "focal"], default="auto")
     ap.add_argument("--weight-mode", choices=["auto", "inverse", "log_inverse", "sqrt_inverse"], default="auto")
     ap.add_argument("--focal-gamma", type=float, default=2.0)
+    ap.add_argument("--split", choices=["node", "event"], default="node")
+    ap.add_argument("--model", choices=["sage", "mlp"], default="sage",
+                    help="sage = GraphSAGE; mlp = baseline không dùng cạnh")
+    ap.add_argument("--out-dir", default=str(OUTPUT_DIR), help="thư mục ghi checkpoint/metric/prediction")
     args = ap.parse_args()
     domains = ["education", "showbiz"] if args.domain == "all" else [args.domain]
     for d in domains:
         train_one(d, args.epochs, args.lr, args.hidden_dim, args.dropout,
                   args.patience, args.seed, args.loss_type, args.weight_mode,
-                  args.focal_gamma)
+                  args.focal_gamma, args.split, args.out_dir, args.model)
 
 
 if __name__ == "__main__":

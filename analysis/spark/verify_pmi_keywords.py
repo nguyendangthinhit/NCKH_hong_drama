@@ -38,7 +38,7 @@ def load_baseline_module():
 
 def materialize_domain_json(domain: str) -> Path:
     """Đọc Parquet, filter theo domain, ghi list comments JSON cho baseline."""
-    from data.spark.spark_session_factory import get_spark
+    from preprocessing.spark.spark_session_factory import get_spark
     from pyspark.sql import functions as F
 
     spark = get_spark(app_name=f"materialize-{domain}", n_threads=2)

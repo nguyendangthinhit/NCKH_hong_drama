@@ -1,0 +1,2 @@
+{"mode": "single", "finished_at": "2026-11-17T23:24:57", "elapsed_s": 178.9, "requests_sent": 2, "events_done": [], "events_failed": ["showbiz_068"], "events_planned": 1, "stop_reason": "completed"}
+{"mode": "single", "finished_at": "2026-11-17T23:44:06", "elapsed_s": 1107.1, "requests_sent": 12, "events_done": ["showbiz_068"], "events_failed": [], "events_planned": 1, "stop_reason": "completed"}

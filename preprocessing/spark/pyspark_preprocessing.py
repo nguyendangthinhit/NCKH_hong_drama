@@ -1,15 +1,15 @@
 """
 PySpark preprocessing pipeline.
 
-Đọc raw JSON từ `data/process_education/cleaned_data_input/` và
-`data/process_showbiz/input_clean_data/`, flatten cây comment (root + replies)
-thành flat DataFrame, áp `is_trash` filter, ghi Parquet ra `data/spark/clean/`.
+Đọc raw JSON từ `data/processed/process_education/cleaned_data_input/` và
+`data/processed/process_showbiz/input_clean_data/`, flatten cây comment (root + replies)
+thành flat DataFrame, áp `is_trash` filter, ghi Parquet ra `data/spark-output/clean/`.
 
 Run:
-    python data/spark/pyspark_preprocessing.py \
-        --inputs data/process_education/cleaned_data_input \
-                 data/process_showbiz/input_clean_data \
-        --output data/spark/clean
+    python preprocessing/spark/pyspark_preprocessing.py \
+        --inputs data/processed/process_education/cleaned_data_input \
+                 data/processed/process_showbiz/input_clean_data \
+        --output data/spark-output/clean
 """
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ import sys
 import time
 from pathlib import Path
 
-# Cho phép `from data.spark...` khi chạy script trực tiếp
+# Cho phép `from preprocessing.spark...` khi chạy script trực tiếp
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
@@ -28,8 +28,8 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 
-from data.spark.is_trash_rule import is_trash
-from data.spark.spark_session_factory import get_spark
+from preprocessing.spark.is_trash_rule import is_trash
+from preprocessing.spark.spark_session_factory import get_spark
 
 
 # ─── Schema ──────────────────────────────────────────────────────────────────

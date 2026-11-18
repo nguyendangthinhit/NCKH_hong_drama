@@ -1,139 +1,77 @@
 """
-Batch inference: classify all comments using trained PhoBERT model.
+Batch inference: gán nhãn toàn bộ bình luận bằng PhoBERT đã fine-tune.
 
-Usage (on Colab after training):
-    !python phobert_batch_inference.py \
-        --domain showbiz \
-        --model_dir /content/phobert_checkpoints/showbiz \
-        --input_csv /content/all_showbiz_comments.csv \
-        --output_path /content/predictions_showbiz.csv
+Dùng đúng cấu hình lúc train (đọc từ config.json trong model_dir): model, max_length,
+segmenter, tên cột text. Nhờ vậy dự đoán nhất quán với dữ liệu đã huấn luyện.
+
+Usage:
+    !python phobert-batch-inference.py --model_dir /content/phobert_checkpoints/showbiz \
+        --input_path /content/all_showbiz_comments.xlsx --output_path /content/predictions_showbiz.csv
+Thêm cột predicted_label, confidence (max softmax, chưa hiệu chỉnh), và prob_<nhãn> cho từng lớp.
 """
 
 import argparse
 import json
 import os
 
-import numpy as np
 import pandas as pd
 import torch
-from torch.utils.data import Dataset, DataLoader
-from transformers import AutoTokenizer, AutoModel
-import torch.nn as nn
+from torch.utils.data import DataLoader
+from transformers import AutoTokenizer
 
-
-class PhoBERTClassifier(nn.Module):
-    def __init__(self, num_labels, model_name="vinai/phobert-base-v2", dropout=0.1):
-        super().__init__()
-        self.bert = AutoModel.from_pretrained(model_name)
-        self.dropout = nn.Dropout(dropout)
-        self.classifier = nn.Linear(768, num_labels)
-
-    def forward(self, input_ids, attention_mask):
-        outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
-        cls_output = outputs.last_hidden_state[:, 0, :]
-        cls_output = self.dropout(cls_output)
-        return self.classifier(cls_output)
-
-
-class InferenceDataset(Dataset):
-    def __init__(self, texts, tokenizer, max_length=256):
-        self.texts = texts
-        self.tokenizer = tokenizer
-        self.max_length = max_length
-
-    def __len__(self):
-        return len(self.texts)
-
-    def __getitem__(self, idx):
-        encoding = self.tokenizer(
-            self.texts[idx],
-            max_length=self.max_length,
-            padding="max_length",
-            truncation=True,
-            return_tensors="pt",
-        )
-        return {
-            "input_ids": encoding["input_ids"].squeeze(0),
-            "attention_mask": encoding["attention_mask"].squeeze(0),
-        }
+from phobert_data import CommentDataset, make_collate, read_table
+from phobert_model import PhoBERTClassifier
+from phobert_segmenter import get_segmenter
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--domain", choices=["showbiz", "education"], required=True)
-    parser.add_argument("--model_dir", type=str, required=True)
-    parser.add_argument("--input_csv", type=str, required=True)
-    parser.add_argument("--output_path", type=str, required=True)
-    parser.add_argument("--batch_size", type=int, default=32)
-    args = parser.parse_args()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--model_dir", required=True)
+    ap.add_argument("--input_path", required=True, help="xlsx hoặc csv")
+    ap.add_argument("--output_path", required=True)
+    ap.add_argument("--domain", choices=["showbiz", "education"],
+                    help="tuỳ chọn: nếu đặt, phải khớp domain của checkpoint")
+    ap.add_argument("--batch_size", type=int, default=32)
+    args = ap.parse_args()
+
+    with open(os.path.join(args.model_dir, "config.json"), encoding="utf-8") as fh:
+        cfg = json.load(fh)
+    if args.domain and args.domain != cfg["domain"]:
+        raise SystemExit(f"Checkpoint là domain '{cfg['domain']}', không khớp --domain {args.domain}")
+    id2label = {int(k): v for k, v in cfg["id2label"].items()}
+    text_col = cfg["columns"]["text"]
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(f"Device: {device}")
+    model = PhoBERTClassifier(cfg["num_labels"], cfg["model_name"], cfg["dropout"],
+                              smoke=cfg.get("smoke", False))
+    ckpt = torch.load(os.path.join(args.model_dir, "best_model.pt"), map_location=device)
+    model.load_state_dict(ckpt["model_state_dict"])
+    model.to(device).eval()
 
-    # Load config
-    config_path = os.path.join(args.model_dir, "config.json")
-    with open(config_path, "r", encoding="utf-8") as f:
-        config = json.load(f)
+    df = read_table(args.input_path)
+    if text_col not in df.columns:
+        raise SystemExit(f"Thiếu cột '{text_col}' trong {args.input_path}")
+    seg = get_segmenter(cfg["segmenter"])
+    tok = AutoTokenizer.from_pretrained(cfg["model_name"])
+    texts = [seg("" if pd.isna(t) else t) for t in df[text_col]]
+    loader = DataLoader(CommentDataset(texts, [0] * len(texts), tok, cfg["max_length"]),
+                        batch_size=args.batch_size, collate_fn=make_collate(tok.pad_token_id))
 
-    id2label = {int(k): v for k, v in config["id2label"].items()}
-    num_labels = config["num_labels"]
-    model_name = config["model_name"]
-    max_length = config["max_length"]
-
-    # Load model
-    print("Loading model...")
-    model = PhoBERTClassifier(num_labels=num_labels, model_name=model_name)
-    checkpoint = torch.load(
-        os.path.join(args.model_dir, "best_model.pt"), map_location=device
-    )
-    model.load_state_dict(checkpoint["model_state_dict"])
-    model.to(device)
-    model.eval()
-
-    # Load tokenizer
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-
-    # Load input data
-    print(f"Loading data from {args.input_csv}")
-    df = pd.read_csv(args.input_csv, encoding="utf-8-sig")
-    texts = df["text"].fillna("").tolist()
-
-    # Inference
-    dataset = InferenceDataset(texts, tokenizer, max_length)
-    dataloader = DataLoader(dataset, batch_size=args.batch_size)
-
-    all_preds = []
-    all_confidences = []
-
-    print(f"Running inference on {len(texts)} comments...")
+    probs = []
+    print(f"Inference {len(texts)} bình luận trên {device}...")
     with torch.no_grad():
-        for i, batch in enumerate(dataloader):
-            input_ids = batch["input_ids"].to(device)
-            attention_mask = batch["attention_mask"].to(device)
-
-            logits = model(input_ids, attention_mask)
-            probs = torch.softmax(logits, dim=1)
-            preds = torch.argmax(probs, dim=1)
-            confidences = torch.max(probs, dim=1).values
-
-            all_preds.extend(preds.cpu().numpy())
-            all_confidences.extend(confidences.cpu().numpy())
-
-            if (i + 1) % 50 == 0:
-                print(f"  Processed {(i+1) * args.batch_size}/{len(texts)}")
-
-    # Map predictions to labels
-    df["predicted_label"] = [id2label[p] for p in all_preds]
-    df["confidence"] = all_confidences
-
-    # Save
+        for b in loader:
+            logits = model(b["input_ids"].to(device), b["attention_mask"].to(device))
+            probs.append(torch.softmax(logits, dim=1).cpu())
+    probs = torch.cat(probs)
+    conf, pred = probs.max(dim=1)
+    df["predicted_label"] = [id2label[int(p)] for p in pred]
+    df["confidence"] = conf.numpy()
+    for i, name in sorted(id2label.items()):
+        df[f"prob_{name}"] = probs[:, i].numpy()
     df.to_csv(args.output_path, index=False, encoding="utf-8-sig")
-    print(f"\nSaved predictions to {args.output_path}")
-
-    # Summary
-    print(f"\nPrediction distribution:")
-    for label, count in df["predicted_label"].value_counts().items():
-        print(f"  {label}: {count} ({count/len(df)*100:.1f}%)")
+    print(f"Đã lưu {args.output_path}")
+    print(df["predicted_label"].value_counts().to_string())
 
 
 if __name__ == "__main__":

@@ -3,10 +3,10 @@ Benchmark Spark PMI pipeline ở các mức parallelism khác nhau,
 so với Python single-thread baseline.
 
 Đo wall-clock cho stage tokenize + n-gram count + PMI compute.
-Lưu kết quả → `data/spark/benchmark_results.json`.
+Lưu kết quả → `benchmark/benchmark_results.json`.
 
 Run:
-    python data/spark/benchmark_pmi.py
+    python benchmark/benchmark_pmi.py
 """
 
 from __future__ import annotations

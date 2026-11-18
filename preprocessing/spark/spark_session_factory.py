@@ -5,7 +5,7 @@ Tạo SparkSession đã cấu hình sẵn JAVA_HOME, PYSPARK_PYTHON, log level.
 Dùng để các script PySpark khác chỉ cần import và gọi `get_spark()`.
 
 Usage:
-    from data.spark.spark_session_factory import get_spark
+    from preprocessing.spark.spark_session_factory import get_spark
     spark = get_spark(app_name="my-job", n_threads=4)
 """
 

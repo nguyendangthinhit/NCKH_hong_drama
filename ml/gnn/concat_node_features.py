@@ -1,11 +1,12 @@
 """
-Concat PhoBERT (768) + TF-IDF (300) + structural (3) = 1071d node features.
+Concat text-embedding (PhoBERT 768 hoặc API) + TF-IDF + structural (3) thành node features.
+Chiều lấy từ dữ liệu (PhoBERT 768 + TF-IDF 300 + 3 = 1071; API dim=768 cho cùng 1071).
 
 Đảm bảo cùng thứ tự node giữa 3 nguồn (theo node_ids list).
 
-Input:
-    data/gnn/phobert_{domain}.npy           [N, 768]
-    data/gnn/phobert_node_ids_{domain}.json
+Input (--text-emb phobert | api):
+    data/gnn/{phobert|apiemb}_{domain}.npy           [N, D]
+    data/gnn/{phobert|apiemb}_node_ids_{domain}.json
     data/gnn/tfidf_{domain}.npz              [N, 300] sparse
     data/gnn/tfidf_node_ids_{domain}.json
     data/gnn/graphs_{domain}.pkl             (lấy structural)
@@ -16,6 +17,7 @@ Output:
 
 Usage:
     python concat_node_features.py --domain education
+    python concat_node_features.py --domain education --text-emb api
 """
 
 import argparse
@@ -29,10 +31,14 @@ import scipy.sparse as sp
 OUTPUT_DIR = Path("data/gnn")
 
 
-def concat_for_domain(domain: str):
+TEXT_EMB_PREFIX = {"phobert": "phobert", "api": "apiemb"}
+
+
+def concat_for_domain(domain: str, text_emb: str = "phobert"):
     # Load 3 nguồn
-    phobert = np.load(OUTPUT_DIR / f"phobert_{domain}.npy")
-    with open(OUTPUT_DIR / f"phobert_node_ids_{domain}.json", encoding="utf-8") as fh:
+    prefix = TEXT_EMB_PREFIX[text_emb]
+    phobert = np.load(OUTPUT_DIR / f"{prefix}_{domain}.npy")
+    with open(OUTPUT_DIR / f"{prefix}_node_ids_{domain}.json", encoding="utf-8") as fh:
         phobert_ids = json.load(fh)
 
     tfidf = sp.load_npz(OUTPUT_DIR / f"tfidf_{domain}.npz").toarray().astype(np.float32)
@@ -60,18 +66,26 @@ def concat_for_domain(domain: str):
     assert tfidf_ids == canon_ids, f"TF-IDF order mismatch ({domain})"
     assert phobert.shape[0] == tfidf.shape[0] == structural.shape[0]
 
+    # Chuẩn hoá thang đo để khối cấu trúc (đếm số, có thể hàng trăm) không át embedding (~0.01-1):
+    # embedding chuẩn hoá L2 theo hàng, cấu trúc log1p. TF-IDF đã L2 theo hàng.
+    phobert = phobert / np.linalg.norm(phobert, axis=1, keepdims=True).clip(min=1e-8)
+    structural = np.log1p(structural)
+
     # Concat
     feats = np.concatenate([phobert, tfidf, structural], axis=1).astype(np.float32)
-    print(f"[{domain}] Concat shape: {feats.shape} (768 + 300 + 3 = {feats.shape[1]})")
+    d_txt, d_tfidf = phobert.shape[1], tfidf.shape[1]
+    print(f"[{domain}] Concat shape: {feats.shape} ({d_txt} + {d_tfidf} + 3, text-emb={text_emb})")
 
     out_npy = OUTPUT_DIR / f"node_features_{domain}.npy"
     out_meta = OUTPUT_DIR / f"feature_meta_{domain}.json"
     np.save(out_npy, feats)
     with open(out_meta, "w", encoding="utf-8") as fh:
         json.dump({
-            "phobert": [0, 768],
-            "tfidf": [768, 1068],
-            "structural": [1068, 1071],
+            "text_emb": text_emb,
+            "normalization": "text L2 theo hàng; structural log1p; tfidf giữ nguyên",
+            "text": [0, d_txt],
+            "tfidf": [d_txt, d_txt + d_tfidf],
+            "structural": [d_txt + d_tfidf, d_txt + d_tfidf + 3],
             "n_nodes": int(feats.shape[0]),
             "dim": int(feats.shape[1]),
         }, fh, indent=2)
@@ -81,10 +95,11 @@ def concat_for_domain(domain: str):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--domain", choices=["education", "showbiz", "all"], default="all")
+    ap.add_argument("--text-emb", choices=list(TEXT_EMB_PREFIX), default="phobert")
     args = ap.parse_args()
     domains = ["education", "showbiz"] if args.domain == "all" else [args.domain]
     for d in domains:
-        concat_for_domain(d)
+        concat_for_domain(d, args.text_emb)
 
 
 if __name__ == "__main__":

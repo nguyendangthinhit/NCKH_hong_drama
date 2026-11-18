@@ -1,26 +1,26 @@
 
 // ── Màu nhấn (brand) 
-$primary:       #ea2a33;
-$primary-dark:  #c8102e;
-$primary-light: #ff6584;
+$primary:       #dc2626;
+$primary-dark:  #991b1b;
+$primary-light: #f87171;
 
 // ── Gradient chính (header / hero / footer)
 $brand-gradient: linear-gradient(135deg, #c8102e 0%, #e8192c 45%, #ff6584 100%);
 $brand-gradient-dark: linear-gradient(135deg, #a80d26 0%, #c8102e 45%, #e8192c 100%);
 
 // ── Màu nền 
-$bg-page:       #fcf8f8;  
+$bg-page:       #f3f4f6;
 $bg-card:       #ffffff;  
-$bg-subtle:     #f3e7e8;
+$bg-subtle:     #f1f5f9;
 
 // ── Màu viền 
-$border:        #f3e7e8;   
-$border-strong: #e7d0d1;  
+$border:        #e5e7eb;
+$border-strong: #d1d5db;
 
 // ── Màu chữ 
-$text-main:     #1b0e0e;  
-$text-muted:    #994d51;   
-$text-sub:      #6b6b85;  
+$text-main:     #111827;
+$text-muted:    #64748b;
+$text-sub:      #6b7280;
 
 // ── Platform colors 
 $facebook:      #1877f2;
