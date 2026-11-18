@@ -1,0 +1,7 @@
+# Facebook Crawl — Python dependencies
+#
+# websockets: required for CDP communication (used by all crawler scripts)
+# pyarrow:   optional — only needed for Parquet export (`scripts/_export.py parquet`)
+
+websockets>=10.0
+pyarrow>=14.0

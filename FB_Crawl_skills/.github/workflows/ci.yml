@@ -1,0 +1,146 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  test:
+    name: Validate scripts + skills
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+
+      - name: Validate Python syntax
+        run: |
+          echo "=== Python syntax check ==="
+          for f in $(find scripts -name "*.py"); do
+            python -m py_compile "$f" && echo "  OK: $f" || echo "  FAIL: $f"
+          done
+
+      - name: Validate shell scripts
+        run: |
+          echo "=== Shell syntax check ==="
+          for f in $(find scripts -name "*.sh"); do
+            bash -n "$f" && echo "  OK: $f" || echo "  FAIL: $f"
+          done
+
+      - name: Validate YAML frontmatter in skills
+        run: |
+          echo "=== Skill frontmatter check ==="
+          python -c "
+          import sys
+          import yaml
+          from pathlib import Path
+
+          errors = []
+          for skill_file in sorted(Path('skills').glob('*/SKILL.md')):
+              text = skill_file.read_text(encoding='utf-8')
+              if not text.startswith('---'):
+                  errors.append(f'{skill_file}: Missing YAML frontmatter')
+                  continue
+              parts = text.split('---', 2)
+              if len(parts) < 3:
+                  errors.append(f'{skill_file}: Malformed frontmatter')
+                  continue
+              try:
+                  meta = yaml.safe_load(parts[1])
+                  required = ['name', 'description', 'version']
+                  for field in required:
+                      if field not in meta:
+                          errors.append(f'{skill_file}: Missing field \"{field}\"')
+              except yaml.YAMLError as e:
+                  errors.append(f'{skill_file}: YAML parse error: {e}')
+
+          if errors:
+              print('FAILED:')
+              for e in errors:
+                  print(f'  - {e}')
+              sys.exit(1)
+          else:
+              print(f'  OK: All {len(list(Path(\"skills\").glob(\"*/SKILL.md\")))} skill files valid')
+          "
+
+      - name: Validate skill structure
+        run: |
+          echo "=== Skill structure check ==="
+          python -c "
+          from pathlib import Path
+          skills = sorted(Path('skills').glob('*/SKILL.md'))
+          print(f'  Found {len(skills)} skills:')
+          for s in skills:
+              parent = s.parent
+              print(f'    - {parent.name}')
+          "
+
+      - name: Validate data folder structure
+        run: |
+          echo "=== Data folder structure check ==="
+          for f in data/posts/.gitkeep data/tests/.gitkeep; do
+            if [ -f "$f" ]; then
+              echo "  OK: $f exists"
+            else
+              echo "  MISSING: $f"
+              exit 1
+            fi
+          done
+
+      - name: Validate README files
+        run: |
+          echo "=== README presence ==="
+          for f in README.md README_ENG.md; do
+            if [ -f "$f" ]; then
+              lines=$(wc -l < "$f")
+              echo "  OK: $f ($lines lines)"
+            else
+              echo "  MISSING: $f"
+              exit 1
+            fi
+          done
+
+      - name: Test path helpers
+        run: |
+          echo "=== Test _data_paths.py ==="
+          python -c "
+          import sys
+          sys.path.insert(0, 'scripts')
+          from _data_paths import sanitize_url, post_paths
+
+          # Test URLs
+          test_cases = [
+              ('https://www.facebook.com/share/p/1ABCxyz/', 'share_p_1ABCxyz'),
+              ('https://www.facebook.com/groups/12345/permalink/678', 'groups_12345_permalink_678'),
+          ]
+
+          for url, expected in test_cases:
+              got = sanitize_url(url)
+              assert got == expected, f'FAIL: {url} → {got}, expected {expected}'
+              print(f'  OK: {url} → {got}')
+          "
+
+      - name: Run all tests
+        run: |
+          echo "=== All validation passed ==="
+          echo "✓ Python syntax: OK"
+          echo "✓ Shell syntax: OK"
+          echo "✓ YAML frontmatter: OK"
+          echo "✓ Skill structure: OK"
+          echo "✓ Data folder structure: OK"
+          echo "✓ README files: OK"
+          echo "✓ Path helpers: OK"

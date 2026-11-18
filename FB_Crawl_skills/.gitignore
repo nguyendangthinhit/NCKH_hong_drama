@@ -1,0 +1,116 @@
+# ============================================
+# Facebook Skills Suite — .gitignore
+# ============================================
+# This file tells git what NOT to commit.
+# Goal: only code + sample structure, no real data/sessions.
+
+# ---- Personal & runtime data (NEVER commit) ----
+# Browser sessions (cookies, local storage, login state)
+sessions/
+
+# Hermes Agent internal state (plans, memory, sessions)
+.hermes/
+
+# ---- Real scraped data (ignore content, keep folder structure) ----
+# Ignore all files inside post folders (each post = 1 folder)
+# But keep the .gitkeep files so folder structure survives
+data/posts/*
+data/posts/.*
+
+# But allow .gitkeep to preserve empty folder structure
+!data/posts/.gitkeep
+
+# Same for tests
+data/tests/*
+data/tests/.*
+!data/tests/.gitkeep
+
+# Archive folder (legacy files)
+data/archive/
+
+# Scripts archive (deprecated Playwright versions, kept for reference)
+scripts/.archive/
+
+# Reference repos (SeleniumBase, etc) — too large to commit, keep on disk only
+ref/
+
+# Loose files at data/ root (no folder structure)
+data/*.tmp
+/data/*.jsonl
+/data/*.json
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# ---- Virtual environments ----
+venv/
+env/
+.env
+.venv/
+
+# ---- Secrets / credentials ----
+*.key
+*.pem
+.env.local
+.env.*.local
+credentials.json
+secrets.yaml
+
+# ---- OS files ----
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# ---- Editors / IDEs ----
+.vscode/
+.idea/
+*.iml
+*.swp
+
+# ---- Node / npm (if any) ----
+node_modules/
+package-lock.json
+yarn.lock
+.pnp.*
+
+# ---- Logs ----
+*.log
+logs/
+*.pid
+
+# ---- Backup files ----
+*.bak
+*.backup
+*.orig
+*.swp
+
+# ---- Large downloaded files ----
+*.zip
+*.tar.gz
+*.tgz
+
+# ---- Selenium / ChromeDriver ----
+chromedriver
+chromedriver.exe
+geckodriver
+geckodriver.exe
+selenium-server-standalone-*.jar
+*.crx
+*.xpi
+
+# ---- Misc ----
+.cache/
+.tmp/
+*.tmp
