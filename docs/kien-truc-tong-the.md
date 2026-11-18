@@ -91,7 +91,7 @@ Sơ đồ rút gọn các mũi tên nhỏ (ví dụ `build_db.py` còn lấy `li
 | Lớp | Thành phần | Vị trí | Trách nhiệm |
 |---|---|---|---|
 | Thu thập | n8n workflows | n8n cloud; bản export `ingestion/n8n/cào data.json` | Đọc Google Sheets, tìm URL (SerpApi), cào báo (Firecrawl), tổng hợp (Gemini), cào bình luận Facebook (Apify), ghi JSON lên Google Drive, đổi trạng thái `pending → done` |
-| Thu thập (FB) | Scraper Facebook | `FB_Crawl_skills/` | Repo lồng nhau, đang test (xem mục 6) |
+| Thu thập (FB) | Scraper Facebook | `FB_Crawl_skills/` | Đang test; track trong repo chính (xem mục 6) |
 | Tiền xử lý | Python đơn luồng | `preprocessing/single/` | Chuẩn hóa, sắp lại thứ tự, lọc rác |
 | Tiền xử lý | PySpark | `preprocessing/spark/` | Cùng việc trên, đối chiếu với bản đơn luồng |
 | Phân tích | Python | `analysis/single/` | Gán nhãn cảm xúc/lập trường bằng LLM (hai bước), PMI + n-gram, `analyze_insights.py` → `insights.json` |
