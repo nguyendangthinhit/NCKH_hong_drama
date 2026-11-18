@@ -91,7 +91,7 @@ Sơ đồ rút gọn các mũi tên nhỏ (ví dụ `build_db.py` còn lấy `li
 | Lớp | Thành phần | Vị trí | Trách nhiệm |
 |---|---|---|---|
 | Thu thập | n8n workflows | n8n cloud; bản export `ingestion/n8n/cào data.json` | Đọc Google Sheets, tìm URL (SerpApi), cào báo (Firecrawl), tổng hợp (Gemini), cào bình luận Facebook (Apify), ghi JSON lên Google Drive, đổi trạng thái `pending → done` |
-| Thu thập (FB) | Scraper Facebook | `ingestion/code_cao_fb_chuahoanthien/` | Bản làm lại, chưa hoàn thiện (xem mục 6) |
+| Thu thập (FB) | Scraper Facebook | `FB_Crawl_skills/` | Repo lồng nhau, đang test (xem mục 6) |
 | Tiền xử lý | Python đơn luồng | `preprocessing/single/` | Chuẩn hóa, sắp lại thứ tự, lọc rác |
 | Tiền xử lý | PySpark | `preprocessing/spark/` | Cùng việc trên, đối chiếu với bản đơn luồng |
 | Phân tích | Python | `analysis/single/` | Gán nhãn cảm xúc/lập trường bằng LLM (hai bước), PMI + n-gram, `analyze_insights.py` → `insights.json` |
@@ -182,9 +182,9 @@ Mục 4, 6 cần user xác nhận phiên bản nào đang chạy thật (file tr
 
 ### Tình trạng hiện tại (khoảng 85% theo đánh giá nội bộ)
 - Chạy được: thu thập qua n8n, tiền xử lý, phân tích, chatbot RAG, website, dashboard. Dữ liệu: 85 sự kiện (40 Giáo dục, 45 Showbiz), trong đó 50 sự kiện đã có phân tích bình luận (20 + 30) theo `insights.json`.
-- Ba script Spark đang import đường dẫn cũ `data.spark...` nên không chạy trực tiếp được sau khi dời thư mục (loại 2, mục 6).
+- Ba script Spark đã sửa import sang `preprocessing.spark...` (2026-11-17), chạy thật được trên `.venv-ml`.
 - Chưa đạt / còn lỗi: nhãn LLM nhiễu và mất cân bằng; GraphSAGE và PhoBERT chưa đạt mục tiêu (sẽ làm lại); báo cáo cũ ghi dữ liệu Showbiz trong RAG chưa cập nhật (prompt Dispatcher local hiện không ghi giới hạn này; runtime chưa xác minh, xem loại 7); phụ thuộc gói miễn phí (lỗi 429, n8n free mất kết nối).
-- Đang làm lại: luồng cào Facebook (`ingestion/code_cao_fb_chuahoanthien/`), Phase 01 PySpark.
+- Đang làm lại: luồng cào Facebook (`FB_Crawl_skills/`), Phase 01 PySpark.
 
 Hạng mục dự định làm sau (chưa có plan cụ thể): xem bảng "Việc làm sau" trong `docs/doc-map.md`. Khi bắt đầu từng hạng mục, document này được viết lại.
 

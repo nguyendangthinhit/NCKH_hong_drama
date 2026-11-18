@@ -146,5 +146,5 @@ Việc tải/ghép JSON từ Drive vào data/raw local chưa có cầu nối t�
 - [Dựng DB và Apps Script](../serving/web_v2/backend/build_db.py), [ảnh từ trang nguồn](../serving/web_v2/backend/og_image_scraper.py).
 - [Chatbot client](../serving/web_v2/frontend/src/components/Chatbot/Chatbot.jsx), [câu mẫu](../serving/web_v2/frontend/src/components/Chatbot/datamock.js).
 - [Dashboard App](../serving/dashboard/src/App.tsx), [types](../serving/dashboard/src/types.ts), [Interaction](../serving/dashboard/src/components/views/InteractionView.tsx).
-- [Đọc Sheets](../ingestion/code_cao_fb_chuahoanthien/sheets_reader.py), [lưu crawler](../ingestion/code_cao_fb_chuahoanthien/storage.py).
+- [CLI crawler](../FB_Crawl_skills/scripts/fb_cli.py), [crawl deep](../FB_Crawl_skills/scripts/05_auto_scrape_cdp.py).
 - [Gộp pipeline](../analysis/single/merge_final_data.py), [insight](../analysis/single/analyze_insights.py), [Spark preprocessing](../preprocessing/spark/pyspark_preprocessing.py), [Spark PMI](../analysis/spark/pyspark_pmi_keywords.py).

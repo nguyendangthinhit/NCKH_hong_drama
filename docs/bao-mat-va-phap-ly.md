@@ -124,6 +124,6 @@ Prompt yêu cầu không bịa/không tự trả lời chỉ là chỉ dẫn. Ch
 ## 11. Nguồn đối chiếu
 
 - [Quy tắc Git ignore](../.gitignore), [API website](../serving/web_v2/backend/app.py), [ETL và nguồn ảnh](../serving/web_v2/backend/build_db.py), [tải ảnh](../serving/web_v2/backend/og_image_scraper.py).
-- [Cookie/login crawler](../ingestion/code_cao_fb_chuahoanthien/auth.py), [đọc Sheets](../ingestion/code_cao_fb_chuahoanthien/sheets_reader.py), [storage](../ingestion/code_cao_fb_chuahoanthien/storage.py), [scraper/debug](../ingestion/code_cao_fb_chuahoanthien/scraper.py).
-- [Gán nhãn Showbiz](../analysis/single/analyze_comments.py), [Giáo dục](../analysis/single/analyze_education_async.py), [tiền xử lý](../preprocessing/single/tienxuly_vietlaiorder.py), [tổng hợp bài](../ingestion/code_cao_fb_chuahoanthien/gemini_summarizer.py).
+- [Crawler CDP/profile đăng nhập](../FB_Crawl_skills/scripts/05_auto_scrape_cdp.py), [CLI](../FB_Crawl_skills/scripts/fb_cli.py).
+- [Gán nhãn Showbiz](../analysis/single/analyze_comments.py), [Giáo dục](../analysis/single/analyze_education_async.py), [tiền xử lý](../preprocessing/single/tienxuly_vietlaiorder.py).
 - [Chatbot client](../serving/web_v2/frontend/src/components/Chatbot/Chatbot.jsx), [Gemini dashboard](../serving/dashboard/src/components/views/InteractionView.tsx), [graph/feature loader](../ml/gnn/concat_node_features.py), [PhoBERT checkpoint loader](../ml/phobert/phobert-batch-inference.py).

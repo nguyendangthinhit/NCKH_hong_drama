@@ -2,7 +2,7 @@
 
 Document loại 4/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. **Bản nháp chờ user đọc và sửa.**
 
-Phạm vi: các nhánh thu thập trong bản export n8n local và crawler Facebook tại `ingestion/code_cao_fb_chuahoanthien/`. Chỉ mô tả cài đặt hiện có; chưa chạy lại crawler, gọi API hay đối chiếu workflow đang chạy trên cloud.
+Phạm vi: các nhánh thu thập trong bản export n8n local và crawler Facebook tại `FB_Crawl_skills/` (crawler cũ `ingestion/code_cao_fb_chuahoanthien/` đã xóa; các mô tả chi tiết về nó bên dưới là lịch sử). Chỉ mô tả cài đặt hiện có; chưa chạy lại crawler, gọi API hay đối chiếu workflow đang chạy trên cloud.
 
 Luồng xử lý sau thu thập xem [Data pipeline](./data-pipeline.md); cấu trúc các kho dữ liệu xem [Database và dữ liệu](./database-va-du-lieu.md). Kế hoạch làm lại Facebook nằm ở bảng Việc làm sau của doc-map, không được coi là cài đặt trong tài liệu này.
 
@@ -174,6 +174,5 @@ README crawler hướng dẫn cài Chromium nhưng `main.py` hiện dùng Firefo
 ## 9. Nguồn đối chiếu
 
 - [Bản export n8n local](../ingestion/n8n/cào%20data.json) — file bị Git ignore, có thể không tồn tại trên máy khác.
-- [Điều phối crawler](../ingestion/code_cao_fb_chuahoanthien/main.py), [đọc Sheets](../ingestion/code_cao_fb_chuahoanthien/sheets_reader.py), [cấu hình](../ingestion/code_cao_fb_chuahoanthien/config.py).
-- [Đăng nhập](../ingestion/code_cao_fb_chuahoanthien/auth.py), [scraper](../ingestion/code_cao_fb_chuahoanthien/scraper.py), [parser](../ingestion/code_cao_fb_chuahoanthien/parser.py).
-- [Tổng hợp Gemini](../ingestion/code_cao_fb_chuahoanthien/gemini_summarizer.py), [lưu dữ liệu](../ingestion/code_cao_fb_chuahoanthien/storage.py), [dependencies](../ingestion/code_cao_fb_chuahoanthien/requirements.txt).
+- Crawler cũ `ingestion/code_cao_fb_chuahoanthien/` (main/auth/scraper/parser/storage/gemini_summarizer) đã xóa; xem lịch sử git.
+- [CLI crawler hiện tại](../FB_Crawl_skills/scripts/fb_cli.py), [crawl deep](../FB_Crawl_skills/scripts/05_auto_scrape_cdp.py).

@@ -67,6 +67,6 @@ Nguồn: `drama-intelligence-du-an.md`. Khi user bắt đầu một giai đoạn
 | GĐ6 | Phân tích qua link dán (on-demand), tài khoản clone | 1, 7, 9, 10, 12, 13, 15 |
 | GĐ7 | Kiến trúc phân tán (Spark lên cụm, RAPIDS), thí nghiệm scaling | 1, 2, 8, 16 |
 | GĐ8 | n8n chỉ lo trigger, hàng đợi `jobs`, cờ `mode: single\|distributed` | 1, 3, 9, 10, 14 |
-| Ngoài GĐ | Làm lại luồng cào Facebook (code dở ở `ingestion/code_cao_fb_chuahoanthien/`) | 4, 2 |
+| Ngoài GĐ | Làm lại luồng cào Facebook (luồng hiện tại ở `FB_Crawl_skills/`) | 4, 2 |
 | Ngoài GĐ | Làm lại Phase 01 PySpark preprocessing (kế hoạch cụ thể chưa rõ) | 2, 8 |
 | Ngoài GĐ | Chức năng mới nhóm E–H (timeline, KOL, bot detection, fact vs opinion...) | 15 |

@@ -69,7 +69,7 @@ Backend, hai frontend và GNN có manifest riêng; các lệnh cài/chạy hiệ
 Những điểm dễ lệch giữa máy hoặc lần chạy:
 
 - Frontend mặc định API cổng 8000; README local hướng dẫn backend 8001 và đặt VITE_API_BASE.
-- Spark factory mặc định đường dẫn JDK 17/Hadoop/Python trên Windows; một số script còn import data.spark theo cấu trúc cũ.
+- Spark factory mặc định đường dẫn JDK 17/Hadoop/Python trên Windows; import Spark đã sửa theo cấu trúc mới (2026-11-17).
 - Một số script lấy đường dẫn theo file, một số phụ thuộc thư mục chạy hoặc đường dẫn máy viết cứng. Không chuyển lệnh từ README cũ sang thư mục mới chỉ dựa trên tên script.
 - Thư mục chứa artifact ML thực tế có thể khác đường dẫn mặc định mà script đọc; vị trí và tái lập xem [loại 16](./tai-lap-thi-nghiem.md).
 
@@ -108,6 +108,6 @@ Các phần cần user bổ sung khi có thông tin: export agent n8n; schema/qu
 
 - [Preprocessing Python](../preprocessing/single/tienxuly_vietlaiorder.py), [phân tích Showbiz](../analysis/single/analyze_comments.py), [Giáo dục](../analysis/single/analyze_education_async.py).
 - [Gộp dữ liệu](../analysis/single/merge_final_data.py), [tạo insight](../analysis/single/analyze_insights.py), [export tập kiểm duyệt](../sampling_labeling/export_5k_for_verification.py).
-- [Điều phối crawler](../ingestion/code_cao_fb_chuahoanthien/main.py), [storage crawler](../ingestion/code_cao_fb_chuahoanthien/storage.py), [dựng DB](../serving/web_v2/backend/build_db.py).
+- [CLI crawler](../FB_Crawl_skills/scripts/fb_cli.py), [dựng DB](../serving/web_v2/backend/build_db.py).
 - [API](../serving/web_v2/backend/app.py), [Dashboard App](../serving/dashboard/src/App.tsx), [Spark factory](../preprocessing/spark/spark_session_factory.py).
 - [Backend README](../serving/web_v2/backend/README.md), [website README](../serving/web_v2/README.md), [dashboard README](../serving/dashboard/README.md), [quy tắc Git ignore](../.gitignore).

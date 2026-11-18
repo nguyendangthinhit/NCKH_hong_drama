@@ -115,6 +115,6 @@ Thông tin chưa đủ để chốt: mục tiêu chất lượng định lượn
 ## 11. Nguồn đối chiếu
 
 - [API](../serving/web_v2/backend/app.py), [ETL SQLite](../serving/web_v2/backend/build_db.py), [lấy ảnh](../serving/web_v2/backend/og_image_scraper.py), [client API](../serving/web_v2/frontend/src/services/api.js).
-- [Gán nhãn Showbiz](../analysis/single/analyze_comments.py), [Giáo dục](../analysis/single/analyze_education_async.py), [storage crawler](../ingestion/code_cao_fb_chuahoanthien/storage.py), [điều phối crawler](../ingestion/code_cao_fb_chuahoanthien/main.py).
+- [Gán nhãn Showbiz](../analysis/single/analyze_comments.py), [Giáo dục](../analysis/single/analyze_education_async.py), [CLI crawler](../FB_Crawl_skills/scripts/fb_cli.py).
 - [Spark factory](../preprocessing/spark/spark_session_factory.py), [PMI Spark](../analysis/spark/pyspark_pmi_keywords.py), [verify preprocessing](../preprocessing/spark/verify_preprocessing.py), [verify PMI](../analysis/spark/verify_pmi_keywords.py).
 - [Dashboard App](../serving/dashboard/src/App.tsx), [Interaction](../serving/dashboard/src/components/views/InteractionView.tsx), [Chatbot](../serving/web_v2/frontend/src/components/Chatbot/Chatbot.jsx).
