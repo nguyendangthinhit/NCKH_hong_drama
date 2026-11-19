@@ -140,6 +140,10 @@ def cmd_crawl(args):
                 continue  # Skip default
             sys.argv.extend([cli_name, str(val)])
 
+    # Only 05_auto_scrape_cdp.py (post/deep) writes the shared-schema common.jsonl.
+    if kind in ("post", "deep") and getattr(args, "event_id", None):
+        sys.argv.extend(["--event-id", args.event_id])
+
     print(f"→ Running: {script.name} {' '.join(sys.argv[1:])}")
     subprocess.run([sys.executable, str(script)] + sys.argv[1:])
 
@@ -307,6 +311,8 @@ def main():
                    help="Count (default: 10)")
     p.add_argument("--target", type=int, default=0,
                    help="Deep mode: stop at N comments. Default 0 = get as many as possible")
+    p.add_argument("--event-id", type=str, default=None,
+                   help="post/deep mode: event id written to common.jsonl (shared schema)")
     # Profile-specific flags (forwarded to 09_crawl_profile.py)
     p.add_argument("--with-about", action="store_true",
                    help="[profile] Extract About section (Stage 1)")

@@ -15,6 +15,7 @@ Không cần Playwright/Selenium — chỉ dùng websocket-client + curl.
 import asyncio
 import json
 import os
+import re
 import subprocess
 import sys
 import urllib.request
@@ -24,6 +25,8 @@ from typing import Optional
 
 sys.path.insert(0, str(Path(__file__).parent))
 from _run_manifest import RunManifest, manifest_path, checkpoint_path  # noqa: E402
+from _common_schema import (filter_to_post, parse_comment_link,  # noqa: E402
+                            to_common_rows, write_common_jsonl)
 
 
 class BrowserDisconnected(RuntimeError):
@@ -324,8 +327,25 @@ async def no_auth_fallback(post_url: str, current_url: str, post_folder,
 # best-effort engagement bar (reactions / comments / shares). Every field is
 # nullable — a selector miss must never abort the crawl.
 
+# Which [role=dialog] holds the target post. FB keeps several dialogs mounted
+# ("Thông báo", ghost dialogs of previously opened posts), so pick the one with the
+# most comment articles; else one with a post message; else null (permalink page).
+# Shared by post-body and comment extraction so both read the SAME post.
+PICK_POST_DIALOG_JS = """
+function __pickPostDialog() {
+    const CMT = '[aria-label^="Comment by "], [aria-label^="Reply by "], [aria-label^="Bình luận dưới tên "], [aria-label^="Phản hồi bình luận của "], [aria-label*=" đáp lại phản hồi của "]';
+    const dlgs = Array.from(document.querySelectorAll('[role="dialog"]'));
+    let best = null, bestN = 0;
+    for (const d of dlgs) {
+        const n = d.querySelectorAll(CMT).length;
+        if (n > bestN) { bestN = n; best = d; }
+    }
+    return best || dlgs.find(d => d.querySelector('[data-ad-rendering-role="story_message"]')) || null;
+}
+"""
+
 # Click the post-level "See more" / "Xem thêm" so long posts are captured full.
-POST_SEEMORE_JS = """
+POST_SEEMORE_JS = PICK_POST_DIALOG_JS + """
 (function() {
     let clicked = 0;
     // Only within the main post article (not comment articles)
@@ -334,7 +354,7 @@ POST_SEEMORE_JS = """
         const al = a.getAttribute('aria-label') || '';
         return !al.startsWith('Comment by ') && !al.startsWith('Reply by ') && !al.startsWith('Bình luận dưới tên ') && !al.startsWith('Phản hồi bình luận của ') && !al.includes(' đáp lại phản hồi của ');
     });
-    const scope = document.querySelector('[role="dialog"]') || postArt || document;
+    const scope = __pickPostDialog() || postArt || document;
     scope.querySelectorAll('[role="button"], span, div').forEach(el => {
         const t = (el.textContent || '').trim();
         if (/^(see more|xem thêm|see more…|xem thêm…)$/i.test(t)) {
@@ -345,7 +365,7 @@ POST_SEEMORE_JS = """
 })()
 """
 
-POST_BODY_JS = """
+POST_BODY_JS = PICK_POST_DIALOG_JS + """
 (function() {
     const USER_IMG = /scontent\\.[^/]+\\.fbcdn\\.net\\/v\\/t(39|45|51)/;
     const SKIP_IMG = /static\\.xx\\.fbcdn\\.net\\/rsrc|images\\.emoji\\.php|lookaside/i;
@@ -362,8 +382,8 @@ POST_BODY_JS = """
             (b.innerText || '').length - (a.innerText || '').length)[0];
     }
     // Post opened as a modal: the post is NOT a labelled article and the feed
-    // behind holds empty ghost articles, so scope to the dialog instead.
-    const dlg = document.querySelector('[role="dialog"]');
+    // behind holds empty ghost articles, so scope to the post dialog instead.
+    const dlg = __pickPostDialog();
     const scope = dlg || postArt || document.body;
 
     // Author: prefer header link (h2/h3/strong), else first profile link.
@@ -500,7 +520,8 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                              browser: str = "auto",
                              crash_retries: int = 3,
                              crash_wait: float = 15.0,
-                             relaunch: bool = True):
+                             relaunch: bool = True,
+                             event_id: Optional[str] = None):
     """Navigate tab tới post URL, scroll, extract comments.
 
     cookie_file / cookie_string: optional auth via cookies (injected via CDP).
@@ -582,6 +603,16 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
             print(f"\n→ Navigate to: {post_url}")
             await cdp_send(ws, "Page.enable", msg_id=next_id())
             await cdp_send(ws, "Page.bringToFront", msg_id=next_id())  # hidden tab => FB stops lazy-loading
+            # bringToFront does not restore a MINIMIZED window, and a minimized window
+            # keeps visibilityState=hidden -> FB stops loading comments (~30 instead of
+            # hundreds, seen 2026-11-19). Un-minimize it (best-effort).
+            try:
+                win = await cdp_send(ws, "Browser.getWindowForTarget", msg_id=next_id())
+                await cdp_send(ws, "Browser.setWindowBounds",
+                               {"windowId": win["windowId"], "bounds": {"windowState": "normal"}},
+                               msg_id=next_id())
+            except (BrowserDisconnected, RuntimeError, KeyError) as e:
+                print(f"  ⚠ Could not restore browser window (best-effort): {e}")
             # Tall viewport: in a short post dialog FB hides "View N replies" buttons (height 0) and virtualizes harder.
             await cdp_send(ws, "Emulation.setDeviceMetricsOverride",
                            {"width": 1280, "height": 2400, "deviceScaleFactor": 1, "mobile": False}, msg_id=next_id())
@@ -592,6 +623,31 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
             # Đợi page load
             await asyncio.sleep(8)
             print("✓ Page loaded")
+            current_url = post_url  # the tab's previous URL is irrelevant from here on
+
+            # 1.1 Share links (/share/p/...) redirect via the home feed: while FB resolves
+            # them, OTHER posts of the feed are on screen and got crawled instead (seen
+            # 2026-11-19). Wait for the real post URL, then open it directly.
+            if "/share/" in post_url:
+                resolved = None
+                for _ in range(20):
+                    r = await cdp_send(ws, "Runtime.evaluate",
+                                       {"expression": "location.href", "returnByValue": True},
+                                       msg_id=next_id())
+                    href = r.get("result", {}).get("value") or ""
+                    if "/share/" not in href and re.search(
+                            r"/posts/|/permalink|story_fbid=|/videos/|/reel/|/photo", href):
+                        resolved = href.split("#")[0]
+                        break
+                    await asyncio.sleep(1)
+                if resolved:
+                    print(f"→ Share link resolved to: {resolved}")
+                    await cdp_send(ws, "Page.navigate", {"url": resolved}, msg_id=next_id())
+                    await asyncio.sleep(8)
+                    current_url = resolved
+                else:
+                    print("  ⚠ Share link did not resolve to a post URL within 20s — "
+                          "results may include other posts (filtered by post_id below)")
 
             # 1.4 Login-wall handling (logged-out session)
             # FB renders a "Xem thêm trên Facebook" overlay on top of post content when
@@ -719,21 +775,27 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                 const USER_IMG = /scontent\\.[^/]+\\.fbcdn\\.net\\/v\\/t(39|45|51)/;
                 const SKIP_IMG = /static\\.xx\\.fbcdn\\.net\\/rsrc|images\\.emoji\\.php|lookaside/i;
 
+                const LABEL_SEL = '[aria-label^="Comment by "], [aria-label^="Reply by "], [aria-label^="Bình luận dưới tên "], [aria-label^="Phản hồi bình luận của "], [aria-label*=" đáp lại phản hồi của "]';
+                // Post opened as a modal: the page behind it shows OTHER posts (feed,
+                // the user's own post...). Read only the post dialog; filter_to_post()
+                // in Python drops anything that still leaks in.
+                const scopeRoot = __pickPostDialog() || document;
+
                 // Find ALL elements with comment/reply aria-label
-                const allCandidates = document.querySelectorAll('[aria-label]');
+                const allCandidates = scopeRoot.querySelectorAll('[aria-label]');
                 allCandidates.forEach(el => {
                     const al = el.getAttribute('aria-label');
                     if (!al || !(/^(Comment by |Reply by |Bình luận dưới tên |Phản hồi bình luận của )/.test(al) || al.includes(' đáp lại phản hồi của '))) return;
 
                     const isReply = al.startsWith('Reply by') || al.startsWith('Phản hồi bình luận của ') || al.includes(' đáp lại phản hồi của ');
-                    let name = null, timeStr = null;
+                    let name = null, timeStr = null, replyToAuthor = null;
 
                     let vm;
                     // Vietnamese UI: "Bình luận dưới tên X vào 32 tuần trước" /
                     //                "Phản hồi bình luận của P dưới tên X vào 32 tuần trước"
                     // Nested reply (reply to a reply): "X đáp lại phản hồi của Y vào 32 tuần trước"
-                    if ((vm = al.match(/^(.+?) đáp lại phản hồi của .+? vào (.+)$/))) {
-                        name = vm[1].trim(); timeStr = vm[2].trim();
+                    if ((vm = al.match(/^(.+?) đáp lại phản hồi của (.+?) vào (.+)$/))) {
+                        name = vm[1].trim(); replyToAuthor = vm[2].trim(); timeStr = vm[3].trim();
                     } else if ((vm = al.match(/^Bình luận dưới tên (.+?) vào (.+)$/))
                         || (vm = al.match(/^Phản hồi bình luận của .+? dưới tên (.+?) vào (.+)$/))) {
                         name = vm[1].trim(); timeStr = vm[2].trim();
@@ -741,8 +803,11 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                         // Format variants:
                         //   "Reply by Tiên Kim to Kin Đẹp Trai's comment 12 hours ago"
                         //   "Reply by Cuong Quach to Đậu Đậu's reply a week ago"
-                        const m = al.match(/^Reply by (.+?) to .+?'s (?:comment|reply) (.+)$/);
-                        if (m) { name = m[1].trim(); timeStr = m[2].trim(); }
+                        const m = al.match(/^Reply by (.+?) to (.+?)'s (comment|reply) (.+)$/);
+                        if (m) {
+                            name = m[1].trim(); timeStr = m[4].trim();
+                            if (m[3] === 'reply') replyToAuthor = m[2].trim();  // nested reply
+                        }
                     } else {
                         // "Comment by Kin Đẹp Trai 12 hours ago"
                         const rest = al.replace(/^Comment by /, '');
@@ -768,6 +833,10 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                     const parts = [];
                     for (const div of textDivs) {
                         if (div.parentElement && div.parentElement.closest('div[dir="auto"]')) continue;
+                        // Walking up may reach sibling comments (e.g. a GIF-only comment has no
+                        // own text) — never borrow text owned by another comment article.
+                        const owner = div.closest(LABEL_SEL);
+                        if (owner && owner !== el) continue;
                         const t = div.textContent.trim();
                         if (t && t.length < 5000) parts.push(t);
                     }
@@ -798,6 +867,24 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                     // Allow image-only comments (no text but has images) — only if INCLUDE_IMAGES
                     if (!text && images.length === 0) return;
 
+                    // Links owned by THIS comment (not by a nested reply article):
+                    //  - timestamp link ("6 ngày") = POST url + ?comment_id=<id> (replies:
+                    //    ?comment_id=<parent>&reply_comment_id=<self>) -> preferred: it also
+                    //    tells which post the comment belongs to.
+                    //  - author profile link (text = author name) only carries the own id.
+                    // Parsed into comment_id / reply_to_id / author_id by _common_schema.py.
+                    const own = Array.from(target.querySelectorAll('a[href]'))
+                        .filter(a => a.closest(LABEL_SEL) === el);
+                    const prof = own.find(a => (a.textContent || '').trim() === name);
+                    const profileHref = prof ? prof.href : null;
+                    const pathOf = h => { try { return new URL(h).pathname; } catch (e) { return null; } };
+                    const profPath = prof ? pathOf(prof.href) : null;
+                    const withId = own.filter(a => /[?&]comment_id=/.test(a.href || ''));
+                    const tsLinks = withId.filter(a => pathOf(a.href) !== profPath);
+                    const pick = tsLinks.find(a => /[?&]reply_comment_id=/.test(a.href))
+                        || tsLinks[0] || withId[0];
+                    const commentHref = pick ? pick.href : null;
+
                     // Dedupe by author + text (or image placeholder)
                     const key = (isReply ? 'R:' : 'C:') + name + '|' + (text || '[img]').substring(0, 80);
                     if (seen.has(key)) return;
@@ -811,6 +898,9 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                         images: images,
                         scraped_at: new Date().toISOString(),
                         post_url: window.location.href,
+                        comment_href: commentHref,
+                        profile_href: profileHref,
+                        reply_to_author: replyToAuthor,
                     });
                 });
 
@@ -819,7 +909,8 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
             """
 
             # Wrap extract_js to inject include_images flag at the top
-            extract_js_with_flag = f"var INCLUDE_IMAGES = {str(include_images).lower()};\n{extract_js}"
+            extract_js_with_flag = (f"var INCLUDE_IMAGES = {str(include_images).lower()};\n"
+                                    f"{PICK_POST_DIALOG_JS}\n{extract_js}")
             acc: dict = {}
 
             async def _merge_extract():
@@ -827,24 +918,48 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                                    {"expression": extract_js_with_flag, "returnByValue": True},
                                    msg_id=next_id())
                 for c in (r.get("result", {}).get("value") or []):
-                    k = (c.get("type"), c.get("author"), (c.get("text") or "[img]")[:80])
+                    # FB comment id is the reliable key; author+text only when FB gave no link.
+                    k = (parse_comment_link(c.get("comment_href"))["comment_id"]
+                         or parse_comment_link(c.get("profile_href"))["comment_id"]
+                         or (c.get("type"), c.get("author"), (c.get("text") or "[img]")[:80]))
                     if k not in acc:
                         acc[k] = c
+                    else:  # a later pass may see links an earlier pass missed
+                        for f in ("comment_href", "profile_href", "reply_to_author"):
+                            if c.get(f) and not acc[k].get(f):
+                                acc[k][f] = c[f]
 
-            # Scroll the post dialog's own scroller (or the window) so FB lazy-loads more.
-            scroll_js = """(function() {
-                let sc = null;
+            # Scroll the post's OWN comment scroller (or the window) so FB lazy-loads more.
+            # The first scrollable div is often the feed behind the dialog (0 comments):
+            # scrolling it loads nothing and fakes "at bottom" -> crawl stopped at ~30.
+            # Search the whole page: the comment scroller can WRAP the post dialog
+            # (not sit inside it). Scrolling clicks nothing, so it cannot open other posts.
+            find_scroller_js = """
+            function __commentScroller() {
+                const CMT = '[aria-label^="Comment by "], [aria-label^="Reply by "], [aria-label^="Bình luận dưới tên "], [aria-label^="Phản hồi bình luận của "], [aria-label*=" đáp lại phản hồi của "]';
+                let sc = null, best = -1;
                 for (const e of document.querySelectorAll('div')) {
                     if (e.scrollHeight > e.clientHeight + 80 && e.clientHeight > 100
-                        && /auto|scroll/.test(getComputedStyle(e).overflowY)
-                        && e.querySelector('[role="article"]')) { sc = e; break; }
+                        && /auto|scroll/.test(getComputedStyle(e).overflowY)) {
+                        const n = e.querySelectorAll(CMT).length;
+                        if (n > best) { best = n; sc = e; }
+                    }
                 }
+                return best > 0 ? sc : null;
+            }
+            """
+            scroll_js = find_scroller_js + """(function() {
+                const sc = __commentScroller();
+                const vis = document.visibilityState;
                 if (!sc) {
                     window.scrollBy(0, 600);
-                    return JSON.stringify({bot: window.scrollY + innerHeight >= document.documentElement.scrollHeight - 5});
+                    const de = document.documentElement;
+                    return JSON.stringify({mode: 'window', vis, pos: window.scrollY + innerHeight, sh: de.scrollHeight,
+                                           bot: window.scrollY + innerHeight >= de.scrollHeight - 5});
                 }
-                sc.scrollTop = sc.scrollTop + Math.floor(sc.clientHeight * 0.5);
-                return JSON.stringify({bot: sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 5});
+                sc.scrollTop = sc.scrollTop + Math.floor(sc.clientHeight * 0.8);
+                return JSON.stringify({mode: 'scroller', vis, pos: sc.scrollTop + sc.clientHeight, sh: sc.scrollHeight,
+                                       bot: sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 5});
             })()"""
 
             manifest.stage("click_loop", meta={"max_rounds": max_rounds})
@@ -858,25 +973,28 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
             if ckpt and ckpt.phase == "click_loop":
                 start_round = ckpt.round
                 print(f"  → Resuming click-loop from round {start_round} (previous interrupted run)")
-            top_js = """(function(){for(const e of document.querySelectorAll('div')){if(e.scrollHeight>e.clientHeight+80&&e.clientHeight>100&&/auto|scroll/.test(getComputedStyle(e).overflowY)&&e.querySelector('[role="article"]')){e.scrollTop=0;return 1;}}return 0;})()"""
+            top_js = find_scroller_js + """(function(){const sc=__commentScroller(); if(sc){sc.scrollTop=0;return 1;} return 0;})()"""
             await cdp_send(ws, "Runtime.evaluate", {"expression": top_js, "returnByValue": True}, msg_id=next_id())
             at_bottom = False
             for round_i in range(start_round, max_rounds):
                 # Click all unique "View replies" buttons (track by position)
                 # + scroll-into-view first so hidden buttons (width=0) become clickable
-                click_js = """
+                click_js = PICK_POST_DIALOG_JS + """
                 (function() {
                     let clicked = 0;
                     const seen = new Set();
+                    // Only the post dialog: clicking "Xem thêm bình luận" of a feed post
+                    // behind it OPENS that post and navigates away (seen 2026-11-19).
+                    const root = __pickPostDialog() || document;
                     // First: scroll all comment containers into view so nested View buttons render
-                    document.querySelectorAll('[aria-label^="Comment by "], [aria-label^="Reply by "], [aria-label^="Bình luận dưới tên "], [aria-label^="Phản hồi bình luận của "], [aria-label*=" đáp lại phản hồi của "]').forEach(el => {
+                    root.querySelectorAll('[aria-label^="Comment by "], [aria-label^="Reply by "], [aria-label^="Bình luận dưới tên "], [aria-label^="Phản hồi bình luận của "], [aria-label*=" đáp lại phản hồi của "]').forEach(el => {
                         try { el.scrollIntoView({block: 'nearest'}); } catch(e) {}
                     });
                     // Then: click all visible + hidden expander buttons —
                     //   replies:  "View 1 reply", "View more replies", "View previous"
                     //   comments: "View more comments", "View previous comments",
                     //             "Xem thêm bình luận" (logged-out top-level pagination)
-                    document.querySelectorAll('[role="button"]').forEach(el => {
+                    root.querySelectorAll('[role="button"]').forEach(el => {
                         const t = (el.textContent || '').trim();
                         const isReplyBtn = /^view (all )?(\\d+ )?repl/i.test(t)
                             || /^view more repl/i.test(t) || /^view previous/i.test(t)
@@ -929,9 +1047,14 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                 sres = await cdp_send(ws, "Runtime.evaluate", {"expression": scroll_js, "returnByValue": True},
                                       msg_id=next_id())
                 try:
-                    at_bottom = bool(json.loads(sres.get("result", {}).get("value") or "{}").get("bot"))
+                    sinfo = json.loads(sres.get("result", {}).get("value") or "{}")
                 except Exception:
-                    at_bottom = False
+                    sinfo = {}
+                at_bottom = bool(sinfo.get("bot"))
+                print(f"           scroll={sinfo.get('mode')} {sinfo.get('pos')}/{sinfo.get('sh')} "
+                      f"visibility={sinfo.get('vis')}")
+                if sinfo.get("vis") == "hidden":
+                    print("  ⚠ Tab is hidden (window minimized/covered?) — FB stops loading comments")
                 await asyncio.sleep(2.0)  # let FB render the newly scrolled window before extracting
                 await _merge_extract()
                 if target and len(acc) >= target:
@@ -941,7 +1064,8 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                 # stop after 8 rounds without DOM growth even if something is still "clicked".
                 if len(acc) == prev_total:
                     stable_rounds += 1
-                    if (at_bottom and stable_rounds >= 3) or stable_rounds >= 15:
+                    # At the bottom FB may still be fetching the next page: give it 5 rounds.
+                    if (at_bottom and stable_rounds >= 5) or stable_rounds >= 15:
                         print("  Stable, stopping click loop")
                         break
                 else:
@@ -954,6 +1078,12 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
 
             await _merge_extract()
             comments = list(acc.values())
+            # The whole page is read, so drop comments of other posts (feed behind the
+            # dialog, previously opened posts) — matched by the post path in comment links.
+            n_before = len(comments)
+            comments = filter_to_post(comments, current_url)
+            if len(comments) < n_before:
+                print(f"  ⚠ Dropped {n_before - len(comments)} comments belonging to other posts")
             if target:
                 comments = comments[:target]  # first N in discovery order
 
@@ -992,6 +1122,19 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
             print(f"  Size: {raw_path.stat().st_size} bytes")
             print(f"  Comments: {len(comments)}")
             print(f"  Post folder: {post_folder}")
+
+            # Shared multi-platform schema (comment_id, event_id, post_id, platform,
+            # author_id, reply_to_id, ts, text). Same suffix as raw so reruns don't overwrite.
+            common_rows = to_common_rows(comments, event_id, post_url=current_url)
+            common_path = write_common_jsonl(
+                common_rows, post_folder / raw_path.name.replace("raw", "common", 1)
+                .replace(".json", ".jsonl"))
+            n_real_id = sum(1 for r in common_rows if not r["comment_id"].startswith("fbh_"))
+            print(f"💾 Common schema: {common_path} (FB comment_id: {n_real_id}/{len(common_rows)}, "
+                  f"author_id: {sum(1 for r in common_rows if r['author_id'])}, "
+                  f"event_id: {event_id or 'MISSING — pass --event-id'})")
+            manifest.output("common", common_path)
+            manifest.count("common_real_comment_id", n_real_id)
 
             # Save post body sidecar (additive — raw.json stays a pure comment list)
             post_json_path = post_folder / "post.json"
@@ -1090,6 +1233,9 @@ async def main():
     parser.add_argument("--crash-wait", type=float, default=30.0,
                         help="Seconds to wait for CDP / browser to come back after a crash "
                              "(default: 30).")
+    parser.add_argument("--event-id", type=str, default=None,
+                        help="Event id this post belongs to; written to common.jsonl "
+                             "(shared schema). Crawler cannot infer it.")
     parser.add_argument("--no-relaunch", action="store_true",
                         help="Don't auto-relaunch the browser on crash; only wait for an "
                              "external watchdog to bring it back.")
@@ -1115,6 +1261,7 @@ async def main():
     print(f"Sort all   : {not args.no_sort_all}")
     print(f"Browser    : {args.browser}")
     print(f"Dismiss wall: {dismiss_wall}")
+    print(f"Event id   : {args.event_id or '(none — common.jsonl event_id will be null)'}")
     if args.cookie_file:
         print(f"Cookie file: {args.cookie_file}")
     if args.cookie_string:
@@ -1155,6 +1302,7 @@ async def main():
                 crash_retries=0,  # inner retries disabled; this loop owns recovery
                 crash_wait=args.crash_wait,
                 relaunch=not args.no_relaunch,
+                event_id=args.event_id,
             )
             break  # success or a non-crash terminal result (None)
         except BrowserDisconnected as e:
