@@ -4,7 +4,7 @@ Document loại 14/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. *
 
 Phạm vi: thao tác duy trì dữ liệu, cấu hình và khả năng chạy lại được hỗ trợ bởi code/tài liệu hiện có. Không đặt lịch bảo trì, phân công nhân sự, SLA hoặc quy trình backup chưa được xác minh. Các thao tác sinh lại dữ liệu dưới đây chỉ được mô tả, không được thực thi khi viết tài liệu.
 
-Pipeline xem [loại 2](./data-pipeline.md), thu thập xem [loại 4](./thu-thap-du-lieu.md), serving xem [loại 10](./backend-serving.md). Agent n8n ở [loại 7](./llm-agent-rag.md) còn thiếu; vận hành workflow cloud chưa đủ thông tin để viết thành runbook hoàn chỉnh.
+Pipeline xem [loại 2](./data-pipeline.md), thu thập xem [loại 4](./thu-thap-du-lieu.md), serving xem [loại 10](./backend-serving.md). Chatbot là agent code ([loại 7](./llm-agent-rag.md) mục 8b–8d), không còn agent n8n. Chạy agent local: `uvicorn app:app --port 8010` trong `serving/chat_agent/`. Cập nhật dữ liệu cho Worker: `npm run build-data` rồi `npx wrangler deploy` trong `serving/chat_agent_worker/`.
 
 ## 1. Các điểm bảo trì hiện có
 
@@ -84,7 +84,7 @@ Khóa dịch vụ, credential và cookie có vòng đời riêng bên ngoài d�
 | LLM quota/parse lỗi hoặc output thiếu | Console, run_log.jsonl, full/summary của đúng domain | Fallback có thể giữ tiến trình chạy nhưng làm giảm chất lượng nhãn |
 | Spark ModuleNotFoundError | Import và vị trí module hiện tại | Không quy lỗi cho Java trước khi kiểm tra đường dẫn Python |
 | Dashboard có số liệu nhưng nguồn mới không tải | fetchData, console và URL GitHub đang cấu hình | State có thể là constants ban đầu hoặc lần tải thành công trước |
-| Chatbot báo lỗi hoặc trả câu mẫu | Client webhook và log nếu được cung cấp | Không có workflow agent local để tự xác minh toàn bộ backend n8n |
+| Chatbot báo lỗi | `GET /health` của Worker hoặc `127.0.0.1:8010`; `VITE_CHAT_API_URL` trong `.env.local`; CORS chỉ cho `127.0.0.1:5173`/`localhost:5173` | Khoá Groq/Gemini hết hạn mức thì agent trả lỗi; xem `timings_ms`, log `wrangler tail` |
 
 Tại thời điểm viết, App.tsx trỏ `main/data/analysis-ouput/insights.json`, trong khi file local ở `data/analysis-output/insights.json`. Tên thư mục khác nhau; chưa kiểm tra nguồn remote hoặc tự sửa thay đổi của user. URL hiện tại trong source là căn cứ khi bảo trì, không dùng URL cũ trong báo cáo thay thế.
 
@@ -102,7 +102,7 @@ Chưa có lịch bảo trì, người chịu trách nhiệm từng dịch vụ, 
 
 Lần viết tài liệu chỉ đối chiếu source và tài liệu hiện có; không chạy ETL, ghi dữ liệu, gọi nhà cung cấp, dọn thư mục hoặc thay môi trường. Các kiểm tra phù hợp và bằng chứng mới nhất thuộc [loại 13](./testing-va-nghiem-thu.md).
 
-Các phần cần user bổ sung khi có thông tin: export agent n8n; schema/quyền Supabase; nguồn dữ liệu chuẩn cho từng thí nghiệm; cơ chế quản lý khóa/quota; quy trình backup/restore, owner và lịch bảo trì thực tế. Việc thiếu thông tin không đồng nghĩa các biện pháp ngoài repo chắc chắn không tồn tại.
+Các phần cần user bổ sung khi có thông tin: schema/quyền Supabase; nguồn dữ liệu chuẩn cho từng thí nghiệm; cơ chế quản lý khóa/quota; quy trình backup/restore, owner và lịch bảo trì thực tế. Việc thiếu thông tin không đồng nghĩa các biện pháp ngoài repo chắc chắn không tồn tại.
 
 ## 9. Nguồn đối chiếu
 

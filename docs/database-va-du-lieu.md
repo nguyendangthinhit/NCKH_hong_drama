@@ -14,10 +14,10 @@ Luồng sinh ra từng file: loại 2. API đọc dữ liệu: loại 9, 10.
 | A | File JSON thô và đã xử lý | JSON | `data/raw/`, `data/processed/`, `data/analysis-output/` | n8n, các script `analysis/`, `preprocessing/` | Script, dashboard (qua GitHub raw), `build_db.py` |
 | B | Parquet (nhánh Spark) | Parquet (snappy) | `data/spark-output/clean/` | `pyspark_preprocessing.py` | `pyspark_pmi_keywords.py`, benchmark |
 | C | SQLite `events.db` | SQLite | `serving/web_v2/backend/events.db` | `build_db.py` | FastAPI `app.py` |
-| D | Vector DB | Supabase (PostgreSQL + pgvector) | Supabase (ngoài repo) | n8n | Retrieval Agent trong n8n |
+| D | Vector DB | Supabase (PostgreSQL + pgvector) | Supabase (ngoài repo) | n8n (workflow Embedding) | Agent n8n cũ; chatbot hiện tại **không dùng** (từ 2026-11-05) |
 | E | Đồ thị thảo luận (cho GNN) | pickle + numpy + parquet | `data/gnn/` | `ml/gnn/*` | `ml/gnn/*` |
 | F | Google Sheets | Google Sheets + Apps Script | Google Drive (ngoài repo) | Nhóm, n8n | n8n, `build_db.py` (qua Apps Script) |
-| G | Lịch sử hội thoại | JSON | `history.json` (gốc repo) | Chatbot / n8n | Dashboard (tab Interaction) |
+| G | Lịch sử hội thoại | JSON | `history.json` (gốc repo) | Agent n8n cũ (agent hiện tại không ghi tiếp) | Dashboard (tab Interaction) |
 
 Quy mô hiện tại (`insights.json`): 85 sự kiện (40 Giáo dục, 45 Showbiz), 668 liên kết (446 web, 222 Facebook); 36.078 bình luận thô, 29.622 sạch, 6.456 rác (17,9%). Chỉ **50 sự kiện đã phân tích** (20 Giáo dục + 30 Showbiz).
 

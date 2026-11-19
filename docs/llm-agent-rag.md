@@ -1,10 +1,28 @@
 # LLM / Agent / RAG
 
-Document loại 7/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. **Bản nháp chờ user đọc và sửa.**
+Document loại 7/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-11-19. **Bản nháp chờ user đọc và sửa.**
 
-**Chưa đủ phần agent n8n:** user xác nhận ngày 2026-10-29 luồng agent nằm trong n8n và không có bản luồng tại repo hiện tại; user sẽ giải thích/bổ sung sau. Tạm chuyển sang tài liệu tiếp theo, không coi tài liệu này đã hoàn chỉnh hoặc đã duyệt.
+## 0. Hiện trạng chatbot (cập nhật 2026-11-19)
 
-Phạm vi: prompt chatbot, code tích hợp LLM và mô tả RAG trong tài liệu đã có. Chỉ đọc nguồn local; chưa gọi webhook, LLM, Supabase hoặc kiểm tra workflow cloud. Không dùng ý tưởng phát triển làm mô tả cài đặt hiện tại.
+**Chatbot không còn chạy trên n8n.** Từ 2026-11-05, toàn bộ agent chat đã chuyển từ n8n sang code của dự án:
+
+| Thành phần | Vị trí | Vai trò |
+|---|---|---|
+| Agent Python (FastAPI) | `serving/chat_agent/` | Bản chuẩn tham chiếu, chạy local `http://127.0.0.1:8010` (`POST /chat`, `GET /health`) |
+| Agent Cloudflare Worker | `serving/chat_agent_worker/` | Bản đang triển khai, cùng logic với bản Python; `https://drama-chat-agent.dev01-velrano.workers.dev` |
+| Website | `serving/web_v2/frontend/src/services/chat-api.js` | Gọi `VITE_CHAT_API_URL` (Worker); bỏ trống thì gọi agent local |
+| Messenger | Workflow n8n `FB Messenger -> local chat agent` | n8n **chỉ còn làm cầu nối** Meta → Worker → Send API, không xử lý câu hỏi |
+
+Cả hai agent đều không dùng Supabase, embedding, Cohere hay Firecrawl. Agent khớp sự kiện trong RAM, rồi gọi đúng một lần LLM (Groq, dự phòng Gemini). Chi tiết ở mục 8b–8d.
+
+Kiểm chứng 2026-11-19:
+- Worker: `/health` trả 200 (85 sự kiện). Câu "Shark Bình có drama gì?" ra `showbiz_034`, LLM 0,49 giây.
+- Agent local (chạy bằng Python 3.14): 12 test đạt. Cùng câu hỏi ra `showbiz_034`, LLM 0,8 giây.
+- Agent local không tự chạy nền: phải khởi động thủ công (mục 8b).
+
+Mục 2–6 mô tả **agent n8n cũ** (Dispatcher, Supabase, rerank, Firecrawl) theo báo cáo và prompt trong `docs/prompts/`. Các mục này chỉ giữ làm lịch sử, không còn là đường chạy của chatbot.
+
+Phạm vi: code agent, client website, prompt và báo cáo cũ. Không dùng ý tưởng phát triển làm mô tả cài đặt hiện tại.
 
 Gán nhãn offline và mô hình ML xem [loại 5](./gan-nhan-va-tap-du-lieu.md), [loại 6](./mo-hinh-ml-va-phan-tich.md); các kho dữ liệu xem [loại 3](./database-va-du-lieu.md).
 
@@ -12,14 +30,15 @@ Gán nhãn offline và mô hình ML xem [loại 5](./gan-nhan-va-tap-du-lieu.md)
 
 | Nguồn local | Xác minh được | Không tự suy ra |
 |---|---|---|
-| `Chatbot.jsx` | Request/response mà website sử dụng, cookie và fallback giao diện | Workflow server đang chạy đúng prompt nào |
-| Bốn file trong `docs/prompts/` | Chỉ dẫn Dispatcher, Insight, Retrieval Showbiz và Final LLM | Tool đã được gắn, schema đầu ra đã có validator |
+| `serving/chat_agent/`, `serving/chat_agent_worker/` | Luồng agent hiện tại (mục 8b, 8d) | — |
+| `chat-api.js`, `ChatHistoryContext.jsx` | Request/response mà website đang dùng (mục 7) | — |
+| Bốn file trong `docs/prompts/` | Chỉ dẫn của agent n8n **cũ**: Dispatcher, Insight, Retrieval Showbiz, Final LLM | Không còn được agent hiện tại dùng |
 | Báo cáo nghiệm thu, bản trích `_report_extract.txt` | Mô tả hệ thống tại thời điểm viết báo cáo | Model, bảng, thông số retrieval đang dùng trên cloud |
 | `InteractionView.tsx` | Dashboard gọi Gemini để phân tích lịch sử câu hỏi | Đây là một nhánh chatbot RAG hoặc đã được triển khai thành công |
 
-Chưa tìm thấy bản export workflow chatbot/RAG tương ứng trong các nguồn dự án đã khảo sát. `ingestion/n8n/cào data.json` là export thu thập dữ liệu, không dùng làm bằng chứng wiring các agent chatbot.
+Không có bản export workflow chatbot n8n cũ trong repo. `ingestion/n8n/cào data.json` là export thu thập dữ liệu, không liên quan chatbot.
 
-## 2. Vai trò agent và luồng được mô tả
+## 2. Agent n8n cũ (lịch sử, không còn dùng từ 2026-11-05): vai trò và luồng
 
 Báo cáo chương 2.2 và 3.1 mô tả n8n điều phối: câu hỏi → Dispatcher → Retrieval Giáo dục/Showbiz hoặc Insight Analyst → chọn lọc ngữ cảnh → câu trả lời. Nhánh Retrieval dùng Supabase, embedding và rerank; nhánh Insights đọc JSON thống kê. Báo cáo còn mô tả fallback Firecrawl và ghi khoảng trống dữ liệu lên Sheets.
 
@@ -33,7 +52,7 @@ Báo cáo chương 2.2 và 3.1 mô tả n8n điều phối: câu hỏi → Dispa
 | Insight Analyst | `insight.txt` | Dùng tool Get insight, lấy số liệu đúng nguồn và trình bày |
 | Final LLM | `llms trả lời.txt` | Chọn lọc thông tin nhận được để trả lời câu hỏi |
 
-## 3. Dispatcher trong prompt local
+## 3. Dispatcher trong prompt local (agent n8n cũ)
 
 ### 3.1 Tra cứu và định tuyến
 
@@ -63,7 +82,7 @@ File prompt minh họa các lựa chọn bằng ký hiệu `|`; đó là mô t�
 
 Báo cáo còn có `branch_firecrawl`, các type `education_drama`, `showbiz_drama`, `system_insight`, `need_live_search` và thông báo Showbiz chưa cập nhật. Prompt Dispatcher local hiện có hai nhánh và bộ type khác, không giữ thông báo thiếu Showbiz đó. Chưa xác định bản nào đang được triển khai; không lấy tình trạng Showbiz trong báo cáo làm tình trạng cloud hiện tại.
 
-## 4. Truy xuất, embedding và rerank
+## 4. Truy xuất, embedding và rerank (agent n8n cũ)
 
 ### 4.1 Quy tắc Retrieval Showbiz local
 
@@ -84,7 +103,7 @@ Quy tắc này khác mô tả Retrieval tổng quát trong báo cáo vốn bắt
 
 Báo cáo nêu bảng `documents` cho Giáo dục, nhưng tên bảng Showbiz xuất hiện cả `showbiz_documents` và `documents_showbiz`. Có mô tả hàm `public.match_documents` nhận filter/match_count/query_embedding và tính `1 - cosine distance`; không có DDL live đã đối chiếu. Thông tin schema còn mở theo loại 3, không tạo SQL hoặc suy ra quyền truy cập từ đoạn mô tả này.
 
-## 5. Insight Analyst và Final LLM
+## 5. Insight Analyst và Final LLM (agent n8n cũ)
 
 `insight.txt` bắt buộc dùng tool `Get insight` để đọc `data/insights.json`; lỗi/không có dữ liệu phải báo hệ thống chưa thể tải dữ liệu, không dùng kiến thức bên ngoài thay thế. Với top sự kiện, đọc `top_events_by_comments` của đúng lĩnh vực, trình bày văn xuôi và kèm số `total` hoặc `trash`.
 
@@ -94,7 +113,7 @@ Báo cáo nêu bảng `documents` cho Giáo dục, nhưng tên bảng Showbiz xu
 
 Báo cáo bổ sung giới hạn năm câu/150 từ và ràng buộc chỉ dựa ngữ cảnh, nhưng các giới hạn này không xuất hiện đầy đủ trong file Final LLM local. Website gửi `{message, userId}` qua webhook, không gửi `chatInput`; cần workflow trung gian ánh xạ hai cách nhận input, hiện chưa xác minh được trong export.
 
-## 6. Fallback và mức độ kiểm chứng nguồn
+## 6. Fallback và mức độ kiểm chứng nguồn (agent n8n cũ)
 
 Báo cáo mô tả khi Retrieval trả `Không tìm thấy dữ liệu`, node If chuyển Firecrawl tra web; các câu hỏi thiếu dữ liệu được ghi vào Sheets để nhóm bổ sung kho. Prompt Dispatcher local lại đưa sự kiện không khớp sang clarify, không có nhánh Firecrawl.
 
@@ -102,26 +121,25 @@ Chưa có cấu hình workflow chatbot để kiểm tra fallback này có còn c
 
 Các quy tắc không bịa/không tự trả lời trong prompt là chỉ dẫn cho mô hình. Chưa có bằng chứng kiểm thử chứng minh loại bỏ hoàn toàn ảo giác, prompt injection, truy xuất sai hoặc sử dụng nguồn không phù hợp. Chưa xác minh câu trả lời luôn mang URL/trích dẫn hay score để người dùng truy ngược.
 
-## 7. Hợp đồng chatbot website và phiên hội thoại
+## 7. Hợp đồng chatbot website và phiên hội thoại (cập nhật 2026-11-19)
 
-`serving/web_v2/frontend/src/components/Chatbot/Chatbot.jsx` gửi POST JSON trực tiếp tới webhook n8n `/webhook/nckh`, không qua backend FastAPI website.
+Website không gọi n8n nữa. Icon nổi `Chatbot.jsx` chỉ chuyển sang trang `/chat` (`ChatPage.jsx`). Trang này gửi tin qua `ChatHistoryContext.jsx` → `services/chat-api.js` → `POST` tới `VITE_CHAT_API_URL` (Worker). Nếu không đặt biến này thì gọi agent local `http://127.0.0.1:8010/chat`. Request không đi qua backend FastAPI của website.
 
 | Thành phần | Hành vi client |
 |---|---|
-| Request | `message` là input người dùng, `userId` từ cookie |
-| Response | Parse JSON; nếu là array lấy phần tử đầu; hiển thị `result.reply` hoặc thông báo không có phản hồi |
-| Định danh | `crypto.randomUUID()` nếu chưa có cookie userId; cookie path `/`, thời hạn một năm |
-| Lịch sử trên màn hình | State React trong component; không gửi toàn bộ messages trong request |
-| Hiển thị | Bot text được render qua ReactMarkdown dù prompt yêu cầu văn xuôi |
-| Lỗi mạng/parse | Tìm câu mẫu trong `datamock.js`; không khớp thì hiện lỗi kết nối |
+| Request | `{userId, message, source: "web"}`; `userId` = `<id trình duyệt>:<id cuộc trò chuyện>` để mỗi cuộc trò chuyện có bộ nhớ phiên riêng ở agent |
+| Định danh | Id trình duyệt = `crypto.randomUUID()` lưu cookie `userId` (path `/`, một năm). Không phải đăng nhập hay phân quyền |
+| Response | Kiểm tra `res.ok`; parse JSON (array thì lấy phần tử đầu) và hiển thị `reply` |
+| Timeout | Hủy request sau 30 giây (`AbortController`) |
+| Lỗi | Hiện thông báo lỗi thật. Không còn dùng câu mẫu trong `datamock.js` (file còn nhưng không được gọi) |
+| Lịch sử | Danh sách cuộc trò chuyện nằm trong React context: giữ khi chuyển trang, mất khi reload |
+| Hiển thị | Câu trả lời render qua ReactMarkdown |
 
-Cookie userId không phải đăng nhập hay phân quyền. Client không cài memory server, không tự lưu lịch sử vào SQLite hoặc `history.json`. Khi reload, state hội thoại trở lại ban đầu; cookie có thể còn nhưng việc n8n nối lại Memory bằng userId chưa được kiểm tra.
-
-Fetch chưa kiểm tra `res.ok`, chưa có timeout/abort hoặc retry mạng trong hàm gửi. Lỗi HTTP có JSON vẫn đi theo nhánh xử lý response; câu mẫu trong catch là fallback giao diện, không phải dữ liệu RAG đã truy xuất thành công. Không coi client chỉ hiện lời đáp là bằng chứng server có căn cứ.
+Agent nhớ ngữ cảnh 3 lượt gần nhất của mỗi phiên, hết hạn sau 30 phút. Bản Worker lưu ở Durable Object, bản Python lưu trong RAM. Không agent nào ghi `history.json` nữa.
 
 ## 8. Lịch sử và LLM trong dashboard
 
-`history.json` tại gốc có 34 record, gồm `user_id`, `question`, `answer`, `source_type`, `the_loai`, `su_kien`, `timestamp`; cả 34 có source_type là database. `QA.json` là danh sách rỗng. Đây là artifact local, chưa chứng minh nhánh database đã truy xuất thành công trong mọi lần chạy hoặc loại trừ khả năng trả lời không có căn cứ. Chưa xác minh node nào ghi các file này, chính sách lưu/xóa hoặc ánh xạ giữa user_id trong lịch sử và userId cookie.
+`history.json` là lịch sử do agent n8n cũ ghi; agent hiện tại không ghi tiếp, nên dashboard Interaction chỉ còn đọc dữ liệu cũ. `history.json` tại gốc có 34 record, gồm `user_id`, `question`, `answer`, `source_type`, `the_loai`, `su_kien`, `timestamp`; cả 34 có source_type là database. `QA.json` là danh sách rỗng. Đây là artifact local, chưa chứng minh nhánh database đã truy xuất thành công trong mọi lần chạy hoặc loại trừ khả năng trả lời không có căn cứ. Chưa xác minh node nào ghi các file này, chính sách lưu/xóa hoặc ánh xạ giữa user_id trong lịch sử và userId cookie.
 
 `InteractionView.tsx` tải lịch sử qua GitHub raw, lọc câu hỏi có giá trị, đảo thứ tự để hiển thị và làm mới mỗi 30 giây. Đây là dữ liệu đọc từ remote khi chạy, không mặc định trùng file local tại thời điểm khảo sát.
 
@@ -133,7 +151,7 @@ Việc tự phân tích lại dùng điều kiện số dòng lịch sử thay �
 
 ## 8b. Agent chatbot local `serving/chat_agent/` (thêm 2026-11-05)
 
-Service FastAPI thay agent n8n cho chatbot website; Messenger sẽ nối qua workflow n8n mới → ngrok (domain tĩnh) → agent. `Chatbot.jsx` đã đổi sang gọi agent (mặc định `http://127.0.0.1:8010/chat`, đổi bằng `VITE_CHAT_API_URL`). Các mục 2–7 ở trên mô tả agent n8n cũ, giữ để tham chiếu.
+Service FastAPI thay agent n8n cho chatbot. Website gọi qua `chat-api.js` (mục 7). Messenger nối qua workflow n8n tới bản Worker (mục 8c, 8d). Hướng ngrok dự định ban đầu đã bỏ từ 2026-11-06. Các mục 2–6 ở trên mô tả agent n8n cũ, chỉ giữ để tham chiếu.
 
 | Bước | Cài đặt | Gọi mạng |
 |---|---|---|
@@ -149,6 +167,8 @@ Không dùng Supabase, embedding, Cohere hay Firecrawl: mỗi sự kiện ở lo
 Hợp đồng: `POST /chat` nhận `{message, userId | user_id, source?}` (message ≤ 2.000 ký tự), trả `{reply, intent, event_ids, timings_ms}`; `GET /health`. Request gọi thẳng từ 127.0.0.1 không cần khoá; request qua tunnel (có `X-Forwarded-For`) phải gửi header `X-Agent-Key` = `AGENT_API_KEY`. CORS chỉ cho origin web local. Khoá và model cấu hình trong `serving/chat_agent/.env` (mẫu `.env.example`, file thật bị gitignore).
 
 Chạy: `cd serving/chat_agent && .venv/Scripts/python.exe -m uvicorn app:app --host 127.0.0.1 --port 8010`. Cài lần đầu: `uv venv .venv --python 3.11 && uv pip install --python .venv/Scripts/python.exe -r requirements.txt`. Test: `.venv/Scripts/python.exe -m pytest tests`.
+
+Lưu ý trên máy dev (2026-11-19): `.venv` (dựng từ Python uv 3.11) đang bị Windows Application Control chặn, xem `ISSUES.md`. Dùng Python 3.14 có sẵn thư viện thay thế: `C:\Users\ADMIN\AppData\Local\Python\bin\python.exe -m uvicorn app:app --host 127.0.0.1 --port 8010`.
 
 Kiểm chứng 2026-11-05: 12 test không LLM đạt; 14 câu (phần lớn lấy từ câu hỏi thật trong history) chạy 3 lượt với LLM thật: nhánh có LLM trung vị 0,7–0,9s, chậm nhất 6,6s (Groq treo, đổi khoá); nhánh luật < 5ms. Giới hạn: khớp từ vựng chưa hiểu diễn đạt khác hẳn tên sự kiện; `showbiz_034` (Shark Bình) trong dữ liệu chỉ có câu giữ chỗ nên bot báo thiếu thông tin; Gemini đang hay trả 503.
 
@@ -181,19 +201,20 @@ Port TypeScript của agent Python để có URL cố định `*.workers.dev`, k
 - **Giới hạn đã biết:** hai tin cùng người dùng gửi song song có thể cùng đọc phiên cũ; người gọi không gửi `user_id` dùng chung phiên `anonymous`; Origin vẫn giả mạo được nên ai biết URL có thể gọi không khoá (chỉ vào phiên `web:*`).
 - **Giới hạn:** DO gói miễn phí giới hạn request/ngày (mỗi lượt chat 2 lời gọi DO). Namespace KV `SESSIONS` (id `a9a4a97caca046cdb714e8b06d0b28df`) tạo trước đó nay không dùng.
 
-## 9. Điểm còn thiếu thông tin
+## 9. Điểm còn mở
 
-1. Bản export workflow chatbot đang dùng và model/config của từng node; prompt local nào đang được triển khai?
-2. Tool binding cho data_Sukien/Get insight/Supabase, cách ánh xạ webhook message sang chatInput và cách giữ Memory theo userId.
-3. Schema/RPC/quyền Supabase, model embedding, chunking và reranker chính xác; nguồn dữ liệu/lần nạp của mỗi lĩnh vực.
-4. Nhánh Firecrawl/Data Loop còn hoạt động không, giới hạn retry và cơ chế kiểm chứng/dẫn nguồn của câu trả lời.
-5. Nguồn ghi lịch sử, retention và khả năng tái lập kết quả; các câu trả lời lưu sẵn không thay kiểm thử end-to-end hiện tại.
+1. Agent khớp sự kiện bằng từ vựng, nên chưa hiểu câu hỏi diễn đạt khác hẳn tên sự kiện. Chưa có bộ câu hỏi đánh giá chính thức.
+2. Agent chỉ biết 85 sự kiện trong `data/raw`. Dữ liệu mới (140 sự kiện trên Drive) chưa được nạp. Với bản Worker, nạp xong phải chạy lại `npm run build-data` rồi deploy.
+3. Worker không bắt buộc khoá với Origin web. Ai biết URL đều gọi được và tiêu hao hạn mức LLM (mục 8d).
+4. Lịch sử chat chưa được lưu bền: website giữ trong context, agent giữ phiên 30 phút. Chưa có retention hay đăng nhập.
+5. Messenger: chưa xác thực chữ ký `X-Hub-Signature-256` của Meta ở webhook n8n.
+6. Agent n8n cũ: workflow `NCKH` cũ vẫn còn trên n8n (đã disable). Các node cũ chứa Page token và khoá Firecrawl, nên xoá và xoay token.
 
 ## 10. Nguồn đối chiếu
 
-- [Dispatcher](./prompts/agent%20đầu%20tien.md), [Insight Analyst](./prompts/insight.txt), [Retrieval Showbiz](./prompts/lllmsshowbiz.txt), [Final LLM](./prompts/llms%20trả%20lời.txt).
-- [Bản trích báo cáo cũ](./reports/_report_extract.txt), mục 2.2 và 3.1 — nguồn tham chiếu, chưa xác minh cloud.
-- [Chatbot website](../serving/web_v2/frontend/src/components/Chatbot/Chatbot.jsx), [fallback mẫu](../serving/web_v2/frontend/src/components/Chatbot/datamock.js).
+- Agent: [`serving/chat_agent/`](../serving/chat_agent/app.py), [`serving/chat_agent_worker/`](../serving/chat_agent_worker/), [workflow Messenger](../serving/chat_agent/n8n/messenger-to-local-agent-workflow.json).
+- Website: [chat-api.js](../serving/web_v2/frontend/src/services/chat-api.js), [ChatHistoryContext](../serving/web_v2/frontend/src/context/ChatHistoryContext.jsx), [Chatbot.jsx](../serving/web_v2/frontend/src/components/Chatbot/Chatbot.jsx).
+- Agent n8n cũ (lịch sử): [Dispatcher](./prompts/agent%20đầu%20tien.md), [Insight Analyst](./prompts/insight.txt), [Retrieval Showbiz](./prompts/lllmsshowbiz.txt), [Final LLM](./prompts/llms%20trả%20lời.txt), [bản trích báo cáo cũ](./reports/_report_extract.txt) mục 2.2 và 3.1.
 - [Dashboard Interaction](../serving/dashboard/src/components/views/InteractionView.tsx), [Vite dashboard](../serving/dashboard/vite.config.ts), [cấu hình mẫu](../serving/dashboard/.env.example).
 - [Lịch sử local](../history.json), [QA local](../QA.json), [tạo insight offline](../analysis/single/analyze_insights.py).
 - [Chỉ mục sự kiện local](../data/raw/data_Sukien.json).

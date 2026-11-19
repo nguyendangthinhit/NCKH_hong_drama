@@ -17,13 +17,13 @@ Xác nhận danh sách: user, 2026-10-29. Bộ kit gốc có 11 loại; dự án
 
 | # | Loại | File | Trạng thái |
 |---|---|---|---|
-| 1 | Kiến trúc tổng thể | `docs/kien-truc-tong-the.md` | Bản nháp, chờ user duyệt |
+| 1 | Kiến trúc tổng thể (2 lớp: tổng thể + cụ thể) | `docs/kien-truc-tong-the.md` | Viết lại 2026-11-19, chờ user duyệt |
 | 2 | Data pipeline | `docs/data-pipeline.md` | Bản nháp, chờ user duyệt |
 | 3 | Database và dữ liệu (theo từng kho) | `docs/database-va-du-lieu.md` | Bản nháp, chờ user duyệt (thiếu schema Supabase) |
 | 4 | Thu thập dữ liệu | `docs/thu-thap-du-lieu.md` | Bản nháp, chờ user duyệt |
 | 5 | Gán nhãn và tập dữ liệu | `docs/gan-nhan-va-tap-du-lieu.md` | User đã kiểm tra, 2026-10-29 |
 | 6 | Mô hình ML và phân tích | `docs/mo-hinh-ml-va-phan-tich.md` | User đã duyệt, 2026-10-29 |
-| 7 | LLM / Agent / RAG | `docs/llm-agent-rag.md` | Chưa đủ: thiếu luồng agent n8n; chờ user bổ sung sau |
+| 7 | LLM / Agent / RAG | `docs/llm-agent-rag.md` | Bản nháp, chờ user duyệt. Đã cập nhật 2026-11-19: chatbot chuyển từ n8n sang agent code (`serving/chat_agent/`, Worker); phần agent n8n chỉ còn là lịch sử |
 | 8 | Đánh giá và benchmark | `docs/danh-gia-va-benchmark.md` | User đã chốt, 2026-10-29 |
 | 9 | Hợp đồng tích hợp | `docs/hop-dong-tich-hop.md` | Bản nháp, chờ user duyệt |
 | 10 | Backend / serving | `docs/backend-serving.md` | User đã duyệt, 2026-10-29 |
@@ -33,6 +33,7 @@ Xác nhận danh sách: user, 2026-10-29. Bộ kit gốc có 11 loại; dự án
 | 14 | Maintenance | `docs/maintenance.md` | Bản nháp, chờ user duyệt |
 | 15 | User workflow và chức năng | `docs/user-workflow-va-chuc-nang.md` | Bản nháp, chờ user duyệt |
 | 16 | Tái lập thí nghiệm | `docs/tai-lap-thi-nghiem.md` | Bản nháp, chờ user duyệt |
+| – | Hướng dẫn đọc code từng thư mục (phụ trợ, ngoài 16 loại) | `docs/huong-dan-doc-code-tung-thu-muc.md` | Bản nháp 2026-11-19, chờ user duyệt |
 | – | Triển khai và hạ tầng | – | Chưa có (hoãn) |
 | – | Hướng dẫn sử dụng | – | Chưa có (hoãn) |
 
@@ -48,7 +49,7 @@ Xác nhận danh sách: user, 2026-10-29. Bộ kit gốc có 11 loại; dự án
 | `sampling_labeling/data_labels/labeling-guide.md` | Cũ | Cấu trúc thư mục và script mô tả chưa tồn tại; phần bộ nhãn vẫn dùng được. |
 | `ml/gnn/README.md` | Chưa đối chiếu hết | |
 | `serving/dashboard/README.md`, `serving/web_v2/README.md`, `serving/web_v2/backend/README.md`, `serving/web_v2/frontend/README.md` | Đạt (hướng dẫn chạy) | |
-| `docs/prompts/*` | Không phải document | Prompt của các agent n8n. |
+| `docs/prompts/*` | Không phải document | Prompt của agent n8n cũ (không còn dùng từ 2026-11-05). |
 | `drama-intelligence-du-an.md` (thư mục gốc) | Nguồn ý tưởng | Đánh giá và lộ trình cải tiến, mới ở mức ý tưởng. Nguồn cho bảng "việc làm sau". |
 
 Đã xóa theo yêu cầu user: `docs/reports/thinh sưa.docx`.
@@ -59,7 +60,7 @@ Nguồn: `drama-intelligence-du-an.md`. Khi user bắt đầu một giai đoạn
 
 | Giai đoạn | Nội dung (tóm tắt) | Document cần viết lại khi bắt đầu |
 |---|---|---|
-| GĐ1 | Tăng sự kiện (85 → 200+), thêm YouTube/TikTok, schema chung đa nền tảng, gán nhãn gold, bảng `jobs` tối thiểu + worker | 3, 4, 5, 8, 12 |
+| GĐ1 | Tăng sự kiện (85 → 200+), thêm YouTube/TikTok, schema chung đa nền tảng, gán nhãn gold, bảng `jobs` tối thiểu + worker. **Tiến độ (user báo 2026-11-19):** gán nhãn gold 10k ✅ xong, team đã verify; sự kiện hiện 140 (lưu trên Drive, chưa kéo về repo); YouTube đã có dữ liệu lấy về (chi tiết tăng gì, bao nhiêu: user sẽ làm rõ 2026-11-20); TikTok, schema chung, `jobs`+worker chưa làm | 3, 4, 5, 8, 12 |
 | GĐ2 | Fine-tune PhoBERT, BERTopic, suy luận ONNX | 5, 6, 8, 11, 14, 16 |
 | GĐ3 | Dữ liệu đồ thị Neo4j, PageRank/Louvain (user: chưa chắc làm sớm) | 3, 6, 9, 13 |
 | GĐ4 | Quét sự kiện mới theo yêu cầu, micro-batch, cảnh báo Telegram | 1, 2, 4, 15 |
@@ -68,5 +69,4 @@ Nguồn: `drama-intelligence-du-an.md`. Khi user bắt đầu một giai đoạn
 | GĐ7 | Kiến trúc phân tán (Spark lên cụm, RAPIDS), thí nghiệm scaling | 1, 2, 8, 16 |
 | GĐ8 | n8n chỉ lo trigger, hàng đợi `jobs`, cờ `mode: single\|distributed` | 1, 3, 9, 10, 14 |
 | Ngoài GĐ | Làm lại luồng cào Facebook (luồng hiện tại ở `FB_Crawl_skills/`) | 4, 2 |
-| Ngoài GĐ | Làm lại Phase 01 PySpark preprocessing (kế hoạch cụ thể chưa rõ) | 2, 8 |
 | Ngoài GĐ | Chức năng mới nhóm E–H (timeline, KOL, bot detection, fact vs opinion...) | 15 |

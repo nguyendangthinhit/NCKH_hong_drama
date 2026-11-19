@@ -1,196 +1,229 @@
 # Kiến trúc tổng thể
 
-Document loại 1/16 (xem `docs/doc-map.md`). Cập nhật: 2026-10-29. **Bản nháp chờ user đọc và sửa.**
+Document loại 1/16 (xem `docs/doc-map.md`). Cập nhật: 2026-11-19. **Bản nháp chờ user đọc và sửa.**
 
-Phạm vi: chỉ mô tả những gì đang có trong dự án (xem nguyên tắc ở `docs/doc-map.md`). Hạng mục dự định làm sau nằm ở bảng "Việc làm sau" trong `doc-map.md`, chưa viết vào đây.
-Chi tiết từng phần nằm ở document khác (pipeline: loại 2; dữ liệu: loại 3; RAG: loại 7; API: loại 9, 10).
+Tổ chức 2 lớp (user giao 2026-10-31):
+- **Lớp 1 – tổng thể** (mục 1–2): nâng cấp từ Hình 1.1 (trang 16 `NCKH_Word.pdf`, báo cáo 05/2026), sửa theo code hiện tại.
+- **Lớp 2 – cụ thể** (mục 3): bốn sơ đồ chi tiết (thu thập + xử lý, phân tích, phục vụ web, chatbot, ML), mỗi sơ đồ trỏ tới document sâu hơn.
+
+Phạm vi: chỉ mô tả cái đang có (nguyên tắc ở `doc-map.md`). Hạng mục làm sau nằm ở bảng "Việc làm sau" của `doc-map.md`. Cách đọc code từng thư mục: `docs/huong-dan-doc-code-tung-thu-muc.md`.
 
 ---
 
-## 1. Mục tiêu và nguyên tắc
+## 1. Lớp 1 – Tổng thể
 
-**Drama Intelligence System** thu thập, xử lý, phân tích và phục vụ dữ liệu dư luận mạng xã hội Việt Nam về hai lĩnh vực: **Showbiz** và **Giáo dục**. Đây là đề tài NCKH cấp trường (báo cáo 05/2026).
+### 1.1 Mục tiêu
 
-Hệ thống phục vụ hai việc:
-1. Cho người ít theo dõi mạng xã hội hỏi nhanh về một sự kiện (diễn biến, nhân vật, mức độ quan tâm, dư luận).
-2. Cho nhà quản lý / nhóm nghiên cứu xem phản ứng dư luận dạng thống kê (cảm xúc, từ khóa, sự kiện nổi bật).
+**Drama Intelligence** thu thập, xử lý, phân tích và phục vụ dữ liệu dư luận mạng xã hội Việt Nam về hai lĩnh vực **Showbiz** và **Giáo dục** (đề tài NCKH cấp trường). Phục vụ hai việc: (1) người ít theo dõi mạng xã hội hỏi nhanh về một sự kiện; (2) nhà quản lý / nhóm nghiên cứu xem phản ứng dư luận dạng thống kê.
 
-Nguyên tắc thiết kế:
-- Kiến trúc 3 lớp, API-first: giao diện tách khỏi xử lý AI/RAG.
-- n8n là bộ điều phối workflow, không phải web server.
-- Dữ liệu 3 tầng: thô → đã xử lý → tương tác (mục 5).
-- Hai bản pipeline (Python đơn luồng và PySpark) cho cùng kết quả để đối chiếu.
-- Chống ảo giác: chỉ trả lời theo dữ liệu truy xuất được; không có thì tra cứu web hoặc từ chối.
+Nguyên tắc: giao diện tách khỏi xử lý AI (API-first); dữ liệu 3 tầng thô → đã xử lý → tương tác; hai bản pipeline (Python đơn luồng, PySpark) để đối chiếu; chatbot chỉ trả lời theo dữ liệu truy xuất được.
 
-## 2. Vai trò người dùng
+### 1.2 Sơ đồ tổng thể
+
+So với Hình 1.1 của báo cáo, ba chỗ đã đổi theo code: lớp API là **FastAPI + SQLite** (không phải Node.js); chatbot là **agent riêng** (FastAPI cục bộ hoặc Cloudflare Worker) thay cho agent RAG trong n8n; n8n chỉ còn làm thu thập và cầu nối Messenger.
+
+```mermaid
+flowchart TB
+  subgraph SRC[1. Nguồn dữ liệu ngoài]
+    FB[Facebook: bài + bình luận]
+    NEWS[Báo chí: bối cảnh sự kiện]
+  end
+  subgraph ING[2. Thu thập]
+    CRAWL[FB_Crawl_skills\nChrome + CDP]
+    N8NC[n8n: cào báo + Apify FB]
+  end
+  subgraph PROC[3. Xử lý và phân tích - Python / PySpark]
+    PRE[Tiền xử lý\nlàm phẳng, lọc rác]
+    ANA[Phân tích\nLLM theo cụm, PMI, insights]
+    ML[ML\nPhoBERT; GNN hoãn]
+  end
+  subgraph STORE[4. Lưu trữ]
+    RAW[(data/raw JSON)]
+    OUT[(data/processed\nanalysis-output\nParquet)]
+    DB[(events.db SQLite)]
+  end
+  subgraph SVC[5. Dịch vụ]
+    API[FastAPI web_v2]
+    AGENT[Chat agent\nFastAPI 8010 / CF Worker]
+  end
+  subgraph CLI[6. Giao diện]
+    WEB[Website React]
+    CHAT[Trang /chat]
+    DASH[Dashboard React]
+    MSG[Messenger via n8n]
+  end
+  FB --> CRAWL --> RAW
+  FB --> N8NC
+  NEWS --> N8NC --> RAW
+  RAW --> PRE --> OUT --> ANA --> OUT
+  OUT --> ML
+  RAW --> DB
+  OUT --> DB
+  DB --> API --> WEB
+  RAW --> AGENT
+  OUT --> AGENT
+  WEB --> CHAT --> AGENT
+  MSG --> AGENT
+  OUT --> DASH
+```
+
+### 1.3 Sáu khối
+
+| Khối | Vai trò | Thành phần chính | Chi tiết |
+|---|---|---|---|
+| 1. Nguồn ngoài | Dữ liệu dư luận và bối cảnh | Facebook, báo chí | loại 4 |
+| 2. Thu thập | Lấy dữ liệu về dạng JSON | `FB_Crawl_skills/`, n8n (`ingestion/n8n/cào data.json`) | loại 4 |
+| 3. Xử lý / phân tích | Làm sạch, gán nhãn, thống kê, mô hình | `preprocessing/`, `analysis/`, `analysis_new/`, `ml/` | loại 2, 5, 6 |
+| 4. Lưu trữ | Ba tầng dữ liệu (mục 4) | `data/`, `events.db` | loại 3 |
+| 5. Dịch vụ | API sự kiện và agent chat | `serving/web_v2/backend/`, `serving/chat_agent/`, `serving/chat_agent_worker/` | loại 7, 9, 10 |
+| 6. Giao diện | Web, chat, dashboard, Messenger | `serving/web_v2/frontend/`, `serving/dashboard/` | loại 15 |
+
+### 1.4 Vai trò người dùng
 
 | Vai trò | Dùng gì | Mục đích |
 |---|---|---|
-| Người dùng đại chúng | Chatbot (web, Messenger), website báo | Hỏi diễn biến và dư luận một sự kiện, đọc tin tổng hợp |
-| Nhà quản lý / cơ quan (đặc biệt Giáo dục) | Dashboard, chatbot | Xem phân bố cảm xúc, từ khóa, sự kiện nổi bật |
-| Nhóm nghiên cứu / quản trị | Dashboard, chạy pipeline bằng dòng lệnh, n8n | Thu thập, phân tích, giám sát chất lượng dữ liệu |
+| Người dùng đại chúng | Chatbot (web, Messenger), website | Hỏi diễn biến và dư luận một sự kiện, đọc tin tổng hợp |
+| Nhà quản lý / cơ quan (nhất là Giáo dục) | Dashboard, chatbot | Xem phân bố cảm xúc, từ khóa, sự kiện nổi bật |
+| Nhóm nghiên cứu / quản trị | Dashboard, dòng lệnh, n8n | Thu thập, phân tích, giám sát chất lượng dữ liệu |
 
-Chưa có đăng nhập hay phân quyền trong code (API chỉ có GET, CORS mở `*`: `serving/web_v2/backend/app.py:24-29`).
+Chưa có đăng nhập hay phân quyền (API chỉ có GET, CORS mở `*`: `serving/web_v2/backend/app.py:24-29`).
 
-## 3. Thành phần và trách nhiệm
+---
 
-### 3.1 Sơ đồ tổng quan
-
-![Sơ đồ tổng quan](images/so-do-tong-quan.png)
-
-Mã nguồn sơ đồ (Mermaid):
-
-```mermaid
-flowchart LR
-  subgraph IN[Thu thập - n8n]
-    GS[(Google Sheets\nURL pending/done)]
-    N8N[n8n workflows]
-    WEBSRC[Báo chí\nSerpApi + Firecrawl + Gemini]
-    FBSRC[Facebook\nApify]
-    GS --> N8N
-    N8N --> WEBSRC
-    N8N --> FBSRC
-  end
-  subgraph LOCAL[Xử lý tại máy - Python / PySpark]
-    PRE[Preprocessing\nlàm phẳng + lọc rác]
-    ANA[Analysis\ngán nhãn LLM, PMI, insights]
-    ML[ML\nPhoBERT, GraphSAGE]
-  end
-  subgraph STORE[Lưu trữ]
-    RAW[(JSON thô)]
-    PROC[(JSON / Parquet\nđã xử lý)]
-    INS[(insights.json)]
-    DB[(events.db SQLite)]
-    VEC[(Supabase pgvector)]
-  end
-  subgraph SERVE[Phục vụ]
-    API[FastAPI web_v2]
-    WEB[Website React\nweb_v2/frontend]
-    DASH[Dashboard React]
-    BOT[Chatbot n8n\nDispatcher - Retrieval - Insight - LLM]
-  end
-  WEBSRC --> RAW
-  FBSRC --> RAW
-  RAW --> PRE --> PROC --> ANA --> INS
-  PROC --> ML
-  ANA --> VEC
-  RAW --> DB
-  INS --> DB
-  DB --> API --> WEB
-  INS --> DASH
-  VEC --> BOT
-  INS --> BOT
-  WEB -->|webhook| BOT
-  MSG[Messenger] --> BOT
-```
-
-Sơ đồ rút gọn các mũi tên nhỏ (ví dụ `build_db.py` còn lấy `links`, `status` từ Apps Script). Chi tiết ở loại 2 và 3.
-
-### 3.2 Thành phần
-
-| Lớp | Thành phần | Vị trí | Trách nhiệm |
-|---|---|---|---|
-| Thu thập | n8n workflows | n8n cloud; bản export `ingestion/n8n/cào data.json` | Đọc Google Sheets, tìm URL (SerpApi), cào báo (Firecrawl), tổng hợp (Gemini), cào bình luận Facebook (Apify), ghi JSON lên Google Drive, đổi trạng thái `pending → done` |
-| Thu thập (FB) | Scraper Facebook | `FB_Crawl_skills/` | Đang test; track trong repo chính (xem mục 6) |
-| Tiền xử lý | Python đơn luồng | `preprocessing/single/` | Chuẩn hóa, sắp lại thứ tự, lọc rác |
-| Tiền xử lý | PySpark | `preprocessing/spark/` | Cùng việc trên, đối chiếu với bản đơn luồng |
-| Phân tích | Python | `analysis/single/` | Gán nhãn cảm xúc/lập trường bằng LLM (hai bước), PMI + n-gram, `analyze_insights.py` → `insights.json` |
-| Phân tích | PySpark | `analysis/spark/` | PMI từ khóa |
-| ML | GraphSAGE | `ml/gnn/` | Phân loại nút trên đồ thị thảo luận (kết quả hiện chưa đạt) |
-| ML | PhoBERT | `ml/phobert/` | Fine-tune/suy luận (kết quả hiện chưa đạt) |
-| Lấy mẫu / nhãn | Scripts và file kiểm | `sampling_labeling/` | Lấy mẫu phân tầng, xuất file kiểm duyệt cho gold set |
-| Benchmark | Scripts | `benchmark/` | So sánh Python và Spark |
-| Dữ liệu web | ETL | `serving/web_v2/backend/build_db.py` | Gộp `data/raw/data_web.json`, `insights.json`, Apps Script → `events.db` |
-| API | FastAPI | `serving/web_v2/backend/app.py` | 5 endpoint GET đọc `events.db` |
-| Website | React | `serving/web_v2/frontend/` | Trang chủ, tin tức, Facebook; nhúng chatbot |
-| Dashboard | React + TypeScript | `serving/dashboard/` | 4 tab: Overview, Sentiment, Interaction, System |
-| Chatbot | Multi-agent RAG | n8n cloud | Dispatcher → Retrieval (2 luồng) / Insight Analyst → Final LLM |
-| Vector DB | Supabase pgvector | Supabase | Lưu embedding chunk sự kiện (education, showbiz) |
-
-### 3.3 Chatbot
-
-Luồng trả lời một câu hỏi (chi tiết ở loại 7):
-1. Website gọi webhook n8n `…/webhook/nckh` (`Chatbot.jsx:46`), hoặc người dùng nhắn qua Messenger.
-2. **Dispatcher** (Gemini Flash) đọc câu hỏi, trả JSON định tuyến: chào hỏi / tra cứu DB / (tra cứu web).
-3. **Retrieval Agent** tìm top chunk trong Supabase (education và showbiz chạy song song), rerank.
-   **Insight Analyst** đọc `insights.json` cho câu hỏi số liệu.
-4. **Final LLM** (Groq, Llama) tổng hợp câu trả lời từ ngữ cảnh đã lọc.
-5. Không có dữ liệu: Firecrawl tra cứu web; câu hỏi thiếu dữ liệu ghi vào Google Sheets để bổ sung sau.
-
-## 4. Công nghệ
+## 2. Công nghệ
 
 | Nhóm | Công nghệ |
 |---|---|
-| Ngôn ngữ | Python 3.11, JavaScript/TypeScript |
-| Điều phối | n8n (cloud) |
-| Thu thập | SerpApi, Firecrawl, Apify (+ proxy), Google Sheets/Drive |
-| LLM | Gemini 2.5 Flash (Dispatcher, gán nhãn, tổng hợp), Groq/Llama (câu trả lời cuối) |
-| RAG | Supabase (pgvector), Gemini embedding, Cohere rerank |
-| NLP / ML | underthesea, PMI + n-gram, TF-IDF, PhoBERT, PyTorch + PyG (GraphSAGE) |
-| Xử lý dữ liệu | pandas, PyArrow/Parquet, PySpark 3.5 (local mode; factory hiện đặt mặc định JDK 17 + winutils trên Windows) |
-| Backend | FastAPI 0.115, Uvicorn, SQLite, httpx, BeautifulSoup |
-| Frontend (web) | React 19, Vite, React Router 7, Ant Design 6, SASS |
-| Frontend (dashboard) | React, Vite, TypeScript |
+| Ngôn ngữ | Python 3.11–3.14 (tùy môi trường), JavaScript/TypeScript |
+| Thu thập | Chrome + CDP (`FB_Crawl_skills`), n8n, SerpApi, Firecrawl, Apify, Google Sheets/Drive |
+| LLM | API mmodiary (`analysis_new`), Groq / Gemini (chat agent, bản cũ `analysis/single`) |
+| NLP / ML | underthesea, PMI + n-gram, PhoBERT, PyTorch (GraphSAGE, tạm hoãn) |
+| Xử lý dữ liệu | pandas, Parquet, PySpark 3.5 (local mode) |
+| Backend | FastAPI, SQLite, Uvicorn; Cloudflare Worker + Durable Object (agent) |
+| Frontend | React 19 + Vite (website: Router 7, Ant Design, SASS; dashboard: TypeScript, Recharts) |
+| Đồ thị | Neo4j Community 5.26 chạy thủ công (thử nghiệm, không phải phụ thuộc của web/agent) |
 
-Phiên bản chính xác: `serving/web_v2/backend/requirements.txt`, `serving/web_v2/frontend/package.json`.
+Phiên bản chính xác: `serving/web_v2/backend/requirements.txt`, các `package.json`.
 
-## 5. Dữ liệu thuộc về ai
+---
 
-| Tầng | Nội dung | Nơi nằm | Ai tạo / sở hữu |
+## 3. Lớp 2 – Cụ thể
+
+### 3.1 Thu thập và tiền xử lý
+
+```mermaid
+flowchart LR
+  URL[URL bài FB] --> CLI[fb_cli.py crawl deep]
+  CLI --> CDP[05_auto_scrape_cdp.py\nChrome profile đã đăng nhập, CDP 9222]
+  CDP --> POST[data/posts/\ncomments + post.json]
+  N8N[n8n cào data] --> RAWJ[data/raw/*.json\nbáo + bình luận]
+  POST -. chưa nối .-> RAWJ
+  RAWJ --> PS[preprocessing/single\nGemini lọc rác + đánh order]
+  RAWJ --> PK[preprocessing/spark\nflatten + is_trash luật]
+  PS --> CLEAN[data/processed/...\nJSON sạch]
+  PK --> PQ[data/spark-output/clean\nParquet]
+```
+
+- Hai nhánh tiền xử lý làm cùng việc; `verify_preprocessing.py` đối chiếu kết quả.
+- Dữ liệu `FB_Crawl_skills` chưa được nối vào pipeline xử lý (còn thiếu theo `PROJECT_STATE.md`).
+- Chi tiết: `docs/thu-thap-du-lieu.md`, `docs/data-pipeline.md`.
+
+### 3.2 Phân tích
+
+```mermaid
+flowchart LR
+  CL[Bình luận sạch] --> OLD[analysis/single\nGroq, làm phẳng comment]
+  CL --> NEW[analysis_new\nLLM đọc cả cụm giữ cấp bậc]
+  OLD --> SUM[full + summary\ntheo sự kiện]
+  NEW --> SUM
+  SUM --> MRG[merge_final_data.py\n+ analyze_insights.py]
+  MRG --> INS[insights.json]
+  CL --> PMI[PMI từ khóa\nAnalyze keywords.py / PySpark]
+  PMI --> KW[keyword_analysis_v4.json]
+```
+
+- `analysis_new/` là hướng 1 trong `docs/mo-hinh-ml-va-phan-tich.md`: gom bình luận cấp 1 + reply thành cụm, một request LLM đọc nhiều cụm (tối đa 60 comment), trả nhãn từng comment và `summary` mỗi cụm; summary giữ khóa mà `analyze_insights.py` đọc.
+- Hai bản chạy (đơn luồng, PySpark) dùng chung các module ở `analysis_new/`.
+- Đã chạy thật 1 sự kiện (`showbiz_068`); chưa nối kết quả mới vào `insights.json`.
+
+### 3.3 Phục vụ web
+
+```mermaid
+flowchart LR
+  DW[data/raw/data_web.json] --> BDB[build_db.py]
+  INS[insights.json] --> BDB
+  AS[Apps Script\nlinks, status] --> BDB
+  BDB --> DB[(events.db)]
+  DB --> API[app.py FastAPI\n/api/events /hot /event /categories /stats]
+  API --> FE[Website React\n/ /news /facebook /events /events/:id]
+  INS -->|GitHub raw| DASH[Dashboard\n4 tab]
+```
+
+`build_db.py` xóa và dựng lại hai bảng `events`, `actors`. Dashboard đọc JSON qua GitHub raw, có dữ liệu fallback. Chi tiết: `docs/backend-serving.md`, `docs/hop-dong-tich-hop.md`.
+
+### 3.4 Chatbot
+
+```mermaid
+flowchart LR
+  WEBC[Website /chat\nChatHistoryContext] -->|"POST /chat"| AG
+  MSG[Messenger] --> META[Meta webhook] --> N8NM[n8n workflow\nFB Messenger] -->|X-Agent-Key| AG
+  subgraph AG[Chat agent - Worker hoặc FastAPI 8010]
+    R1[Luật: spam, chào, info] --> R2[Khớp sự kiện\nIDF trên data/raw]
+    R2 --> R3[Insight: top / thống kê]
+    R3 --> LLM[1 lần LLM\nGroq, dự phòng Gemini]
+  end
+  AG --> MEM[(Bộ nhớ phiên\nDurable Object / RAM)]
+  AG --> N8NM
+```
+
+- Một tin nhắn qua tối đa một lần LLM; luật và khớp sự kiện chạy trong bộ nhớ, không dùng Supabase/embedding (quyết định 2026-11-05).
+- Web gọi theo `VITE_CHAT_API_URL`; Worker chỉ cho web (Origin cho phép) gọi không khóa, nơi khác phải gửi `X-Agent-Key`.
+- Agent n8n cũ (Dispatcher + Supabase) không còn trên đường web; workflow `FB Messenger -> local chat agent` đang là cầu nối Messenger. Chi tiết: `docs/llm-agent-rag.md` mục 8b–8d.
+
+### 3.5 ML
+
+```mermaid
+flowchart LR
+  XL[labeling data/\nverify_*_5k_dedup.xlsx\n+ dòng is_synthetic] --> PB[ml/phobert\nphobert_data → phobert_train]
+  PB --> CK[checkpoint + config.json]
+  CK --> INF[phobert-batch-inference.py]
+  AUG[augment_minority_labels.py\nGemini sinh nhãn thiểu số] --> XL
+  GR[ml/gnn\nđồ thị + embedding + GraphSAGE] -. tạm hoãn .-> NEO[Neo4j thử nghiệm]
+```
+
+- PhoBERT: code sẵn sàng, chưa fine-tune thật (cần Colab/GPU); code đọc dữ liệu chưa đọc cột `label` và `is_synthetic`.
+- GNN: tạm hoãn (user chốt 2026-11-12, 2026-11-16); dữ liệu gán nhãn hiện không có cấu trúc reply. Chi tiết: `docs/mo-hinh-ml-va-phan-tich.md`, `docs/khung-gnn-neo4j-phobert.md`.
+
+---
+
+## 4. Dữ liệu thuộc về ai
+
+| Tầng | Nội dung | Nơi nằm | Ai tạo |
 |---|---|---|---|
-| 1. Thô | JSON từ n8n (báo chí, bình luận FB) | `data/raw/`, Google Drive | n8n; nhóm nghiên cứu |
-| 2. Đã xử lý | Bình luận phẳng đã lọc rác, có nhãn; Parquet | `data/processed/`, `data/spark-output/clean/` | Pipeline Python / Spark |
+| 1. Thô | JSON báo chí, bình luận FB | `data/raw/`, `FB_Crawl_skills/data/posts/` | n8n; crawler |
+| 2. Đã xử lý | Bình luận phẳng đã lọc rác, nhãn; Parquet | `data/processed/`, `data/spark-output/clean/`, `data/analysis-new-output/` | Pipeline Python / Spark |
 | 2'. Tổng hợp | `insights.json`, `keyword_analysis_v4.json` | `data/analysis-output/` | `analysis/` |
 | 2''. Phục vụ web | `events.db` | `serving/web_v2/backend/` | `build_db.py` |
-| Vector | Chunk + embedding | Supabase | n8n (nạp từ JSON đã xử lý) |
-| 3. Tương tác | Câu hỏi và trả lời chatbot | `history.json`, `QA.json` (gốc repo) | Chatbot / n8n |
+| 3. Tương tác | Câu hỏi và trả lời | `history.json`, `QA.json` (gốc repo); phiên chat 30 phút trong agent (Durable Object / RAM) | Agent n8n cũ ghi `history.json`; agent hiện tại chỉ giữ phiên, không ghi file |
 
-Bình luận Facebook là nội dung của người thật; vấn đề pháp lý và quyền riêng tư xem loại 12.
+Bình luận Facebook là nội dung của người thật; vấn đề pháp lý và quyền riêng tư: loại 12.
 
-## 6. Cấu trúc trang
+## 5. Chỗ lệch giữa báo cáo / document cũ và code
 
-**Website** (`serving/web_v2/frontend/src/App.jsx:15-17`)
+Code là source of truth; document cũ giữ nguyên nhưng cần biết các điểm sau.
 
-| Route | Trang | Dữ liệu |
-|---|---|---|
-| `/` | HomePage | `/api/hot`, `/api/events`, `/api/categories` |
-| `/news` | NewsPage | `/api/events` |
-| `/facebook` | FacebookPage | `/api/events` |
-
-Lưu ý: `getPaginatedPosts` (`services/api.js`) bỏ qua tham số nền tảng và mọi sự kiện trong `events.db` đều có `platform = news`, nên hai trang `/news` và `/facebook` hiện hiển thị cùng một tập 85 sự kiện (chi tiết: loại 3, mục 10).
-| (mọi trang) | Chatbot (component) | webhook n8n |
-
-**Dashboard** (`serving/dashboard/src/App.tsx`): tab Overview (`OverviewView`), Sentiment (`SentimentView`), Interaction (`InteractionView`), System (`SystemView`). Đọc JSON qua `raw.githubusercontent.com` (xem mục 7).
-
-## 7. Chỗ lệch giữa báo cáo / document cũ và code
-
-Code là source of truth. Các document cũ giữ nguyên, nhưng khi đọc phải biết các điểm sau:
-
-| # | Báo cáo hoặc document cũ nói | Code thật | Bằng chứng |
+| # | Báo cáo / document cũ nói | Code thật | Bằng chứng |
 |---|---|---|---|
-| 1 | Backend web là Google Apps Script + Google Sheets (báo cáo 3.2.1.3.3) | FastAPI + SQLite. Apps Script chỉ còn là nguồn phụ lấy `links`, `status` khi build DB | `build_db.py:3-5, 41-60`; `app.py` |
-| 2 | Backend Node.js/Express + MongoDB (`thông tin về dự án.docx`) | Không có Node backend hay MongoDB trong repo | `serving/web_v2/backend/requirements.txt` |
-| 3 | Dashboard hiển thị trên AI Studio | Có bản React trong repo, và vẫn trỏ AI Studio trong README | `serving/dashboard/README.md` |
-| 4 | Dashboard hiện lấy `insights.json` tại `main/data/analysis-ouput/insights.json` trên GitHub | Code dùng `ouput`, còn thư mục local là `data/analysis-output/`; chưa xác minh nguồn remote | `App.tsx:17`; `ls data/` |
-| 5 | Cổng backend 8000 (mặc định `api.js:1`, docstring `app.py:3`) | README hướng dẫn chạy cổng 8001 và đặt `VITE_API_BASE` | `serving/web_v2/README.md` |
-| 6 | Dispatcher có 3 nhánh gồm `branch_firecrawl` (báo cáo ch.3) | `docs/prompts/agent đầu tien.md` chỉ có 2 nhánh (`branch_greeting`, `branch_database`) | Hai file prompt |
-| 7 | `README.md` gốc: `serving/code_web/`, `ingestion/cao_fb/` | Thư mục thực là `serving/web_v2/`; `ingestion/cao_fb/` đã xóa khỏi working tree | `ls serving ingestion` |
+| 1 | Backend là Google Apps Script + Google Sheets; hoặc Node.js/Express + MongoDB | FastAPI + SQLite; Apps Script chỉ là nguồn phụ `links`, `status` khi build DB | `build_db.py`, `app.py`, `requirements.txt` |
+| 2 | Hình 1.1: lớp API Node.js; chatbot là agent RAG trong n8n + Supabase | Agent chat riêng (FastAPI/Worker), khớp sự kiện trong RAM; n8n chỉ cầu nối Messenger | `serving/chat_agent*/`; `DECISIONS.md` 2026-11-05/06 |
+| 3 | Dashboard lấy `insights.json` tại `analysis-ouput` trên GitHub | Code dùng `ouput`, thư mục local là `analysis-output`; chưa xác minh nguồn remote | `App.tsx:17` |
+| 4 | Cổng backend 8000 (`api.js`, docstring `app.py`) | README chạy cổng 8001 và đặt `VITE_API_BASE` | `serving/web_v2/README.md` |
+| 5 | `README.md` gốc: `serving/code_web/`, `ingestion/cao_fb/` | Thư mục thật `serving/web_v2/`; crawler FB là `FB_Crawl_skills/` | `ls` |
+| 6 | Dispatcher 3 nhánh (`branch_firecrawl`) | Prompt local chỉ 2 nhánh; luồng n8n cloud không còn trên đường web | `docs/prompts/agent đầu tien.md` |
 
-Mục 4, 6 cần user xác nhận phiên bản nào đang chạy thật (file trên GitHub, workflow trên n8n cloud); tôi không kiểm tra được từ repo.
+## 6. Câu hỏi mở
 
-## 8. Hiện trạng
-
-### Tình trạng hiện tại (khoảng 85% theo đánh giá nội bộ)
-- Chạy được: thu thập qua n8n, tiền xử lý, phân tích, chatbot RAG, website, dashboard. Dữ liệu: 85 sự kiện (40 Giáo dục, 45 Showbiz), trong đó 50 sự kiện đã có phân tích bình luận (20 + 30) theo `insights.json`.
-- Ba script Spark đã sửa import sang `preprocessing.spark...` (2026-11-17), chạy thật được trên `.venv-ml`.
-- Chưa đạt / còn lỗi: nhãn LLM nhiễu và mất cân bằng; GraphSAGE và PhoBERT chưa đạt mục tiêu (sẽ làm lại); báo cáo cũ ghi dữ liệu Showbiz trong RAG chưa cập nhật (prompt Dispatcher local hiện không ghi giới hạn này; runtime chưa xác minh, xem loại 7); phụ thuộc gói miễn phí (lỗi 429, n8n free mất kết nối).
-- Đang làm lại: luồng cào Facebook (`FB_Crawl_skills/`), Phase 01 PySpark.
-
-Hạng mục dự định làm sau (chưa có plan cụ thể): xem bảng "Việc làm sau" trong `docs/doc-map.md`. Khi bắt đầu từng hạng mục, document này được viết lại.
-
-## 9. Câu hỏi mở
-
-1. File `insights.json` trên GitHub (`main/data/analysis-ouput/insights.json`, theo code hiện tại) có tồn tại và đang được dùng cho dashboard không? Trong repo chỉ có bản ở `data/analysis-output/`.
-2. Dispatcher đang chạy trên n8n cloud là bản 2 nhánh hay 3 nhánh (có `branch_firecrawl`)?
-3. Dữ liệu trong Supabase hiện nạp từ file nào, và có gồm Showbiz mới không?
-4. Dashboard chính thức chạy ở đâu: bản trong repo hay AI Studio?
+1. File `insights.json` trên GitHub mà dashboard đọc có tồn tại và đang dùng không (repo chỉ có bản ở `data/analysis-output/`)?
+2. Dữ liệu Supabase (workflow Embedding) còn dùng cho việc gì sau khi agent bỏ Supabase?
+3. Dashboard chính thức chạy ở đâu: bản trong repo hay AI Studio?
+4. Khi nào nối dữ liệu `FB_Crawl_skills` và kết quả `analysis_new` vào `insights.json` / `events.db`?

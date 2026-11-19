@@ -4,7 +4,7 @@ Document loại 12/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. *
 
 Phạm vi: cơ chế bảo mật, cách xử lý dữ liệu và bằng chứng quản trị hiện có trong code/tài liệu. Không đặt chính sách mới, không suy ra quyền sử dụng dữ liệu từ việc code thu thập được, và không kết luận hệ thống đã tuân thủ pháp luật. Phần pháp lý ghi nhận tài liệu chứng minh đang có hoặc chưa được cung cấp; không thay cho đánh giá pháp lý.
 
-Thu thập xem [loại 4](./thu-thap-du-lieu.md), nhãn và tập dữ liệu xem [loại 5](./gan-nhan-va-tap-du-lieu.md), hợp đồng tích hợp xem [loại 9](./hop-dong-tich-hop.md). **Luồng agent n8n ở loại 7 còn thiếu**, nên quyền truy cập, lịch sử và cách gửi dữ liệu qua các node cloud chưa được đối chiếu đầy đủ.
+Thu thập xem [loại 4](./thu-thap-du-lieu.md), nhãn và tập dữ liệu xem [loại 5](./gan-nhan-va-tap-du-lieu.md), hợp đồng tích hợp xem [loại 9](./hop-dong-tich-hop.md). Từ 2026-11-05 chatbot chạy bằng agent code của dự án (`serving/chat_agent/`, Cloudflare Worker `serving/chat_agent_worker/`), không còn qua agent n8n. Câu hỏi người dùng được gửi tới Groq, hoặc Gemini khi Groq lỗi. n8n chỉ còn chuyển tin Messenger. Xem [loại 7](./llm-agent-rag.md) mục 0, 8b–8d.
 
 ## 1. Phạm vi bằng chứng
 
@@ -52,7 +52,7 @@ API phục vụ dữ liệu sự kiện/nhân vật và số liệu tổng hợp
 
 ### 4.2 Chatbot website
 
-Client tạo UUID và lưu cookie userId với path `/`, max-age một năm; request POST gửi message/userId trực tiếp tới webhook n8n. Chuỗi gán cookie trong code không khai báo Secure hoặc SameSite; userId không phải tài khoản đăng nhập hay quyền truy cập. Request không gửi toàn bộ mảng messages của UI.
+Client tạo UUID và lưu cookie userId với path `/`, max-age một năm. Request POST gửi `{userId: "<uuid>:<id cuộc trò chuyện>", message, source}` tới agent chatbot (Worker hoặc local), không qua n8n. Worker cho Origin web gọi không cần khoá, nên ai biết URL vẫn gọi được (xem loại 7 mục 8d). Chuỗi gán cookie trong code không khai báo Secure hoặc SameSite; userId không phải tài khoản đăng nhập hay quyền truy cập. Request không gửi toàn bộ mảng messages của UI.
 
 Chưa có workflow server để kiểm tra xác thực webhook, mapping userId sang Memory, cách cô lập lịch sử giữa người dùng, log request hoặc nơi lưu/xóa hội thoại. Chưa kết luận phạm vi người có thể xem lịch sử trên cloud; xem [loại 7](./llm-agent-rag.md).
 
@@ -60,7 +60,7 @@ Chưa có workflow server để kiểm tra xác thực webhook, mapping userId s
 
 `InteractionView.tsx` tải danh sách khóa từ `/api.txt`, tạo GoogleGenAI và gọi `gemini-2.5-flash` ngay trong browser. Nếu tính năng chạy theo code này, client cần đọc được khóa sử dụng; Git ignore file khóa không tự bảo vệ đường dẫn HTTP đó. Chưa kiểm tra host hoặc khóa thực tế trong lần viết tài liệu.
 
-Hàm tổng hợp nối các câu hỏi đã tải thành prompt để suy ra top chủ đề; không chỉ gửi số đếm thống kê. Đây là một luồng gửi dữ liệu ra nhà cung cấp LLM riêng với chatbot n8n.
+Hàm tổng hợp nối các câu hỏi đã tải thành prompt để suy ra top chủ đề; không chỉ gửi số đếm thống kê. Đây là một luồng gửi dữ liệu ra nhà cung cấp LLM, tách riêng khỏi agent chatbot.
 
 ## 5. Dữ liệu gửi tới dịch vụ bên ngoài
 
@@ -112,14 +112,14 @@ Top sự kiện trong insight dựa trên tập bình luận đã thu thập; to
 
 Text bình luận, tên sự kiện và nhân vật có thể lặp lại cáo buộc, ngôn từ xúc phạm hoặc thông tin chưa kiểm chứng. Chưa xác minh cơ chế duyệt trước công bố, khiếu nại/chỉnh sửa hoặc phân xử nhãn sai; các ví dụ hội thoại và prompt không chứng minh những cơ chế đó đã vận hành.
 
-Prompt yêu cầu không bịa/không tự trả lời chỉ là chỉ dẫn. Chưa có bằng chứng kiểm thử toàn diện việc chống prompt injection từ nội dung thu thập, dẫn nguồn sai, suy diễn quá ngữ cảnh hoặc lộ dữ liệu qua câu trả lời. Phần agent n8n tiếp tục thiếu bằng chứng theo loại 7.
+Prompt yêu cầu không bịa/không tự trả lời chỉ là chỉ dẫn. Chưa có bằng chứng kiểm thử toàn diện việc chống prompt injection từ nội dung thu thập, dẫn nguồn sai, suy diễn quá ngữ cảnh hoặc lộ dữ liệu qua câu trả lời. Agent hiện tại (loại 7 mục 8b) chỉ có test không LLM và các lần chạy thử tay; chưa có kiểm thử chống prompt injection.
 
 ## 10. Phần cần user làm rõ khi bổ sung hiện trạng
 
 1. Ai đang có quyền với Git/Drive/Sheets/n8n/Supabase, dữ liệu nào được công bố, khóa/session nào đang sử dụng và cơ chế thu hồi thực tế?
 2. Có hồ sơ quyền sử dụng nguồn, thông báo/đồng ý, giấy phép nội dung hoặc phê duyệt nghiên cứu ngoài repo không?
 3. Chính sách lưu/xóa/backup, xử lý phản hồi và xóa dữ liệu xuyên các kho đang áp dụng là gì?
-4. Workflow agent n8n, schema/RLS Supabase và điều khoản/cấu hình xử lý dữ liệu của các dịch vụ đang dùng cụ thể ra sao?
+4. Schema/RLS Supabase (chatbot không còn dùng, nhưng dữ liệu cũ vẫn còn) và điều khoản xử lý dữ liệu của Groq, Gemini, Cloudflare cụ thể ra sao? Workflow n8n cũ đã disable vẫn chứa Page token và khoá Firecrawl, cần xoá và xoay khoá.
 
 ## 11. Nguồn đối chiếu
 

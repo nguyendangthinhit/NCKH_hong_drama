@@ -4,7 +4,7 @@ Document loại 15/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. *
 
 Phạm vi: các thao tác và luồng dữ liệu thể hiện trong website/dashboard hiện có. Tài liệu được viết từ code và tài liệu dự án; không dùng ý tưởng phát triển làm chức năng đã cài đặt. Chưa kiểm thử bằng trình duyệt hoặc gọi dịch vụ ngoài trong lần viết này.
 
-Hợp đồng API xem [loại 9](./hop-dong-tich-hop.md), serving xem [loại 10](./backend-serving.md), giới hạn chất lượng xem [loại 11](./thuoc-tinh-chat-luong.md). **Phần agent n8n ở loại 7 còn thiếu**, nên thao tác gửi chat trên website không chứng minh toàn bộ luồng RAG cloud đã được xác minh.
+Hợp đồng API xem [loại 9](./hop-dong-tich-hop.md), serving xem [loại 10](./backend-serving.md), giới hạn chất lượng xem [loại 11](./thuoc-tinh-chat-luong.md). Chatbot dùng agent code (loại 7 mục 0, 8b–8d), không còn agent n8n từ 2026-11-05.
 
 ## 1. Các bề mặt tương tác
 
@@ -70,15 +70,12 @@ Một số khối giới hạn số URL hiển thị và chỉ ghi “+N nguồn
 
 ## 6. Chatbot trên website
 
-Người dùng nhấn nút chat nổi để mở/đóng hộp thoại → nhập câu hỏi → Enter hoặc Gửi → thấy tin nhắn của mình ngay → chờ phản hồi bot.
+Cập nhật 2026-11-19. Người dùng nhấn nút chat nổi → chuyển sang trang `/chat` (khung chat lớn + thanh bên lịch sử cuộc trò chuyện) → nhập câu hỏi → Enter hoặc Gửi → thấy tin nhắn của mình ngay → chờ phản hồi bot.
 
-- Input trống bị bỏ qua; trong khi loading, ô nhập và nút gửi bị khóa. Client gửi message và userId từ cookie tới webhook n8n, không gửi toàn bộ messages đang hiện.
-- Response JSON có thể là object hoặc array; client lấy reply để hiển thị qua ReactMarkdown. Nếu reply rỗng có thông báo không có phản hồi.
-- Nhánh catch có thể trả câu mẫu từ datamock.js hoặc thông báo lỗi kết nối. Câu mẫu không phải bằng chứng truy xuất RAG thành công.
-- Messages là state component; reload bắt đầu lại phần hiển thị. Cookie userId có thể còn nhưng không chứng minh server đã khôi phục đúng Memory.
-- Client chưa có timeout/abort hoặc kiểm tra res.ok trong hàm gửi. Chưa có quy trình UI xem/xóa lịch sử của riêng người dùng được xác minh.
-
-Các khả năng diễn biến, dư luận và thống kê được mô tả trong prompt/báo cáo ở [loại 7](./llm-agent-rag.md). Chưa có luồng agent n8n để xác nhận việc định tuyến, retrieval, dẫn nguồn và fallback web đang chạy đúng từ đầu đến cuối.
+- Câu hỏi được gửi tới agent chatbot (Cloudflare Worker, hoặc agent local `127.0.0.1:8010`), không qua n8n. Mỗi cuộc trò chuyện có phiên riêng ở agent, nên agent hiểu được câu nối tiếp như "vụ đó" trong cùng cuộc.
+- Thanh bên cho tạo cuộc trò chuyện mới, chuyển qua lại và xoá. Lịch sử giữ khi chuyển trang, mất khi reload (chưa có đăng nhập hay lưu server).
+- Câu trả lời hiển thị qua ReactMarkdown. Lỗi mạng, lỗi HTTP hoặc quá 30 giây thì hiện thông báo lỗi thật, không còn câu mẫu `datamock.js`.
+- Agent trả lời được về diễn biến sự kiện, dư luận (từ kết quả phân tích) và thống kê top sự kiện. Ngoài 85 sự kiện có trong dữ liệu thì agent hỏi lại hoặc báo ngoài phạm vi. Chi tiết ở [loại 7](./llm-agent-rag.md) mục 8b.
 
 ## 7. Điều hướng và nguồn dữ liệu dashboard
 

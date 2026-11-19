@@ -4,7 +4,7 @@ Document loại 11/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. *
 
 Phạm vi: thuộc tính chất lượng thể hiện trong code, cấu hình, dữ liệu và kết quả đã có. Tài liệu phân biệt cơ chế cài đặt với bằng chứng kiểm chứng; không đặt thêm SLA/SLO, ngưỡng nghiệm thu hoặc mục tiêu từ lộ trình phát triển.
 
-Kết quả đo và phương pháp xem [loại 8](./danh-gia-va-benchmark.md), hợp đồng dữ liệu xem [loại 9](./hop-dong-tich-hop.md), serving xem [loại 10](./backend-serving.md). **Loại 7 còn thiếu luồng agent n8n**, chờ user bổ sung; không suy ra chất lượng chatbot cloud từ prompt local.
+Kết quả đo và phương pháp xem [loại 8](./danh-gia-va-benchmark.md), hợp đồng dữ liệu xem [loại 9](./hop-dong-tich-hop.md), serving xem [loại 10](./backend-serving.md). Chatbot là agent code (loại 7 mục 8b, 8d), không còn agent n8n. Độ trễ đo được: nhánh LLM 0,5–0,9 giây, nhánh luật dưới 5 ms. Chưa đo độ đúng câu trả lời.
 
 ## 1. Mức bằng chứng sử dụng
 
@@ -80,7 +80,7 @@ ETL SQLite DROP/tạo lại bảng, commit dữ liệu cơ bản trước giai �
 
 Kiểm tra SQLite local ở loại 10 có quick_check=ok và foreign_key_check không báo vi phạm. Đây là kiểm tra artifact tại thời điểm đọc, không chứng minh backup/restore, chịu lỗi khi đang ghi hoặc cưỡng chế khóa ngoại trên mọi kết nối.
 
-Website dùng SQLite, dashboard đọc JSON remote và chatbot dùng nguồn n8n/Supabase chưa đối chiếu đầy đủ. Chưa có manifest/hash/version chung để bảo đảm chúng cùng snapshot; thời điểm tải thành công của dashboard không phải thời điểm dữ liệu được thu thập/phân tích.
+Website dùng SQLite, dashboard đọc JSON remote, còn chatbot dùng `data/raw` + `insights.json` (bản Worker đóng gói sẵn lúc build, phải build lại khi dữ liệu đổi). Chưa có manifest/hash/version chung để bảo đảm chúng cùng snapshot; thời điểm tải thành công của dashboard không phải thời điểm dữ liệu được thu thập/phân tích.
 
 ## 7. Khả năng mở rộng và tính di động
 
@@ -110,7 +110,7 @@ Website/dashboard có trạng thái loading, thông báo lỗi, theme và các t
 
 Lần viết tài liệu này chỉ đối chiếu code và nguồn hiện có; không chạy lại benchmark, training, HTTP/load test, fault injection hoặc gọi cloud. Các số đo/kiểm tra trước đó được dẫn đúng phạm vi ở loại 8–10, không đổi thành kết quả thử nghiệm mới.
 
-Thông tin chưa đủ để chốt: mục tiêu chất lượng định lượng do user chấp thuận; manifest dữ liệu/môi trường; phép đo end-to-end và tải lặp; hành vi phục hồi sau lỗi; workflow agent n8n và schema Supabase; kết quả bảo mật/khả dụng/accessibility. Không tự lấp các khoảng trống này bằng ngưỡng giả định hoặc ý tưởng phát triển.
+Thông tin chưa đủ để chốt: mục tiêu chất lượng định lượng do user chấp thuận; manifest dữ liệu/môi trường; phép đo end-to-end và tải lặp; hành vi phục hồi sau lỗi; bộ đánh giá độ đúng chatbot và schema Supabase; kết quả bảo mật/khả dụng/accessibility. Không tự lấp các khoảng trống này bằng ngưỡng giả định hoặc ý tưởng phát triển.
 
 ## 11. Nguồn đối chiếu
 

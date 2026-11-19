@@ -155,6 +155,30 @@ KeyManager được khởi tạo ngay khi import module tổng hợp. Thiếu c�
 - Reply count lấy từ giao diện hoặc số reply parse được, không chứng minh đã tải đủ phản hồi.
 - Chưa có bằng chứng kiểm thử chứng minh crawler mới chạy tốt; trạng thái vẫn là bản chưa hoàn thiện.
 
+## 6b. Crawler `FB_Crawl_skills`: đầu ra schema chung (từ 2026-11-19)
+
+Lệnh: `python scripts/fb_cli.py crawl deep <url> --event-id <mã sự kiện>`. Ngoài `raw.json` và `post.json`, crawler ghi thêm `common.jsonl` trong cùng thư mục `data/posts/<slug>/`. Mỗi dòng là một comment theo schema chung đa nền tảng. Code chuyển đổi nằm ở `scripts/_common_schema.py`.
+
+| Trường | Lấy từ đâu | Giới hạn |
+|---|---|---|
+| `comment_id` | Tham số `comment_id` / `reply_comment_id` trong link thời gian của comment (dạng số hoặc base64 `comment:<post>_<cid>`) | Không thấy link thì dùng mã băm `fbh_<hash>` |
+| `event_id` | Tham số `--event-id` do người chạy truyền | Crawler không tự suy ra được; thiếu thì để `null` |
+| `post_id` | Giải mã từ `comment_id`; nếu không có thì lấy từ URL (`story_fbid`, `/posts/<id>`) | URL dạng `pfbid…` không phải mã số |
+| `platform` | Cố định `facebook` | |
+| `author_id` | Link hồ sơ của tác giả (`profile.php?id=`, `/people/…/<id>`, `/user/<id>`, hoặc username) | Có thể là username thay vì mã số |
+| `reply_to_id` | Comment gốc lấy từ link reply. Với reply lồng ("X đáp lại phản hồi của Y"), chọn reply gần nhất của Y trong cùng luồng | Reply lồng chỉ là suy luận theo tên |
+| `ts` | `scraped_at` trừ đi thời gian tương đối ("8 giờ trước", "3 weeks ago") | Chỉ xấp xỉ, càng thô với tuần/năm |
+| `text` | Nội dung comment | |
+
+Cách crawler tránh lẫn bài và lấy đủ comment:
+- **Link `share/p/`:** Facebook chuyển hướng qua news feed. Crawler chờ URL bài thật rồi mở thẳng URL đó.
+- **Chỉ đọc bài cần cào:** khi bài mở dạng hộp thoại, crawler chỉ đọc, bấm nút và cuộn trong hộp thoại chứa nhiều comment nhất. Sau cùng, crawler chỉ giữ comment có `post_id` chiếm đa số.
+- **Cửa sổ Chrome:** crawler tự khôi phục cửa sổ nếu đang thu nhỏ, vì tab bị ẩn thì Facebook ngừng tải comment. Log mỗi vòng có ghi trạng thái hiển thị (`visibility`).
+
+Đã chạy thật ngày 2026-11-19 trên một bài Facebook hiển thị khoảng 246 comment. Kết quả: 242 comment, tất cả có `comment_id` thật và cùng một `post_id`, đủ 94/94 `reply_to_id`. Comment chỉ có GIF, không có text hay ảnh, bị bỏ qua. Comment chỉ có ảnh được giữ lại với `text` trống.
+
+`labels` không do crawler tạo. Bước gán nhãn ghép vào sau theo `comment_id`. Muốn chuyển lại một `raw.json` có sẵn thì chạy `python scripts/_common_schema.py <raw.json> --event-id <ID>`. Với `raw.json` cào trước 2026-11-19 (chưa có link), `comment_id` sẽ là mã băm, còn `author_id` và `reply_to_id` để trống. Test offline nằm ở `FB_Crawl_skills/tests/test_common_schema.py`.
+
 ## 7. Phụ thuộc và cấu hình
 
 `requirements.txt` của crawler khai báo Playwright 1.44.0, python-dotenv 1.0.1, colorlog 6.8.2, google-auth 2.29.0, google-auth-oauthlib 1.2.0, google-api-python-client 2.128.0, google-genai >=0.8.0.

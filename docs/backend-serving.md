@@ -4,7 +4,7 @@ Document loại 10/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. *
 
 Phạm vi: code phục vụ dữ liệu website, quá trình dựng SQLite và hai giao diện React đang có. Nguồn là code, cấu hình, artifact và tài liệu hiện có; không dùng lộ trình phát triển để mô tả hệ thống đã cài đặt.
 
-Hợp đồng HTTP/file chi tiết xem [loại 9](./hop-dong-tich-hop.md), schema dữ liệu xem [loại 3](./database-va-du-lieu.md), pipeline phân tích xem [loại 2](./data-pipeline.md). **Phần agent n8n ở loại 7 còn thiếu**, chờ user bổ sung sau; không coi mô tả serving local là xác minh backend chatbot trên cloud.
+Hợp đồng HTTP/file chi tiết xem [loại 9](./hop-dong-tich-hop.md), schema dữ liệu xem [loại 3](./database-va-du-lieu.md), pipeline phân tích xem [loại 2](./data-pipeline.md). Chatbot có service riêng, không thuộc FastAPI website: agent `serving/chat_agent/` (local, cổng 8010) và bản Cloudflare Worker `serving/chat_agent_worker/`. Từ 2026-11-05 chatbot không còn chạy trên n8n. Xem [loại 7](./llm-agent-rag.md) mục 0 và 8b–8d.
 
 ## 1. Các thành phần phục vụ dữ liệu
 
@@ -14,7 +14,8 @@ Hợp đồng HTTP/file chi tiết xem [loại 9](./hop-dong-tich-hop.md), schem
 | `serving/web_v2/backend/build_db.py` | ETL chạy riêng: dữ liệu web + insight + Apps Script → events.db |
 | `content_extractor.py` | Trích nội dung text và tạo excerpt cho thẻ bài |
 | `og_image_scraper.py` | Tìm URL ảnh đại diện từ HTML nguồn khi dựng DB |
-| `serving/web_v2/frontend/` | Website React/Vite gọi FastAPI; chatbot gọi webhook n8n trực tiếp |
+| `serving/web_v2/frontend/` | Website React/Vite gọi FastAPI; trang `/chat` gọi agent chatbot (Worker hoặc `127.0.0.1:8010`) qua `services/chat-api.js` |
+| `serving/chat_agent/`, `serving/chat_agent_worker/` | Agent chatbot (FastAPI local / Cloudflare Worker), xem loại 7 |
 | `serving/dashboard/` | Dashboard React/Vite đọc JSON GitHub; có luồng Gemini trong trình duyệt |
 
 Backend website hiện là FastAPI + SQLite. Apps Script là nguồn bổ sung links/status lúc ETL, không phải server xử lý request danh sách sự kiện từ website. Dashboard có dependency express trong package.json, nhưng các entry point/source serving đã khảo sát không cho thấy server Express riêng đang được khởi động.
@@ -93,7 +94,7 @@ FastAPI không mount StaticFiles hay serve build React trong app hiện có. Hư
 
 Dashboard không lấy insight qua FastAPI: App tải GitHub raw theo URL viết trong code, khởi tạo state từ constants.tsx và refresh 30 giây. Tải thành công thay state; lỗi giữ dữ liệu đang có, ban đầu có thể là fallback. Theme được lưu localStorage; bốn tab Overview/Sentiment/Interaction/System do state điều khiển.
 
-Tab Interaction còn đọc history qua GitHub và gọi Gemini trong browser để tổng hợp câu hỏi. Website chatbot POST thẳng tới n8n; hai luồng này không phải API FastAPI website. Cấu hình/tool agent n8n chưa đủ để mô tả backend chatbot hoàn chỉnh, xem loại 7.
+Tab Interaction còn đọc history qua GitHub và gọi Gemini trong browser để tổng hợp câu hỏi. Website chatbot POST tới agent chatbot riêng (Worker hoặc agent local), không qua n8n và không qua API FastAPI website. Lịch sử mà tab Interaction đọc là của agent n8n cũ; agent hiện tại không ghi `history.json`. Xem loại 7.
 
 ## 7. Runtime, cấu hình và cách chạy local đã được ghi trong repo
 

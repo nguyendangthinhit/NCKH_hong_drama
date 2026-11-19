@@ -80,7 +80,7 @@ Header cố định có chiều cao 150 px desktop, 184 px ở màn hình tối 
 
 Montserrat/Merriweather dùng trong header/thẻ và các khối trang chủ. Trang danh sách chung kế thừa font các trang danh sách cũ như mô tả trên. Không sửa `main.jsx`, `global.scss` hoặc biến font dùng chung để tránh đổi chatbot. Không đặt transform/filter/overflow trên gốc ứng dụng.
 
-Các file `Chatbot.jsx`, `Chatbot.module.scss`, `datamock.js`, service phân tích, mã xử lý hai trang danh sách cũ, main và global style được đối chiếu SHA-256 với baseline và giữ nguyên. App thêm route `/events`; API danh sách bổ sung tùy chọn hủy request và lọc nền tảng. Kết nối n8n, cookie định danh, mở/đóng và gửi/nhận của chatbot giữ nguyên.
+Các file `Chatbot.jsx`, `Chatbot.module.scss`, `datamock.js`, service phân tích, mã xử lý hai trang danh sách cũ, main và global style được đối chiếu SHA-256 với baseline và giữ nguyên. App thêm route `/events`; API danh sách bổ sung tùy chọn hủy request và lọc nền tảng. Kết nối n8n, cookie định danh, mở/đóng và gửi/nhận của chatbot giữ nguyên (tại thời điểm redesign; nay chatbot gọi agent code, không còn n8n — xem [loại 7](./llm-agent-rag.md) mục 7).
 
 ## Dữ liệu ảnh và trạng thái
 

@@ -2,9 +2,9 @@
 
 Document loại 8/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. **User đã chốt ngày 2026-10-29.**
 
-Phạm vi: script kiểm tra, cách đo và kết quả đang lưu trong codebase, kết hợp tài liệu đã có. Chỉ đọc code/JSON; không chạy lại Spark, benchmark, huấn luyện hoặc gọi API trong lần rà soát này. Số liệu dưới đây là artifact cũ, không phải phép đo mới trên môi trường hiện tại.
+Phạm vi: script kiểm tra, cách đo và kết quả đang lưu trong codebase, kết hợp tài liệu đã có. Chỉ đọc code/JSON; không chạy lại Spark, benchmark, huấn luyện hoặc gọi API trong lần rà soát này. Số liệu tốc độ Spark/Python chỉ là chạy thử, chưa có dữ liệu thật nên chưa có kết luận hiệu năng (mục 4.2, cập nhật 2026-11-19).
 
-Nguồn nhãn xem [loại 5](./gan-nhan-va-tap-du-lieu.md), mô hình và thuật toán xem [loại 6](./mo-hinh-ml-va-phan-tich.md), phần agent n8n còn thiếu xem [loại 7](./llm-agent-rag.md). Tài liệu này không đặt thêm mục tiêu từ lộ trình phát triển.
+Nguồn nhãn xem [loại 5](./gan-nhan-va-tap-du-lieu.md), mô hình và thuật toán xem [loại 6](./mo-hinh-ml-va-phan-tich.md), agent chatbot xem [loại 7](./llm-agent-rag.md) (từ 2026-11-05 là agent code, không còn n8n). Tài liệu này không đặt thêm mục tiêu từ lộ trình phát triển.
 
 ## 1. Các lớp đánh giá hiện có
 
@@ -15,7 +15,7 @@ Nguồn nhãn xem [loại 5](./gan-nhan-va-tap-du-lieu.md), mô hình và thuậ
 | Tốc độ PMI | Hai script tại `benchmark/`, hai JSON kết quả | Wall-clock cho các phạm vi input/timing khác nhau |
 | Nhãn LLM | Ba JSON tại `data/test-sets/` và báo cáo cũ | Mẫu có nhãn, một số file có cờ kiểm tra đúng/sai |
 | PhoBERT / GNN | Trainer, metric JSON, script so GNN/LLM | F1 theo nhãn của tập chia; inference GNN và ngoại suy LLM |
-| Chatbot RAG | Báo cáo, prompt, lịch sử local | Minh họa/khẳng định cũ; chưa đủ bằng chứng đo lại agent n8n |
+| Chatbot | Đo độ trễ agent mới (loại 7 mục 8b, 8d); báo cáo/prompt cũ cho agent n8n | Agent mới mới đo độ trễ (LLM 0,5–0,9s); chưa có bộ câu hỏi đánh giá độ đúng. Số liệu agent n8n cũ chỉ còn là lịch sử |
 
 Không gộp các lớp trên thành một tỷ lệ chính xác chung cho toàn hệ thống. Đúng tập ID, trùng top từ khóa, F1 phân loại và câu trả lời chatbot là các tiêu chí khác nhau.
 
@@ -57,14 +57,11 @@ Tạo SparkSession và materialize input nằm ngoài timer từng phép phân t
 
 Script chỉ lấy một phép đo cho mỗi cấu hình, không có vòng lặp thống kê độ lệch hoặc khoảng tin cậy. Chạy lần lượt Python rồi local[1]/local[4]/local[*], không đảo thứ tự; warmup thư viện và cache hệ điều hành có thể ảnh hưởng. Thư mục Parquet tạm đã tồn tại có thể được dùng lại mà không kiểm tra fingerprint nguồn.
 
-### 4.2 Kết quả đang lưu: `benchmark_results.json`
+### 4.2 Trạng thái kết quả: chỉ chạy thử, không dùng để kết luận
 
-| Scale | Số dòng Spark Giáo dục / Showbiz | Python (giây) | Spark local[1] | Spark local[4] | Spark local[*] |
-|---|---|---:|---:|---:|---:|
-| x1 | 7.660 / 24.097 | 26,66 | 48,89 (0,55x) | 54,06 (0,49x) | 53,10 (0,50x) |
-| x3 | 22.980 / 72.291 | 82,19 | 105,55 (0,78x) | 79,50 (1,03x) | 137,51 (0,60x) |
+`benchmark_results.json` (và `benchmark_apples.json` ở mục 5) là kết quả **chạy thử** để kiểm tra Spark chạy được và chạy đúng (user chốt 2026-11-19). Dữ liệu thật chưa được nạp: dữ liệu đang cào, chưa đầy đủ; hiệu quả của Spark so với Python phụ thuộc quy mô và đặc tính dữ liệu thật. Vì vậy **không có kết luận về tốc độ** (nhanh hơn/chậm hơn, hệ số speedup) trong tài liệu này, và không trích các con số đó vào báo cáo. Khi có dữ liệu thật thì đo lại và viết lại mục 4–5.
 
-Hệ số trong ngoặc là `thời gian Python / thời gian Spark`; nhỏ hơn 1 nghĩa Spark chậm hơn trong phép đo đó. Chỉ local[4] ở x3 hơi vượt Python trong artifact này; khác biệt nhỏ và không có độ biến thiên nên chưa đủ kết luận lợi thế ổn định. `local[*]` là dùng core khả dụng theo Spark, không xác định số core cố định từ JSON.
+Phần đã kiểm chứng là tính đúng, không phải tốc độ: `verify_pmi_keywords.py` đạt (mục 3).
 
 ## 5. Benchmark cùng input Python và Spark
 
@@ -72,15 +69,7 @@ Hệ số trong ngoặc là `thời gian Python / thời gian Spark`; nhỏ hơn
 
 Việc đọc JSON, tạo/repartition DataFrame và ghi Parquet cho Spark được thực hiện **trước timer**; Python đọc JSON bên trong hàm được đo. Timer cũng không gồm khởi động/dừng Spark. Vì vậy “cùng input” mô tả nguồn dữ liệu, không chứng minh tổng chi phí đọc/chuyển đổi đầu vào được tính đối xứng.
 
-| Nguồn `benchmark_apples.json` | Giáo dục (giây) | Showbiz (giây) | Tổng (giây) | Python/Spark |
-|---|---:|---:|---:|---:|
-| Python single | 4,99 | 11,70 | 16,69 | — |
-| Spark local[1] | 18,53 | 24,24 | 42,77 | 0,39x |
-| Spark local[2] | 18,90 | 19,77 | 38,67 | 0,43x |
-| Spark local[4] | 26,69 | 25,27 | 51,96 | 0,32x |
-| Spark local[*] | 60,35 | 62,94 | 123,29 | 0,14x |
-
-Artifact ghi n_docs là 4.285 Giáo dục và 13.960 Showbiz. Đây là corpus khác bảng scale ở mục 4; không trộn hai bảng thành một đường scaling. Ở tất cả cấu hình trong bảng cùng input này, Python nhanh hơn Spark. Không ngoại suy kết quả local sang cụm nhiều máy, GPU hay dữ liệu lớn hơn chưa đo.
+Kết quả của script này cũng chỉ là chạy thử (xem 4.2); không ghi bảng số ở đây. Artifact ghi n_docs là 4.285 Giáo dục và 13.960 Showbiz, là corpus khác của mục 4; không trộn hai bộ thành một đường scaling. Không ngoại suy sang cụm nhiều máy, GPU hay dữ liệu lớn hơn chưa đo.
 
 Hai JSON benchmark không lưu đầy đủ CPU/RAM/OS, version thư viện, số core local[*], timestamp phép đo, commit và hash dữ liệu. Không khẳng định chúng được sinh bởi đúng phiên bản script hiện tại chỉ từ tên file. Thời gian là wall-clock giây, không kèm memory peak hoặc chi phí hạ tầng.
 
@@ -131,7 +120,7 @@ Báo cáo cũ có hội thoại minh họa, các khẳng định về fallback w
 
 File history local chứa 34 lượt nhưng không có retrieved contexts, điểm judge hay danh sách chunk đúng mong đợi để tái tính các chỉ số trên; QA local rỗng. Chưa xác định 30 log báo cáo là tập con nào, rubric/nguồn chấm điểm hoặc phiên workflow/model. Không coi 34 lượt history là 30 mẫu đánh giá đã khớp. Chưa có artifact đủ để xác nhận lại retrieval/rerank quality, độ đúng câu trả lời, latency p50/p95, tỷ lệ lỗi hoặc tải đồng thời hiện tại.
 
-User xác nhận phần agent nằm trong n8n, luồng không còn ở repo và sẽ giải thích sau. **Loại 7 còn thiếu n8n agent**, nên tài liệu này chưa coi nhánh đó đã được đánh giá end-to-end. Prompt chống bịa và ví dụ hội thoại không thay bằng chứng đo lường.
+Từ 2026-11-05 chatbot là agent code (`serving/chat_agent/`, Worker), không còn agent n8n. Agent mới có test tự động và đo độ trễ (loại 7 mục 8b, 8d), nhưng chưa có bộ câu hỏi đánh giá độ đúng của câu trả lời. Prompt chống bịa và ví dụ hội thoại không thay bằng chứng đo lường.
 
 ## 10. Giới hạn và thông tin còn mở
 
@@ -139,7 +128,7 @@ User xác nhận phần agent nằm trong n8n, luồng không còn ở repo và 
 2. Chưa có log verifier mới hoặc bằng chứng chạy thành công trên cấu trúc đường dẫn hiện tại. Mức pass thực tế của PMI khác docstring, cần giữ rõ khi đọc kết quả cũ.
 3. Chưa có phép đo lặp và độ biến thiên cho PMI, benchmark cụm thật hoặc số đo toàn pipeline cùng điều kiện.
 4. Chưa có gold dataset/chia tập độc lập được xác nhận cho mọi mô hình; tỷ lệ đúng/sai từ cờ test không đồng nhất với F1.
-5. Workflow agent n8n và thông tin đánh giá chatbot chờ user bổ sung; không suy diễn từ ý tưởng phát triển.
+5. Bộ câu hỏi và tiêu chí đánh giá độ đúng cho agent chatbot mới chờ user chốt; không suy diễn từ ý tưởng phát triển.
 
 ## 11. Nguồn đối chiếu
 

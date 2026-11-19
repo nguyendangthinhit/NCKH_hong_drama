@@ -112,7 +112,7 @@ Các loader pickle/checkpoint là ranh giới tin cậy của file artifact; l�
 
 Luồng LLM phụ thuộc khóa/quota, model và thời điểm gọi; chưa có snapshot request/response/model version đủ để tái tạo toàn bộ nhãn. Thay khóa hoặc gọi lại không bảo đảm nhãn giống lần trước. Dữ liệu đã có không cho biết đầy đủ batch nào từng dùng fallback.
 
-**Agent n8n còn thiếu ở loại 7; schema/config Supabase chưa được bổ sung ở loại 3.** Chưa thể tái dựng wiring, vùng dữ liệu, embedding/reranker hoặc memory chatbot chỉ từ prompt/báo cáo. Các dịch vụ remote và quyền tài khoản không được kiểm tra trong task này.
+**Chatbot dựng lại được từ repo:** agent `serving/chat_agent/` (Python) và `serving/chat_agent_worker/` (Worker) đọc `data/raw/*.json` và `insights.json`, cần khoá Groq/Gemini (loại 7 mục 8b, 8d). Agent n8n cũ (Supabase, embedding, reranker) không còn dùng và không tái dựng được, vì schema/config Supabase chưa được bổ sung ở loại 3. Các dịch vụ remote và quyền tài khoản không được kiểm tra trong task này.
 
 Chưa có bản manifest duy nhất ghi commit, môi trường, input hash, split cố định, lệnh/cờ thực thi và output hash cho mọi thí nghiệm. Những khoảng trống này là hiện trạng cần làm rõ, không được lấp bằng một kế hoạch triển khai hoặc mục tiêu tương lai.
 

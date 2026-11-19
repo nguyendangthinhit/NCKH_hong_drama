@@ -87,7 +87,7 @@ Root `/` chỉ trả thông tin dịch vụ; thành công ở route này không 
 |---|---|---|
 | Website tải danh sách/tìm kiếm/phân trang | Route, helper API và page component | HTTP/UI xuyên suốt trên browser, nhiều loại dữ liệu và lỗi mạng |
 | Dashboard hiển thị insight/history | Fetch và fallback trong component | Nguồn remote hiện tại, quyền truy cập, dữ liệu cùng snapshot |
-| Chatbot gửi câu hỏi | Client POST message/userId và nhận reply | Wiring n8n, Memory, retrieval/rerank, trả lời có căn cứ |
+| Chatbot gửi câu hỏi | Agent: 12 test pytest (`serving/chat_agent/tests`), 14 test vitest (Worker), khớp Python–Worker 129/129 câu; chạy thật `/health` + câu hỏi (2026-11-19) | Bộ câu hỏi đánh giá độ đúng, trả lời có căn cứ, tải đồng thời, giao diện `/chat` bằng trình duyệt tự động |
 | ETL dựng web DB | Code DROP/insert/enrichment và artifact SQLite | Dựng lại an toàn, lỗi giữa chừng, ETL đồng thời với API |
 | Thu thập Facebook | Export Apify và code crawler chưa hoàn thiện | Độ bao phủ, chạy bù URL thất bại, hành vi cloud hiện tại |
 
@@ -101,7 +101,7 @@ Các cổng có thể trỏ trực tiếp về code hiện có là set-ID prepro
 
 Chưa có bộ tiêu chí nghiệm thu toàn hệ thống được user chốt và gắn với một snapshot code/dữ liệu/môi trường trong các nguồn đã đọc. Không lấy mục tiêu trong tài liệu ý tưởng hoặc số liệu báo cáo để tự điền tiêu chí này.
 
-**Loại 7 còn thiếu agent n8n; loại 3 còn thiếu schema Supabase.** Vì vậy chưa thể chốt kiểm thử tích hợp toàn chuỗi RAG. Những thông tin này không cản trở mô tả các kiểm tra local đang có.
+Chatbot đã chuyển sang agent code có test (loại 7 mục 8b, 8d), không còn agent n8n. Loại 3 còn thiếu schema Supabase, nhưng chatbot hiện tại không dùng Supabase. Chưa có tiêu chí nghiệm thu độ đúng câu trả lời chatbot do user chốt.
 
 ## 8. Nguồn đối chiếu
 

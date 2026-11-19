@@ -4,14 +4,15 @@ Document loại 9/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-10-29. **
 
 Phạm vi: dữ liệu vào/ra giữa các thành phần theo code và tài liệu đang có. Đây là mô tả hành vi hiện tại, không bổ sung API hoặc quy ước từ lộ trình phát triển. Lần rà soát đọc nguồn local, sinh OpenAPI từ app và gọi trực tiếp các hàm route với kết nối SQLite chỉ đọc để kiểm tra hình dạng trả về; không mở HTTP server, gọi dịch vụ ngoài, chạy crawler hoặc dựng lại DB.
 
-Cấu trúc kho chi tiết ở [loại 3](./database-va-du-lieu.md), thu thập ở [loại 4](./thu-thap-du-lieu.md), pipeline ở [loại 2](./data-pipeline.md). **Phần agent n8n còn thiếu và chờ user bổ sung** theo [loại 7](./llm-agent-rag.md); không coi giao tiếp chatbot phía server đã được kiểm chứng đầy đủ.
+Cấu trúc kho chi tiết ở [loại 3](./database-va-du-lieu.md), thu thập ở [loại 4](./thu-thap-du-lieu.md), pipeline ở [loại 2](./data-pipeline.md). Chatbot dùng agent code (`serving/chat_agent/`, Worker), không còn agent n8n từ 2026-11-05. Hợp đồng ở [loại 7](./llm-agent-rag.md) mục 7, 8b, 8d.
 
 ## 1. Các ranh giới tích hợp
 
 | Bên cung cấp → bên nhận | Giao diện hiện có | Dữ liệu chính |
 |---|---|---|
 | FastAPI → website | HTTP GET `/api/*` | Sự kiện, top, danh mục, thống kê |
-| Website → agent local | HTTP POST `http://127.0.0.1:8010/chat` (từ 2026-11-05, thay webhook n8n `/webhook/nckh`) | Câu hỏi và userId; client đợi reply. Hợp đồng chi tiết: [loại 7 mục 8b](./llm-agent-rag.md) |
+| Website → agent chatbot | HTTP POST `VITE_CHAT_API_URL` (Worker `https://drama-chat-agent.dev01-velrano.workers.dev/chat`); bỏ trống thì `http://127.0.0.1:8010/chat`. Từ 2026-11-05, thay webhook n8n `/webhook/nckh` | `{userId, message, source}` → `{reply, intent, event_ids, timings_ms}`. Chi tiết: [loại 7 mục 7, 8b](./llm-agent-rag.md) |
+| Messenger → agent | Meta → workflow n8n `FB Messenger -> local chat agent` → Worker (header `X-Agent-Key`) → Send API | n8n chỉ chuyển tin, không xử lý câu hỏi. [loại 7 mục 8c](./llm-agent-rag.md) |
 | GitHub raw → dashboard | HTTP GET JSON | Insights và lịch sử hội thoại |
 | Dashboard → Gemini | GoogleGenAI trong browser | Câu hỏi lịch sử → top chủ đề |
 | Apps Script → build_db | HTTP GET | Links và status theo mã sự kiện |
@@ -89,15 +90,19 @@ Các lỗi 404/503 được raise trong code nhưng chưa khai báo riêng trong
 
 Không thấy SLA, rate limit, idempotency key hoặc contract test tự động cho các endpoint trong các file đã đọc. Không suy ra các tính năng này chỉ từ việc API dùng FastAPI.
 
-## 6. Webhook chatbot: phần quan sát được từ client
+## 6. Hợp đồng agent chatbot (cập nhật 2026-11-19)
 
-Cập nhật 2026-11-05: chatbot nay gọi agent local `serving/chat_agent` (xem [loại 7 mục 8b](./llm-agent-rag.md)); đoạn dưới mô tả hợp đồng webhook n8n cũ, body request giữ nguyên.
+Từ 2026-11-05 chatbot không còn gọi webhook n8n `/webhook/nckh`. Website gọi agent chatbot qua `serving/web_v2/frontend/src/services/chat-api.js`:
 
-Chatbot POST trực tiếp JSON tới webhook n8n `/webhook/nckh`, không qua FastAPI ở trên. Request có hai trường: `message` lấy input và `userId` từ cookie. Thiếu cookie thì client dùng crypto.randomUUID, lưu cookie path `/` tối đa một năm. Request không gửi toàn bộ mảng messages.
+| | Nội dung |
+|---|---|
+| Endpoint | `POST <VITE_CHAT_API_URL>` (Worker); bỏ trống thì `http://127.0.0.1:8010/chat`. `GET /health` → `{status, events}` |
+| Request | `{userId, message, source}`. `message` tối đa 2.000 ký tự. Web gửi `userId` = `<cookie uuid>:<id cuộc trò chuyện>` và `source: "web"`. Messenger gửi `user_id` = PSID và `source: "messenger"` |
+| Response | `{reply, intent, event_ids, timings_ms}` |
+| Xác thực | Worker: Origin web trong `ALLOWED_ORIGINS` không cần khoá; còn lại (n8n) phải có header `X-Agent-Key`, thiếu thì trả 401. Agent local: gọi từ 127.0.0.1 không cần khoá; gọi qua tunnel phải có `X-Agent-Key` |
+| Client | Kiểm `res.ok`, timeout 30s, lỗi thì hiện thông báo thật (không còn câu mẫu `datamock.js`) |
 
-Client parse JSON; nếu response là array thì lấy phần tử đầu, sau đó đọc `result.reply`. Không có reply thì dùng thông báo không có phản hồi; lỗi fetch/parse/truy cập object vào catch và có thể dùng câu mẫu `datamock.js`. Hàm chưa kiểm `res.ok`, timeout hay retry. Đây là cách client tiêu thụ response, không phải bằng chứng server luôn trả đúng object/mảng đó.
-
-Prompt Final LLM local tham chiếu `chatInput` của node chat; chưa có workflow agent để xác minh ánh xạ từ `message`, cách giữ memory theo userId, error envelope, CORS hoặc xác thực webhook. User đã xác nhận luồng nằm trong n8n và sẽ bổ sung sau; phần hợp đồng server tiếp tục để mở theo loại 7.
+Chi tiết luồng xử lý: [loại 7](./llm-agent-rag.md) mục 7, 8b–8d. Agent n8n cũ (nhận `chatInput`, Memory n8n) không còn dùng.
 
 ## 7. Apps Script và dữ liệu ảnh khi dựng DB
 
@@ -131,11 +136,11 @@ Schema bình luận hai cấp, stance/emotion và metadata kho đã có ở lo�
 
 Crawler Python đọc Sheets bằng service account scope spreadsheets.readonly, yêu cầu header đúng tên `Danh mục`, `id_content`, `Tên sự kiện`, `Links`; bỏ dòng thiếu mã/URL, tách Links bằng whitespace, không lọc/cập nhật Status. Export n8n có quy tắc Status và ghi Drive riêng, kể cả Pending/Done khác hoa thường; xem loại 4. Không có một enum trạng thái chung đã được cưỡng chế giữa Sheets, Apps Script và SQLite.
 
-Việc tải/ghép JSON từ Drive vào data/raw local chưa có cầu nối tự động được xác minh. Crawler Python lưu danh sách sự kiện trong một file, còn nhánh Apify lưu theo sự kiện; không coi hai đầu ra thay thế trực tiếp cho nhau chỉ vì cùng có comments. API Supabase/embedding/rerank và tool binding agent chờ luồng n8n/schema bổ sung, không suy ra contract live từ tên trong báo cáo.
+Việc tải/ghép JSON từ Drive vào data/raw local chưa có cầu nối tự động được xác minh. Crawler Python lưu danh sách sự kiện trong một file, còn nhánh Apify lưu theo sự kiện; không coi hai đầu ra thay thế trực tiếp cho nhau chỉ vì cùng có comments. Chatbot hiện tại không dùng Supabase, embedding hay rerank. Các API này chỉ còn thuộc workflow Embedding n8n cũ, không suy ra contract live từ tên trong báo cáo.
 
 ## 10. Thông tin còn thiếu để chốt tích hợp
 
-1. Export agent n8n, mapping webhook/prompt/memory, response lỗi và quyền truy cập thực tế.
+1. Response lỗi của agent chatbot chưa có envelope chung (lỗi trả HTTP status + `detail`); chưa có contract test giữa website và Worker.
 2. Schema/RPC Supabase và cấu hình embedding/rerank, nguồn nạp dữ liệu đang sử dụng.
 3. Cầu nối Drive → local, phiên bản schema và snapshot dùng đồng thời cho web/dashboard/RAG.
 4. Hành vi remote Apps Script, Sheets, webhook và GitHub thực tế chưa được kiểm thử trong lần viết tài liệu; chỉ có hợp đồng mà code local đọc/ghi.
