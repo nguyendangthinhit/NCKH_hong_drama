@@ -13,7 +13,7 @@ Document loại 7/16 (xem [doc-map](./doc-map.md)). Cập nhật: 2026-11-19. **
 | Website | `serving/web_v2/frontend/src/services/chat-api.js` | Gọi `VITE_CHAT_API_URL` (Worker); bỏ trống thì gọi agent local |
 | Messenger | Workflow n8n `FB Messenger -> local chat agent` | n8n **chỉ còn làm cầu nối** Meta → Worker → Send API, không xử lý câu hỏi |
 
-Cả hai agent đều không dùng Supabase, embedding, Cohere hay Firecrawl. Agent khớp sự kiện trong RAM, rồi gọi đúng một lần LLM (Groq, dự phòng Gemini). Chi tiết ở mục 8b–8d.
+Cả hai agent đều không dùng Supabase, embedding hay Cohere. Agent khớp sự kiện trong RAM, rồi gọi đúng một lần LLM (Groq, dự phòng Gemini). Từ 2026-11-21, khi kho local không có sự kiện hoặc người dùng hỏi tin mới nhất, agent gọi tool tra tin web qua Firecrawl (mục 8e). Chi tiết ở mục 8b–8e.
 
 Kiểm chứng 2026-11-19:
 - Worker: `/health` trả 200 (85 sự kiện). Câu "Shark Bình có drama gì?" ra `showbiz_034`, LLM 0,49 giây.
@@ -160,9 +160,9 @@ Service FastAPI thay agent n8n cho chatbot. Website gọi qua `chat-api.js` (m�
 | 3. Insight | Hỏi top/thống kê mà không khớp mạnh sự kiện → lát cắt `data/analysis-output/insights.json`; hỏi dư luận → kèm `analyzed` của sự kiện | Không |
 | 4. Nối tiếp | "vụ đó", "dư luận thế nào"… → dùng sự kiện gần nhất của phiên (RAM, 3 lượt, hết hạn 30 phút) | Không |
 | 5. Trả lời | Đúng 1 lần LLM: Groq `qwen/qwen3.8-27b` (xoay vòng khoá, timeout 6s) → lỗi thì Gemini `gemini-3.5-flash-lite` | 1 |
-| 6. Không khớp | Có từ khoá drama → hỏi lại; không → báo ngoài phạm vi | Không |
+| 6. Không khớp | Có từ khoá drama/lĩnh vực → tra tin web (mục 8e), web không có mới hỏi lại; không → báo ngoài phạm vi | 0–3 (Firecrawl) |
 
-Không dùng Supabase, embedding, Cohere hay Firecrawl: mỗi sự kiện ở local ngắn (162–3.196 ký tự), báo cáo ghi chunk_size 7000 nên một sự kiện ≈ một chunk; tìm đúng sự kiện rồi đưa nguyên nội dung cho LLM. Lịch sử không còn ghi `history.json`.
+Không dùng Supabase, embedding hay Cohere: mỗi sự kiện ở local ngắn (162–3.196 ký tự), báo cáo ghi chunk_size 7000 nên một sự kiện ≈ một chunk; tìm đúng sự kiện rồi đưa nguyên nội dung cho LLM. Lịch sử không còn ghi `history.json`.
 
 Hợp đồng: `POST /chat` nhận `{message, userId | user_id, source?}` (message ≤ 2.000 ký tự), trả `{reply, intent, event_ids, timings_ms}`; `GET /health`. Request gọi thẳng từ 127.0.0.1 không cần khoá; request qua tunnel (có `X-Forwarded-For`) phải gửi header `X-Agent-Key` = `AGENT_API_KEY`. CORS chỉ cho origin web local. Khoá và model cấu hình trong `serving/chat_agent/.env` (mẫu `.env.example`, file thật bị gitignore).
 
@@ -201,6 +201,32 @@ Port TypeScript của agent Python để có URL cố định `*.workers.dev`, k
 - **Giới hạn đã biết:** hai tin cùng người dùng gửi song song có thể cùng đọc phiên cũ; người gọi không gửi `user_id` dùng chung phiên `anonymous`; Origin vẫn giả mạo được nên ai biết URL có thể gọi không khoá (chỉ vào phiên `web:*`).
 - **Giới hạn:** DO gói miễn phí giới hạn request/ngày (mỗi lượt chat 2 lời gọi DO). Namespace KV `SESSIONS` (id `a9a4a97caca046cdb714e8b06d0b28df`) tạo trước đó nay không dùng.
 
+### 8e. Tool tra tin mới trên web (Firecrawl, thêm 2026-11-21)
+
+Thay vì trả "chưa có thông tin", agent tra tin báo mới rồi tóm tắt kèm nguồn. Cài ở cả hai bản, cùng hành vi: Worker `src/live-news-search.ts` + `src/news-search-query.ts`; Python `live_news_search.py` + `news_search_query.py`. Tool được truyền vào pipeline như một hàm (`NewsFn`), test dùng tool giả nên không tốn credit.
+
+**Khi nào gọi tool** (luật, không để LLM tự quyết):
+
+| Tình huống | Ví dụ | Câu tìm | Intent |
+|---|---|---|---|
+| Hỏi tin mới chung, không khớp mạnh sự kiện local | "drama nào đang hot gần đây", "drama giáo dục gần đây" | câu chung theo lĩnh vực: "ồn ào showbiz Việt" / "giáo dục gây xôn xao" | `live_news` (web rỗng → luồng cũ, vd `insights_top`) |
+| Sự kiện có trong kho + hỏi mới nhất | "Shark Bình có tin gì mới nhất" | từ khoá câu hỏi ("Shark Bình"); dài quá thì chủ thể tiêu đề sự kiện | `event_live` (ghép dữ liệu local + tin web) |
+| Hỏi nối tiếp không nêu chủ thể | "có gì mới không" sau khi hỏi Jack | chủ thể tiêu đề ("Jack J97") | `event_followup_live` |
+| Kho local không có, câu hỏi thuộc phạm vi drama/lĩnh vực | "drama của Miu Lê" | từ khoá ("Miu Lê"), tin 1 năm | `live_news` (web rỗng → `clarify`) |
+| Ngoài phạm vi | "giá vàng hôm nay" | không gọi | `unrelated` |
+
+"Hỏi mới nhất" = cụm trong `LATEST` (`mới nhất`, `gần đây`, `hôm nay`, `dạo này`, `có gì mới`…). Từ khoá: bỏ cụm hỏi/chỉ thời gian theo cụm, bỏ từ đơn theo dạng có dấu (để "cô giáo", "Hiền Hồ", "Nhật Kim Anh" không bị xoá nhầm).
+
+**Gọi Firecrawl:** `POST /v2/search` `{query, limit 5, sources ["news"], tbs "qdr:w" (hỏi mới nhất) | "qdr:y", country "vn"}` (~2s, 2 credit) → scrape song song `FIRECRAWL_SCRAPE_TOP` bài đầu (mặc định 2, `onlyMainContent`, ~1 credit/bài, 5–10s) → làm sạch markdown (bỏ ảnh/link/dòng < 60 ký tự, tối đa 1.500 ký tự/bài). Cache 30 phút theo câu tìm (Worker: Cache API; Python: RAM). Lỗi/thiếu khoá/hết credit → trả rỗng, agent quay về câu trả lời cũ. Câu tìm nguyên văn văn nói ("drama showbiz nào đang hot gần đây") trả 0 kết quả, nên phải rút từ khoá.
+
+**Trả lời:** tin web vào phần DỮ LIỆU với tiêu đề `TIN MỚI TỪ WEB (tìm ngày ..., chưa qua phân tích dư luận)`; quy tắc 7 của system prompt: tóm tắt, nêu tên báo + thời điểm, bỏ tin không liên quan, không đưa số liệu dư luận cho tin web. Code nối "Nguồn tin:" + tối đa 3 link vào cuối câu trả lời. `timings_ms.web` ghi thời gian tra web; `/health` có thêm `live_search`.
+
+**Cấu hình:** khoá `FIRECRAWL_API_KEY` (Worker: secret; Python: `.env`), `FIRECRAWL_SCRAPE_TOP`. Khoá đang dùng lấy từ workflow n8n thu thập cũ (1/3 khoá còn sống; gói 1.000 credit/tháng). Mỗi lượt tra ≈ 4 credit → ~250 lượt/tháng.
+
+**Kiểm chứng 2026-11-21:** Worker 34 test vitest, Python 27 test pytest (tool giả). Chạy thật với Firecrawl + Groq: Worker (trong Node, vì `wrangler dev` bị chặn `spawn UNKNOWN` trên máy dev) và Python (uvicorn): "drama của Miu Lê" → `live_news` 3 nguồn, ~14s; "Shark Bình có tin gì mới nhất" → `event_live` có tin tuyên án 16/11; "drama showbiz nào đang hot gần đây" → `live_news` ~8s; "có gì mới không" sau Jack → `event_followup_live`; "giá vàng hôm nay" giữa phiên → `unrelated`. **Deploy 2026-11-21** (version `6a45ab7a`, secret `FIRECRAWL_API_KEY` đặt qua `wrangler secret put`): `/health` → `live_search: true`; qua Internet "drama của Miu Lê" → `live_news`, 3 nguồn, 12,8s; "Mailisa" → `event` 1,3s. Chưa thử qua Messenger.
+
+**Giới hạn:** tổng thời gian 8–14s khi có scrape (web timeout 30s); danh sách nguồn là 3 tin đầu, không chắc LLM dùng đủ cả 3; tin web chưa được kiểm chứng/phân tích dư luận; câu hỏi không chứa từ drama/lĩnh vực và không khớp kho (vd "Hòa Minzy dạo này sao" khi kho không có) vẫn bị coi ngoài phạm vi; Google News có thể trả tin không phải drama, LLM được dặn bỏ qua.
+
 ## 9. Điểm còn mở
 
 1. Agent khớp sự kiện bằng từ vựng, nên chưa hiểu câu hỏi diễn đạt khác hẳn tên sự kiện. Chưa có bộ câu hỏi đánh giá chính thức.
@@ -208,7 +234,8 @@ Port TypeScript của agent Python để có URL cố định `*.workers.dev`, k
 3. Worker không bắt buộc khoá với Origin web. Ai biết URL đều gọi được và tiêu hao hạn mức LLM (mục 8d).
 4. Lịch sử chat chưa được lưu bền: website giữ trong context, agent giữ phiên 30 phút. Chưa có retention hay đăng nhập.
 5. Messenger: chưa xác thực chữ ký `X-Hub-Signature-256` của Meta ở webhook n8n.
-6. Agent n8n cũ: workflow `NCKH` cũ vẫn còn trên n8n (đã disable). Các node cũ chứa Page token và khoá Firecrawl, nên xoá và xoay token.
+6. Agent n8n cũ: workflow `NCKH` cũ vẫn còn trên n8n (đã disable). Các node cũ chứa Page token và khoá Firecrawl, nên xoá và xoay token. Khoá Firecrawl còn sống đang được tool tra tin web (mục 8e) dùng lại: xoay khoá thì cập nhật cả secret Worker và `serving/chat_agent/.env`.
+7. Tra tin web tiêu credit Firecrawl (≈4 credit/lượt, gói 1.000/tháng) và ai biết URL Worker đều gọi được (điểm 3).
 
 ## 10. Nguồn đối chiếu
 

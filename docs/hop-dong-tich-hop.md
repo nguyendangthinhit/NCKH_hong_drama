@@ -96,9 +96,9 @@ Từ 2026-11-05 chatbot không còn gọi webhook n8n `/webhook/nckh`. Website g
 
 | | Nội dung |
 |---|---|
-| Endpoint | `POST <VITE_CHAT_API_URL>` (Worker); bỏ trống thì `http://127.0.0.1:8010/chat`. `GET /health` → `{status, events}` |
+| Endpoint | `POST <VITE_CHAT_API_URL>` (Worker); bỏ trống thì `http://127.0.0.1:8010/chat`. `GET /health` → `{status, events, live_search}` |
 | Request | `{userId, message, source}`. `message` tối đa 2.000 ký tự. Web gửi `userId` = `<cookie uuid>:<id cuộc trò chuyện>` và `source: "web"`. Messenger gửi `user_id` = PSID và `source: "messenger"` |
-| Response | `{reply, intent, event_ids, timings_ms}` |
+| Response | `{reply, intent, event_ids, timings_ms}`. `intent` ∈ `greeting, info, spam, unrelated, clarify, event, event_followup, insights_top, insights_stats` và từ 2026-11-21 thêm `live_news, event_live, event_followup_live` (có tra tin web; `reply` kết thúc bằng khối "Nguồn tin:" + link). `timings_ms.web` có khi đã gọi Firecrawl |
 | Xác thực | Worker: Origin web trong `ALLOWED_ORIGINS` không cần khoá; còn lại (n8n) phải có header `X-Agent-Key`, thiếu thì trả 401. Agent local: gọi từ 127.0.0.1 không cần khoá; gọi qua tunnel phải có `X-Agent-Key` |
 | Client | Kiểm `res.ok`, timeout 30s, lỗi thì hiện thông báo thật (không còn câu mẫu `datamock.js`) |
 

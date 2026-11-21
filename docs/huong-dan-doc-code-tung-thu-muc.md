@@ -78,10 +78,10 @@ Các script rời, chạy tay, đường dẫn viết cứng (nhiều chỗ lệ
 
 ### `ml/phobert/` (fine-tune PhoBERT; chưa chạy thật)
 - **Điểm vào:** `phobert_finetune_colab.py --domain {showbiz,education} --data_path <xlsx|csv> [--eval_file ...] [--smoke]` (chạy Colab/GPU).
-- **Thứ tự gọi:** `phobert_config.py` (nhãn từng lĩnh vực, tên cột, siêu tham số) → `phobert_data.prepare_dataframe` (nhãn cuối: `verified_label` > `is_trash` > nhãn LLM) → `split_data`/`_event_split` (chia **theo sự kiện**, thử 300 hoán vị chọn phân bố nhãn gần nhất) → `phobert_segmenter` (underthesea) → `CommentDataset` → `PhoBERTClassifier` (`phobert_model.py`) → `phobert_train.fit` (AMP, early stopping theo val F1-macro) → `test_report` → lưu checkpoint + `config.json`.
+- **Thứ tự gọi:** `phobert_config.py` (nhãn từng lĩnh vực, tên cột, siêu tham số) → `phobert_data.prepare_dataframe` (nhãn cuối: cột `label` > `verified_label` > `is_trash` > nhãn LLM) → `split_data`/`_event_split` (chia **theo sự kiện**, thử 300 hoán vị chọn phân bố nhãn gần nhất) → `phobert_segmenter` (underthesea) → `CommentDataset` → `PhoBERTClassifier` (`phobert_model.py`) → `phobert_train.fit` (AMP, early stopping theo val F1-macro) → `test_report` → lưu checkpoint + `config.json`.
 - **Suy luận:** `phobert-batch-inference.py` đọc `config.json` của checkpoint để dùng đúng segmenter/độ dài.
 - **Làm giàu dữ liệu:** `augment_minority_labels.py` sinh bình luận nhãn thiểu số bằng Gemini (key từ `api.txt`).
-- **Lưu ý:** code đọc dữ liệu chưa đọc cột `label` và `is_synthetic`.
+- **Dòng sinh:** dòng `is_synthetic=True` chỉ vào train (chia trên dòng thật trước); `--no_synthetic` bỏ hẳn.
 
 ### `ml/gnn/` (GraphSAGE; tạm hoãn)
 - **Thứ tự chạy tay:** `build_discussion_graph.py` (mỗi sự kiện một đồ thị; nút = comment không rác có nhãn, cạnh = `reply_to_id`) → đặc trưng: `extract_phobert_features.py` hoặc `extract_api_embeddings.py` (+ `embedding_api_client.py`, cache SQLite) và `extract_tfidf_features.py` → `concat_node_features.py` (1.071 chiều) → `train_gnn_node_classification.py --domain ... [--split event] [--model sage|mlp]` → checkpoint, `predictions_*.json`, `metrics_*.json` → `evaluate_gnn_vs_llm.py`.

@@ -191,7 +191,7 @@ flowchart LR
   GR[ml/gnn\nđồ thị + embedding + GraphSAGE] -. tạm hoãn .-> NEO[Neo4j thử nghiệm]
 ```
 
-- PhoBERT: code sẵn sàng, chưa fine-tune thật (cần Colab/GPU); code đọc dữ liệu chưa đọc cột `label` và `is_synthetic`.
+- PhoBERT: code sẵn sàng, chưa fine-tune thật (cần Colab/GPU); code đọc cột `label`, dòng `is_synthetic` chỉ vào train (2026-11-21).
 - GNN: tạm hoãn (user chốt 2026-11-12, 2026-11-16); dữ liệu gán nhãn hiện không có cấu trúc reply. Chi tiết: `docs/mo-hinh-ml-va-phan-tich.md`, `docs/khung-gnn-neo4j-phobert.md`.
 
 ---

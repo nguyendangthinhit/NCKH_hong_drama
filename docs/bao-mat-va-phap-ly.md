@@ -69,6 +69,7 @@ Hàm tổng hợp nối các câu hỏi đã tải thành prompt để suy ra to
 | Script gán nhãn → Groq | Nội dung sự kiện/bình luận và phần text cha của reply theo prompt | Chưa có bước che thông tin cá nhân tổng quát được xác minh trước request |
 | Tiền xử lý/tổng hợp → Gemini | Text cần lọc hoặc nội dung các bài cùng sự kiện; crawler chỉ tổng hợp nhiều bài có text | Không suy ra chính sách lưu/xử lý của nhà cung cấp từ SDK |
 | Dashboard → Gemini | Các câu hỏi trong lịch sử đã tải | Không có bằng chứng chỉ gửi dữ liệu đã ẩn danh |
+| Agent chatbot → Firecrawl (từ 2026-11-21) | Từ khoá rút từ câu hỏi người dùng (tên người/sự kiện) hoặc chủ thể sự kiện; Firecrawl gọi Google News và tải trang báo | Câu hỏi không gửi nguyên văn nhưng có thể chứa tên riêng người dùng gõ; chưa đọc điều khoản lưu dữ liệu của Firecrawl |
 | Thu thập n8n → SerpApi/Firecrawl/Apify | Từ khóa, URL hoặc yêu cầu lấy nội dung/bình luận | Chỉ có export thu thập local; chưa đối chiếu cấu hình cloud hiện tại |
 | RAG theo báo cáo → Supabase/Cohere/LLM | Chunk, embedding, câu hỏi và ngữ cảnh truy xuất | Workflow/schema/quyền truy cập còn thiếu; không coi là flow live đã kiểm tra |
 

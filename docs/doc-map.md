@@ -17,13 +17,13 @@ Xác nhận danh sách: user, 2026-10-29. Bộ kit gốc có 11 loại; dự án
 
 | # | Loại | File | Trạng thái |
 |---|---|---|---|
-| 1 | Kiến trúc tổng thể (2 lớp: tổng thể + cụ thể) | `docs/kien-truc-tong-the.md` | Viết lại 2026-11-19, chờ user duyệt |
+| 1 | Kiến trúc tổng thể (2 lớp: tổng thể + cụ thể) | `docs/kien-truc-tong-the.md` | Viết lại 2026-11-19; user duyệt 2026-11-20 |
 | 2 | Data pipeline | `docs/data-pipeline.md` | Bản nháp, chờ user duyệt |
 | 3 | Database và dữ liệu (theo từng kho) | `docs/database-va-du-lieu.md` | Bản nháp, chờ user duyệt (thiếu schema Supabase) |
 | 4 | Thu thập dữ liệu | `docs/thu-thap-du-lieu.md` | Bản nháp, chờ user duyệt |
 | 5 | Gán nhãn và tập dữ liệu | `docs/gan-nhan-va-tap-du-lieu.md` | User đã kiểm tra, 2026-10-29 |
 | 6 | Mô hình ML và phân tích | `docs/mo-hinh-ml-va-phan-tich.md` | User đã duyệt, 2026-10-29 |
-| 7 | LLM / Agent / RAG | `docs/llm-agent-rag.md` | Bản nháp, chờ user duyệt. Đã cập nhật 2026-11-19: chatbot chuyển từ n8n sang agent code (`serving/chat_agent/`, Worker); phần agent n8n chỉ còn là lịch sử |
+| 7 | LLM / Agent / RAG | `docs/llm-agent-rag.md` | User duyệt 2026-11-20. Đã cập nhật 2026-11-19: chatbot chuyển từ n8n sang agent code (`serving/chat_agent/`, Worker); phần agent n8n chỉ còn là lịch sử |
 | 8 | Đánh giá và benchmark | `docs/danh-gia-va-benchmark.md` | User đã chốt, 2026-10-29 |
 | 9 | Hợp đồng tích hợp | `docs/hop-dong-tich-hop.md` | Bản nháp, chờ user duyệt |
 | 10 | Backend / serving | `docs/backend-serving.md` | User đã duyệt, 2026-10-29 |
@@ -33,7 +33,7 @@ Xác nhận danh sách: user, 2026-10-29. Bộ kit gốc có 11 loại; dự án
 | 14 | Maintenance | `docs/maintenance.md` | Bản nháp, chờ user duyệt |
 | 15 | User workflow và chức năng | `docs/user-workflow-va-chuc-nang.md` | Bản nháp, chờ user duyệt |
 | 16 | Tái lập thí nghiệm | `docs/tai-lap-thi-nghiem.md` | Bản nháp, chờ user duyệt |
-| – | Hướng dẫn đọc code từng thư mục (phụ trợ, ngoài 16 loại) | `docs/huong-dan-doc-code-tung-thu-muc.md` | Bản nháp 2026-11-19, chờ user duyệt |
+| – | Hướng dẫn đọc code từng thư mục (phụ trợ, ngoài 16 loại) | `docs/huong-dan-doc-code-tung-thu-muc.md` | Bản nháp 2026-11-19; user duyệt 2026-11-20 |
 | – | Triển khai và hạ tầng | – | Chưa có (hoãn) |
 | – | Hướng dẫn sử dụng | – | Chưa có (hoãn) |
 

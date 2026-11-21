@@ -48,8 +48,7 @@ Giới hạn: rule rác cũ coi reply "tên người + dưới 30 ký tự" là 
 
 Fine-tune `vinai/phobert-base-v2` trên dữ liệu đã gán nhãn (`labeling data/`), rồi áp dụng để dự đoán nhãn cho bình luận mới. Chi tiết cài đặt ở mục 5 và `ml/phobert/`.
 - Mỗi bình luận được phân loại theo nội dung của chính nó; mô hình không đọc cụm reply như hướng 1.
-- Chưa chạy fine-tune thật (cần Colab/GPU). Code chưa đọc cột `label` và `is_synthetic` của file nhãn hiện tại (xem `TASK_STATE.md` 2026-11-14).
-- Dữ liệu sinh (`is_synthetic`) nên chỉ vào tập train, không vào val/test (đề xuất, user chưa duyệt).
+- Chưa chạy fine-tune thật (cần Colab/GPU). Từ 2026-11-21 code đọc cột `label` và `is_synthetic`; dòng sinh chỉ vào tập train, không vào val/test (user đồng ý 2026-11-21).
 
 ### 1.3 Hướng 3: GNN (tạm hoãn)
 
