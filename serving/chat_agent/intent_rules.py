@@ -120,6 +120,32 @@ showbiz
 giao duc
 ca si
 """)
+# Hỏi tin mới/diễn biến gần đây -> agent tra web (Firecrawl) thay vì chỉ dùng kho local.
+LATEST_PHRASES = _phrases("""
+moi nhat
+gan day
+gan nhat
+moi day
+vua roi
+vua xay ra
+hom nay
+hom qua
+tuan nay
+thang nay
+dao nay
+hien tai
+hien gio
+bay gio
+luc nay
+tin moi
+co gi moi
+gi moi
+cap nhat
+dien bien moi
+dang hot
+ra sao roi
+the nao roi
+""")
 EDUCATION_HINTS = _phrases("giao duc\ntruong\nhoc sinh\nsinh vien\ngiao vien\nthi")
 SHOWBIZ_HINTS = _phrases("showbiz\ngiai tri\nca si\ndien vien\nnghe si\nkol\ntiktoker\nstreamer\nrapper")
 
@@ -157,6 +183,10 @@ def is_opinion_request(message: str) -> bool:
 
 def is_followup(message: str) -> bool:
     return _has_phrase(normalized(message), FOLLOWUP_PHRASES)
+
+
+def is_latest_request(message: str) -> bool:
+    return _has_phrase(normalized(message), LATEST_PHRASES)
 
 
 def mentions_drama(message: str) -> bool:

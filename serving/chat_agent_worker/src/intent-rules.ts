@@ -103,6 +103,30 @@ bi che
 showbiz
 giao duc
 ca si`);
+// Hỏi tin mới/diễn biến gần đây -> agent tra web (Firecrawl) thay vì chỉ dùng kho local.
+const LATEST = phrases(`moi nhat
+gan day
+gan nhat
+moi day
+vua roi
+vua xay ra
+hom nay
+hom qua
+tuan nay
+thang nay
+dao nay
+hien tai
+hien gio
+bay gio
+luc nay
+tin moi
+co gi moi
+gi moi
+cap nhat
+dien bien moi
+dang hot
+ra sao roi
+the nao roi`);
 const EDUCATION_HINTS = phrases("giao duc\ntruong\nhoc sinh\nsinh vien\ngiao vien\nthi");
 const SHOWBIZ_HINTS = phrases("showbiz\ngiai tri\nca si\ndien vien\nnghe si\nkol\ntiktoker\nstreamer\nrapper");
 
@@ -121,6 +145,7 @@ export const isTopRequest = (m: string): boolean => hasPhrase(normalized(m), TOP
 export const isStatsRequest = (m: string): boolean => hasPhrase(normalized(m), STATS);
 export const isOpinionRequest = (m: string): boolean => hasPhrase(normalized(m), OPINION);
 export const isFollowup = (m: string): boolean => hasPhrase(normalized(m), FOLLOWUP);
+export const isLatestRequest = (m: string): boolean => hasPhrase(normalized(m), LATEST);
 export const mentionsDrama = (m: string): boolean => hasPhrase(normalized(m), DRAMA);
 
 /** "education" / "showbiz" nếu câu hỏi nói rõ lĩnh vực, ngược lại null. */

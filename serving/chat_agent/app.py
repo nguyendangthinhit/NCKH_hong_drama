@@ -12,6 +12,7 @@ from chat_pipeline import ChatPipeline
 from config import load_settings
 from event_store import EventStore
 from insight_context import InsightStore
+from live_news_search import LiveNewsSearch
 from llm_client import LLMClient
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
@@ -26,8 +27,12 @@ async def lifespan(_: FastAPI):
     )
     insights = InsightStore.load(settings.insights_file)
     http = httpx.AsyncClient()
-    state["pipeline"] = ChatPipeline(events, insights, LLMClient(settings, http))
-    logging.getLogger("chat_agent").info("Đã nạp %d sự kiện", len(events.events))
+    news = LiveNewsSearch(settings.firecrawl_api_key, http, settings.firecrawl_scrape_top)
+    state["pipeline"] = ChatPipeline(events, insights, LLMClient(settings, http), news)
+    logging.getLogger("chat_agent").info(
+        "Đã nạp %d sự kiện; tra tin web: %s", len(events.events),
+        "bật" if settings.firecrawl_api_key else "tắt (thiếu FIRECRAWL_API_KEY)",
+    )
     yield
     await http.aclose()
 
@@ -59,7 +64,11 @@ class ChatResponse(BaseModel):
 
 @app.get("/health")
 async def health():
-    return {"status": "ok", "events": len(state["pipeline"].events.events)}
+    return {
+        "status": "ok",
+        "events": len(state["pipeline"].events.events),
+        "live_search": bool(settings.firecrawl_api_key),
+    }
 
 
 def _is_direct_local(request: Request) -> bool:

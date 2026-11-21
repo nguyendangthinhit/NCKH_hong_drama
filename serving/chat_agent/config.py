@@ -32,6 +32,8 @@ class Settings:
     llm_timeout_s: float
     agent_api_key: str  # rỗng = không kiểm tra header X-Agent-Key
     cors_origins: list[str]
+    firecrawl_api_key: str  # rỗng = tắt tra tin web
+    firecrawl_scrape_top: int  # số bài báo scrape lấy nội dung mỗi lần tra tin
 
 
 def load_settings() -> Settings:
@@ -49,4 +51,6 @@ def load_settings() -> Settings:
         agent_api_key=os.getenv("AGENT_API_KEY", ""),
         cors_origins=_list("CORS_ORIGINS")
         or ["http://127.0.0.1:5173", "http://localhost:5173"],
+        firecrawl_api_key=os.getenv("FIRECRAWL_API_KEY", ""),
+        firecrawl_scrape_top=int(os.getenv("FIRECRAWL_SCRAPE_TOP", "2")),
     )

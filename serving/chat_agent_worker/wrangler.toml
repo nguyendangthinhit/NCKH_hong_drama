@@ -9,6 +9,8 @@ LLM_ORDER = "groq,gemini"
 GROQ_MODEL = "qwen/qwen3.8-27b"
 GEMINI_MODEL = "gemini-3.5-flash-lite"
 LLM_TIMEOUT_MS = "6000"
+# Số bài báo scrape lấy nội dung mỗi lần tra tin web (mỗi bài ~1 credit Firecrawl, tìm kiếm 2 credit).
+FIRECRAWL_SCRAPE_TOP = "2"
 
 # Bộ nhớ phiên: Durable Object (đọc ngay thấy lượt vừa ghi; KV cũ nhất quán sau nên bỏ).
 [[durable_objects.bindings]]
@@ -19,5 +21,5 @@ class_name = "SessionStore"
 tag = "v1"
 new_sqlite_classes = ["SessionStore"]
 
-# Secret (không ghi vào file này): GROQ_API_KEYS, GEMINI_API_KEYS, AGENT_API_KEY
+# Secret (không ghi vào file này): GROQ_API_KEYS, GEMINI_API_KEYS, AGENT_API_KEY, FIRECRAWL_API_KEY
 # npx wrangler secret put GROQ_API_KEYS

@@ -1,8 +1,10 @@
 // Worker HTTP: POST /chat {user_id|userId, message, source} -> {reply, intent, event_ids, timings_ms}; GET /health.
+// Tìm tin web (Firecrawl) bật khi có secret FIRECRAWL_API_KEY.
 import { handleMessage } from "./chat-pipeline";
 import { csv, Env } from "./env";
 import { EVENTS } from "./event-store";
 import { generate } from "./llm-client";
+import { searchLatestNews } from "./live-news-search";
 export { SessionStore } from "./session-durable-object";
 import { emptySession, isSession, Session } from "./session-memory";
 
@@ -42,7 +44,7 @@ export default {
 
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors });
     if (pathname === "/health" && request.method === "GET") {
-      return json({ status: "ok", events: EVENTS.length }, 200, cors);
+      return json({ status: "ok", events: EVENTS.length, live_search: !!env.FIRECRAWL_API_KEY }, 200, cors);
     }
     if (pathname !== "/chat" || request.method !== "POST") return json({ detail: "Not found" }, 404, cors);
 
@@ -84,7 +86,9 @@ export default {
         return null;
       });
       const session = isSession(loaded) ? (loaded as Session) : emptySession(); // RPC làm mất kiểu tuple của Turn
-      const result = await handleMessage(session, message, (sys, usr) => generate(env, sys, usr));
+      const result = await handleMessage(
+        session, message, (sys, usr) => generate(env, sys, usr), (q, recent) => searchLatestNews(env, q, recent),
+      );
       // Ghi xong rồi mới trả lời: tin nhắn kế tiếp chắc chắn thấy lượt này (vài ms, cùng DO).
       // Lỗi ghi phiên không được làm hỏng câu trả lời.
       if (loadFailed) store = env.SESSIONS.get(doId); // stub đã ném lỗi có thể hỏng: tạo lại

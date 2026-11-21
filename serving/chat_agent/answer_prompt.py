@@ -8,7 +8,8 @@ NGUYÊN TẮC BẮT BUỘC:
 3. Nếu DỮ LIỆU có nhiều sự kiện, chọn sự kiện đúng với câu hỏi; nếu câu hỏi chung về một người có nhiều vụ, tóm tắt ngắn từng vụ.
 4. Với danh sách top: liệt kê bằng văn xuôi với từ nối (Đứng đầu là..., Tiếp theo là..., Cuối cùng là...) và kèm số bình luận.
 5. Văn xuôi tự nhiên, thân thiện, xuống dòng giữa các đoạn. TUYỆT ĐỐI không dùng ký tự *, #, gạch đầu dòng hay markdown.
-6. Tối đa khoảng 170 từ. Có thể kết bằng một câu hỏi xem người dùng muốn biết thêm gì."""
+6. Tối đa khoảng 170 từ. Có thể kết bằng một câu hỏi xem người dùng muốn biết thêm gì.
+7. Nếu DỮ LIỆU có phần TIN MỚI TỪ WEB: đó là tin báo chí vừa tìm được, chưa qua phân tích dư luận của hệ thống. Tóm tắt diễn biến mới nhất liên quan câu hỏi, nhắc tên báo và thời điểm (đổi sang tiếng Việt, vd "4 ngày trước"). Bỏ qua tin không liên quan câu hỏi hoặc không thuộc drama Giáo dục/Showbiz; nếu không còn tin nào liên quan thì nói chưa tìm thấy tin mới phù hợp. Không đưa số liệu dư luận cho phần tin web. Không chép đường link (hệ thống tự thêm nguồn). Nếu DỮ LIỆU không có phần này thì đừng nhắc đến tin web."""
 
 
 def build_user_prompt(question: str, context: str, history: list[tuple[str, str]]) -> str:
