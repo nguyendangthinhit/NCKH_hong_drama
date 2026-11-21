@@ -28,6 +28,8 @@ LABEL_ALIASES = {
 @dataclass
 class ColumnMap:
     text: str = "text"
+    label: str = "label"  # nhãn cuối đã gộp sẵn trong file (ưu tiên nhất nếu có)
+    is_synthetic: str = "is_synthetic"  # True = câu sinh tăng cường: chỉ cho vào train
     event_id: str = "event_id"
     comment_id: str = "comment_id"
     verified_label: str = "verified_label"
@@ -48,10 +50,11 @@ class TrainConfig:
     patience: int = 3
     seed: int = 42
     dropout: float = 0.1
-    # verified_or_llm = nhãn cuối (verified_label, thiếu thì is_trash/nhãn LLM) -> dùng toàn bộ dữ liệu.
+    # verified_or_llm = nhãn cuối: cột label nếu có, else verified_label, else is_trash/nhãn LLM.
     # verified = chỉ dòng có verified_label: các dòng này là chỗ người SỬA nhãn LLM nên lệch phân bố,
     # chỉ dùng để đánh giá, không dùng làm tập train duy nhất.
     label_source: str = "verified_or_llm"
+    use_synthetic: bool = True  # False = bỏ dòng sinh (để so sánh có/không tăng cường)
     # event = chia nguyên sự kiện vào từng tập (không rò rỉ); row = stratified theo dòng
     split_mode: str = "event"
     segmenter: str = "underthesea"  # underthesea | none

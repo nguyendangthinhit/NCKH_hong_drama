@@ -61,7 +61,7 @@ def fit(model, train_loader, val_loader, optimizer, scheduler, criterion, device
               f"acc {correct / max(n, 1):.4f} | val loss {val_loss:.4f} F1 {val_f1:.4f}")
         if val_f1 > best:
             best, bad = val_f1, 0
-            torch.save({"model_state_dict": model.state_dict(), "epoch": epoch, "best_f1": best},
+            torch.save({"model_state_dict": model.state_dict(), "epoch": epoch, "best_f1": float(best)},
                        os.path.join(save_dir, "best_model.pt"))
             print(f"  -> lưu best (val F1={best:.4f})")
         else:

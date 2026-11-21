@@ -107,3 +107,37 @@ def test_read_table_drops_blank_rows(tmp_path):
     p = tmp_path / "x.csv"
     p.write_text("text,verified_label\na,tích cực\n,\n", encoding="utf-8-sig")
     assert len(read_table(str(p))) == 1
+
+
+def test_merged_label_column_wins_and_falls_back_to_old_rules():
+    df = pd.DataFrame([
+        {"text": "a", "label": "ý kiến riêng", "llm_stance": "tiêu cực", "is_trash": "False", "verified_label": None},
+        {"text": "b", "label": None, "llm_stance": "tiêu cực", "is_trash": "False", "verified_label": None},
+        {"text": "c", "label": "lạ", "llm_stance": None, "is_trash": "True", "verified_label": None},
+        {"text": "d", "label": "rác", "llm_stance": "tích cực", "is_trash": "True", "verified_label": None},
+    ])
+    out, *_, dropped = prepare_dataframe(df, TrainConfig(domain="education"))
+    assert out["final_label"].tolist() == ["ý kiến riêng", "tiêu cực", "is_trash", "is_trash"]
+    assert dropped["label_không_hợp_lệ_dùng_quy_tắc_cũ"] == 1
+    strict, *_ = prepare_dataframe(df, TrainConfig(domain="education", label_source="verified"))
+    assert len(strict) == 0                                   # chế độ verified bỏ qua cột label
+
+
+def test_synthetic_rows_only_in_train_and_can_be_excluded():
+    real = make_df()
+    syn = pd.DataFrame([{"comment_id": f"syn_{i}", "event_id": f"education_{i % 10:03d}",
+                         "text": f"câu sinh {i}", "label": "ý kiến riêng", "is_synthetic": "True"}
+                        for i in range(50)])
+    df_all = pd.concat([real.assign(is_synthetic="False"), syn], ignore_index=True)
+    for mode in ("event", "row"):
+        cfg = TrainConfig(domain="education", split_mode=mode)
+        df, *_ = prepare_dataframe(df_all, cfg)
+        tr, va, te = split_data(df, cfg)
+        ids = lambda d: set(d["comment_id"])
+        assert set(syn["comment_id"]) <= ids(tr)
+        assert not any(i.startswith("syn_") for i in ids(va) | ids(te))
+        assert len(tr) + len(va) + len(te) == len(df)
+        tr2, va2, te2 = split_data(df, cfg, eval_ids=set(real["comment_id"].iloc[:30]))
+        assert not any(i.startswith("syn_") for i in ids(va2) | ids(te2))
+    no_syn, *_, dropped = prepare_dataframe(df_all, TrainConfig(domain="education", use_synthetic=False))
+    assert len(no_syn) == len(real) and dropped["dòng_sinh_bỏ_theo_cấu_hình"] == 50

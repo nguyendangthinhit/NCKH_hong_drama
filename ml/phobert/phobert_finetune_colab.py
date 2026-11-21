@@ -1,11 +1,12 @@
 """
 Fine-tune PhoBERT phân loại bình luận (Showbiz 6 lớp / Giáo dục 5 lớp, gồm is_trash).
 
-Chạy trên Colab/GPU khi có dữ liệu gán lại:
-    !python phobert_finetune_colab.py --domain showbiz --data_path /content/labeled_showbiz_final.csv
-    !python phobert_finetune_colab.py --domain education --data_path /content/labeled_education_final.csv \
+Chạy trên Colab/GPU:
+    !python phobert_finetune_colab.py --domain showbiz --data_path /content/verify_showbiz_5k_dedup.xlsx
+    !python phobert_finetune_colab.py --domain education --data_path /content/verify_education_5k_dedup.xlsx \
         --eval_file /content/eval_set_education.xlsx      # tập đánh giá đóng băng (tuỳ chọn)
-Dữ liệu: `labeling data/labeled_{domain}_final.csv` (đã bỏ id trùng, có cột final_label để đối chiếu).
+Dữ liệu: `labeling data/verify_{domain}_5k_dedup.xlsx` (Sheet1): nhãn cuối ở cột `label`,
+dòng sinh tăng cường có `is_synthetic=True` -> chỉ vào train. `--no_synthetic` để bỏ dòng sinh.
 
 Kiểm tra nhanh pipeline không cần tải model/dữ liệu thật: thêm --smoke
 (encoder nhỏ ngẫu nhiên, kết quả KHÔNG có ý nghĩa).
@@ -35,6 +36,9 @@ from phobert_segmenter import get_segmenter
 from phobert_train import class_weight_tensor, fit, test_report
 
 
+COL_FIELDS = [f.name for f in dataclasses.fields(ColumnMap)]
+
+
 def set_seed(seed):
     random.seed(seed)
     np.random.seed(seed)
@@ -56,19 +60,20 @@ def parse_args():
     p.add_argument("--label_source", choices=["verified", "verified_or_llm"], default="verified_or_llm")
     p.add_argument("--split_mode", choices=["event", "row"], default="event")
     p.add_argument("--segmenter", choices=["underthesea", "none"], default="underthesea")
+    p.add_argument("--no_synthetic", action="store_true", help="bỏ dòng is_synthetic=True")
     p.add_argument("--smoke", action="store_true", help="encoder nhỏ ngẫu nhiên, chỉ kiểm pipeline")
-    for f in ("text", "event_id", "comment_id", "verified_label", "is_trash", "llm_label"):
+    for f in COL_FIELDS:
         p.add_argument(f"--{f.replace('_', '-')}-col", dest=f"col_{f}", default=getattr(ColumnMap(), f))
     return p.parse_args()
 
 
 def main():
     a = parse_args()
-    cols = ColumnMap(**{f: getattr(a, f"col_{f}") for f in
-                        ("text", "event_id", "comment_id", "verified_label", "is_trash", "llm_label")})
+    cols = ColumnMap(**{f: getattr(a, f"col_{f}") for f in COL_FIELDS})
     cfg = TrainConfig(domain=a.domain, epochs=a.epochs, batch_size=a.batch_size, lr=a.lr,
                       patience=a.patience, max_length=a.max_length, label_source=a.label_source,
-                      split_mode=a.split_mode, segmenter=a.segmenter, columns=cols)
+                      split_mode=a.split_mode, segmenter=a.segmenter, columns=cols,
+                      use_synthetic=not a.no_synthetic)
     set_seed(cfg.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
@@ -84,7 +89,9 @@ def main():
         eval_ids = set(ev[cols.comment_id].astype(str))
         df[cols.comment_id] = df[cols.comment_id].astype(str)
     train_df, val_df, test_df = split_data(df, cfg, eval_ids=eval_ids)
-    print(f"Chia ({cfg.split_mode}): train={len(train_df)} val={len(val_df)} test={len(test_df)}")
+    n_syn = int(train_df["_synthetic"].sum())
+    print(f"Chia ({cfg.split_mode}): train={len(train_df)} (dòng sinh {n_syn}) "
+          f"val={len(val_df)} test={len(test_df)}")
     if len(test_df) == 0 or len(val_df) == 0:
         raise SystemExit("Tập val/test rỗng: dữ liệu quá ít sự kiện, thử --split_mode row.")
 
@@ -108,7 +115,7 @@ def main():
     write_split_manifest(os.path.join(save_dir, "split_manifest.json"), cfg, train_df, val_df, test_df)
     config = dataclasses.asdict(cfg) | {
         "num_labels": len(label2id), "label2id": label2id, "id2label": id2label,
-        "smoke": a.smoke, "dropped": dropped, "frozen_eval_file": a.eval_file}
+        "smoke": a.smoke, "dropped": dropped, "n_train": len(train_df), "n_train_synthetic": n_syn, "frozen_eval_file": a.eval_file}
     with open(os.path.join(save_dir, "config.json"), "w", encoding="utf-8") as fh:
         json.dump(config, fh, ensure_ascii=False, indent=2)
 

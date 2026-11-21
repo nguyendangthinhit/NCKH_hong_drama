@@ -1,10 +1,12 @@
 """Đọc dữ liệu gán nhãn (xlsx/csv), chuẩn hoá nhãn, chia train/val/test, Dataset.
 
 Quy tắc nhãn cuối của một dòng:
+  0. cột label (nhãn cuối gộp sẵn) hợp lệ -> dùng nó (chỉ khi label_source=verified_or_llm)
   1. có verified_label  -> dùng nó (kể cả khi is_trash=True: người gán đã sửa lại)
   2. không có, is_trash -> "is_trash"          (chỉ khi label_source=verified_or_llm)
   3. không có           -> nhãn LLM            (chỉ khi label_source=verified_or_llm)
 Nhãn không thuộc danh sách của lĩnh vực bị loại và được thống kê ra log.
+Dòng is_synthetic=True (câu sinh tăng cường) chỉ vào train, không bao giờ vào val/test.
 """
 
 import json
@@ -59,9 +61,17 @@ def prepare_dataframe(df: pd.DataFrame, cfg: TrainConfig):
     verified = df[c.verified_label] if c.verified_label in df.columns else pd.Series([None] * len(df))
     trash = df[c.is_trash].map(_truthy) if c.is_trash in df.columns else pd.Series([False] * len(df))
     llm = df[llm_col] if llm_col in df.columns else pd.Series([None] * len(df))
+    use_merged = cfg.label_source == "verified_or_llm" and c.label in df.columns
+    merged = df[c.label] if use_merged else pd.Series([None] * len(df))
 
     final, dropped = [], Counter()
-    for v, t, l in zip(verified, trash, llm):
+    for m, v, t, l in zip(merged, verified, trash, llm):
+        lab = normalize_label(m, valid)
+        if lab is not None:
+            final.append(lab)
+            continue
+        if not _blank(m):
+            dropped["label_không_hợp_lệ_dùng_quy_tắc_cũ"] += 1
         lab = normalize_label(v, valid)
         if lab is None and not _blank(v):
             dropped["verified_label_không_hợp_lệ"] += 1
@@ -72,6 +82,11 @@ def prepare_dataframe(df: pd.DataFrame, cfg: TrainConfig):
         final.append(lab)
     out = df.copy()
     out["final_label"] = final
+    syn = out[c.is_synthetic].map(_truthy) if c.is_synthetic in out.columns else False
+    out["_synthetic"] = syn
+    if not cfg.use_synthetic:
+        dropped["dòng_sinh_bỏ_theo_cấu_hình"] = int(out["_synthetic"].sum())
+        out = out[~out["_synthetic"]]
     has_text = out[c.text].map(lambda s: not _blank(s))
     dropped["thiếu_text"] = int((out["final_label"].notna() & ~has_text).sum())
     out = out[out["final_label"].notna() & has_text].reset_index(drop=True)
@@ -129,7 +144,14 @@ def _event_split(df, event_col, seed, val_size, test_size, tries=300):
 
 
 def split_data(df: pd.DataFrame, cfg: TrainConfig, val_size=0.15, test_size=0.15, eval_ids=None):
-    """Trả (train, val, test). eval_ids: tập comment_id đóng băng -> làm test, loại khỏi train/val."""
+    """Trả (train, val, test). eval_ids: tập comment_id đóng băng -> làm test, loại khỏi train/val.
+    Chỉ chia trên dòng thật; dòng sinh (_synthetic) được nối vào train sau khi chia."""
+    syn = df["_synthetic"] if "_synthetic" in df.columns else pd.Series(False, index=df.index)
+    tr, va, te = _split_real(df[~syn], cfg, val_size, test_size, eval_ids)
+    return pd.concat([tr, df[syn]]), va, te
+
+
+def _split_real(df, cfg, val_size, test_size, eval_ids):
     from sklearn.model_selection import train_test_split
 
     c = cfg.columns
