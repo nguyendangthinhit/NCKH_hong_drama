@@ -1,4 +1,4 @@
-"""Đọc dữ liệu gán nhãn (xlsx/csv), chuẩn hoá nhãn, chia train/val/test, Dataset.
+"""Đọc dữ liệu gán nhãn (xlsx/csv), chuẩn hoá nhãn, chia train/val/test (Dataset ở phobert_dataset.py).
 
 Quy tắc nhãn cuối của một dòng:
   0. cột label (nhãn cuối gộp sẵn) hợp lệ -> dùng nó (chỉ khi label_source=verified_or_llm)
@@ -15,8 +15,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import torch
-from torch.utils.data import Dataset
 
 from phobert_config import (DOMAIN_LABELS, LABEL_ALIASES, LLM_LABEL_COL,
                             TRASH_LABEL, TrainConfig)
@@ -145,10 +143,18 @@ def _event_split(df, event_col, seed, val_size, test_size, tries=300):
 
 def split_data(df: pd.DataFrame, cfg: TrainConfig, val_size=0.15, test_size=0.15, eval_ids=None):
     """Trả (train, val, test). eval_ids: tập comment_id đóng băng -> làm test, loại khỏi train/val.
-    Chỉ chia trên dòng thật; dòng sinh (_synthetic) được nối vào train sau khi chia."""
+    Chỉ chia trên dòng thật; dòng sinh (_synthetic) được nối vào train sau khi chia.
+    Chia theo sự kiện: chỉ giữ dòng sinh thuộc sự kiện của train (câu sinh viết theo sự kiện
+    val/test làm rò rỉ nội dung sự kiện đó vào train)."""
     syn = df["_synthetic"] if "_synthetic" in df.columns else pd.Series(False, index=df.index)
     tr, va, te = _split_real(df[~syn], cfg, val_size, test_size, eval_ids)
-    return pd.concat([tr, df[syn]]), va, te
+    extra = df[syn]
+    ev = cfg.columns.event_id
+    if cfg.split_mode == "event" and ev in df.columns:
+        key = lambda d: d[ev].astype(str)  # xlsx có thể đọc id thật là int, id dòng sinh là str
+        held_out = set(key(va)) | set(key(te))  # --eval_file chọn theo comment_id: sự kiện có thể ở cả 2 phía
+        extra = extra[key(extra).isin(set(key(tr)) - held_out)]
+    return pd.concat([tr, extra]), va, te
 
 
 def _split_real(df, cfg, val_size, test_size, eval_ids):
@@ -181,31 +187,3 @@ def write_split_manifest(path, cfg, train, val, test):
         if cfg.columns.comment_id in d.columns else d.index.astype(str).tolist()
     with open(path, "w", encoding="utf-8") as fh:
         json.dump({"train": ids(train), "val": ids(val), "test": ids(test)}, fh, ensure_ascii=False)
-
-
-class CommentDataset(Dataset):
-    """Tokenize trước (đã word-segment), pad động theo batch qua collate_fn."""
-
-    def __init__(self, texts, labels, tokenizer, max_length):
-        self.enc = tokenizer(list(texts), max_length=max_length, truncation=True)
-        self.labels = list(labels)
-
-    def __len__(self):
-        return len(self.labels)
-
-    def __getitem__(self, i):
-        return {"input_ids": self.enc["input_ids"][i], "label": self.labels[i]}
-
-
-def make_collate(pad_id: int):
-    def collate(batch):
-        width = max(len(b["input_ids"]) for b in batch)
-        ids = torch.full((len(batch), width), pad_id, dtype=torch.long)
-        mask = torch.zeros((len(batch), width), dtype=torch.long)
-        for i, b in enumerate(batch):
-            n = len(b["input_ids"])
-            ids[i, :n] = torch.tensor(b["input_ids"])
-            mask[i, :n] = 1
-        return {"input_ids": ids, "attention_mask": mask,
-                "label": torch.tensor([b["label"] for b in batch], dtype=torch.long)}
-    return collate

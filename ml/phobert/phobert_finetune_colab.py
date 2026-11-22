@@ -6,14 +6,18 @@ Chạy trên Colab/GPU:
     !python phobert_finetune_colab.py --domain education --data_path /content/verify_education_5k_dedup.xlsx \
         --eval_file /content/eval_set_education.xlsx      # tập đánh giá đóng băng (tuỳ chọn)
 Dữ liệu: `labeling data/verify_{domain}_5k_dedup.xlsx` (Sheet1): nhãn cuối ở cột `label`,
-dòng sinh tăng cường có `is_synthetic=True` -> chỉ vào train. `--no_synthetic` để bỏ dòng sinh.
+dòng sinh tăng cường có `is_synthetic=True` -> chỉ vào train, và chỉ dòng thuộc sự kiện train
+(chặn rò rỉ). `--no_synthetic` để bỏ dòng sinh.
+Ngữ cảnh sự kiện (khuyên dùng): `--event_context_file /content/event_contexts_{domain}.json`
+-> input = cặp câu (tên + tóm tắt sự kiện, bình luận). Dựng file bằng phobert_event_context.py.
 
 Kiểm tra nhanh pipeline không cần tải model/dữ liệu thật: thêm --smoke
 (encoder nhỏ ngẫu nhiên, kết quả KHÔNG có ý nghĩa).
 
 Đầu ra trong {output_dir}/{domain}/: best_model.pt, config.json, test_results.json,
 split_manifest.json (comment_id từng tập, để tái lập và đối chiếu với GNN).
-Module: phobert_config (nhãn/cột), phobert_data (đọc+chia), phobert_segmenter,
+Module: phobert_config (nhãn/cột), phobert_data (đọc+chia), phobert_dataset (tokenize),
+phobert_event_context (ngữ cảnh sự kiện), phobert_segmenter,
 phobert_model, phobert_train (vòng train).
 """
 
@@ -22,6 +26,7 @@ import dataclasses
 import json
 import os
 import random
+import shutil
 
 import numpy as np
 import torch
@@ -29,8 +34,10 @@ from torch.utils.data import DataLoader
 from transformers import AutoTokenizer, get_linear_schedule_with_warmup
 
 from phobert_config import ColumnMap, DOMAIN_LABELS, TrainConfig
-from phobert_data import (CommentDataset, make_collate, prepare_dataframe, read_table,
+from phobert_dataset import CommentDataset, make_collate
+from phobert_data import (prepare_dataframe, read_table,
                           split_data, write_split_manifest)
+from phobert_event_context import load_event_contexts, row_contexts
 from phobert_model import PhoBERTClassifier
 from phobert_segmenter import get_segmenter
 from phobert_train import class_weight_tensor, fit, test_report
@@ -61,6 +68,8 @@ def parse_args():
     p.add_argument("--split_mode", choices=["event", "row"], default="event")
     p.add_argument("--segmenter", choices=["underthesea", "none"], default="underthesea")
     p.add_argument("--no_synthetic", action="store_true", help="bỏ dòng is_synthetic=True")
+    p.add_argument("--event_context_file",
+                   help="JSON {event_id: ngữ cảnh} -> input cặp câu (ngữ cảnh sự kiện, bình luận)")
     p.add_argument("--smoke", action="store_true", help="encoder nhỏ ngẫu nhiên, chỉ kiểm pipeline")
     for f in COL_FIELDS:
         p.add_argument(f"--{f.replace('_', '-')}-col", dest=f"col_{f}", default=getattr(ColumnMap(), f))
@@ -73,7 +82,7 @@ def main():
     cfg = TrainConfig(domain=a.domain, epochs=a.epochs, batch_size=a.batch_size, lr=a.lr,
                       patience=a.patience, max_length=a.max_length, label_source=a.label_source,
                       split_mode=a.split_mode, segmenter=a.segmenter, columns=cols,
-                      use_synthetic=not a.no_synthetic)
+                      use_synthetic=not a.no_synthetic, event_context=bool(a.event_context_file))
     set_seed(cfg.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
@@ -90,17 +99,25 @@ def main():
         df[cols.comment_id] = df[cols.comment_id].astype(str)
     train_df, val_df, test_df = split_data(df, cfg, eval_ids=eval_ids)
     n_syn = int(train_df["_synthetic"].sum())
-    print(f"Chia ({cfg.split_mode}): train={len(train_df)} (dòng sinh {n_syn}) "
-          f"val={len(val_df)} test={len(test_df)}")
+    n_syn_leak = int(df["_synthetic"].sum()) - n_syn
+    print(f"Chia ({cfg.split_mode}): train={len(train_df)} (dòng sinh {n_syn}, bỏ {n_syn_leak} dòng sinh "
+          f"không thuộc sự kiện train) val={len(val_df)} test={len(test_df)}")
     if len(test_df) == 0 or len(val_df) == 0:
         raise SystemExit("Tập val/test rỗng: dữ liệu quá ít sự kiện, thử --split_mode row.")
 
     seg = get_segmenter(cfg.segmenter)
     tok = AutoTokenizer.from_pretrained(cfg.model_name)
     collate = make_collate(tok.pad_token_id)
-    mk = lambda d, shuffle: DataLoader(
-        CommentDataset([seg(t) for t in d[cols.text]], d["label_id"], tok, cfg.max_length),
-        batch_size=cfg.batch_size, shuffle=shuffle, collate_fn=collate)
+    contexts = load_event_contexts(a.event_context_file) if a.event_context_file else None
+
+    def mk(d, shuffle):
+        ctx = None
+        if contexts is not None:
+            ctx, missing = row_contexts(d[cols.event_id], contexts, seg)
+            if missing:
+                print(f"  ⚠ {missing}/{len(d)} dòng không có ngữ cảnh sự kiện (để rỗng)")
+        ds = CommentDataset([seg(t) for t in d[cols.text]], d["label_id"], tok, cfg.max_length, ctx)
+        return DataLoader(ds, batch_size=cfg.batch_size, shuffle=shuffle, collate_fn=collate)
     train_loader, val_loader, test_loader = mk(train_df, True), mk(val_df, False), mk(test_df, False)
 
     model = PhoBERTClassifier(len(label2id), cfg.model_name, cfg.dropout, smoke=a.smoke).to(device)
@@ -113,9 +130,12 @@ def main():
     save_dir = os.path.join(a.output_dir, cfg.domain)
     os.makedirs(save_dir, exist_ok=True)
     write_split_manifest(os.path.join(save_dir, "split_manifest.json"), cfg, train_df, val_df, test_df)
+    if a.event_context_file:  # inference đọc lại từ thư mục model
+        shutil.copyfile(a.event_context_file, os.path.join(save_dir, "event_contexts.json"))
     config = dataclasses.asdict(cfg) | {
         "num_labels": len(label2id), "label2id": label2id, "id2label": id2label,
-        "smoke": a.smoke, "dropped": dropped, "n_train": len(train_df), "n_train_synthetic": n_syn, "frozen_eval_file": a.eval_file}
+        "smoke": a.smoke, "dropped": dropped, "n_train": len(train_df), "n_train_synthetic": n_syn,
+        "n_synthetic_dropped_leak": n_syn_leak, "frozen_eval_file": a.eval_file}
     with open(os.path.join(save_dir, "config.json"), "w", encoding="utf-8") as fh:
         json.dump(config, fh, ensure_ascii=False, indent=2)
 

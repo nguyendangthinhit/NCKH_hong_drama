@@ -3,6 +3,7 @@
 Chạy: py -3.14 -m pytest ml/phobert/tests -q   (từ thư mục gốc repo)
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -12,8 +13,11 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from phobert_config import TrainConfig  # noqa: E402
-from phobert_data import (make_collate, normalize_label, prepare_dataframe,  # noqa: E402
-                          read_table, split_data)
+from phobert_dataset import CommentDataset, make_collate  # noqa: E402
+from phobert_data import (normalize_label,  # noqa: E402
+                          prepare_dataframe, read_table, split_data)
+from phobert_event_context import (build_event_contexts, event_context_text,  # noqa: E402
+                                   load_event_contexts, row_contexts)
 from phobert_train import class_weight_tensor  # noqa: E402
 
 EDU = ["tích cực", "tiêu cực", "trung lập", "ý kiến riêng"]
@@ -134,10 +138,76 @@ def test_synthetic_rows_only_in_train_and_can_be_excluded():
         df, *_ = prepare_dataframe(df_all, cfg)
         tr, va, te = split_data(df, cfg)
         ids = lambda d: set(d["comment_id"])
-        assert set(syn["comment_id"]) <= ids(tr)
         assert not any(i.startswith("syn_") for i in ids(va) | ids(te))
-        assert len(tr) + len(va) + len(te) == len(df)
+        if mode == "row":
+            assert set(syn["comment_id"]) <= ids(tr) and len(tr) + len(va) + len(te) == len(df)
+        else:  # chỉ giữ câu sinh của sự kiện train: câu sinh theo sự kiện val/test là rò rỉ
+            real_train_events = set(tr[~tr["_synthetic"]]["event_id"])
+            kept = syn[syn["event_id"].isin(real_train_events)]
+            assert set(tr[tr["_synthetic"]]["comment_id"]) == set(kept["comment_id"])
+            assert 0 < len(kept) < len(syn)
         tr2, va2, te2 = split_data(df, cfg, eval_ids=set(real["comment_id"].iloc[:30]))
         assert not any(i.startswith("syn_") for i in ids(va2) | ids(te2))
     no_syn, *_, dropped = prepare_dataframe(df_all, TrainConfig(domain="education", use_synthetic=False))
     assert len(no_syn) == len(real) and dropped["dòng_sinh_bỏ_theo_cấu_hình"] == 50
+
+
+def test_synthetic_filter_matches_mixed_id_types_and_frozen_eval_events():
+    real = pd.DataFrame([{"comment_id": f"r{e}_{i}", "event_id": e, "text": f"t{e} {i}",
+                          "label": EDU[i % 4], "is_synthetic": "False"} for e in range(10) for i in range(20)])
+    syn = pd.DataFrame([{"comment_id": f"syn_{e}", "event_id": str(e), "text": f"sinh {e}",
+                         "label": "ý kiến riêng", "is_synthetic": "True"} for e in range(10)])
+    cfg = TrainConfig(domain="education")
+    df, *_ = prepare_dataframe(pd.concat([real, syn], ignore_index=True), cfg)
+    tr, va, te = split_data(df, cfg)                      # id thật int, id dòng sinh str
+    train_events = {str(e) for e in tr[~tr["_synthetic"]]["event_id"]}
+    assert {str(e) for e in tr[tr["_synthetic"]]["event_id"]} == train_events
+    frozen = set(real[real["event_id"] == 0]["comment_id"].iloc[:5])   # sự kiện 0 nằm ở cả train lẫn test
+    tr2, _, te2 = split_data(df, cfg, eval_ids=frozen)
+    assert "syn_0" not in set(tr2["comment_id"])
+
+
+def test_event_context_text_handles_nested_and_broken_json_and_cuts_on_word():
+    nested = {"id_content": "e1", "content": json.dumps({"ten_su_kien": "Đề thi khó", "content": "Thí sinh than."})}
+    assert event_context_text(nested) == "Đề thi khó. Thí sinh than."
+    broken = {"ten_su_kien": "Vụ A", "content": '{ "content": "Ông nói "không biết" rồi đi", "actor_related": []}'}
+    assert event_context_text(broken) == 'Vụ A. Ông nói "không biết" rồi đi'
+    long = {"ten_su_kien": "Tên", "content": "một hai ba bốn năm sáu"}
+    assert event_context_text(long, max_chars=14) == "Tên. một hai"   # không cắt giữa từ
+    assert event_context_text({"ten_su_kien": "", "content": ""}) == ""
+
+
+def test_build_and_load_event_contexts(tmp_path):
+    (tmp_path / "education_001.json").write_text(
+        json.dumps({"id_content": "education_001", "ten_su_kien": "Vụ 1", "content": "Nội dung."}), encoding="utf-8")
+    (tmp_path / "education_002.json").write_text(json.dumps({"ten_su_kien": "", "content": ""}), encoding="utf-8")
+    ctx = build_event_contexts(str(tmp_path))
+    assert ctx == {"education_001": "Vụ 1. Nội dung."}                 # sự kiện rỗng bị bỏ
+    out = tmp_path / "ctx.json"
+    out.write_text(json.dumps(ctx, ensure_ascii=False), encoding="utf-8")
+    assert load_event_contexts(str(out)) == ctx
+    out.write_text("[1, 2]", encoding="utf-8")
+    with pytest.raises(ValueError):
+        load_event_contexts(str(out))
+
+
+def test_row_contexts_segments_each_event_once_and_counts_missing():
+    calls = []
+    seg = lambda s: calls.append(s) or s.upper()
+    ctx, missing = row_contexts(["a", "b", "a", "x", 1], {"a": "ngữ cảnh a", "b": "b", "1": "số"}, seg)
+    assert ctx == ["NGỮ CẢNH A", "B", "NGỮ CẢNH A", "", "SỐ"] and missing == 1
+    assert sorted(calls) == ["b", "ngữ cảnh a", "số"]                   # mỗi sự kiện tách từ 1 lần
+
+
+def test_dataset_uses_sentence_pair_when_contexts_given():
+    seen = {}
+
+    def tok(first, second=None, **kw):
+        seen.update(first=first, second=second, **kw)
+        return {"input_ids": [[1, 2]] * len(first)}
+
+    CommentDataset(["bình luận"], [0], tok, 64)
+    assert seen["second"] is None and seen["truncation"] is True
+    CommentDataset(["bình luận"], [0], tok, 64, contexts=["sự kiện"])
+    assert seen["first"] == ["sự kiện"] and seen["second"] == ["bình luận"]
+    assert seen["truncation"] == "longest_first" and seen["max_length"] == 64

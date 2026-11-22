@@ -8,6 +8,8 @@ Usage:
     !python phobert-batch-inference.py --model_dir /content/phobert_checkpoints/showbiz \
         --input_path /content/all_showbiz_comments.xlsx --output_path /content/predictions_showbiz.csv
 Thêm cột predicted_label, confidence (max softmax, chưa hiệu chỉnh), và prob_<nhãn> cho từng lớp.
+Model train với ngữ cảnh sự kiện (config event_context=true): input cần cột event_id; ngữ cảnh lấy
+từ event_contexts.json trong model_dir, `--event_context_file` bổ sung/ghi đè (sự kiện mới).
 """
 
 import argparse
@@ -19,7 +21,9 @@ import torch
 from torch.utils.data import DataLoader
 from transformers import AutoTokenizer
 
-from phobert_data import CommentDataset, make_collate, read_table
+from phobert_data import read_table
+from phobert_dataset import CommentDataset, make_collate
+from phobert_event_context import load_event_contexts, row_contexts
 from phobert_model import PhoBERTClassifier
 from phobert_segmenter import get_segmenter
 
@@ -32,6 +36,7 @@ def main():
     ap.add_argument("--domain", choices=["showbiz", "education"],
                     help="tuỳ chọn: nếu đặt, phải khớp domain của checkpoint")
     ap.add_argument("--batch_size", type=int, default=32)
+    ap.add_argument("--event_context_file", help="JSON {event_id: ngữ cảnh} cho sự kiện mới")
     args = ap.parse_args()
 
     with open(os.path.join(args.model_dir, "config.json"), encoding="utf-8") as fh:
@@ -54,7 +59,24 @@ def main():
     seg = get_segmenter(cfg["segmenter"])
     tok = AutoTokenizer.from_pretrained(cfg["model_name"])
     texts = [seg("" if pd.isna(t) else t) for t in df[text_col]]
-    loader = DataLoader(CommentDataset(texts, [0] * len(texts), tok, cfg["max_length"]),
+    ctx = None
+    if cfg.get("event_context"):
+        ev_col = cfg["columns"]["event_id"]
+        if ev_col not in df.columns:
+            raise SystemExit(f"Model train với ngữ cảnh sự kiện: input cần cột '{ev_col}'")
+        saved = os.path.join(args.model_dir, "event_contexts.json")
+        if not os.path.exists(saved) and not args.event_context_file:
+            raise SystemExit(f"Thiếu {saved}: chép file ngữ cảnh lúc train vào model_dir "
+                             "hoặc truyền --event_context_file")
+        contexts = load_event_contexts(saved) if os.path.exists(saved) else {}
+        if args.event_context_file:
+            contexts |= load_event_contexts(args.event_context_file)
+        ctx, missing = row_contexts(df[ev_col], contexts, seg)
+        if missing:
+            print(f"⚠ {missing}/{len(df)} dòng không có ngữ cảnh sự kiện (để rỗng, dự đoán kém hơn)")
+    elif args.event_context_file:
+        print("⚠ Model train không có ngữ cảnh sự kiện: bỏ qua --event_context_file")
+    loader = DataLoader(CommentDataset(texts, [0] * len(texts), tok, cfg["max_length"], ctx),
                         batch_size=args.batch_size, collate_fn=make_collate(tok.pad_token_id))
 
     probs = []

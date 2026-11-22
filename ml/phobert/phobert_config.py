@@ -58,4 +58,6 @@ class TrainConfig:
     # event = chia nguyên sự kiện vào từng tập (không rò rỉ); row = stratified theo dòng
     split_mode: str = "event"
     segmenter: str = "underthesea"  # underthesea | none
+    # True = input cặp câu (ngữ cảnh sự kiện, bình luận); file ngữ cảnh được chép vào thư mục model
+    event_context: bool = False
     columns: ColumnMap = field(default_factory=ColumnMap)
