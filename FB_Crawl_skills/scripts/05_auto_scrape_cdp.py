@@ -980,19 +980,30 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
             extract_js_with_flag = (f"var INCLUDE_IMAGES = {str(include_images).lower()};\n"
                                     f"{PICK_POST_DIALOG_JS}\n{extract_js}")
             acc: dict = {}
-            partial_path = _post_folder / (
-                f"partial-comments-{datetime.now():%Y%m%d_%H%M%S_%f}.json"
-            )
+
+            def _acc_key(c):
+                # FB comment id is the reliable key; author+text only when FB gave no link.
+                return (parse_comment_link(c.get("comment_href"))["comment_id"]
+                        or parse_comment_link(c.get("profile_href"))["comment_id"]
+                        or (c.get("type"), c.get("author"), (c.get("text") or "[img]")[:80]))
+
+            # Comments collected so far are saved every 5 rounds (below) to partial-comments.json;
+            # a re-run after a crash / PC sleep loads them and continues instead of losing hours.
+            partial_path = _post_folder / "partial-comments.json"
+            if partial_path.exists():
+                try:
+                    for c in json.loads(partial_path.read_text(encoding="utf-8")):
+                        acc.setdefault(_acc_key(c), c)
+                    print(f"  → Loaded {len(acc)} comments from previous interrupted run ({partial_path.name})")
+                except (OSError, ValueError) as e:
+                    print(f"  ⚠ Cannot read {partial_path.name}: {e}")
 
             async def _merge_extract():
                 r = await cdp_send(ws, "Runtime.evaluate",
                                    {"expression": extract_js_with_flag, "returnByValue": True},
                                    msg_id=next_id())
                 for c in (r.get("result", {}).get("value") or []):
-                    # FB comment id is the reliable key; author+text only when FB gave no link.
-                    k = (parse_comment_link(c.get("comment_href"))["comment_id"]
-                         or parse_comment_link(c.get("profile_href"))["comment_id"]
-                         or (c.get("type"), c.get("author"), (c.get("text") or "[img]")[:80]))
+                    k = _acc_key(c)
                     if k not in acc:
                         acc[k] = c
                     else:  # a later pass may see links an earlier pass missed
@@ -1035,7 +1046,8 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
 
             manifest.stage("click_loop", meta={"max_rounds": max_rounds})
             print("\n→ Expanding comments + replies (View more comments / View N replies)...")
-            prev_total = 0
+            prev_total = len(acc)
+            prev_dom = -1
             stable_rounds = 0
             # Read checkpoint from previous interrupted run (if any) so a crash/kill
             # mid click-loop resumes instead of restarting from round 0.
@@ -1142,7 +1154,9 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                     break
                 # A button that never expands (clicked>0 forever) must not spin all rounds:
                 # stop after 8 rounds without DOM growth even if something is still "clicked".
-                if len(acc) == prev_total:
+                # Progress = new comments OR the DOM still changing (a resumed run re-scrolls
+                # through comments it already has before reaching new ones).
+                if len(acc) == prev_total and total == prev_dom:
                     stable_rounds += 1
                     # At the bottom FB may still be fetching the next page: give it 5 rounds.
                     if (at_bottom and stable_rounds >= 5) or stable_rounds >= 15:
@@ -1151,6 +1165,7 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                 else:
                     stable_rounds = 0
                 prev_total = len(acc)
+                prev_dom = total
 
             # 3. Extract comments using aria-label selector (catches both Comment by + Reply by)
             manifest.stage("extract", meta={"target": target})

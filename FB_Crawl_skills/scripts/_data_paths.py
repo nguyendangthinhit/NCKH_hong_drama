@@ -42,9 +42,13 @@ def sanitize_url(url: str) -> str:
     s = s.rstrip("/")
     # Replace / with _
     s = s.replace("/", "_")
-    # Strip query params
+    # Strip query params — but keep the video id of watch/?v=<id> links, otherwise every
+    # watch URL collapses into the same "watch_" folder.
     if "?" in s:
-        s = s.split("?")[0]
+        s, query = s.split("?", 1)
+        m = re.search(r"(?:^|&)v=(\d+)", query)
+        if m:
+            s = f"{s}_v{m.group(1)}"
     # Sanitize special chars
     s = re.sub(r"[^\w\-_]", "", s)
     # Lowercase prefix, keep IDs case-sensitive (FB IDs are case-sensitive)
