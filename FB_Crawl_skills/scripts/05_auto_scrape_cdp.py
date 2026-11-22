@@ -22,6 +22,7 @@ import urllib.request
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
+from urllib.parse import urlsplit
 
 sys.path.insert(0, str(Path(__file__).parent))
 from _run_manifest import RunManifest, manifest_path, checkpoint_path  # noqa: E402
@@ -50,6 +51,7 @@ DATA_DIR.mkdir(exist_ok=True)
 
 
 CDP_RECV_TIMEOUT = float(os.environ.get("FB_CDP_TIMEOUT", "30"))
+BROWSER_DISCONNECT_EXIT_CODE = 75
 
 
 async def cdp_send(ws, method: str, params: dict = None, msg_id: int = 1):
@@ -77,6 +79,9 @@ async def cdp_send(ws, method: str, params: dict = None, msg_id: int = 1):
         except Exception as e:
             raise BrowserDisconnected(f"CDP recv failed: {e}") from e
         resp = json.loads(raw)
+        if resp.get("method") in {"Inspector.targetCrashed", "Target.targetCrashed"}:
+            status = resp.get("params", {}).get("status") or "unknown"
+            raise BrowserDisconnected(f"Chrome renderer crashed (status: {status})")
         if resp.get("id") == msg_id:
             if "error" in resp:
                 raise RuntimeError(f"CDP error: {resp['error']}")
@@ -171,6 +176,65 @@ async def dismiss_login_wall(ws, msg_id: int = 1) -> dict:
     if not isinstance(val, dict):
         return {"was_wall": False, "removed": False, "behind_text_len": 0}
     return val
+
+
+REEL_COMMENTS_JS = r"""
+(function(reelId, clicked) {
+    const path = location.pathname.match(/^\/reels?\/(\d+)\/?$/);
+    if (!path || path[1] !== reelId) return 'waiting-for-reel';
+
+    const visible = el => {
+        const rect = el.getBoundingClientRect();
+        return rect.width > 0 && rect.height > 0
+            && rect.bottom > 0 && rect.top < innerHeight
+            && getComputedStyle(el).visibility === 'visible';
+    };
+    const comment = /^(comment by |reply by |bình luận dưới tên |phản hồi bình luận của )/iu;
+    const sort = /^(most relevant|all comments|newest|phù hợp nhất|tất cả bình luận|mới nhất)$/iu;
+    const composer = /comment|bình luận/iu;
+    if (Array.from(document.querySelectorAll('[aria-label]')).some(el =>
+            comment.test(el.getAttribute('aria-label')) && visible(el))
+        || Array.from(document.querySelectorAll('span')).some(el =>
+            sort.test(el.textContent.trim()) && el.querySelector('svg') && visible(el))
+        || Array.from(document.querySelectorAll('[contenteditable="true"]')).some(el =>
+            composer.test(el.getAttribute('aria-label') || '') && visible(el))) {
+        return 'open';
+    }
+    if (clicked) return 'waiting-for-comments';
+
+    const main = document.querySelector('main, [role="main"]');
+    if (!main) return 'waiting-for-reel';
+    const label = /^(?:view\s+)?(?:comments?|bình luận)(?:\s*[,(:]|\s*$)/iu;
+    const buttons = Array.from(main.querySelectorAll('button, [role="button"]'))
+        .filter(el => visible(el) && !el.disabled && el.getAttribute('aria-disabled') !== 'true'
+            && label.test((el.getAttribute('aria-label') || el.getAttribute('title')
+                || el.textContent || '').trim()));
+    // The directly navigated Reel is the first card. Avoid scrolling into later Reels.
+    buttons.sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+    if (!buttons.length) return 'waiting-for-button';
+    buttons[0].click();
+    return 'clicked';
+})
+"""
+
+
+async def open_reel_comments(ws, next_id, reel_id):
+    clicked = False
+    state = "waiting-for-reel"
+    for _ in range(15):
+        expression = f"{REEL_COMMENTS_JS}({json.dumps(reel_id)}, {json.dumps(clicked)})"
+        result = await cdp_send(ws, "Runtime.evaluate",
+                                {"expression": expression, "returnByValue": True},
+                                msg_id=next_id())
+        state = result.get("result", {}).get("value", "evaluation-error")
+        if state == "open":
+            print("  Reel comment panel: open", flush=True)
+            return
+        if state == "clicked":
+            clicked = True
+            print("  Reel comment button: clicked", flush=True)
+        await asyncio.sleep(1)
+    raise RuntimeError(f"Could not open Reel comment panel ({state})")
 
 
 async def await_cdp_ready(timeout: float = 300.0, poll: float = 3.0) -> None:
@@ -688,6 +752,10 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
             # Menuitem has format "All commentsShow all comments, including potential spam."
             manifest.stage("navigate", meta={"url": post_url})
             manifest.start()
+            reel = re.fullmatch(r"/reels?/(\d+)/?", urlsplit(current_url).path)
+            if reel:
+                manifest.stage("reel_comments")
+                await open_reel_comments(ws, next_id, reel[1])
             if sort_all:
                 manifest.stage("sort_switch")
                 print("\n→ Switching comment sort to 'All comments'...")
@@ -912,6 +980,9 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
             extract_js_with_flag = (f"var INCLUDE_IMAGES = {str(include_images).lower()};\n"
                                     f"{PICK_POST_DIALOG_JS}\n{extract_js}")
             acc: dict = {}
+            partial_path = _post_folder / (
+                f"partial-comments-{datetime.now():%Y%m%d_%H%M%S_%f}.json"
+            )
 
             async def _merge_extract():
                 r = await cdp_send(ws, "Runtime.evaluate",
@@ -1033,8 +1104,18 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                 total = res.get("result", {}).get("value", 0)
                 print(f"  Round {round_i+1}: clicked={clicked}, total in DOM={total}, collected={len(acc)}")
 
-                # Persist checkpoint every 5 rounds (resume support after crash/kill)
+                await _merge_extract()
+
+                # Preserve collected comments independently of Chrome and the resume counter.
                 if (round_i + 1) % 5 == 0:
+                    partial_comments = filter_to_post(list(acc.values()), current_url)
+                    if target:
+                        partial_comments = partial_comments[:target]
+                    if partial_comments:
+                        partial_tmp = partial_path.with_suffix(".json.tmp")
+                        partial_tmp.write_text(json.dumps(partial_comments, ensure_ascii=False),
+                                               encoding="utf-8")
+                        partial_tmp.replace(partial_path)
                     ckpt_data = {"phase": "click_loop", "round": round_i + 1,
                                  "comments_extracted": total, "clicked": clicked}
                     cp_path = checkpoint_path(_post_folder)
@@ -1043,7 +1124,6 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                                    encoding="utf-8")
                     tmp.replace(cp_path)
 
-                await _merge_extract()
                 sres = await cdp_send(ws, "Runtime.evaluate", {"expression": scroll_js, "returnByValue": True},
                                       msg_id=next_id())
                 try:
@@ -1176,6 +1256,7 @@ async def navigate_and_scrape(post_url: str, max_scrolls: int = 5, target: int =
                                  "logged_out_partial": wall_dismissed},
                                 persist_every=1)
             manifest.finish(status=final_status)
+            partial_path.unlink(missing_ok=True)
             if wall_dismissed:
                 print(f"\n⚠ SAVED AS PARTIAL (logged-out): {len(comments)} comments. "
                       f"FB reports more — run with cookie auth for the full set.")
@@ -1308,6 +1389,8 @@ async def main():
         except BrowserDisconnected as e:
             last_err = e
             print(f"\n⚠ BROWSER CRASHED / DISCONNECTED (attempt {attempt}): {e}")
+            if attempt > args.crash_retries:
+                break
             # Wait for CDP to come back; if it doesn't and we have a profile,
             # relaunch the browser so navigate_and_scrape can reconnect next pass.
             try:
@@ -1360,7 +1443,7 @@ async def main():
                 mf.finish(status="failed")
         except Exception:
             pass
-        sys.exit(1)
+        sys.exit(BROWSER_DISCONNECT_EXIT_CODE)
 
 
 if __name__ == "__main__":
