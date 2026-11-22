@@ -10,8 +10,9 @@
   xuất hiện rồi dùng vòng lặp hiện có để tải bình luận và phản hồi.
 - Crawler nhận biết sự cố renderer và timeout CDP. Script điều phối dừng ở link
   gặp lỗi kết nối hoặc mất phản hồi để có thể chạy lại link đó.
-- Cứ 5 vòng, crawler lưu một bản tạm `partial-comments-*.json` nếu đã thu được
-  bình luận. Khi lượt chạy xuất JSON thành công, crawler xóa bản tạm của lượt đó.
+- Cứ 5 vòng, crawler lưu bản tạm `partial-comments.json` nếu đã thu được
+  bình luận. Lượt chạy sau (sau khi Chrome sập / máy ngủ) nạp lại file này rồi cào
+  tiếp. Khi lượt chạy xuất JSON thành công, crawler xóa bản tạm.
 
 ## Đầu vào
 

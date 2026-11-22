@@ -35,7 +35,8 @@ Xác nhận danh sách: user, 2026-10-29. Bộ kit gốc có 11 loại; dự án
 | 16 | Tái lập thí nghiệm | `docs/tai-lap-thi-nghiem.md` | Bản nháp, chờ user duyệt |
 | – | Hướng dẫn đọc code từng thư mục (phụ trợ, ngoài 16 loại) | `docs/huong-dan-doc-code-tung-thu-muc.md` | Bản nháp 2026-11-19; user duyệt 2026-11-20 |
 | – | Triển khai và hạ tầng | – | Chưa có (hoãn) |
-| – | Hướng dẫn sử dụng | – | Chưa có (hoãn) |
+| – | Hướng dẫn sử dụng | `docs/huong-dan-team-cao-va-phan-tich.md` (chỉ phần cào Facebook theo bảng + phân tích `analysis_new`, kèm prompt cho trợ lý AI) | Bản nháp 2026-11-22, chờ user duyệt; phần web/dashboard chưa có |
+| – | Cào Facebook từ Google Sheets (`orchestration/`) | `docs/facebook-sheet-wrapper.md` | Commit `06253ce` 2026-11-22; công cụ song song với `ingestion/` (bảng .xlsx) |
 
 ## Document cũ (giữ nguyên, không sửa, không dời)
 

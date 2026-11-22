@@ -41,7 +41,7 @@ Thứ tự theo luồng dữ liệu: 1 Thu thập → 2 Tiền xử lý → 3 Ph
 ## 3. Phân tích
 
 ### `analysis_new/` (hướng mới: LLM đọc cả cụm, giữ cấp bậc)
-- **Điểm vào:** `python -m analysis_new.single.run_analysis_single <input> <output_dir> [--domain ...] [--yes] [--max-requests N]` (đơn luồng) hoặc `analysis_new/spark/run_analysis_spark.py` (PySpark, cùng luồng). Mặc định chỉ **ước tính số request và ghi prompt mẫu** (`_dry_run/`); thêm `--yes` mới gọi API.
+- **Điểm vào:** `python -m analysis_new.single.run_analysis_single <input> <output_dir> [--domain ...] [--yes] [--max-requests N]` (đơn luồng) hoặc `analysis_new/spark/run_analysis_spark.py` (PySpark, cùng luồng). Mặc định chỉ **ước tính số request và ghi prompt mẫu** (`_dry_run/`); thêm `--yes` mới gọi API. Demo từng bước trên vài comment: `python -X utf8 -m analysis_new.single.demo_step_by_step <file.json> --orders 9 39`; các lệnh mẫu PowerShell: `analysis_new/single/run-analysis-single-commands.ps1`.
 - **Thứ tự gọi (dùng chung qua `event_pipeline.py`):**
   1. `thread_loader.load_event` đọc định dạng B (phẳng, `parent_id`), `build_clusters` gom bình luận cấp 1 + toàn bộ reply thành cụm.
   2. `trash_rule.is_trash_rule` đánh dấu rác (rác vẫn hiện trong cụm làm ngữ cảnh nhưng không gán nhãn; cụm toàn rác không gọi LLM).
