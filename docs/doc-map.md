@@ -36,6 +36,7 @@ Xác nhận danh sách: user, 2026-10-29. Bộ kit gốc có 11 loại; dự án
 | – | Hướng dẫn đọc code từng thư mục (phụ trợ, ngoài 16 loại) | `docs/huong-dan-doc-code-tung-thu-muc.md` | Bản nháp 2026-11-19; user duyệt 2026-11-20 |
 | – | Triển khai và hạ tầng | – | Chưa có (hoãn) |
 | – | Hướng dẫn sử dụng | `docs/huong-dan-team-cao-va-phan-tich.md` (chỉ phần cào Facebook theo bảng + phân tích `analysis_new`, kèm prompt cho trợ lý AI) | Bản nháp 2026-11-22, chờ user duyệt; phần web/dashboard chưa có |
+| – | GĐ6: website phân tích 1 bài viết qua link (`serving/post_analyzer/`): luồng, chạy, API, dashboard | `docs/post-analyzer.md` | Bản nháp 2026-11-23, chờ user duyệt |
 | – | Cào Facebook từ Google Sheets (`orchestration/`) | `docs/facebook-sheet-wrapper.md` | Commit `06253ce` 2026-11-22; công cụ song song với `ingestion/` (bảng .xlsx) |
 
 ## Document cũ (giữ nguyên, không sửa, không dời)
@@ -62,12 +63,12 @@ Nguồn: `drama-intelligence-du-an.md`. Khi user bắt đầu một giai đoạn
 | Giai đoạn | Nội dung (tóm tắt) | Document cần viết lại khi bắt đầu |
 |---|---|---|
 | GĐ1 | Tăng sự kiện (85 → 200+), thêm YouTube/TikTok, schema chung đa nền tảng, gán nhãn gold, bảng `jobs` tối thiểu + worker. **Tiến độ (user báo 2026-11-19):** gán nhãn gold 10k ✅ xong, team đã verify; sự kiện hiện 140 (lưu trên Drive, chưa kéo về repo); YouTube đã có dữ liệu lấy về (chi tiết tăng gì, bao nhiêu: user sẽ làm rõ 2026-11-20); TikTok, schema chung, `jobs`+worker chưa làm | 3, 4, 5, 8, 12 |
-| GĐ2 | Fine-tune PhoBERT, BERTopic, suy luận ONNX | 5, 6, 8, 11, 14, 16 |
+| GĐ2 | Fine-tune PhoBERT, BERTopic, suy luận ONNX. **Tiến độ (user 2026-11-23):** fine-tune đã làm, kết quả chưa tốt (macro-F1 GD ~0,50 / SB ~0,41). Sau này fine-tune tốt hơn thì dùng PhoBERT; không thì chỉ để tham khảo. BERTopic, ONNX chưa làm | 5, 6, 8, 11, 14, 16 |
 | GĐ3 | Dữ liệu đồ thị Neo4j, PageRank/Louvain (user: chưa chắc làm sớm) | 3, 6, 9, 13 |
-| GĐ4 | Quét sự kiện mới theo yêu cầu, micro-batch, cảnh báo Telegram | 1, 2, 4, 15 |
-| GĐ5 | Drama Score | 6, 8, 13, 15 |
-| GĐ6 | Phân tích qua link dán (on-demand), tài khoản clone | 1, 7, 9, 10, 12, 13, 15 |
-| GĐ7 | Kiến trúc phân tán (Spark lên cụm, RAPIDS), thí nghiệm scaling | 1, 2, 8, 16 |
+| GĐ4 | **Đổi (user 2026-11-23):** thay bằng lấy sự kiện theo thời gian thực (chatbot tra tin mới qua Firecrawl, làm 2026-11-21, team đã sửa 1 lỗi nhỏ) — ✅ hoàn thành. Bỏ micro-batch và cảnh báo Telegram | 1, 2, 4, 15 |
+| GĐ5 | ~~Drama Score~~ — **bỏ (user 2026-11-23)**, team không làm | — |
+| GĐ6 | Phân tích qua link dán (on-demand), tài khoản clone. **Tiến độ 2026-11-23:** bản 1 (chỉ Facebook) đang làm ở `serving/post_analyzer/`, xem `docs/post-analyzer.md` | 1, 7, 9, 10, 12, 13, 15 |
+| GĐ7 | Kiến trúc phân tán (Spark lên cụm, RAPIDS), thí nghiệm scaling. **Tiến độ (user 2026-11-23):** pipeline PySpark xong; chỉ chờ đủ dữ liệu để chạy thí nghiệm scaling | 1, 2, 8, 16 |
 | GĐ8 | n8n chỉ lo trigger, hàng đợi `jobs`, cờ `mode: single\|distributed` | 1, 3, 9, 10, 14 |
 | Ngoài GĐ | Làm lại luồng cào Facebook (luồng hiện tại ở `FB_Crawl_skills/`) | 4, 2 |
 | Ngoài GĐ | Chức năng mới nhóm E–H (timeline, KOL, bot detection, fact vs opinion...) | 15 |
