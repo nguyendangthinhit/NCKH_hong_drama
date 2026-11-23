@@ -90,3 +90,5 @@ data/gnn/embedding_cache.sqlite
 .env.local
 model_list.*
 api.txt
+# post_analyzer (GĐ6): job db + kết quả phân tích từng bài
+data/post-analyzer/
