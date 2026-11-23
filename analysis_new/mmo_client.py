@@ -150,8 +150,12 @@ class MmoClient:
         self.model_idx = 0
 
     def report_bad_output(self, why):
-        """Model trả nội dung hỏng (HTTP 200 nhưng nhãn sai hàng loạt): lần gọi sau dùng model kế."""
-        self._next_model(why)
+        """Model trả nội dung hỏng (HTTP 200 nhưng nhãn sai hàng loạt): lần gọi sau dùng model kế,
+        xoay vòng chứ KHÔNG loại hẳn (đo thật 2026-11-23: 3 response hỏng lẻ tẻ loại hết 3 model ->
+        dừng với thông báo "hết key/model" dù còn tiền). Loại hẳn chỉ dành cho lỗi HTTP/số dư."""
+        nxt = (self.model_idx + 1) % len(self.models)
+        print(f"  ⚠️  Đổi model {self.current_model} -> {self.models[nxt]}: {why}", flush=True)
+        self.model_idx = nxt
 
     def complete(self, prompt):
         """Gửi 1 prompt, trả (text, model). Raise LLMExhausted khi hết key/model."""

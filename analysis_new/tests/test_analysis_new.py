@@ -221,3 +221,26 @@ def test_broken_json_with_unescaped_quotes_is_salvaged():
     labels, summaries = parse_label_response("showbiz", text, batch, id_map, cluster_map)
     assert labels[id_map[lid]]["emotion"] == "Cà khịa" and labels[id_map[lid]]["label_source"] == "llm"
     assert "gai con" in summaries[cluster_map[cl]]
+
+
+def test_pretty_printed_json_with_newline_or_missing_quote_is_read():
+    """Đo thật 2026-11-23: deepseek để xuống dòng trong summary; qwen/glm quên dấu " mở summary và
+    trả JSON thụt lề -> trước đây 100% nhãn bị coi là hỏng."""
+    from analysis_new.request_planner import parse_json_loose, salvage_groups
+    newline_in_string = '{"clusters": [{"cluster": "K1", "summary": "dòng 1\ndòng 2", "comments": [{"id": "K1.0", "is_trash": false, "stance": "TI"}]}]}'
+    assert parse_json_loose(newline_in_string)["clusters"][0]["comments"][0]["stance"] == "TI"
+    missing_quote = ('{\n  "clusters": [\n    {\n      "cluster": "K1",\n      "summary": Đề quá khó.",\n'
+                     '      "comments": [\n        {\n          "id": "K1.0",\n          "is_trash": false,\n'
+                     '          "stance": "TI"\n        }\n      ]\n    }\n  ]\n}')
+    assert parse_json_loose(missing_quote) is None
+    groups = salvage_groups(missing_quote)
+    assert groups[0] == {"cluster": "K1", "summary": "Đề quá khó."}
+    assert groups[-1]["comments"] == [{"id": "K1.0", "is_trash": False, "stance": "TI"}]
+
+
+def test_bad_output_rotates_models_instead_of_exhausting():
+    from analysis_new.mmo_client import MmoClient
+    c = MmoClient(["k"], ["m1", "m2"], "http://x")
+    for _ in range(5):
+        c.report_bad_output("hỏng")
+    assert c.current_model in ("m1", "m2")

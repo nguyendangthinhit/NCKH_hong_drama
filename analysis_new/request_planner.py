@@ -28,26 +28,31 @@ def plan_requests(clusters, max_comments=None) -> list:
 
 
 def parse_json_loose(text):
-    """Đọc JSON từ trả lời LLM: bỏ <think>, bỏ ```json, lấy khối {...} ngoài cùng."""
+    """Đọc JSON từ trả lời LLM: bỏ <think>, bỏ ```json, lấy khối {...} ngoài cùng.
+
+    strict=False: chấp nhận ký tự điều khiển (xuống dòng/tab) trong chuỗi (đo thật 2026-11-23:
+    deepseek để xuống dòng trong summary -> cả 60 nhãn đúng bị bỏ)."""
     if not text:
         return None
     t = re.sub(r"<think>.*?</think>", "", text, flags=re.S).strip()
     t = re.sub(r"^```(?:json)?\s*|\s*```$", "", t).strip()
     try:
-        return json.loads(t)
+        return json.loads(t, strict=False)
     except json.JSONDecodeError:
         pass
     start, end = t.find("{"), t.rfind("}")
     if start != -1 and end > start:
         try:
-            return json.loads(t[start:end + 1])
+            return json.loads(t[start:end + 1], strict=False)
         except json.JSONDecodeError:
             return None
     return None
 
 
-_ITEM_RE = re.compile(r'\{"id"\s*:\s*"(K\d+\.\d+)"[^{}]*\}')
-_SUMMARY_RE = re.compile(r'"cluster"\s*:\s*"(K\d+)"\s*,\s*"summary"\s*:\s*"(.*?)"\s*[,}]', re.S)
+# \s* sau "{": model hay trả JSON xuống dòng thụt lề (đo thật 2026-11-23, qwen/glm).
+_ITEM_RE = re.compile(r'\{\s*"id"\s*:\s*"(K\d+\.\d+)"[^{}]*\}')
+# Dấu " quanh summary là tuỳ chọn: model đôi khi quên dấu " mở/đóng (đo thật 2026-11-23).
+_SUMMARY_RE = re.compile(r'"cluster"\s*:\s*"(K\d+)"\s*,\s*"summary"\s*:\s*"?(.*?)"?\s*(?:,\s*"comments"|\})', re.S)
 
 
 def salvage_groups(text) -> list:
@@ -61,7 +66,7 @@ def salvage_groups(text) -> list:
     items = []
     for m in _ITEM_RE.finditer(text):
         try:
-            items.append(json.loads(m.group(0)))
+            items.append(json.loads(m.group(0), strict=False))
         except json.JSONDecodeError:
             continue
     if items:  # parse_label_response chỉ cần comments, không cần gắn cụm
