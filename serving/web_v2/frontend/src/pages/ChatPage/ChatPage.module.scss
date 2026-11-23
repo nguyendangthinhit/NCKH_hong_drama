@@ -1,13 +1,12 @@
 @use '../../styles/theme' as *;
 
-// Header site cố định (62px) + thanh nav (44px) ở trên: trang chat chiếm phần còn lại của màn hình.
-$site-header-height: 108px;
-
 .page {
   display: flex;
   height: 100vh;
   height: 100dvh;
-  padding-top: $site-header-height;
+  // Dùng cùng chiều cao với Header, bao gồm cả breakpoint trên điện thoại.
+  padding-top: var(--site-header-height, 150px);
+  overflow: hidden;
   background: $bg-page;
 }
 
@@ -16,10 +15,12 @@ $site-header-height: 108px;
   flex-direction: column;
   flex: 1;
   min-width: 0;
+  min-height: 0;
 }
 
 .topbar {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 12px;
   padding: 12px 20px;
@@ -74,10 +75,13 @@ $site-header-height: 108px;
 
 .scroll {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
 }
 
 .composerWrap {
+  flex-shrink: 0;
   width: 100%;
   max-width: 860px;
   margin: 0 auto;
@@ -102,6 +106,7 @@ $site-header-height: 108px;
 
   textarea {
     flex: 1;
+    min-width: 0;
     min-height: 24px;
     max-height: 160px;
     padding: 8px 0;

@@ -48,6 +48,7 @@
 }
 
 .bubbleBot {
+  min-width: 0;
   max-width: calc(100% - 48px);
   padding: 12px 16px;
   border: 1px solid $border;
@@ -63,6 +64,67 @@
   p:last-child { margin-bottom: 0; }
   ul, ol { margin: 4px 0 8px 20px; }
   strong { color: $primary-dark; }
+
+  a {
+    color: $primary-dark;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+
+    &:focus-visible {
+      outline: 2px solid $primary;
+      outline-offset: 3px;
+    }
+  }
+}
+
+.sources {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid $border;
+
+  .sourcesTitle {
+    margin-bottom: 8px;
+    color: $text-sub;
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .sourceList {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .sourceLink {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 10px;
+    border: 1px solid $border;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-decoration: none;
+
+    &:hover {
+      border-color: $primary;
+      background: #fff5f5;
+    }
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .bubbleError {

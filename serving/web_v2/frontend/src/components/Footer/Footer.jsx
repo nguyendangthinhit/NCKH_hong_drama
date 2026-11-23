@@ -111,7 +111,7 @@ export default function Footer() {
       <div className={styles.footer__bottom}>
         <div className={styles.footer__bottom_inner}>
           <p className={styles.footer__copyright}>
-            <CopyrightOutlined /> {new Date().getFullYear()} - NCKH 
+            <CopyrightOutlined /> {new Date().getFullYear()} - DAKHDL
           </p>
           <div className={styles.footer__legal}>
             <Link to="/privacy"><SafetyCertificateOutlined /> Bảo mật</Link>

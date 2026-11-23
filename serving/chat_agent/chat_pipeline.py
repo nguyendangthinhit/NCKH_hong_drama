@@ -12,7 +12,7 @@ from insight_context import InsightStore, event_text
 from live_news_search import NewsItem, news_context_text, sources_text
 from llm_client import LLMClient, LLMUnavailable
 from news_search_query import (build_search_query, event_search_query, is_generic_question,
-                               search_keywords)
+                               is_subjectless_latest_request, search_keywords)
 from session_memory import SessionMemory
 
 log = logging.getLogger("chat_agent.pipeline")
@@ -80,7 +80,8 @@ class ChatPipeline:
         category = rules.category_hint(message)
         wants_top = rules.is_top_request(message)
         wants_stats = rules.is_stats_request(message)
-        wants_latest = rules.is_latest_request(message)
+        subjectless_latest = is_subjectless_latest_request(message)
+        wants_latest = rules.is_latest_request(message) or subjectless_latest
         weak_event = match.score < STRONG_EVENT_SCORE
         no_strong_event = not match.events or weak_event
         in_scope = rules.mentions_drama(message) or category is not None
@@ -111,11 +112,13 @@ class ChatPipeline:
         # trừ khi câu hỏi khớp mạnh một sự kiện khác.
         session = self.memory.get(user_id)
         previous = [self.events.by_id[i] for i in session.last_event_ids if i in self.events.by_id]
+        if subjectless_latest and not previous:
+            return ChatResult(rules.CLARIFY_REPLY, "clarify", timings_ms=timings)
         refers_back = rules.is_followup(message) and (not events or weak_event)
         opinion_only = not events and rules.is_opinion_request(message)
         # "có gì mới không": hỏi tin mới mà không nêu chủ thể nào -> về sự kiện đang bàn.
         # ("giá vàng hôm nay" có từ khoá riêng nên không bị kéo về sự kiện cũ.)
-        latest_followup = (
+        latest_followup = subjectless_latest or (
             wants_latest and not events and not in_scope and not search_keywords(message)
         )
         if previous and (refers_back or opinion_only or latest_followup):

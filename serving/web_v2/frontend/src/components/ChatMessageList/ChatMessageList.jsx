@@ -19,6 +19,54 @@ function BotAvatar() {
   );
 }
 
+const MARKDOWN_COMPONENTS = {
+  a: ({ href, children }) => (
+    <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>
+  ),
+};
+
+function BotMessage({ text }) {
+  // Agent nối nguồn ở cuối tin dưới dạng URL thuần. Chỉ tách khi cả phần này
+  // là các URL hợp lệ để giữ nguyên nội dung Markdown khác của câu trả lời.
+  const header = [...text.matchAll(/(?:^|\r?\n)[ \t]*Nguồn tin:[ \t]*(?:\r?\n|(?=https?:\/\/))/g)].at(-1);
+  let body = text;
+  let sources = [];
+  if (header) {
+    const urls = text.slice(header.index + header[0].length).trim().split(/\s+/);
+    try {
+      const parsed = urls.map((url) => new URL(url));
+      if (parsed.every((url) => url.protocol === 'https:' || url.protocol === 'http:')) {
+        body = text.slice(0, header.index).trimEnd();
+        sources = [...new Set(urls)].map((url) => ({ url, host: new URL(url).hostname.replace(/^www\./, '') }));
+      }
+    } catch {
+      // Nguồn không đúng định dạng: vẫn hiển thị đầy đủ văn bản gốc.
+    }
+  }
+
+  return (
+    <>
+      <ReactMarkdown components={MARKDOWN_COMPONENTS}>{body}</ReactMarkdown>
+      {sources.length > 0 && (
+        <section className={styles.sources} aria-label="Nguồn tin">
+          <p className={styles.sourcesTitle}>Nguồn tin</p>
+          <ul className={styles.sourceList}>
+            {sources.map(({ url, host }, index) => (
+              <li key={url}>
+                <a className={styles.sourceLink} href={url} target="_blank" rel="noopener noreferrer" title={url}>
+                  <span>Nguồn {index + 1} · {host}</span>
+                  <span aria-hidden="true">↗</span>
+                  <span className={styles.srOnly}> (mở trong tab mới)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </>
+  );
+}
+
 export default function ChatMessageList({ messages, pending, onSuggest }) {
   const endRef = useRef(null);
 
@@ -58,7 +106,7 @@ export default function ChatMessageList({ messages, pending, onSuggest }) {
           <div key={i} className={styles.rowBot}>
             <BotAvatar />
             <div className={`${styles.bubbleBot} ${m.error ? styles.bubbleError : ''}`}>
-              <ReactMarkdown>{m.text}</ReactMarkdown>
+              <BotMessage text={m.text} />
             </div>
           </div>
         ),

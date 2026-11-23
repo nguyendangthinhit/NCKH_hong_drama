@@ -16,7 +16,8 @@ from config import load_settings  # noqa: E402
 from event_store import EventStore  # noqa: E402
 from insight_context import InsightStore  # noqa: E402
 from live_news_search import LiveNewsSearch, NewsItem, clean_article_markdown  # noqa: E402
-from news_search_query import build_search_query, event_search_query, search_keywords  # noqa: E402
+from news_search_query import (build_search_query, event_search_query,  # noqa: E402
+                               is_subjectless_latest_request, search_keywords)
 
 SETTINGS = load_settings()
 STORE = EventStore.load({"showbiz": SETTINGS.showbiz_file, "education": SETTINGS.education_file})
@@ -158,3 +159,71 @@ def test_regression_unrelated_after_event_and_generic_latest():
     p, news, _ = make([])
     ask(p, "drama mới nhất")
     assert len(news.calls) == 1  # web rỗng thì không gọi lại lần hai
+
+
+@pytest.mark.parametrize("followup", [
+    "Có diễn biến gì mới nữa không?",
+    "Có diễn biến nào mới không?",
+    "Có thêm diễn biến nào mới không?",
+    "Có thông tin gì mới nữa không?",
+    "Vậy có diễn biến gì mới nữa không?",
+    "Co dien bien gi moi nua khong?",
+])
+def test_kera_latest_followup_keeps_event_and_search_subject(followup):
+    p, news, llm = make([ITEM])
+    first = ask(p, "Vụ kẹo Kera có tin gì mới nhất?")
+    assert first.intent == "event_live" and first.event_ids == ["showbiz_019"]
+    reply = ask(p, followup)
+    assert reply.intent == "event_followup_live"
+    assert reply.event_ids == first.event_ids
+    assert news.calls[-1] == ("Scandal kẹo Kera", True)
+    assert len(news.calls) == 2
+    assert "Kera" in llm.prompts[-1]
+
+
+def test_latest_followup_without_web_keeps_local_context():
+    p, news, _ = make([])
+    first = ask(p, "Vụ kẹo Kera có tin gì mới nhất?")
+    reply = ask(p, "Có diễn biến gì mới nữa không?")
+    assert reply.intent == "event_followup"
+    assert reply.event_ids == first.event_ids == ["showbiz_019"]
+    assert news.calls[-1] == ("Scandal kẹo Kera", True)
+
+
+def test_latest_followup_requires_context_from_the_same_conversation():
+    p, news, llm = make([ITEM])
+    ask(p, "Vụ kẹo Kera có tin gì mới nhất?", user="conversation-a")
+    reply = ask(p, "Có diễn biến gì mới nữa không?", user="conversation-b")
+    assert reply.intent == "clarify" and reply.event_ids == []
+    assert len(news.calls) == len(llm.prompts) == 1
+
+
+@pytest.mark.parametrize("question", [
+    "Giá vàng hôm nay",
+    "Điện Biên có gì mới không?",
+])
+def test_named_unrelated_subject_is_not_a_kera_followup(question):
+    p, news, _ = make([ITEM])
+    ask(p, "Vụ kẹo Kera có tin gì mới nhất?")
+    calls_before = len(news.calls)
+    reply = ask(p, question)
+    assert reply.intent == "unrelated" and reply.event_ids == []
+    assert len(news.calls) == calls_before
+
+
+def test_new_named_event_replaces_kera_context():
+    p, news, _ = make([ITEM])
+    ask(p, "Vụ kẹo Kera có tin gì mới nhất?")
+    reply = ask(p, "Mailisa có tin gì mới nhất?")
+    assert reply.intent == "event_live" and reply.event_ids == ["showbiz_020"]
+    assert news.calls[-1] == ("Mailisa", True)
+
+
+@pytest.mark.parametrize("question", [
+    "Giá vàng hôm nay có diễn biến gì mới không?",
+    "Điện Biên có gì mới không?",
+    "Mailisa có diễn biến gì mới không?",
+    "Hiền Hồ có thông tin gì mới không?",
+])
+def test_subjectless_classifier_preserves_explicit_subjects(question):
+    assert not is_subjectless_latest_request(question)

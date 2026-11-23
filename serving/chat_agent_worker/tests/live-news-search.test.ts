@@ -4,7 +4,7 @@ import { handleMessage, LlmFn } from "../src/chat-pipeline";
 import { matchEvents } from "../src/event-store";
 import * as rules from "../src/intent-rules";
 import { cleanArticleMarkdown, NewsFn, NewsItem, searchLatestNews } from "../src/live-news-search";
-import { buildSearchQuery, eventSearchQuery, searchKeywords } from "../src/news-search-query";
+import { buildSearchQuery, eventSearchQuery, isSubjectlessLatestRequest, searchKeywords } from "../src/news-search-query";
 import { emptySession, nextSession } from "../src/session-memory";
 import type { Env } from "../src/env";
 
@@ -155,6 +155,81 @@ describe("dựng câu tìm tin", () => {
 });
 
 describe("định tuyến tin mới: hồi quy từ lần chạy thật", () => {
+  it.each([
+    "Có diễn biến gì mới nữa không?",
+    "Có diễn biến nào mới không?",
+    "Có thêm diễn biến nào mới không?",
+    "Có thông tin gì mới nữa không?",
+    "Vậy có diễn biến gì mới nữa không?",
+    "Co dien bien gi moi nua khong?",
+  ])("hỏi tiếp sau kẹo Kera giữ đúng sự kiện: %s", async (question) => {
+    const news = fakeNews([ITEM]);
+    const llm = captureLlm();
+    const first = await handleMessage(emptySession(), "Vụ kẹo Kera có tin gì mới nhất?", llm.fn, news.fn);
+    expect(first.intent).toBe("event_live");
+    expect(first.event_ids).toEqual(["showbiz_019"]);
+    const session = nextSession(emptySession(), "Vụ kẹo Kera có tin gì mới nhất?", first.reply, first.event_ids);
+    const reply = await handleMessage(session, question, llm.fn, news.fn);
+    expect(reply.intent).toBe("event_followup_live");
+    expect(reply.event_ids).toEqual(first.event_ids);
+    expect(news.calls.at(-1)).toEqual({ query: "Scandal kẹo Kera", recent: true });
+    expect(news.calls).toHaveLength(2);
+    expect(llm.prompts.at(-1)).toContain("Kera");
+  });
+
+  it("web rỗng vẫn giữ ngữ cảnh Kera khi hỏi tiếp", async () => {
+    const news = fakeNews([]);
+    const llm = captureLlm();
+    const first = await handleMessage(emptySession(), "Vụ kẹo Kera có tin gì mới nhất?", llm.fn, news.fn);
+    const session = nextSession(emptySession(), "Vụ kẹo Kera có tin gì mới nhất?", first.reply, first.event_ids);
+    const reply = await handleMessage(session, "Có diễn biến gì mới nữa không?", llm.fn, news.fn);
+    expect(reply.intent).toBe("event_followup");
+    expect(reply.event_ids).toEqual(["showbiz_019"]);
+    expect(news.calls.at(-1)).toEqual({ query: "Scandal kẹo Kera", recent: true });
+  });
+
+  it("phiên mới chưa biết sự kiện thì hỏi lại thay vì mượn ngữ cảnh", async () => {
+    const news = fakeNews([ITEM]);
+    const llm = captureLlm();
+    const reply = await handleMessage(emptySession(), "Có diễn biến gì mới nữa không?", llm.fn, news.fn);
+    expect(reply.intent).toBe("clarify");
+    expect(reply.event_ids).toEqual([]);
+    expect(news.calls).toHaveLength(0);
+    expect(llm.prompts).toHaveLength(0);
+  });
+
+  it.each([
+    "Giá vàng hôm nay",
+    "Điện Biên có gì mới không?",
+  ])("chủ thể ngoài phạm vi không bị kéo về Kera: %s", async (question) => {
+    const first = await handleMessage(emptySession(), "Vụ kẹo Kera", captureLlm().fn);
+    const session = nextSession(emptySession(), "Vụ kẹo Kera", first.reply, first.event_ids);
+    const news = fakeNews([ITEM]);
+    const reply = await handleMessage(session, question, captureLlm().fn, news.fn);
+    expect(reply.intent).toBe("unrelated");
+    expect(reply.event_ids).toEqual([]);
+    expect(news.calls).toHaveLength(0);
+  });
+
+  it("nêu sự kiện mới thì chuyển từ Kera sang sự kiện mới", async () => {
+    const first = await handleMessage(emptySession(), "Vụ kẹo Kera", captureLlm().fn);
+    const session = nextSession(emptySession(), "Vụ kẹo Kera", first.reply, first.event_ids);
+    const news = fakeNews([ITEM]);
+    const reply = await handleMessage(session, "Mailisa có tin gì mới nhất?", captureLlm().fn, news.fn);
+    expect(reply.intent).toBe("event_live");
+    expect(reply.event_ids).toEqual(["showbiz_020"]);
+    expect(news.calls.at(-1)).toEqual({ query: "Mailisa", recent: true });
+  });
+
+  it.each([
+    "Giá vàng hôm nay có diễn biến gì mới không?",
+    "Điện Biên có gì mới không?",
+    "Mailisa có diễn biến gì mới không?",
+    "Hiền Hồ có thông tin gì mới không?",
+  ])("bộ nhận diện câu hỏi không chủ thể giữ nguyên tên riêng: %s", (question) => {
+    expect(isSubjectlessLatestRequest(question)).toBe(false);
+  });
+
   it("'giá vàng hôm nay' sau một sự kiện trong phiên vẫn là ngoài phạm vi", async () => {
     const first = await handleMessage(emptySession(), "Mailisa", captureLlm().fn);
     const s = nextSession(emptySession(), "Mailisa", first.reply, first.event_ids);

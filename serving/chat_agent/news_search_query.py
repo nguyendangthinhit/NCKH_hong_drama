@@ -6,7 +6,7 @@ import re
 import unicodedata
 
 from intent_rules import category_hint
-from text_normalizer import strip_accents
+from text_normalizer import normalized, strip_accents
 
 # Cụm hỏi/chỉ thời gian (đã bỏ dấu) bị cắt khỏi câu tìm. Bỏ theo CỤM để không xoá nhầm tên riêng
 # (vd "hiện" trong "Hiền Hồ", "nhật" trong "Nhật Kim Anh").
@@ -23,6 +23,20 @@ GENERIC_QUERY = {"showbiz": "ồn ào showbiz Việt", "education": "giáo dục
 MAX_QUERY_WORDS = 6  # câu tìm dài (cả tiêu đề) thì Google News gần như không trả kết quả
 
 _EDGE_PUNCT = re.compile(r"^[^\w]+|[^\w]+$")
+
+# Khớp cả câu để không kéo chủ thể mới (vd "Điện Biên có gì mới") về sự kiện cũ.
+_SUBJECTLESS_LATEST = re.compile(
+    r"(?:(?:vay thi|the thi|the con|vay|the|roi|con) )?"
+    r"(?:co )?(?:them )?"
+    r"(?:(?:dien bien|thong tin|tin tuc|tin|tinh tiet) )?"
+    r"(?:(?:gi|nao) )?moi(?: nua)?(?: (?:khong|ko))?"
+    r"(?: (?:nhi|nhe|a))?"
+)
+
+
+def is_subjectless_latest_request(message: str) -> bool:
+    """Câu hỏi cập nhật không nêu chủ thể; cần sự kiện từ phiên hoặc hỏi lại tên."""
+    return _SUBJECTLESS_LATEST.fullmatch(normalized(message)) is not None
 
 
 def _norm(tok: str) -> str:

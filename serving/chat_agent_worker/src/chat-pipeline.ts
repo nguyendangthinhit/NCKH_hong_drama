@@ -5,7 +5,7 @@ import { EVENT_BY_ID, matchEvents } from "./event-store";
 import { eventText, statsText, topEventsText } from "./insight-context";
 import * as rules from "./intent-rules";
 import { newsContextText, NewsFn, NewsItem, sourcesText } from "./live-news-search";
-import { buildSearchQuery, eventSearchQuery, isGenericQuestion, searchKeywords } from "./news-search-query";
+import { buildSearchQuery, eventSearchQuery, isGenericQuestion, isSubjectlessLatestRequest, searchKeywords } from "./news-search-query";
 import { LLMUnavailable } from "./llm-client";
 import { Session } from "./session-memory";
 
@@ -57,7 +57,8 @@ async function route(
   const category = rules.categoryHint(message);
   const wantsTop = rules.isTopRequest(message);
   const wantsStats = rules.isStatsRequest(message);
-  const wantsLatest = rules.isLatestRequest(message);
+  const subjectlessLatest = isSubjectlessLatestRequest(message);
+  const wantsLatest = rules.isLatestRequest(message) || subjectlessLatest;
   const weakEvent = match.score < STRONG_EVENT_SCORE;
   const noStrongEvent = !match.events.length || weakEvent;
   const inScope = rules.mentionsDrama(message) || category !== null;
@@ -82,11 +83,12 @@ async function route(
   // Câu hỏi nối tiếp ("vụ đó", "dư luận thế nào"): ưu tiên sự kiện đang bàn trong phiên,
   // trừ khi câu hỏi khớp mạnh một sự kiện khác.
   const previous = session.lastEventIds.flatMap((id) => EVENT_BY_ID.get(id) ?? []);
+  if (subjectlessLatest && !previous.length) return fixed(rules.CLARIFY_REPLY, "clarify", timings);
   const refersBack = rules.isFollowup(message) && (!events.length || weakEvent);
   const opinionOnly = !events.length && rules.isOpinionRequest(message);
   // "có gì mới không": hỏi tin mới mà không nêu chủ thể nào -> về sự kiện đang bàn.
   // ("giá vàng hôm nay" có từ khoá riêng nên không bị kéo về sự kiện cũ.)
-  const latestFollowup = wantsLatest && !events.length && !inScope && !searchKeywords(message);
+  const latestFollowup = subjectlessLatest || (wantsLatest && !events.length && !inScope && !searchKeywords(message));
   if (previous.length && (refersBack || opinionOnly || latestFollowup)) {
     events = previous;
     intent = "event_followup";

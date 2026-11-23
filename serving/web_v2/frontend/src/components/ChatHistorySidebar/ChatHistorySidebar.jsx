@@ -70,7 +70,7 @@ export default function ChatHistorySidebar({ open, onClose }) {
               Xoá toàn bộ lịch sử
             </button>
           )}
-          <p className={styles.note}>Lịch sử chỉ lưu tạm trên trang này, tải lại trang sẽ mất.</p>
+          <p className={styles.note}>Lịch sử trò chuyện chỉ lưu tạm trên trang này, tải lại trang sẽ mất.</p>
         </div>
       </aside>
     </>

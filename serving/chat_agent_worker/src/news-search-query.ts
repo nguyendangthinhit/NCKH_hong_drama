@@ -1,7 +1,7 @@
 // Dựng câu tìm tin cho Firecrawl/Google News: câu hỏi văn nói ("drama nào đang hot gần đây") gần như
 // không ra kết quả, nên rút về từ khoá (giữ dấu, giữ tên riêng). Port: serving/chat_agent/news_search_query.py.
 import { categoryHint } from "./intent-rules";
-import { stripAccents } from "./text-normalizer";
+import { normalized, stripAccents } from "./text-normalizer";
 
 // Cụm hỏi/chỉ thời gian (đã bỏ dấu) bị cắt khỏi câu tìm. Bỏ theo CỤM để không xoá nhầm tên riêng
 // (vd "hiện" trong "Hiền Hồ", "nhật" trong "Nhật Kim Anh").
@@ -19,6 +19,12 @@ const GENERIC_QUERY = { showbiz: "ồn ào showbiz Việt", education: "giáo d�
 
 const clean = (tok: string): string => tok.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, "");
 const norm = (tok: string): string => stripAccents(tok).replace(/[^a-z0-9]/g, "");
+
+// Khớp cả câu để không kéo chủ thể mới (vd "Điện Biên có gì mới") về sự kiện cũ.
+const SUBJECTLESS_LATEST = /^(?:(?:vay thi|the thi|the con|vay|the|roi|con) )?(?:co )?(?:them )?(?:(?:dien bien|thong tin|tin tuc|tin|tinh tiet) )?(?:(?:gi|nao) )?moi(?: nua)?(?: (?:khong|ko))?(?: (?:nhi|nhe|a))?$/;
+
+/** Câu hỏi cập nhật không nêu chủ thể; cần sự kiện từ phiên hoặc hỏi lại tên. */
+export const isSubjectlessLatestRequest = (message: string): boolean => SUBJECTLESS_LATEST.test(normalized(message));
 
 /** Từ khoá giữ dấu của câu hỏi, đã bỏ cụm hỏi/chỉ thời gian. */
 export function searchKeywords(message: string): string {

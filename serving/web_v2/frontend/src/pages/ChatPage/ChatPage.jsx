@@ -94,7 +94,7 @@ export default function ChatPage() {
             </button>
           </div>
           <p className={styles.hint}>
-            Enter để gửi, Shift + Enter để xuống dòng. Câu trả lời dựa trên dữ liệu hệ thống đã thu thập.
+            Enter để gửi. Shift + Enter để xuống dòng. Câu trả lời dựa trên dữ liệu hệ thống đã thu thập.
           </p>
         </div>
       </section>
