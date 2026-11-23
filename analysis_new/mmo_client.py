@@ -124,11 +124,16 @@ def _is_balance_error(status, text):
         w in t for w in ("balance", "insufficient", "quota", "credit", "số dư")))
 
 
+MAX_TRANSIENT_ROUNDS = 3  # mỗi model được lỗi tạm 3 lần liên tiếp trước khi dừng hẳn
+TRANSIENT_WAIT_S = 10
+
+
 class MmoClient:
     def __init__(self, keys, models, base_url=config.DEFAULT_BASE_URL, post=_http_post):
         self.keys, self.models, self.post = list(keys), list(models), post
         self.url = base_url.rstrip("/") + config.RESPONSES_PATH
         self.key_idx = self.model_idx = 0
+        self.notes = []  # lý do đổi/bỏ model, key trong lượt chạy
         self.requests_sent = 0
 
     @classmethod
@@ -140,27 +145,46 @@ class MmoClient:
     def current_model(self):
         return self.models[self.model_idx] if self.model_idx < len(self.models) else None
 
-    def _next_model(self, why):
-        print(f"  ⚠️  Bỏ model {self.current_model}: {why}", flush=True)
-        self.model_idx += 1
+    def _note(self, msg):
+        """Ghi lý do đổi/bỏ model, key (in ra + giữ lại để ghi vào run_log)."""
+        print(f"  ⚠️  {msg}", flush=True)
+        self.notes.append(f"{time.strftime('%H:%M:%S')} {msg}")
+
+    def _rotate_model(self, why):
+        """Lỗi tạm hoặc output hỏng: chuyển sang model kế theo vòng, không loại hẳn."""
+        nxt = (self.model_idx + 1) % len(self.models)
+        self._note(f"Đổi model {self.current_model} -> {self.models[nxt]}: {why}")
+        self.model_idx = nxt
+
+    def _drop_model(self, why):
+        """Model không hợp lệ / không có quyền (400/403/404): loại hẳn khỏi danh sách."""
+        self._note(f"Bỏ hẳn model {self.current_model}: {why}")
+        self.models.pop(self.model_idx)
+        if self.models:
+            self.model_idx %= len(self.models)
 
     def _next_key(self, why):
-        print(f"  ⚠️  Bỏ key #{self.key_idx + 1}: {why}", flush=True)
+        self._note(f"Bỏ key #{self.key_idx + 1}: {why}")
         self.key_idx += 1
         self.model_idx = 0
 
     def report_bad_output(self, why):
-        """Model trả nội dung hỏng (HTTP 200 nhưng nhãn sai hàng loạt): lần gọi sau dùng model kế,
-        xoay vòng chứ KHÔNG loại hẳn (đo thật 2026-11-23: 3 response hỏng lẻ tẻ loại hết 3 model ->
-        dừng với thông báo "hết key/model" dù còn tiền). Loại hẳn chỉ dành cho lỗi HTTP/số dư."""
-        nxt = (self.model_idx + 1) % len(self.models)
-        print(f"  ⚠️  Đổi model {self.current_model} -> {self.models[nxt]}: {why}", flush=True)
-        self.model_idx = nxt
+        """Model trả nội dung hỏng (HTTP 200 nhưng nhãn sai hàng loạt): lần gọi sau dùng model kế
+        (đo thật 2026-11-23: 3 response hỏng lẻ tẻ từng loại hết 3 model dù còn tiền)."""
+        self._rotate_model(why)
 
     def complete(self, prompt):
-        """Gửi 1 prompt, trả (text, model). Raise LLMExhausted khi hết key/model."""
-        retried = False
-        while self.key_idx < len(self.keys) and self.model_idx < len(self.models):
+        """Gửi 1 prompt, trả (text, model). Raise LLMExhausted khi hết key/model hoặc khi mọi model
+        cùng lỗi tạm liên tiếp MAX_TRANSIENT_ROUNDS vòng.
+
+        Lỗi tạm (mạng/timeout = status 0, 429, 5xx, 200 rỗng) chỉ đổi model theo vòng: đo thật
+        2026-11-23, loại hẳn model sau 2 lỗi tạm làm cả lượt chạy dừng "hết key/model" dù API vẫn sống.
+        """
+        transient = 0
+        while self.key_idx < len(self.keys) and self.models:
+            if transient >= MAX_TRANSIENT_ROUNDS * len(self.models):
+                raise LLMExhausted(f"Mọi model lỗi tạm {transient} lần liên tiếp "
+                                   f"(lần cuối: {self.notes[-1] if self.notes else '?'}); thử lại sau")
             model = self.current_model
             payload = {"model": model, "input": prompt, **config.EXTRA_BODY}
             if config.STREAM:
@@ -175,19 +199,20 @@ class MmoClient:
                     out = ""
                 if out.strip():
                     return out, model
-                self._next_model("response 200 nhưng không đọc được text")
+                why = "response 200 nhưng không đọc được text"
             elif _is_balance_error(status, text):
                 self._next_key(f"HTTP {status} {text[:120]}")
+                continue
             elif status in (0, 429) or status >= 500:
-                if not retried:  # lỗi tạm: thử lại đúng 1 lần cùng key/model
-                    retried = True
-                    time.sleep(config.MAX_429_WAIT_S if status == 429 else 5)
-                    continue
-                self._next_model(f"HTTP {status} lặp lại")
+                why = f"HTTP {status} {text[:80]}"
             else:  # 400/403/404: model không hợp lệ hoặc không có quyền
-                self._next_model(f"HTTP {status} {text[:120]}")
-            retried = False
-        raise LLMExhausted("Đã hết key/model khả dụng (hoặc hết số dư); dừng để không tốn request")
+                self._drop_model(f"HTTP {status} {text[:120]}")
+                continue
+            transient += 1
+            self._rotate_model(why)
+            time.sleep(config.MAX_429_WAIT_S if status == 429 else TRANSIENT_WAIT_S)
+        raise LLMExhausted("Đã hết key (lỗi số dư/xác thực) hoặc mọi model bị từ chối (400/403/404); "
+                           f"lý do cuối: {self.notes[-1] if self.notes else '?'}")
 
 
 def _probe():

@@ -68,11 +68,11 @@ def test_extract_text_variants(body, expected):
 def test_client_rotation_model_then_key_then_exhausted(monkeypatch):
     monkeypatch.setattr(mmo_client.time, "sleep", lambda s: None)
     calls, answers = [], iter([
-        (404, "model not found"),                      # key1/m1 -> m2
-        (403, '{"error":"INSUFFICIENT_BALANCE"}'),     # key1 hết tiền -> key2/m1
+        (404, "model not found"),                      # m1 không hợp lệ -> bỏ hẳn m1
+        (403, '{"error":"INSUFFICIENT_BALANCE"}'),     # key1 hết tiền -> key2
         (200, json.dumps({"output_text": "ok"})),
-        (500, "x"), (500, "x"),                        # lỗi tạm lặp lại -> m2
-        (400, "bad"),                                  # m2 hết -> hết model
+        (500, "x"), (500, "x"),                        # lỗi tạm: chỉ xoay vòng, không bỏ m2
+        (400, "bad"),                                  # m2 bị từ chối -> hết model
     ])
 
     def post(url, key, payload, timeout):
@@ -80,11 +80,32 @@ def test_client_rotation_model_then_key_then_exhausted(monkeypatch):
         return next(answers)
 
     c = mmo_client.MmoClient(["k1", "k2"], ["m1", "m2"], post=post)
-    assert c.complete("p") == ("ok", "m1")
+    assert c.complete("p") == ("ok", "m2")
     with pytest.raises(mmo_client.LLMExhausted):
         c.complete("p")
-    assert calls == [("k1", "m1"), ("k1", "m2"), ("k2", "m1"),
-                     ("k2", "m1"), ("k2", "m1"), ("k2", "m2")]
+    assert calls == [("k1", "m1"), ("k1", "m2"), ("k2", "m2"),
+                     ("k2", "m2"), ("k2", "m2"), ("k2", "m2")]
+    assert any("Bỏ hẳn model m1" in n for n in c.notes)
+
+
+def test_transient_errors_rotate_and_recover(monkeypatch):
+    """Đo thật 2026-11-23: lỗi tạm lẻ tẻ từng loại hết model -> dừng "hết key/model" dù API sống."""
+    monkeypatch.setattr(mmo_client.time, "sleep", lambda s: None)
+    answers = iter([(0, "timeout"), (502, "x"), (0, "timeout"), (200, json.dumps({"output_text": "ok"}))])
+    seen = []
+
+    def post(url, key, payload, timeout):
+        seen.append(payload["model"])
+        return next(answers)
+
+    c = mmo_client.MmoClient(["k"], ["m1", "m2"], post=post)
+    assert c.complete("p")[0] == "ok"
+    assert seen == ["m1", "m2", "m1", "m2"] and c.models == ["m1", "m2"]
+
+    c2 = mmo_client.MmoClient(["k"], ["m1", "m2"], post=lambda *a: (500, "down"))
+    with pytest.raises(mmo_client.LLMExhausted, match="lỗi tạm"):
+        c2.complete("p")
+    assert c2.requests_sent == mmo_client.MAX_TRANSIENT_ROUNDS * 2
 
 
 def test_read_credentials_comma_keys(tmp_path):

@@ -103,7 +103,8 @@ def main():
     finally:
         log = {"mode": "single", "finished_at": datetime.now().isoformat(timespec="seconds"),
                "elapsed_s": round(time.time() - started, 1), "requests_sent": client.requests_sent,
-               "events_done": done, "events_failed": failed, "events_planned": len(jobs), "stop_reason": stop_reason}
+               "events_done": done, "events_failed": failed, "events_planned": len(jobs), "stop_reason": stop_reason,
+               "client_notes": client.notes[-20:]}
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
         with open(Path(args.output_dir) / "run_log.jsonl", "a", encoding="utf-8") as f:
             f.write(json.dumps(log, ensure_ascii=False) + "\n")
