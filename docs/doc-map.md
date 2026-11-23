@@ -67,7 +67,7 @@ Nguồn: `drama-intelligence-du-an.md`. Khi user bắt đầu một giai đoạn
 | GĐ3 | Dữ liệu đồ thị Neo4j, PageRank/Louvain (user: chưa chắc làm sớm) | 3, 6, 9, 13 |
 | GĐ4 | **Đổi (user 2026-11-23):** thay bằng lấy sự kiện theo thời gian thực (chatbot tra tin mới qua Firecrawl, làm 2026-11-21, team đã sửa 1 lỗi nhỏ) — ✅ hoàn thành. Bỏ micro-batch và cảnh báo Telegram | 1, 2, 4, 15 |
 | GĐ5 | ~~Drama Score~~ — **bỏ (user 2026-11-23)**, team không làm | — |
-| GĐ6 | Phân tích qua link dán (on-demand), tài khoản clone. **Tiến độ 2026-11-23:** bản 1 (chỉ Facebook) đang làm ở `serving/post_analyzer/`, xem `docs/post-analyzer.md` | 1, 7, 9, 10, 12, 13, 15 |
+| GĐ6 | Phân tích qua link dán (on-demand), tài khoản clone. **Tiến độ 2026-11-23:** ✅ bản 1 (chỉ Facebook) hoàn thành (user xác nhận) ở `serving/post_analyzer/`, xem `docs/post-analyzer.md` | 1, 7, 9, 10, 12, 13, 15 |
 | GĐ7 | Kiến trúc phân tán (Spark lên cụm, RAPIDS), thí nghiệm scaling. **Tiến độ (user 2026-11-23):** pipeline PySpark xong; chỉ chờ đủ dữ liệu để chạy thí nghiệm scaling | 1, 2, 8, 16 |
 | GĐ8 | n8n chỉ lo trigger, hàng đợi `jobs`, cờ `mode: single\|distributed` | 1, 3, 9, 10, 14 |
 | Ngoài GĐ | Làm lại luồng cào Facebook (luồng hiện tại ở `FB_Crawl_skills/`) | 4, 2 |
